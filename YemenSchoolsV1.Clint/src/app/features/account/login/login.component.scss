@@ -1,0 +1,35 @@
+
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+.login-card {
+  max-width: 400px; // Adjust as needed
+  width: 100%;
+  border-radius: 8px; // Slightly rounded corners
+}
+
+.login-form {
+  .mat-form-field {
+    // Override Material's default margin for better spacing with Bootstrap
+    margin-bottom: 0 !important; // Bootstrap's mb-3 takes care of this
+  }
+
+  .mat-error {
+    font-size: 0.8rem; // Make error messages slightly smaller
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+}
+
+.login-button {
+  height: 48px; // Consistent height for the button
+  font-size: 1.1rem;
+}
+
+// Optional: Add some responsive adjustments
+@media (max-width: 576px) {
+  .login-card {
+    margin: 20px; // Add some margin on smaller screens
+  }
+}

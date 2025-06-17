@@ -7,6 +7,7 @@ import { SchoolListComponent } from './dashboard/pages/schools/school-list/schoo
 import { DashboardHomeComponent } from './dashboard/pages/dashboard-home/dashboard-home.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { RegionListComponent } from './dashboard/pages/regions/region-list/region-list.component';
+import { LoginComponent } from './features/account/login/login.component';
 
 export const routes: Routes = [
     {
@@ -15,6 +16,7 @@ export const routes: Routes = [
         children: [
             { path: '', component: HomeComponent },
             { path: 'school-details', component: SchoolDetailsComponent },
+            { path: 'login', component: LoginComponent },
         ]
     },
     {
