@@ -1,0 +1,13 @@
+
+<form class="max-w-sm mx-auto">
+  <option selected class="text-black" >{{selectedstring()}}</option>
+    
+    <select (change)="onchangelist()" [(ngModel)]="selctedId" name="selctedId" id="countries" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      <option selected class="text-black" >{{selectedstring()}}</option>
+      @for (option of data(); track $index) {
+        <option [value]="option.id">{{option.name}}</option>
+
+    }
+    </select>
+  </form>
+  

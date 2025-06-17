@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\SchoolNews - Copy\**" />
+    <Compile Remove="Features\SchoolNewss\**" />
+    <Compile Remove="Features\SchoolNews\**" />
+    <Compile Remove="Features\Schools\Queries\GetSchools\**" />
+    <EmbeddedResource Remove="Features\SchoolNews - Copy\**" />
+    <EmbeddedResource Remove="Features\SchoolNewss\**" />
+    <EmbeddedResource Remove="Features\SchoolNews\**" />
+    <EmbeddedResource Remove="Features\Schools\Queries\GetSchools\**" />
+    <None Remove="Features\SchoolNews - Copy\**" />
+    <None Remove="Features\SchoolNewss\**" />
+    <None Remove="Features\SchoolNews\**" />
+    <None Remove="Features\Schools\Queries\GetSchools\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YemenSchoolsV1.Domain\YemenSchoolsV1.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\AcademicYears\Queries\GetYearById\" />
+    <Folder Include="Features\SchoolsNews\Commands\UpdateSchoolNews\" />
+    <Folder Include="Features\Schools\Commands\UpdateSchool\" />
+    <Folder Include="Features\Schools\Queries\GetSchoolsByCityId\" />
+    <Folder Include="Features\Regions\Commands\UpdateRegion\" />
+    <Folder Include="Features\Schools\Queries\GetSchoolsByRegionId\" />
+    <Folder Include="Features\Sections\Queries\GetById\" />
+    <Folder Include="Features\Stages\Queries\GetById\" />
+    <Folder Include="Features\Students\Commands\Delete\" />
+    <Folder Include="Features\Students\Commands\Update\" />
+    <Folder Include="Features\SubjectGrades\Queries\" />
+    <Folder Include="Features\Subjects\Queries\GetAllBySchoolId\" />
+    <Folder Include="Features\Terms\Queries\GetById\" />
+    <Folder Include="Mapping\SchoolProfile\" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.15" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
+  </ItemGroup>
+
+</Project>

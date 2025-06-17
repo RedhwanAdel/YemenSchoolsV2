@@ -1,0 +1,47 @@
+:host{
+    margin: 0 50px;
+}
+.main-headig {
+    text-align: center;
+}
+
+.main-headig h2 {
+    font-weight: normal;
+    font-size: 40px;
+    position: relative;
+    margin-bottom: 70px;
+    text-transform: uppercase;
+}
+
+.main-headig h2::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2px;
+    background-color: #333;
+    bottom: -30px;
+    width: 120px;
+}
+
+.main-headig h2::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    background-color: #fff;
+    bottom: -38px;
+}
+
+.main-headig p {
+    width: 550px;
+    margin: 0 auto 50px;
+    max-width: 100%;
+    line-height: 2;
+    color: var(--spacital-color);
+
+}

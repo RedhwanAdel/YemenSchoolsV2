@@ -1,0 +1,30 @@
+<div
+  style="
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  "
+>
+  <app-stat-card-dashboard
+    title="Total Students"
+    [value]="1245"
+    icon="school"
+  ></app-stat-card-dashboard>
+  <app-stat-card-dashboard
+    title="Courses Offered"
+    [value]="87"
+    icon="book"
+  ></app-stat-card-dashboard>
+  <app-stat-card-dashboard
+    title="Active Users"
+    [value]="9876"
+    icon="group"
+  ></app-stat-card-dashboard>
+  <app-stat-card-dashboard
+    title="Revenue"
+    [value]="250000"
+    icon="attach_money"
+    [isDarkMode]="true"
+  ></app-stat-card-dashboard>
+</div>

@@ -1,0 +1,74 @@
+<div class="sidebar-header">
+  <!-- Close button for small screens -->
+  <div
+    *ngIf="isMobileView"
+    class="sidebar-close-btn d-flex justify-content-end w-100 p-2"
+  >
+    <button
+      mat-icon-button
+      (click)="closeSidebar.emit()"
+      aria-label="Close sidebar"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <img
+    src="https://placehold.co/80x80/aabbcc/ffffff?text=Logo"
+    alt="App Logo"
+    class="sidebar-logo"
+  />
+  <h3 class="sidebar-title">App Name</h3>
+</div>
+
+<mat-divider></mat-divider>
+
+<mat-nav-list class="sidebar-nav-list">
+  <!-- Dashboard -->
+  <a mat-list-item routerLink="/dash-board/" routerLinkActive="active-link">
+    <mat-icon matListItemIcon>dashboard</mat-icon>
+    <span matListItemTitle>Dashboard</span>
+  </a>
+
+  <!-- Cities -->
+  <a
+    mat-list-item
+    routerLink="/dash-board/cities"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>location_city</mat-icon>
+    <span matListItemTitle>Cities</span>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/dash-board/regions"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>location_city</mat-icon>
+    <span matListItemTitle>Regions</span>
+  </a>
+
+  <!-- Schools -->
+  <a
+    mat-list-item
+    routerLink="/dash-board/schools"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>school</mat-icon>
+    <span matListItemTitle>Schools</span>
+  </a>
+
+  <mat-divider></mat-divider>
+
+  <!-- Settings -->
+  <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
+    <mat-icon matListItemIcon>settings</mat-icon>
+    <span matListItemTitle>Settings</span>
+  </a>
+
+  <!-- Help -->
+  <a mat-list-item routerLink="/help" routerLinkActive="active-link">
+    <mat-icon matListItemIcon>help_outline</mat-icon>
+    <span matListItemTitle>Help</span>
+  </a>
+</mat-nav-list>

@@ -1,0 +1,211 @@
+.school-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden; /* Crucial for hiding overflowing content */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Needed for positioning card-image-container and card-footer */
+  padding-bottom: 45px; /* Space for the fixed footer */
+}
+
+/* No transform on the entire card on hover */
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+}
+
+.card-image-container {
+  position: absolute;
+  height: 180px; /* Adjust as needed */
+  width: 100%;
+  overflow: hidden;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Overlay for hover darkening effect on the image */
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 100%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); /* Start transparent */
+  transition: background-color 0.3s ease;
+  z-index: 1; /* Below badge and logo */
+}
+
+.school-card:hover .image-overlay {
+  background-color: rgba(0, 0, 0, 0.2); /* Darken slightly on hover */
+}
+
+.featured-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffd700;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+/* This is the container that will hold the main body content and the hidden contact info */
+.card-content-scrollable {
+  flex-grow: 1; /* Allow it to take available space */
+  position: relative; /* For the logo positioning */
+  background-color: #fff;
+  transition: transform 0.3s ease-out; /* Smooth scroll-up effect */
+  /* NEW: Set initial transform to hide the contact info below */
+  transform: translateY(
+    60%
+  ); /* Default position, contact info is hidden below */
+  z-index: 100;
+}
+
+.school-card:hover .card-content-scrollable {
+  /* NEW: Move up to reveal contact info */
+  transform: translateY(
+    40%
+  ); /* Adjust -50px based on the height of your contact-info-section */
+  /* This value should ideally be the height of the contact-info-section */
+}
+
+.card-body-main {
+  padding: 15px;
+  padding-bottom: 0;
+  padding-top: 50px;
+  /* NEW: Add padding-bottom here to make space for the contact info that will be hidden initially */
+  /* padding-bottom: 60px;  */
+}
+
+.school-logo {
+  position: absolute;
+  top: -30px; /* Positions relative to card-content-scrollable */
+  left: 15px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+/* Contact Info Section - appears right after the main body content within card-content-scrollable */
+.contact-info-section {
+  padding: 0 15px 0px 15px; /* Padding for the contact info */
+  /* This section is part of the flow, so its position is relative to card-body-main */
+  /* We need to measure its height to adjust the translateY value correctly */
+  /* For example, if it takes 50px, then translateY(-50px) is needed */
+}
+
+.contact-info {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0;
+  padding-left: 0;
+  display: flex;
+  align-items: center;
+}
+
+.contact-info li {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.contact-info li:last-child {
+  margin-bottom: 0;
+}
+
+.contact-info li i {
+  margin-right: 8px;
+  color: #007bff;
+}
+
+/* Footer (always visible and fixed at the bottom of the card) */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  background-color: #fdfdfd;
+  position: absolute; /* Fixed to the bottom of .school-card */
+  bottom: 0;
+  width: 100%;
+  height: 45px; /* Fixed height for the footer */
+  z-index: 200; /* Ensure it stays on top */
+}
+
+.curriculum-tag {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.tag-icon {
+  width: 25px;
+  height: 25px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.tag-icon i {
+  color: #fff;
+  font-size: 1rem;
+}
+
+.tag-name {
+  font-weight: 500;
+}
+
+.action-icons a {
+  color: #6c757d;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  transition: color 0.2s ease-in-out;
+}
+
+.action-icons a:hover {
+  color: #007bff;
+}

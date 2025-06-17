@@ -1,0 +1,43 @@
+<div class="file-upload-container">
+  <div class="file-input-container">
+    <input
+      type="file"
+      [id]="'fileInput' + 1234"
+      [accept]="accept"
+      (change)="onFileSelected($event)"
+      [disabled]="disabled"
+      class="d-none"
+    />
+    <label
+      [for]="'fileInput' + 123"
+      class="btn btn-outline-primary mb-2"
+      [class.disabled]="disabled"
+    >
+      <i class="fas fa-upload me-2"></i>{{ label }}
+    </label>
+
+    <div *ngIf="fileName" class="file-info">
+      <span class="file-name">{{ fileName }}</span>
+      <button
+        type="button"
+        class="btn-close ms-2"
+        (click)="clearFile()"
+        [disabled]="disabled"
+        aria-label="Remove file"
+      ></button>
+    </div>
+  </div>
+
+  <div *ngIf="showProgress" class="progress mt-2">
+    <div
+      class="progress-bar progress-bar-striped"
+      role="progressbar"
+      [style.width.%]="progress"
+      [attr.aria-valuenow]="progress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
+      {{ progress }}%
+    </div>
+  </div>
+</div>

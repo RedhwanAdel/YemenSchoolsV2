@@ -1,0 +1,41 @@
+@use '@angular/material' as mat;
+
+$custom-primary-palette: (
+  50:  #e8e7fd,
+  100: #c7c4fa,
+  200: #a2a0f7,
+  300: #7d7cf3,
+  400: #665ff1,
+  500: #5d57f4,
+  600: #504ce9,
+  700: #4540d9,
+  800: #3a35c8,
+  900: #2a25ad,
+  A100: #a79dff,
+  A200: #7d6fff,
+  A400: #6659ff,
+  A700: #5a4fff,
+  contrast: (
+    50:  black,
+    100: black,
+    200: black,
+    300: black,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: black,
+    A200: white,
+    A400: white,
+    A700: white
+  )
+);
+
+$primary: mat.m2-define-palette($custom-primary-palette);
+$theme: mat.m2-define-light-theme((color: (primary: $primary)));
+
+:root {
+  --primary-500: #{mat.get-theme-color($theme, primary, 500)};
+}

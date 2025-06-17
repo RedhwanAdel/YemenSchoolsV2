@@ -1,0 +1,15 @@
+<app-page-wrapper>
+  <h5 card-title class="mb-0">Schools List</h5>
+  <button card-actions color="primary" mat-flat-button>
+    <i class="bi bi-plus-lg me-1"></i>
+    Add City
+  </button>
+
+  <app-table
+    [dataSource]="usersDataSource"
+    [columns]="userColumns"
+    [hasActions]="true"
+    (actionClicked)="handleUserAction($event)"
+  >
+  </app-table>
+</app-page-wrapper>

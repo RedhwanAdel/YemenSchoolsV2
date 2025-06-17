@@ -1,0 +1,16 @@
+<app-hero/>
+<app-region/>
+
+<app-main-titel titel="schools"/>
+<div class="max-w-[85rem] px-4  sm:px-6 lg:px-8  mx-auto">
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    @for (school of schools; track school.id) {
+   
+            <app-school-card [school]="school" />
+    
+     
+    
+    }
+</div>
+</div>
+<app-contact/>

@@ -1,0 +1,11 @@
+<mat-card class="stat-card" [@cardHoverAnimation]="'active'">
+  <div class="card-content">
+    <div class="card-left">
+      <mat-icon [class.dark-icon]="isDarkMode">{{ icon }}</mat-icon>
+    </div>
+    <div class="card-right">
+      <div class="card-title">{{ title }}</div>
+      <div class="card-value">{{ displayValue | number }}</div>
+    </div>
+  </div>
+</mat-card>

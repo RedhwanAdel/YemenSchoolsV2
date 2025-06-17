@@ -1,0 +1,24 @@
+  <!-- Card Blog -->
+  
+  <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <!-- Grid -->
+    <div class="row">
+      <div class="col-2">
+     <app-drop-down-list (filter)="onFilter($event)" selectedstring="region" [data]="regions"/>
+  
+      </div>
+      <div class="col-2">
+     <app-drop-down-list (filter)="onorder($event)" selectedstring="order by" [data]="orderby"/>
+  
+      </div>
+     </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        @for (school of schools; track school.id) {
+       
+                <app-school-card [school]="school" />
+        
+         
+        
+        }
+    </div>
+  </div>

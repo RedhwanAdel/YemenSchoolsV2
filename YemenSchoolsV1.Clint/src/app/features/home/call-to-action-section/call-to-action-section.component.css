@@ -1,0 +1,115 @@
+/*--------------------------------------------------------------
+# Call To Action 2 Section
+--------------------------------------------------------------*/
+.call-to-action-2 .cta-image-wrapper {
+  position: relative;
+}
+
+.call-to-action-2 .cta-image-wrapper img {
+  position: relative;
+  z-index: 2;
+  transform: scaleX(-1);
+}
+
+.call-to-action-2 .cta-image-wrapper .cta-pattern {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  bottom: -30px;
+  right: -30px;
+  background: repeating-linear-gradient(
+    45deg,
+    color-mix(in srgb, var(--accent-color), transparent 98%),
+    color-mix(in srgb, var(--accent-color), transparent 98%) 10px,
+    color-mix(in srgb, var(--accent-color), transparent 95%) 10px,
+    color-mix(in srgb, var(--accent-color), transparent 95%) 20px
+  );
+  z-index: 1;
+  border-radius: 1rem;
+}
+
+.call-to-action-2 .cta-content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 992px) {
+  .call-to-action-2 .cta-content h2 {
+    font-size: 2rem;
+  }
+}
+
+.call-to-action-2 .cta-content .lead {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+}
+
+.call-to-action-2 .cta-features {
+  margin-bottom: 1.5rem;
+}
+
+.call-to-action-2 .cta-features .feature-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.call-to-action-2 .cta-features .feature-item i {
+  color: var(--accent-color);
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+}
+
+.call-to-action-2 .cta-features .feature-item span {
+  font-size: 1rem;
+}
+
+.call-to-action-2 .cta-action .btn-primary {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--contrast-color);
+  padding: 0.75rem 1.75rem;
+  transition: all 0.3s ease;
+}
+
+.call-to-action-2 .cta-action .btn-primary:hover {
+  background-color: color-mix(in srgb, var(--accent-color), black 10%);
+  border-color: color-mix(in srgb, var(--accent-color), black 10%);
+}
+
+.call-to-action-2 .cta-action .btn-outline-primary {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  padding: 0.75rem 1.75rem;
+  transition: all 0.3s ease;
+}
+
+.call-to-action-2 .cta-action .btn-outline-primary:hover {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+@media (max-width: 768px) {
+  .call-to-action-2 .cta-image-wrapper {
+    margin-bottom: 2rem;
+  }
+
+  .call-to-action-2 .cta-image-wrapper .cta-pattern {
+    width: 70%;
+    height: 70%;
+    bottom: -20px;
+    right: -20px;
+  }
+
+  .call-to-action-2 .cta-action {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .call-to-action-2 .cta-action .btn {
+    width: 100%;
+  }
+}

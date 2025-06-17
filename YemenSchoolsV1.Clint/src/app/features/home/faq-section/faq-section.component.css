@@ -1,0 +1,195 @@
+/*--------------------------------------------------------------
+# Faq Section
+--------------------------------------------------------------*/
+.faq .faq-item {
+  background-color: var(--surface-color);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq .faq-item:last-child {
+  margin-bottom: 0;
+}
+
+.faq .faq-item:hover {
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.faq .faq-item .faq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 25px;
+  cursor: pointer;
+  position: relative;
+}
+
+.faq .faq-item .faq-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--heading-color);
+  margin: 0;
+  flex: 1;
+  padding-right: 20px;
+  transition: color 0.3s ease;
+}
+
+.faq .faq-item .faq-header .faq-toggle {
+  font-size: 20px;
+  color: var(--accent-color);
+  transition: transform 0.3s ease;
+}
+
+.faq .faq-item .faq-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease;
+}
+
+.faq .faq-item .faq-content p {
+  padding: 0 25px 20px;
+  margin: 0;
+  line-height: 1.6;
+  color: var(--default-color);
+  font-size: 15px;
+}
+
+.faq .faq-item.faq-active .faq-header h3 {
+  color: var(--accent-color);
+}
+
+.faq .faq-item.faq-active .faq-header .faq-toggle {
+  transform: rotate(180deg);
+}
+
+.faq .faq-item.faq-active .faq-content {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.faq .faq-contact-card {
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--accent-color),
+    color-mix(in srgb, var(--accent-color), var(--heading-color) 30%)
+  );
+  border-radius: 10px;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  color: var(--contrast-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.faq .faq-contact-card .card-icon {
+  margin-bottom: 20px;
+}
+
+.faq .faq-contact-card .card-icon i {
+  font-size: 48px;
+  color: color-mix(in srgb, var(--contrast-color), transparent 10%);
+}
+
+.faq .faq-contact-card .card-content h3 {
+  color: var(--contrast-color);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.faq .faq-contact-card .card-content p {
+  color: color-mix(in srgb, var(--contrast-color), transparent 10%);
+  margin-bottom: 30px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.faq .faq-contact-card .contact-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-top: auto;
+}
+
+.faq .faq-contact-card .contact-options .contact-option {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: var(--contrast-color);
+  transition: all 0.3s ease;
+}
+
+.faq .faq-contact-card .contact-options .contact-option:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: translateX(5px);
+}
+
+.faq .faq-contact-card .contact-options .contact-option i {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+.faq .faq-contact-card .contact-options .contact-option span {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+@media (max-width: 991px) {
+  .faq .row {
+    flex-direction: column-reverse;
+  }
+
+  .faq .faq-contact-card {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .faq .faq-item .faq-header {
+    padding: 15px 20px;
+  }
+
+  .faq .faq-item .faq-header h3 {
+    font-size: 16px;
+  }
+
+  .faq .faq-item .faq-content p {
+    padding: 0 20px 15px;
+    font-size: 14px;
+  }
+
+  .faq .faq-contact-card {
+    padding: 30px 20px;
+  }
+
+  .faq .faq-contact-card .card-icon i {
+    font-size: 40px;
+  }
+
+  .faq .faq-contact-card .card-content h3 {
+    font-size: 24px;
+  }
+
+  .faq .faq-contact-card .card-content p {
+    font-size: 15px;
+  }
+
+  .faq .faq-contact-card .contact-options .contact-option {
+    padding: 12px 15px;
+  }
+
+  .faq .faq-contact-card .contact-options .contact-option i {
+    font-size: 18px;
+  }
+
+  .faq .faq-contact-card .contact-options .contact-option span {
+    font-size: 15px;
+  }
+}

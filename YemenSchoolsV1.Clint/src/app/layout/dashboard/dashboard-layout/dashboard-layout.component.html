@@ -1,0 +1,30 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- Sidebar Component -->
+  <mat-sidenav
+    #sidenav
+    [mode]="isSmallScreen ? 'over' : 'side'"
+    [opened]="!isSmallScreen"
+    class="sidebar-width"
+  >
+    <app-sidebar-dashboard
+      [isMobileView]="isSmallScreen"
+      (closeSidebar)="sidenav.close()"
+    ></app-sidebar-dashboard>
+  </mat-sidenav>
+
+  <!-- Main content area -->
+  <mat-sidenav-content class="main-content">
+    <!-- Header Component -->
+    <app-header-dashboard
+      (menuToggled)="sidenav.toggle()"
+    ></app-header-dashboard>
+
+    <main class="content-area">
+      <div style="background-color: #f0f0f0">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+
+    <!-- Footer Component -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

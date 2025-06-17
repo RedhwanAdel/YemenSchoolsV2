@@ -1,0 +1,6 @@
+@YemenSchoolsV1.API_HostAddress = http://localhost:5294
+
+GET {{YemenSchoolsV1.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

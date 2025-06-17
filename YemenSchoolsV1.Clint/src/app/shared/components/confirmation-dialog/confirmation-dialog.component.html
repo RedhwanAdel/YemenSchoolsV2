@@ -1,0 +1,26 @@
+<div class="p-4">
+  <h4 class="mb-3 text-center text-md-start text-uppercase fw-bolder">
+    {{ data.title }}
+  </h4>
+  <p class="mb-4 text-center text-md-start">{{ data.message }}</p>
+  <div
+    class="d-flex flex-column flex-md-row justify-content-end align-items-stretch align-items-md-center"
+  >
+    <button
+      mat-stroked-button
+      color="warn"
+      (click)="onCancel()"
+      class="w-100 mb-2 mb-md-0 me-md-2"
+    >
+      Cancel
+    </button>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="onConfirm()"
+      class="w-100"
+    >
+      Confirm
+    </button>
+  </div>
+</div>

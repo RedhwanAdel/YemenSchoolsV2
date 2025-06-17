@@ -1,0 +1,47 @@
+  /* Using plain CSS for header styles */
+    .app-header-toolbar {
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      /* Bootstrap alignment classes would be added here, e.g., 'd-flex justify-content-between align-items-center' */
+    }
+
+    .app-title {
+      margin-left: 16px;
+      font-size: 1.25rem; /* Equivalent to Bootstrap h5/h4 */
+      font-weight: 500;
+    }
+
+    .toolbar-spacer {
+      flex: 1 1 auto; /* Pushes content to the right */
+    }
+
+    .notification-button {
+      margin-right: 8px;
+    }
+
+    .user-menu-button {
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      min-width: 0; /* Override default button min-width */
+    }
+
+    .user-menu-button mat-icon:first-child {
+      margin-right: 8px;
+    }
+
+    .user-menu-button span {
+      margin-right: 4px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+      .app-title {
+        font-size: 1rem;
+        margin-left: 8px;
+      }
+      .user-menu-button span {
+        display: none; /* Hide username on very small screens */
+      }
+    }

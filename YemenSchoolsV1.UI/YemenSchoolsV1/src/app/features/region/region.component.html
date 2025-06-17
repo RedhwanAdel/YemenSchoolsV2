@@ -1,0 +1,9 @@
+    <app-main-titel titel="regions"/>
+    <div class="row w-100 mt-5">
+        @for (region of regions; track region.id) {
+
+            <div class="col-3">
+                <app-region-card [region]="region" />
+            </div>
+        }
+    </div>

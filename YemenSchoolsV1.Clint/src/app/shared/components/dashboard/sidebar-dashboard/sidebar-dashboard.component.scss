@@ -1,0 +1,67 @@
+ /* Using plain CSS for sidebar */
+    .sidebar-header {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f5f5f5; /* Light background for header */
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .sidebar-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%; /* Circular logo */
+      margin-bottom: 10px;
+      object-fit: cover;
+    }
+
+    .sidebar-title {
+      font-size: 1.3rem; /* Adjusted for visual balance */
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+
+    .sidebar-nav-list {
+      padding-top: 8px; /* Space above first item */
+    }
+
+    .sidebar-nav-list .mat-list-item {
+      height: 48px; /* Standard Material list item height */
+      margin-bottom: 4px; /* Space between items */
+    }
+
+    .sidebar-nav-list .mat-list-item .mat-icon {
+      margin-right: 16px; /* Space between icon and text */
+    }
+
+    /* Style for active navigation link */
+    .sidebar-nav-list .mat-list-item.active-link {
+      background-color: #e0e0e0; /* Highlight active link */
+      color: #3f51b5; /* Primary color for active text/icon */
+      font-weight: 500;
+    }
+
+    .sidebar-nav-list .mat-list-item:hover {
+      background-color: #eee; /* Hover effect */
+    }
+
+    /* Bootstrap-like classes for text alignment and spacing could be used here */
+    /* .text-center, .my-3, .p-3 */
+.close-sidebar-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1001;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.close-sidebar-btn:hover {
+  background-color: #f0f0f0;
+}

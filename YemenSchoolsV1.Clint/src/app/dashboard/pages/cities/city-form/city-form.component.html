@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>{{ isEdit ? "Edit City" : "Add City" }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" mat-dialog-content class="pt-3">
+  <app-form-input label="Name (Arabic)" formControlName="nameAr" />
+  <app-form-input label="Name (English)" formControlName="nameEn" />
+  <app-form-input label="Image (Path)" formControlName="imagePath" />
+</form>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="form.invalid"
+    (click)="submit()"
+  >
+    {{ isEdit ? "Update" : "Add" }}
+  </button>
+</mat-dialog-actions>
