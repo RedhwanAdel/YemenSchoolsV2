@@ -5,6 +5,7 @@ import { async } from 'rxjs';
 import { DialogService } from '../../../../core/services/dialog.service';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { MatButtonModule } from '@angular/material/button';
+import { Router, RouterLink } from '@angular/router';
 
 export interface UserData {
   id: string;
@@ -19,12 +20,13 @@ export interface UserData {
 @Component({
   selector: 'app-school-list',
   standalone: true,
-  imports: [TableComponent, PageWrapperComponent, MatButtonModule],
+  imports: [TableComponent, PageWrapperComponent, MatButtonModule, RouterLink],
   templateUrl: './school-list.component.html',
   styleUrl: './school-list.component.scss'
 })
 export class SchoolListComponent {
 
+  router = inject(Router);
   private dialogService = inject(DialogService);
   users: UserData[] = [
     { id: '1', name: 'Alice Smith', email: 'alice@example.com', role: 'Admin', createdAt: new Date('2023-01-15'), status: 'Active', balance: 1200.50 },
@@ -60,10 +62,10 @@ export class SchoolListComponent {
     // Implement your logic here based on actionKey and rowData
     switch (event.actionKey) {
       case 'view':
-        alert(`Viewing user: ${event.rowData.name}`);
+        this.router.navigate(['/dash-board/schools-detail']);
         break;
       case 'edit':
-        alert(`Editing user: ${event.rowData.name}`);
+        this.router.navigate(['/dash-board/schools-edit']);
         break;
       case 'delete':
         this.openConfirmDialog()

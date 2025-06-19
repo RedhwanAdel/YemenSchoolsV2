@@ -31,7 +31,6 @@ export interface TableAction {
   imports: [
     CommonModule,
     MatTooltipModule,
-    MatCard,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,

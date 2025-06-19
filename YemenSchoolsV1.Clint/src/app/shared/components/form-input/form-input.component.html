@@ -7,6 +7,7 @@
     [placeholder]="placeholder"
     [formControl]="control"
   />
+  <mat-icon matSuffix>{{ icon }}</mat-icon>
 
   @if (control.hasError('required')) {
   <mat-error>{{ label }} is required</mat-error>

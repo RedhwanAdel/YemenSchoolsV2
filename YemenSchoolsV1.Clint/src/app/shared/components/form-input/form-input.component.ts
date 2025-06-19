@@ -23,6 +23,7 @@ export class FormInputComponent implements ControlValueAccessor {
   @Input() label: string = 'Label';
   @Input() type: string = 'text';
   @Input() placeholder: string = '';
+  @Input() icon: string = '';
 
   constructor(@Self() @Optional() public ngControl: NgControl) {
     if (this.ngControl) {

@@ -8,6 +8,9 @@ import { DashboardHomeComponent } from './dashboard/pages/dashboard-home/dashboa
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { RegionListComponent } from './dashboard/pages/regions/region-list/region-list.component';
 import { LoginComponent } from './features/account/login/login.component';
+import { SchoolDetailDashboardComponent } from './dashboard/pages/schools/school-detail-dashboard/school-detail-dashboard.component';
+import { SchoolAddComponent } from './dashboard/pages/schools/school-add/school-add.component';
+import { SchoolEditComponent } from './dashboard/pages/schools/school-edit/school-edit.component';
 
 export const routes: Routes = [
     {
@@ -28,6 +31,9 @@ export const routes: Routes = [
             { path: 'cities', component: CityListComponent },
             { path: 'regions', component: RegionListComponent },
             { path: 'schools', component: SchoolListComponent },
+            { path: 'schools-detail', component: SchoolDetailDashboardComponent },
+            { path: 'schools-add', component: SchoolAddComponent },
+            { path: 'schools-edit', component: SchoolEditComponent },
             // أضف المزيد حسب الحاجة
         ],
     },

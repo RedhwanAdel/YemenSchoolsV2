@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormInputComponent } from "../../../../shared/components/form-input/form-input.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,7 +20,7 @@ import { SelectInputComponent } from "../../../../shared/components/select-input
   templateUrl: './region-form.component.html',
   styleUrl: './region-form.component.scss'
 })
-export class RegionFormComponent {
+export class RegionFormComponent implements OnInit {
   form!: FormGroup;
   isEdit = false;
   options = ['aden', 'sana', 'aben']

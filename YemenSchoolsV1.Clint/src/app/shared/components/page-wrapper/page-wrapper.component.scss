@@ -1,11 +1,122 @@
-mat-card {
-  padding: 1.5rem;
+orm-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right bottom, #e0f2f7, #fdfefe); /* Default light gradient */
+  padding: 30px;
+  font-family: 'Inter', sans-serif;
 }
 
-mat-card-header {
-  padding-bottom: 1rem;
+.form-card {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
 }
 
-mat-card-content {
-  padding-top: 1rem;
+.form-card-header {
+  background: linear-gradient(to right, #4a90e2, #6a5acd); /* Default blue-purple gradient */
+  color: white;
+  padding: 25px 30px;
+  display: flex;
+  align-items: center;
+}
+
+/* Specific styling for the edit form header, will be applied by parent component */
+.form-card-header.edit-header {
+  background: linear-gradient(to right, #ffc107, #e0a800); /* Orange/Yellow gradient for edit */
+}
+
+/* Specific styling for the add form header, will be applied by parent component */
+.form-card-header.add-header {
+  background: linear-gradient(to right, #28a745, #218838); /* Green gradient for add */
+}
+
+
+.form-card-header .header-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-card-header .mat-card-title {
+  font-size: 2.2em;
+  margin-bottom: 0px;
+  color: white;
+}
+.mat-mdc-card-subtitle{
+  color: white;
+
+}
+.form-card-header .mat-card-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1em;
+}
+
+/* Form field specific styles (these will be inherited by projected content) */
+mat-form-field {
+  margin-bottom: 15px; /* Spacing between form fields */
+}
+
+.card-actions-new {
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f8f8;
+  padding: 20px 30px;
+}
+
+.card-actions-new button {
+  padding: 10px 20px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-actions-new button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Adjustments (common to all forms) */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 15px;
+  }
+  .form-card {
+    margin: 10px;
+    border-radius: 12px;
+  }
+  .form-card-header {
+    padding: 20px;
+  }
+  .form-card-header .header-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+  .form-card-header .mat-card-title {
+    font-size: 1.8em;
+  }
+  .card-actions-new {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 15px 20px;
+  }
+  .card-actions-new button {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .form-card {
+    border-radius: 8px;
+  }
 }

@@ -1,0 +1,185 @@
+/* Overall Container */
+.school-detail-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center vertically */
+  min-height: 100vh;
+  background: linear-gradient(to right bottom, #e0f2f7, #fdfefe); /* Soft gradient background */
+  padding: 30px;
+  font-family: 'Inter', sans-serif; /* Professional font */
+}
+
+/* Main Card Styling */
+.school-card-new {
+  max-width: 950px; /* Slightly wider for more content */
+  width: 100%;
+  border-radius: 20px; /* More rounded corners */
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Deeper shadow */
+  background-color: #ffffff;
+}
+
+/* Card Header */
+.school-card-header-new {
+  background: linear-gradient(to right, #4a90e2, #6a5acd); /* Blue-purple gradient */
+  color: white;
+  padding: 25px 30px;
+  display: flex;
+  align-items: center;
+}
+
+.school-card-header-new .header-icon {
+  font-size: 48px; /* Larger icon */
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white circle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.school-card-header-new .mat-card-title {
+  font-size: 2.2em; /* Larger title */
+  margin-bottom: 0px; /* Remove default margin */
+  color: white;
+}
+
+.school-card-header-new .mat-card-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1em;
+}
+
+/* Card Content */
+.mat-card-content {
+  padding: 30px;
+}
+
+.section-title {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #3f51b5; /* Deeper primary color */
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* List Item Styling */
+.mat-list-item {
+  height: auto !important;
+  padding: 12px 0; /* More padding for list items */
+  color: #333;
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.mat-list-item:hover {
+  background-color: #f5f5f5; /* Light grey on hover */
+  border-radius: 4px;
+}
+
+.mat-list-item .mat-icon {
+  margin-right: 20px; /* More space for icons */
+  color: #757575; /* Slightly darker grey for icons */
+  font-size: 20px;
+}
+
+.mat-list-item .mat-list-item-title {
+  font-weight: 500;
+  color: #212121;
+  font-size: 1.05em;
+}
+
+.mat-list-item .mat-list-item-line {
+  font-size: 0.9em; /* Slightly smaller for line text */
+  color: #616161;
+  word-break: break-word;
+}
+
+.website-link {
+  color: #1976d2; /* Link color */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.website-link:hover {
+  text-decoration: underline;
+  color: #1565c0; /* Darker blue on hover */
+}
+
+/* Divider Styling */
+.mat-divider {
+  border-top-color: #eee;
+  margin: 8px 0;
+}
+
+/* Card Actions */
+.card-actions-new {
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f8f8; /* Lighter background for actions */
+  padding: 20px 30px;
+}
+
+.card-actions-new button {
+  padding: 10px 20px; /* Larger buttons */
+  font-weight: 500;
+  border-radius: 8px; /* More rounded buttons */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-actions-new button:hover {
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .school-detail-container {
+    padding: 15px;
+  }
+
+  .school-card-new {
+    margin: 10px;
+    border-radius: 12px;
+  }
+
+  .school-card-header-new {
+    padding: 20px;
+  }
+
+  .school-card-header-new .header-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .school-card-header-new .mat-card-title {
+    font-size: 1.8em;
+  }
+
+  .mat-card-content {
+    padding: 20px;
+  }
+
+  .section-title {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+  }
+
+  .card-actions-new {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 15px 20px;
+  }
+
+  .card-actions-new button {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .school-card-new {
+    border-radius: 8px;
+  }
+}

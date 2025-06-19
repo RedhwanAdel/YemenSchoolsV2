@@ -1,0 +1,85 @@
+<app-page-wrapper
+  headerTitle="Edit School:"
+  headerSubtitle="Modify details for this school"
+  headerIcon="edit"
+  saveButtonText="Save Changes"
+  saveButtonColor="primary"
+  cancelButtonText="Close"
+  cancelButtonColor="accent"
+  [showActions]="true"
+>
+  <form [formGroup]="schoolForm" class="row g-3">
+    <div class="col-md-6">
+      <app-form-input
+        label="School Name"
+        icon="school"
+        formControlName="name"
+      />
+    </div>
+    <div class="col-md-6">
+      <app-form-input
+        label="Principal"
+        icon="person"
+        formControlName="principal"
+      />
+    </div>
+
+    <div class="col-12">
+      <app-form-input
+        label="Address"
+        icon="location_on"
+        formControlName="address"
+      />
+    </div>
+
+    <div class="col-md-4">
+      <app-form-input label="City" formControlName="city" />
+    </div>
+
+    <div class="col-md-4">
+      <app-form-input label="State" formControlName="state" />
+    </div>
+
+    <div class="col-md-4">
+      <app-form-input label="Zip Code" formControlName="zipCode" />
+    </div>
+
+    <div class="col-md-6">
+      <app-form-input label="Phone" icon="phone" formControlName="phone" />
+    </div>
+
+    <div class="col-md-6">
+      <app-form-input
+        label="Email"
+        icon="email"
+        formControlName="email"
+        type="email"
+      />
+    </div>
+
+    <div class="col-md-6">
+      <app-form-input
+        label="Founded Year"
+        formControlName="foundedYear"
+        type="number"
+      />
+    </div>
+
+    <div class="col-md-6">
+      <app-form-input
+        label="Total Students"
+        formControlName="studentsCount"
+        type="number"
+      />
+    </div>
+
+    <div class="col-12">
+      <app-form-input
+        label="Website"
+        icon="public"
+        formControlName="website"
+        type="url"
+      />
+    </div>
+  </form>
+</app-page-wrapper>
