@@ -10,7 +10,6 @@ namespace YemenSchoolsV1.Application.Mapping
 		public Accounts()
 		{
 			CreateMap<AppUser, RegisterCommand>()
-				.ForMember(des => des.FullName, opt => opt.MapFrom(src => src.UserName))
 				.ReverseMap();
 			CreateMap<AppUser, LoginCommand>().ReverseMap();
 		}

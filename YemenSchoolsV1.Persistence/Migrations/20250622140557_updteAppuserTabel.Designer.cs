@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YemenSchoolsV1.Persistence.Data;
 
@@ -11,9 +12,11 @@ using YemenSchoolsV1.Persistence.Data;
 namespace YemenSchoolsV1.Persistence.Migrations
 {
     [DbContext(typeof(YemenShoolsDbContext))]
-    partial class YemenShoolsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250622140557_updteAppuserTabel")]
+    partial class updteAppuserTabel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

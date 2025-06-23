@@ -19,7 +19,8 @@
     (matSortChange)="sortData($event)"
   >
     <!-- Dynamic Columns -->
-    <ng-container *ngFor="let col of columns" [matColumnDef]="col.key">
+    @for (col of columns; track col.key) {
+    <ng-container [matColumnDef]="col.key">
       <th
         mat-header-cell
         *matHeaderCellDef
@@ -28,25 +29,25 @@
         {{ col.header }}
       </th>
       <td mat-cell *matCellDef="let element">
-        <ng-container [ngSwitch]="col.type">
-          <span *ngSwitchCase="'date'">{{
-            element[col.key] | date : col.format || "shortDate"
-          }}</span>
-          <span *ngSwitchCase="'currency'">{{
-            element[col.key] | currency : col.format || "USD"
-          }}</span>
-          <span *ngSwitchDefault>{{ element[col.key] }}</span>
-        </ng-container>
+        @switch (col.type) { @case ('date') {
+        {{ element[col.key] | date : col.format || "shortDate" }}
+        } @case ('currency') {
+        {{ element[col.key] | currency : col.format || "USD" }}
+        } @default {
+        {{ element[col.key] }}
+        } }
       </td>
     </ng-container>
+    }
 
     <!-- Actions Column -->
-    <ng-container matColumnDef="actions" *ngIf="hasActions">
+    @if (hasActions) {
+    <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
+        @for (action of actions; track action.actionKey) {
         <button
           mat-icon-button
-          *ngFor="let action of actions"
           [attr.aria-label]="action.tooltip"
           [matTooltip]="action.tooltip"
           [color]="action.color || 'basic'"
@@ -54,8 +55,10 @@
         >
           <mat-icon>{{ action.icon }}</mat-icon>
         </button>
+        }
       </td>
     </ng-container>
+    }
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -68,8 +71,5 @@
     </tr>
   </table>
 
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 20]"
-    showFirstLastButtons
-  ></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons />
 </div>

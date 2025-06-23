@@ -165,7 +165,6 @@
   <data name="MinLengthis3" xml:space="preserve">
     <value>الحد الأدنى 3 حروف</value>
   </data>
-
   <data name="NotValid" xml:space="preserve">
     <value>غير صالح</value>
   </data>
@@ -181,5 +180,7 @@
   <data name="AtMostNo12No" xml:space="preserve">
     <value>على الأكثر 12 رقما</value>
   </data>
-
+  <data name="EmailExist" xml:space="preserve">
+    <value>البريد الإلكتروني موجود بالفعل</value>
+  </data>
 </root>

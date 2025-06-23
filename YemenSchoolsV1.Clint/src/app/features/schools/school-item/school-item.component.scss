@@ -77,7 +77,7 @@
   transition: transform 0.3s ease-out; /* Smooth scroll-up effect */
   /* NEW: Set initial transform to hide the contact info below */
   transform: translateY(
-    60%
+    55%
   ); /* Default position, contact info is hidden below */
   z-index: 100;
 }

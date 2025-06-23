@@ -4,12 +4,13 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Contracts.Services;
+using YemenSchoolsV1.Application.Extensions;
 using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.Accounts.Register
 {
-	public class RegisterCommandHandler : ResponseHandler, IRequestHandler<RegisterCommand, Response<AuthResultDto>>
+	public class RegisterCommandHandler : ResponseHandler, IRequestHandler<RegisterCommand, Response<string>>
 	{
 
 		#region faild
@@ -34,29 +35,24 @@ namespace YemenSchoolsV1.Application.Features.Accounts.Register
 		#endregion
 
 
-		public async Task<Response<AuthResultDto>> Handle(RegisterCommand request, CancellationToken cancellationToken)
+		public async Task<Response<string>> Handle(RegisterCommand request, CancellationToken cancellationToken)
 		{
 			var existingUser = await userManager.FindByEmailAsync(request.Email);
 			if (existingUser != null)
-				return BadRequest<AuthResultDto>("email is exist");
+				return BadRequest<string>(SharedResourcesKeys.EmailExist);
 			var user = mapper.Map<AppUser>(request);
+			user.UserName = request.Email;
 
 			var result = await userManager.CreateAsync(user, request.Password);
 
-			if (result.Succeeded)
+			if (!result.Succeeded)
 			{
-				var token = await tokenService.CreateToken(user);
 
-				if (user.Email == null) return BadRequest<AuthResultDto>("Email was not provided or saved correctly");
-				var authResultDto = new AuthResultDto
-				{
-					Email = user.Email,
-					Token = token,
-					UserId = user.Id
-				};
-				return Created(authResultDto);
+
+
+				return ValidationError<string>(result.ToErrorDictionary());
 			}
-			return BadRequest<AuthResultDto>(string.Join("; ", result.Errors.Select(e => e.Description)));
+			return Success(SharedResourcesKeys.Success);
 
 
 		}

@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using System.Globalization;
 using YemenSchoolsV1.Application;
 using YemenSchoolsV1.Application.MiddleWare;
+using YemenSchoolsV1.Domain.Entities;
 using YemenSchoolsV1.Persistence;
 using YemenSchoolsV1.Persistence.Data;
 using YemenSchoolsV1.Persistence.Identity;
@@ -107,6 +108,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGroup("api").MapIdentityApi<AppUser>();
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try

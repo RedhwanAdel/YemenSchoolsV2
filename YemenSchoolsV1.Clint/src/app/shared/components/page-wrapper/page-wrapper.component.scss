@@ -1,12 +1,3 @@
-orm-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(to right bottom, #e0f2f7, #fdfefe); /* Default light gradient */
-  padding: 30px;
-  font-family: 'Inter', sans-serif;
-}
 
 .form-card {
   width: 100%;
@@ -24,7 +15,6 @@ orm-container {
   align-items: center;
 }
 
-/* Specific styling for the edit form header, will be applied by parent component */
 .form-card-header.edit-header {
   background: linear-gradient(to right, #ffc107, #e0a800); /* Orange/Yellow gradient for edit */
 }
