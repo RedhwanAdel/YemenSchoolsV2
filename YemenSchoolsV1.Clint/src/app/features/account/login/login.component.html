@@ -1,55 +1,94 @@
-<div
-  class="container d-flex justify-content-center align-items-center min-vh-100"
->
-  <mat-card class="login-card p-4 shadow-sm">
-    <mat-card-header class="text-center mb-4">
-      <mat-card-title>Login</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-        <div class="mb-3">
-          <app-form-input
-            label="Email"
-            formControlName="email"
-            type="email"
-            placeholder="Enter your email"
+<section class="min-vh-100 d-flex align-items-center bg-light">
+  <div class="container py-5">
+    <div class="row g-0 shadow rounded overflow-hidden bg-white">
+      <!-- Left - Educational Promo -->
+      <div
+        class="col-12 col-md-6 bg-primary text-white d-flex align-items-center justify-content-center p-4"
+      >
+        <div class="text-center">
+          <img
+            class="img-fluid mb-4"
+            src="https://bootstrapbrain.com/demo/components/logins/login-5/assets/img/bsb-logo-light.svg"
+            alt="Platform Logo"
+            width="200"
           />
+          <h2 class="mb-3 text-white">Empower Your Learning</h2>
+          <p class="lead">
+            Join thousands of students and teachers managing their educational
+            journey in one place.
+          </p>
+          <hr class="border-light mt-4" />
+          <p class="small">Your success starts with the right tools.</p>
         </div>
+      </div>
 
-        <div class="mb-3 position-relative">
-          <app-form-input
-            label="Password"
-            [type]="hidePassword ? 'password' : 'text'"
-            formControlName="password"
-            placeholder="Enter your password"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            class="position-absolute end-0"
-            (click)="togglePasswordVisibility()"
-            type="button"
-          >
-            <mat-icon>{{
-              hidePassword ? "visibility_off" : "visibility"
-            }}</mat-icon>
-          </button>
-        </div>
+      <!-- Right - Login Form (Angular with Material) -->
+      <div class="col-12 col-md-6 p-4">
+        <mat-card class="border-0 shadow-0">
+          <mat-card-header class="text-center mb-3">
+            <mat-card-title class="h4">Login to Your Account</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form
+              [formGroup]="loginForm"
+              (ngSubmit)="onSubmit()"
+              class="login-form"
+            >
+              <div class="mb-3">
+                <app-form-input
+                  label="Email"
+                  formControlName="email"
+                  type="email"
+                  placeholder="Enter your email"
+                ></app-form-input>
+              </div>
 
-        <div class="mb-3 d-flex justify-content-between align-items-center">
-          <mat-checkbox formControlName="rememberMe">Remember me</mat-checkbox>
-        </div>
+              <div class="mb-3 position-relative">
+                <app-form-input
+                  label="Password"
+                  [type]="hidePassword ? 'password' : 'text'"
+                  formControlName="password"
+                  placeholder="Enter your password"
+                ></app-form-input>
+                <button
+                  mat-icon-button
+                  matSuffix
+                  class="position-absolute end-0 top-0 pt-0"
+                  (click)="togglePasswordVisibility()"
+                  type="button"
+                >
+                  <mat-icon>{{
+                    hidePassword ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+              </div>
 
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="loginForm.invalid"
-          class="w-100 login-button"
-        >
-          Login
-        </button>
-      </form>
-    </mat-card-content>
-  </mat-card>
-</div>
+              <div class="mb-3 text-end">
+                <a href="#" class="text-primary text-decoration-none"
+                  >Forgot password?</a
+                >
+              </div>
+
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="loginForm.invalid"
+                class="w-100"
+              >
+                Login
+              </button>
+
+              <div class="text-center mt-4">
+                <span class="text-muted">Don't have an account?</span>
+                <a href="#" class="text-primary text-decoration-none"
+                  >Sign up</a
+                >
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Features.Cities.Commands.CreateCity;
 using YemenSchoolsV1.Application.Features.Cities.Commands.DeleteCity;
@@ -9,7 +8,6 @@ using YemenSchoolsV1.Application.Features.Cities.Queries.GetCityDetails;
 
 namespace YemenSchoolsV1.API.Controllers
 {
-	[Authorize]
 	public class CitiesController : AppControllerBase
 	{
 		[HttpGet]

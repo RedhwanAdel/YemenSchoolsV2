@@ -45,9 +45,44 @@
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
     </nav>
-    <div class="">
-      <a class="btn-getstarted me-2" routerLink="/login">Register</a>
-      <a class="btn-getstarted" routerLink="/login">login</a>
+    <div class="d-flex align-items-center gap-3">
+      @if (accountService.currentUser()) {
+
+      <!-- قائمة المستخدم -->
+      <button
+        mat-button
+        [matMenuTriggerFor]="userMenu"
+        class="user-menu-button d-flex align-items-center bg-transparent border-0"
+      >
+        <mat-icon class="me-1">person</mat-icon>
+        <span class="user-name me-1">{{
+          accountService.currentUser()?.firstName
+        }}</span>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      } @else {
+      <!-- روابط التسجيل وتسجيل الدخول -->
+      <div class="">
+        <a class="btn-getstarted me-2" routerLink="/register">Register</a>
+        <a class="btn-getstarted" routerLink="/login">login</a>
+      </div>
+      }
     </div>
+
+    <!-- قائمة منسدلة -->
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>account_circle</mat-icon>
+        <span>Profile</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
   </div>
 </header>

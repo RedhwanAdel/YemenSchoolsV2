@@ -302,3 +302,51 @@
     display: block;
   }
 }
+
+    .user-menu-button {
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      min-width: 0; /* Override default button min-width */
+    }
+
+    .user-menu-button mat-icon:first-child {
+      margin-right: 8px;
+    }
+  .notification-button {
+      margin-right: 8px;
+    }
+
+    .user-menu-button span {
+      margin-right: 4px;
+    }
+        @media (max-width: 576px) {
+    
+      .user-menu-button span {
+        display: none; /* Hide username on very small screens */
+      }
+    }
+
+    .user-menu-button {
+  padding: 4px 12px;
+  border-radius: 8px;
+  transition: background 0.2s ease-in-out;
+}
+
+.user-menu-button:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.user-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.notification-button {
+  margin-right: 8px;
+}
+
+.btn-getstarted {
+  font-weight: 500;
+  border-radius: 8px;
+}

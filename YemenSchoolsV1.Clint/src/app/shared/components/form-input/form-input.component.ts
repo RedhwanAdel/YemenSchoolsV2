@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormControl, ControlValueAccessor, NgControl } fro
 import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-form-input',
@@ -14,7 +15,10 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatError
+    MatError,
+    MatAutocompleteModule,
+
+
   ],
   templateUrl: './form-input.component.html',
   styleUrl: './form-input.component.scss'

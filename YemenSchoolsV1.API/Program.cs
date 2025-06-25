@@ -54,6 +54,12 @@ builder.Services.AddSwaggerGen(c =>
 	}});
 });
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	options.Cookie.SameSite = SameSiteMode.None;
+	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+	options.Cookie.HttpOnly = true;
+});
 
 
 
@@ -79,16 +85,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 #endregion
-builder.Services.AddCors(options =>
-{
-	options.AddPolicy("AllowAll",
-		policy => policy.AllowAnyOrigin()
-						.AllowAnyMethod()
-						.AllowAnyHeader());
-});
+
 
 var app = builder.Build();
-app.UseCors("AllowAll");
 
 
 // Configure the HTTP request pipeline.
@@ -102,9 +101,10 @@ var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(options.Value);
 #endregion
 app.UseMiddleware<ErrorHandlerMiddleware>();
-
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+.WithOrigins("http://localhost:4200", "https://localhost:4200"));
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,0 +1,91 @@
+<section class="min-vh-100 d-flex align-items-center bg-light">
+  <div class="container py-5">
+    <div class="row g-0 login-container">
+      <!-- الجزء الدعائي -->
+      <div class="col-md-6 login-promo">
+        <img
+          src="https://bootstrapbrain.com/demo/components/logins/login-5/assets/img/bsb-logo-light.svg"
+          alt="Logo"
+        />
+        <h2 class="text-white">Start Your Learning Journey</h2>
+        <p>
+          Join our community and get access to quality content, powerful tools,
+          and a network of educators and students.
+        </p>
+      </div>
+
+      <!-- جزء الفورم -->
+      <div class="col-md-6">
+        <mat-card class="p-4">
+          <mat-card-header class="text-center mb-4">
+            <mat-card-title>Create Account</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form
+              [formGroup]="registerForm"
+              (ngSubmit)="onSubmit()"
+              class="login-form"
+            >
+              <div class="mb-2">
+                <app-form-input
+                  label="First Name"
+                  formControlName="firstName"
+                  placeholder="Enter your first name"
+                />
+              </div>
+              <div class="mb-2">
+                <app-form-input
+                  label="Last Name"
+                  formControlName="lastName"
+                  placeholder="Enter your last name"
+                />
+              </div>
+              <div class="mb-2">
+                <app-form-input
+                  label="Email"
+                  formControlName="email"
+                  type="email"
+                  placeholder="Enter your email"
+                />
+              </div>
+
+              <div class="mb-2">
+                <app-form-input
+                  label="Password"
+                  type="password"
+                  formControlName="password"
+                  placeholder="Create a password"
+                />
+              </div>
+
+              <div class="mb-2">
+                <app-form-input
+                  label="Confirm Password"
+                  type="password"
+                  formControlName="confirmPassword"
+                  placeholder="Confirm your password"
+                />
+              </div>
+
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="registerForm.invalid"
+                class="w-100 login-button"
+              >
+                Register
+              </button>
+            </form>
+
+            <div class="text-center mt-3">
+              <a routerLink="/login" class="text-muted text-decoration-none"
+                >Already have an account? Log in</a
+              >
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

@@ -11,6 +11,7 @@ import { LoginComponent } from './features/account/login/login.component';
 import { SchoolDetailDashboardComponent } from './dashboard/pages/schools/school-detail-dashboard/school-detail-dashboard.component';
 import { SchoolAddComponent } from './dashboard/pages/schools/school-add/school-add.component';
 import { SchoolEditComponent } from './dashboard/pages/schools/school-edit/school-edit.component';
+import { RegisterComponent } from './features/account/register/register.component';
 
 export const routes: Routes = [
     {
@@ -20,6 +21,7 @@ export const routes: Routes = [
             { path: '', component: HomeComponent },
             { path: 'school-details', component: SchoolDetailsComponent },
             { path: 'login', component: LoginComponent },
+            { path: 'register', component: RegisterComponent },
         ]
     },
     {
