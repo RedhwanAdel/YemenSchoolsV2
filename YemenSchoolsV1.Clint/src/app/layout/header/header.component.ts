@@ -10,8 +10,8 @@ import { MatDivider } from '@angular/material/divider';
   standalone: true,
   imports: [RouterLink,
     MatMenuModule,
-    MatIcon,
-    MatDivider
+    MatIcon
+
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'

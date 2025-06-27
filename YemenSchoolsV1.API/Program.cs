@@ -25,6 +25,7 @@ builder.Services.AddConfigureServices()
 .AddIdentityServices(builder.Configuration);
 
 // Add services to the container.
+builder.Services.AddCors();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -102,7 +103,7 @@ app.UseRequestLocalization(options.Value);
 #endregion
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
-.WithOrigins("http://localhost:4200", "https://localhost:4200"));
+.WithOrigins("http://localhost:4200", "https://localhost:4200", "http://localhost:5000", "https://localhost:5001"));
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

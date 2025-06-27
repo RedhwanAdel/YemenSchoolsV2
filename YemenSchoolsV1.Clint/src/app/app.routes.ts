@@ -12,6 +12,9 @@ import { SchoolDetailDashboardComponent } from './dashboard/pages/schools/school
 import { SchoolAddComponent } from './dashboard/pages/schools/school-add/school-add.component';
 import { SchoolEditComponent } from './dashboard/pages/schools/school-edit/school-edit.component';
 import { RegisterComponent } from './features/account/register/register.component';
+import { TestErrorComponent } from './features/test-error/test-error.component';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+import { ServerErrorComponent } from './shared/components/server-error/server-error.component';
 
 export const routes: Routes = [
     {
@@ -22,23 +25,26 @@ export const routes: Routes = [
             { path: 'school-details', component: SchoolDetailsComponent },
             { path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },
+            { path: 'test-error', component: TestErrorComponent },
         ]
     },
     {
         path: 'dash-board',
         component: DashboardLayoutComponent,
         children: [
-            { path: '', redirectTo: 'overview', pathMatch: 'full' }, // أول صفحة في الداشبورد
-            { path: 'overview', component: DashboardHomeComponent }, // إحصائيات مثلاً
+            { path: '', redirectTo: 'overview', pathMatch: 'full' },
+            { path: 'overview', component: DashboardHomeComponent },
             { path: 'cities', component: CityListComponent },
             { path: 'regions', component: RegionListComponent },
             { path: 'schools', component: SchoolListComponent },
             { path: 'schools-detail', component: SchoolDetailDashboardComponent },
             { path: 'schools-add', component: SchoolAddComponent },
             { path: 'schools-edit', component: SchoolEditComponent },
-            // أضف المزيد حسب الحاجة
         ],
     },
+    { path: 'not-found', component: NotFoundComponent },
+    { path: 'server-error', component: ServerErrorComponent },
+
 
     { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
 ];

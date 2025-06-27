@@ -1,1 +1,7 @@
+@if (busyService.loading) {
+<div class="app-loading-overlay">
+  <mat-spinner mode="indeterminate" diameter="50"></mat-spinner>
+</div>
+}
+
 <router-outlet></router-outlet>

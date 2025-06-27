@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from "./layout/header/header.component";
-import { FooterComponent } from "./layout/footer/footer.component";
-import { HomeComponent } from "./features/home/home.component";
-import { SchoolDetailsComponent } from "./features/schools/school-details/school-details.component";
-import { DashboardLayoutComponent } from "./layout/dashboard/dashboard-layout/dashboard-layout.component";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BusyService } from './core/services/busy.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, HomeComponent, SchoolDetailsComponent, DashboardLayoutComponent],
+  imports: [RouterOutlet,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'YemenSchoolsV1.Clint';
+  busyService = inject(BusyService);
+
 }

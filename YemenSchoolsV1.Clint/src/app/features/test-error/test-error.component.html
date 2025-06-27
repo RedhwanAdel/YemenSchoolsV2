@@ -1,0 +1,25 @@
+<div
+  class="mt-5 d-flex justify-content-center flex-wrap gap-3 align-items-center"
+  style="height: 50vh"
+>
+  <button mat-stroked-button (click)="get500Error()">Test 500 error</button>
+  <button mat-stroked-button (click)="get404Error()">Test 404 error</button>
+  <button mat-stroked-button (click)="get400Error()">Test 400 error</button>
+  <button mat-stroked-button (click)="get401Error()">Test 401 error</button>
+  <button mat-stroked-button (click)="get400ValidationError()">
+    Test validation error
+  </button>
+</div>
+
+@if (validationErrors) {
+<div
+  class="mx-auto mt-5 p-3 bg-danger bg-opacity-10 rounded"
+  style="max-width: 600px"
+>
+  <ul class="list-unstyled mb-0">
+    @for (error of validationErrors; track $index) {
+    <li class="text-danger mb-2">{{ error }}</li>
+    }
+  </ul>
+</div>
+}
