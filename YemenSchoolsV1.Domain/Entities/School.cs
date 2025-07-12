@@ -14,8 +14,8 @@ namespace YemenSchoolsV1.Domain.Entities
 		public string AddressEn { get; set; }
 		public string? Logo { get; set; }
 		public string? CoverImage { get; set; }
-		public string? PostalCode { get; set; } // الرمز البريدي
 		public string? MainPhone { get; set; }
+		public string? PostalCode { get; set; } // الرمز البريدي
 		public string Email { get; set; }
 		public bool IsActive { get; set; } = true; // حالة المدرسة
 		public DateTime? DeactivatedDate { get; set; } // تاريخ إلغاء التفعيل، إذا تم إلغاء التفعيل

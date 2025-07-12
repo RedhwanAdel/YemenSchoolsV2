@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AccountService } from '../../core/services/account.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIcon } from '@angular/material/icon';
@@ -10,7 +10,8 @@ import { MatDivider } from '@angular/material/divider';
   standalone: true,
   imports: [RouterLink,
     MatMenuModule,
-    MatIcon
+    MatIcon,
+    RouterLinkActive
 
   ],
   templateUrl: './header.component.html',

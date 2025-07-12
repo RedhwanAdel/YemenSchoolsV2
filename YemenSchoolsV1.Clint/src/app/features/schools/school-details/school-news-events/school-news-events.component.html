@@ -1,0 +1,73 @@
+<div class="container py-4">
+  <mat-card class="mb-4 shadow-sm">
+    <mat-card-content class="p-4">
+      <h2
+        class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
+      >
+        Latest News
+      </h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4" *ngFor="let article of newsArticles">
+          <mat-card class="h-100">
+            <img
+              mat-card-image
+              [src]="article.image"
+              alt="{{ article.title }}"
+              class="img-fluid rounded-top"
+              style="height: 180px; object-fit: cover"
+            />
+            <mat-card-content class="p-3">
+              <small class="text-muted"
+                ><mat-icon class="fs-6 align-text-bottom me-1"
+                  >calendar_today</mat-icon
+                >{{ article.date }}</small
+              >
+              <h5 class="fw-semibold text-dark mt-2">{{ article.title }}</h5>
+              <p class="text-secondary-emphasis mb-0">{{ article.summary }}</p>
+            </mat-card-content>
+            <mat-card-actions class="p-3 pt-0">
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="shadow-sm">
+    <mat-card-content class="p-4">
+      <h2
+        class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
+      >
+        Upcoming Events
+      </h2>
+      <mat-list>
+        <mat-list-item
+          *ngFor="let event of upcomingEvents"
+          class="d-flex align-items-start border-bottom py-3"
+        >
+          <mat-icon matListItemIcon color="primary" class="me-3 fs-3">{{
+            event.icon
+          }}</mat-icon>
+          <div matListItemTitle class="fw-semibold text-dark">
+            {{ event.name }}
+          </div>
+          <div matListItemLine class="text-secondary-emphasis">
+            <mat-icon class="fs-6 align-text-bottom me-1"
+              >calendar_today</mat-icon
+            >{{ event.date }}
+            <span class="mx-2">|</span>
+            <mat-icon class="fs-6 align-text-bottom me-1">schedule</mat-icon
+            >{{ event.time }}
+            <span class="mx-2">|</span>
+            <mat-icon class="fs-6 align-text-bottom me-1">location_on</mat-icon
+            >{{ event.location }}
+          </div>
+        </mat-list-item>
+      </mat-list>
+      <div class="text-center mt-4">
+        <a href="#" class="btn btn-primary">View All Events</a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -15,6 +15,7 @@ import { RegisterComponent } from './features/account/register/register.componen
 import { TestErrorComponent } from './features/test-error/test-error.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { ServerErrorComponent } from './shared/components/server-error/server-error.component';
+import { SchoolsComponent } from './features/schools/schools.component';
 
 export const routes: Routes = [
     {
@@ -22,7 +23,8 @@ export const routes: Routes = [
         component: MainLayoutComponent,
         children: [
             { path: '', component: HomeComponent },
-            { path: 'school-details', component: SchoolDetailsComponent },
+            { path: 'school/:id', component: SchoolDetailsComponent },
+            { path: 'schools', component: SchoolsComponent },
             { path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },
             { path: 'test-error', component: TestErrorComponent },

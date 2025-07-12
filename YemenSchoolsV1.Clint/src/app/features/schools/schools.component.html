@@ -1,0 +1,172 @@
+<div class="container py-5" style="margin-top: 80px">
+  <div class="row mb-4 align-items-center">
+    <div class="col-12 col-lg-auto mb-3 mb-lg-0">
+      <mat-paginator
+        class="bg-white rounded-2 shadow-sm"
+        (page)="handlePageEvent($event)"
+        [length]="schools?.totalCount"
+        [pageSize]="schoolParams.pageSize"
+        [showFirstLastButtons]="true"
+        [pageSizeOptions]="pageSizeOptions"
+        [pageIndex]="schoolParams.pageNumber - 1"
+        aria-label="Select page"
+      ></mat-paginator>
+    </div>
+
+    <div class="col-12 col-lg order-lg-2 mb-3 mb-lg-0">
+      <form
+        #searchForm="ngForm"
+        (keyup)="onSearchChange()"
+        class="d-flex align-items-center w-100"
+      >
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Search schools...</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Search by name or keyword"
+            name="search"
+            [(ngModel)]="schoolParams.search"
+          />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div class="col-12 col-lg-auto order-lg-3">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Sort By</mat-label>
+        <mat-select
+          [value]="schoolParams.orderBy"
+          (selectionChange)="onSortChange($event.value)"
+        >
+          @for (sort of sortOptions; track $index) {
+          <mat-option [value]="sort.value">
+            {{ sort.name }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-lg-auto order-lg-3">
+      <mat-form-field appearance="outline" class="">
+        <mat-label>Sort Direction</mat-label>
+        <mat-select
+          [value]="schoolParams.sortDirection"
+          (selectionChange)="onSortDirectionChange($event.value)"
+        >
+          @for (dir of sortDirectionOptions; track $index) {
+          <mat-option [value]="dir.value">
+            {{ dir.name }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <hr class="my-4" />
+
+  <div class="row">
+    <div class="col-lg-3 mb-4">
+      <div class="p-4 border rounded bg-white shadow-sm">
+        <h5 class="mb-4 d-flex align-items-center">
+          <mat-icon class="me-2">filter_list</mat-icon> Filters
+        </h5>
+
+        <div class="mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>City</mat-label>
+            <mat-select
+              [(ngModel)]="schoolParams.cityId"
+              name="city"
+              (selectionChange)="onCityChange($event)"
+            >
+              <mat-option value="">All Cities</mat-option>
+              @for (city of citiesService.cities(); track city.id) {
+              <mat-option [value]="city.id">{{ city.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Region</mat-label>
+            <mat-select [(ngModel)]="schoolParams.regionId" name="region">
+              <mat-option value="">All Regions</mat-option>
+              @for (region of regions(); track region.id) {
+              <mat-option [value]="region.id">{{ region.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>School Type</mat-label>
+            <mat-select [(ngModel)]="schoolParams.type" name="schoolType">
+              <mat-option value="">All Types</mat-option>
+              @for (type of schoolTypes; track type.value) {
+              <mat-option [value]="type.value">{{ type.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Gender</mat-label>
+            <mat-select [(ngModel)]="schoolParams.gender" name="gender">
+              <mat-option value="">All Genders</mat-option>
+              @for (gender of genders; track gender.value) {
+              <mat-option [value]="gender.value">{{ gender.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Levels</mat-label>
+            <mat-select
+              (ngModelChange)="onLevelsChange()"
+              [(ngModel)]="schoolParams.levels"
+              multiple
+              name="levels"
+            >
+              @for (level of schoolLevels; track level.value) {
+              <mat-option [value]="level.value">{{ level.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <button
+          class="w-100"
+          mat-flat-button
+          color="primary"
+          (click)="applyFilters()"
+        >
+          Apply Filters
+        </button>
+      </div>
+    </div>
+
+    <div class="col-lg-9">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @for (school of schools?.data; track school.id) {
+        <div class="col d-flex">
+          <app-school-item [school]="school" class="w-100" />
+        </div>
+        } @empty {
+        <div class="col-12">
+          <div class="alert alert-info text-center" role="alert">
+            No schools found matching your criteria.
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

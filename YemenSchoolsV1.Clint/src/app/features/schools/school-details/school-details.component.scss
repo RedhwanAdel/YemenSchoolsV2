@@ -1,474 +1,76 @@
-/*--------------------------------------------------------------
-# Service Details Section
---------------------------------------------------------------*/
-.service-details .service-main-image {
+.school-details-container {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.school-header-hero {
+  background-size: cover;
+  background-position: center;
+  height: 320px;
   position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 10px 10px 0 0;
 }
 
-.service-details .service-main-image img {
-  width: 100%;
-  transition: transform 0.6s;
-}
-
-.service-details .service-main-image:hover img {
-  transform: scale(1.05);
-}
-
-.service-details .service-main-image .experience-badge {
+.school-header-hero .overlay {
   position: absolute;
-  bottom: 30px;
-  right: 30px;
-  background: var(--accent-color);
-  color: var(--contrast-color);
-  padding: 20px;
-  border-radius: 12px;
-  min-width: 120px;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  border-radius: 10px 10px 0 0;
 }
 
-.service-details .service-main-image .experience-badge span {
-  font-size: 36px;
-  font-weight: 700;
-  display: block;
-  line-height: 1;
-}
-
-.service-details .service-main-image .experience-badge p {
-  margin: 0;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.service-details .service-main-content {
+.header-content {
+  position: relative;
+  z-index: 2;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  padding-top: 30px;
 }
 
-.service-details .service-main-content .section-header {
-  margin-bottom: 25px;
-}
-
-.service-details .service-main-content .section-header .section-subtitle {
-  display: inline-block;
-  padding: 8px 16px;
-  background: color-mix(in srgb, var(--accent-color), transparent 90%);
-  color: var(--accent-color);
-  border-radius: 50px;
-  font-size: 14px;
-  font-weight: 600;
+.school-logo-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin-bottom: 15px;
 }
 
-.service-details .service-main-content .section-header h2 {
-  font-size: 36px;
-  font-weight: 700;
-  margin-bottom: 0;
-}
-
-@media (max-width: 768px) {
-  .service-details .service-main-content .section-header h2 {
-    font-size: 28px;
-  }
-}
-
-.service-details .service-main-content .lead {
-  font-size: 18px;
-  margin-bottom: 20px;
-}
-
-.service-details .service-main-content p {
-  color: color-mix(in srgb, var(--default-color), transparent 25%);
-  margin-bottom: 20px;
-}
-
-.service-details .service-benefits {
-  padding: 0;
-  list-style: none;
-  margin: 20px 0 0 0;
-}
-
-.service-details .service-benefits li {
-  padding: 12px 0;
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.service-details .service-benefits li i {
-  color: var(--accent-color);
-  font-size: 20px;
-  margin-right: 15px;
-}
-
-.service-details .service-tabs {
-  margin-top: 80px;
-}
-
-.service-details .service-tabs .nav-tabs {
-  border: none;
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 15px;
-  margin-bottom: 30px;
-  overflow-x: auto;
-  padding-bottom: 5px;
-}
-
-@media (max-width: 768px) {
-  .service-details .service-tabs .nav-tabs {
-    flex-wrap: nowrap;
-    white-space: nowrap;
-    overflow-x: auto;
-    scrollbar-width: thin;
-  }
-
-  .service-details .service-tabs .nav-tabs::-webkit-scrollbar {
-    height: 5px;
-  }
-
-  .service-details .service-tabs .nav-tabs::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--default-color), transparent 80%);
-    border-radius: 10px;
-  }
-}
-
-.service-details .service-tabs .nav-tabs .nav-link {
-  border: none;
-  padding: 15px 25px;
-  border-radius: 50px;
-  color: var(--default-color);
-  font-weight: 600;
-  background: var(--surface-color);
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-}
-
-.service-details .service-tabs .nav-tabs .nav-link i {
-  margin-right: 10px;
-  font-size: 18px;
-}
-
-.service-details .service-tabs .nav-tabs .nav-link.active {
-  background: var(--accent-color);
-  color: var(--contrast-color);
-}
-
-.service-details .service-tabs .tab-content {
-  padding: 40px;
-  border-radius: 16px;
-  background: var(--surface-color);
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
-}
-
-.service-details .service-tabs .tab-content h3 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  color: var(--heading-color);
-}
-
-.service-details .service-tabs .tab-content p {
-  color: color-mix(in srgb, var(--default-color), transparent 25%);
-}
-
-.service-details .service-tabs .tab-content .feature-item {
-  padding: 20px;
-  background: color-mix(in srgb, var(--background-color), transparent 50%);
-  border-radius: 12px;
+.school-logo-img {
+  width: 100%;
   height: 100%;
-  transition: transform 0.3s;
-}
-
-.service-details .service-tabs .tab-content .feature-item:hover {
-  transform: translateY(-5px);
-}
-
-.service-details .service-tabs .tab-content .feature-item i {
-  color: var(--accent-color);
-  font-size: 28px;
-  margin-bottom: 15px;
-}
-
-.service-details .service-tabs .tab-content .feature-item h4 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.service-details .service-tabs .tab-content .feature-item p {
-  font-size: 14px;
-  margin-bottom: 0;
-}
-
-.service-details .service-testimonial {
-  margin-top: 80px;
-}
-
-.service-details .service-testimonial .testimonial-card {
-  padding: 40px;
-  border-radius: 16px;
-  background: var(--surface-color);
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
-}
-
-.service-details .service-testimonial .testimonial-card .client-info {
-  text-align: center;
-}
-
-.service-details .service-testimonial .testimonial-card .client-info img {
-  width: 90px;
-  height: 90px;
   object-fit: cover;
-  border: 5px solid var(--background-color);
-  margin-right: 20px;
 }
 
-@media (max-width: 767px) {
-  .service-details .service-testimonial .testimonial-card .client-info img {
-    margin: 0 auto 20px;
-  }
-}
-
-.service-details .service-testimonial .testimonial-card .client-info h4 {
-  font-size: 18px;
-  font-weight: 700;
+.school-name {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
   margin-bottom: 5px;
 }
 
-.service-details .service-testimonial .testimonial-card .client-info p {
-  color: color-mix(in srgb, var(--default-color), transparent 25%);
-  margin-bottom: 10px;
-  font-size: 14px;
-}
-
-.service-details .service-testimonial .testimonial-card .client-info .stars {
-  color: #ffd700;
-  font-size: 14px;
-}
-
-.service-details .service-testimonial .testimonial-card .quote {
-  position: relative;
-  padding-left: 30px;
-}
-
-.service-details .service-testimonial .testimonial-card .quote i {
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-size: 24px;
-  color: var(--accent-color);
-}
-
-.service-details .service-testimonial .testimonial-card .quote p {
-  font-style: italic;
-  font-size: 16px;
-  color: color-mix(in srgb, var(--default-color), transparent 15%);
-}
-
-.service-details .service-cta {
-  margin-top: 80px;
-  padding: 60px;
-  border-radius: 16px;
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--accent-color), transparent 10%),
-    color-mix(in srgb, var(--accent-color), transparent 40%)
-  );
-  box-shadow: 0 10px 30px
-    color-mix(in srgb, var(--accent-color), transparent 85%);
-}
-
-.service-details .service-cta h3 {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--contrast-color);
+.school-slogan {
+  font-size: 1.2rem;
+  color: #ddd;
   margin-bottom: 15px;
 }
 
-.service-details .service-cta p {
-  font-size: 18px;
-  color: var(--contrast-color);
-  opacity: 0.9;
-  margin-bottom: 30px;
+.school-contact-info {
+  font-size: 0.95rem;
+  color: #ccc;
 }
 
-.service-details .service-cta .btn-service {
-  display: inline-flex;
-  align-items: center;
-  background: var(--contrast-color);
-  color: var(--accent-color);
-  font-weight: 600;
-  padding: 15px 35px;
-  border-radius: 50px;
-  transition: all 0.3s;
+.school-tabs ::ng-deep .mat-tab-label {
+  font-size: 1.1rem;
+  padding: 12px 24px;
 }
 
-.service-details .service-cta .btn-service i {
-  margin-left: 8px;
-  transition: transform 0.3s;
-}
-
-.service-details .service-cta .btn-service:hover {
-  background: var(--background-color);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.service-details .service-cta .btn-service:hover i {
-  transform: translateX(5px);
-}
-
-@media (max-width: 767px) {
-  .service-details .service-cta {
-    padding: 40px 20px;
-  }
-
-  .service-details .service-cta h3 {
-    font-size: 26px;
-  }
-}
-
-@media (max-width: 991px) {
-  .service-details .service-main-content {
-    margin-top: 30px;
-  }
-
-  .service-details .service-tabs {
-    margin-top: 50px;
-  }
-
-  .service-details .service-testimonial,
-  .service-details .service-cta {
-    margin-top: 50px;
-  }
-}
-
-@media (max-width: 767px) {
-  .service-details .client-info {
-    flex-direction: column;
-    margin-bottom: 30px;
-  }
-
-  .service-details .service-tabs .tab-content {
-    padding: 30px 20px;
-  }
-}
-
-/* +++++++++++++++++++++++++++++++++++++++++++++++ */
-
-.hero-section {
-  position: relative;
-  width: 100%;
-  height: 500px; /* يمكنك تعديل الارتفاع حسب الحاجة */
-  background-image: url("https://schoolfinder.ae/wp-content/uploads/2023/08/FACILITIES_image-01-768x353.webp");
-  background-size: cover;
-  background-position: center;
-  color: white;
-  display: flex;
-  align-items: flex-end; /* لتركيز المحتوى في الأسفل */
-  justify-content: center;
-  text-align: center;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.7),
-    rgba(0, 0, 0, 0)
-  ); /* تدرج لوني من الأسفل للأعلى */
-}
-
-.school-info-container {
-  position: relative;
-  z-index: 10; /* لجعل المحتوى فوق التراكب */
-  display: flex;
-  align-items: center;
-  width: 100%; /* أو قيمة محددة بالبكسل */
-}
-
-.school-logo {
-  width: 80px; /* حجم الشعار */
-  height: 80px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #eee;
-  margin-right: 20px;
-}
-
-.school-name h1 {
-  font-size: 32px;
-  font-weight: 600;
-  color: #fff;
-  margin: 0;
-}
-
-.website-button {
-  background-color: var(--accent-color);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 25px;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  white-space: nowrap; /* يمنع الكسر السطري */
-  margin-left: auto;
-}
-
-.website-button:hover {
-  background-color: #0056b3;
-  color: white; /* للحفاظ على اللون عند التحويم */
-}
-
-.website-button i {
-  margin-right: 8px; /* مسافة بين الأيقونة والنص */
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .school-info-container {
-    flex-direction: column;
-    text-align: center;
-    padding: 15px;
-    margin-bottom: -30px;
-    width: 95%;
-  }
-  .school-logo {
-    margin-left: 0;
-    margin-bottom: 15px;
-  }
-  .school-name h1 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-  }
-  .website-button {
-    width: fit-content;
-    margin: 0 auto; /* توسيط الزر في العرض الصغير */
-  }
-}
-
-@media (max-width: 576px) {
-  .hero-section {
-    height: 400px;
-  }
-  .school-name h1 {
-    font-size: 1.5rem;
-  }
-  .website-button {
-    padding: 8px 15px;
-    font-size: 0.9rem;
-  }
+.school-tabs {
+  padding: 0 15px;
 }

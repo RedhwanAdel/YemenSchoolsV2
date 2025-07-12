@@ -1,0 +1,63 @@
+/* Add any custom styles specific to the Academics component here */
+
+/* Reusing some styles from the Overview component for consistency */
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+.text-primary-emphasis {
+  color: #3f51b5 !important; // Angular Material primary color
+}
+
+.border-primary-subtle {
+  border-color: #c5cae9 !important; // Lighter shade for borders
+}
+
+.text-secondary-emphasis {
+  color: #424242 !important; // Dark gray text
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.bg-light-subtle {
+    background-color: #f0f4fd !important; // A very light blue background for cards
+}
+
+.bg-info-subtle {
+  background-color: #cfe2ff !important; // Bootstrap info subtle color
+}
+
+.bg-success-subtle {
+  background-color: #d1e7dd !important; // Bootstrap success subtle color
+}
+
+.rounded-3 {
+    border-radius: 0.5rem !important;
+}
+
+.h-100 {
+    height: 100% !important;
+}
+
+/* Adjust mat-chip styles if default doesn't match perfectly */
+mat-chip-row {
+  font-weight: 500;
+  padding: 0.35rem 0.75rem; // Adjust padding to be more like a bootstrap badge/chip
+  border-radius: 0.25rem; // Slightly rounded corners
+  height: auto; // Allow height to adjust based on content
+  line-height: normal;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* Specific chip colors for primary-subtle */
+.mat-chip.bg-primary-subtle {
+    background-color: #e8eaf6; // Lighter primary shade
+    color: #3f51b5; // Primary text color
+    border: 1px solid #c5cae9; // Light border
+}

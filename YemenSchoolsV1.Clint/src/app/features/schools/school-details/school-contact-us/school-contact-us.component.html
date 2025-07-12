@@ -1,0 +1,117 @@
+<div class="container py-4">
+  <mat-card class="mb-4 shadow-sm">
+    <mat-card-content class="p-4">
+      <h2
+        class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
+      >
+        Get in Touch with Sunrise Academy
+      </h2>
+      <p class="lead text-secondary-emphasis mb-3">
+        We're here to help! Whether you have questions about admissions,
+        academic programs, or general inquiries, feel free to reach out to us.
+      </p>
+
+      <div class="row g-3">
+        <div class="col-md-6 col-lg-4">
+          <div class="p-3 bg-light rounded-3 h-100 d-flex align-items-center">
+            <mat-icon color="primary" class="me-3 fs-2">location_on</mat-icon>
+            <div>
+              <h5 class="fw-semibold text-dark">Our Location</h5>
+              <p class="text-secondary-emphasis mb-0">
+                456 Knowledge Blvd, Innovate City, State 12345
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="p-3 bg-light rounded-3 h-100 d-flex align-items-center">
+            <mat-icon color="primary" class="me-3 fs-2">phone</mat-icon>
+            <div>
+              <h5 class="fw-semibold text-dark">Call Us</h5>
+              <p class="text-secondary-emphasis mb-0">(555) 987-6543</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="p-3 bg-light rounded-3 h-100 d-flex align-items-center">
+            <mat-icon color="primary" class="me-3 fs-2">mail_outline</mat-icon>
+            <div>
+              <h5 class="fw-semibold text-dark">Email Us</h5>
+              <p class="text-secondary-emphasis mb-0">
+                <a
+                  href="mailto:info@sunriseacademy.edu"
+                  class="text-decoration-none text-primary"
+                  >info sunriseacademy.edu</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="shadow-sm">
+    <mat-card-content class="p-4">
+      <h2
+        class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
+      >
+        Send Us a Message
+      </h2>
+      <form (ngSubmit)="onSubmit()" #contactFormRef="ngForm">
+        <div class="mb-3">
+          <label for="name" class="form-label">Your Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            [(ngModel)]="contactForm.name"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Your Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            [(ngModel)]="contactForm.email"
+            required
+            email
+          />
+        </div>
+        <div class="mb-3">
+          <label for="subject" class="form-label">Subject</label>
+          <input
+            type="text"
+            class="form-control"
+            id="subject"
+            name="subject"
+            [(ngModel)]="contactForm.subject"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="message" class="form-label">Your Message</label>
+          <textarea
+            class="form-control"
+            id="message"
+            name="message"
+            rows="5"
+            [(ngModel)]="contactForm.message"
+            required
+          ></textarea>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!contactFormRef.valid"
+        >
+          Send Message
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

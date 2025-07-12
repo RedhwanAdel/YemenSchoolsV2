@@ -4,16 +4,12 @@
     titel="Our Schools"
     description="Explore our diverse range of schools committed to excellence in education."
   />
-  <div class="row" style="height: 375px">
+  <div class="row">
+    @for (school of schools; track school.id) {
     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-      <app-school-item />
+      <app-school-item [school]="school" />
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-      <app-school-item />
-    </div>
-    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-      <app-school-item />
-    </div>
+    }
   </div>
 </div>
 

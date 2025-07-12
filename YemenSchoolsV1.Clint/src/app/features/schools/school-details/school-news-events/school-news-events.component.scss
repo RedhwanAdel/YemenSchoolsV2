@@ -1,0 +1,35 @@
+.fw-bold { font-weight: 700 !important; }
+.text-primary-emphasis { color: #3f51b5 !important; }
+.border-primary-subtle { border-color: #c5cae9 !important; }
+.text-secondary-emphasis { color: #424242 !important; }
+.lead { font-size: 1.25rem; font-weight: 300; }
+.rounded-3 { border-radius: 0.5rem !important; }
+.h-100 { height: 100% !important; }
+
+mat-card-image {
+  height: 180px;
+  object-fit: cover;
+}
+
+mat-list-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+mat-list-item mat-icon {
+  margin-right: 1rem;
+}
+
+mat-list-item .mat-list-item-content {
+  display: block; // Override default flex to stack title and line
+}
+
+.mat-list-item-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.mat-list-item-line {
+  font-size: 0.9rem;
+}

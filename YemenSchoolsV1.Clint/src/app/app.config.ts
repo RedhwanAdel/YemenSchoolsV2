@@ -9,6 +9,7 @@ import { InitService } from './core/services/init.service';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 
 function initializeApp(initService: InitService) {
@@ -30,6 +31,9 @@ export const appConfig: ApplicationConfig = {
       useFactory: initializeApp,
       multi: true,
       deps: [InitService]
+    }, {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill', subscriptSizing: 'dynamic' }
     }
 
   ]
