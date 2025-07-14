@@ -15,10 +15,14 @@
   </button>
 
   <app-table
-    [dataSource]="usersDataSource"
-    [columns]="userColumns"
+    [dataRow]="schools"
+    [columns]="schoolColumns"
+    [totalItems]="totalItems"
+    [pageSize]="schoolParams.pageSize"
     [hasActions]="true"
+    (pageChange)="onPageChange($event)"
     (actionClicked)="handleUserAction($event)"
+    (sortChange)="onSortChange($event)"
   >
   </app-table>
 </app-page-wrapper>

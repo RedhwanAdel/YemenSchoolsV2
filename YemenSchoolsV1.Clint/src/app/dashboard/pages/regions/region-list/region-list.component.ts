@@ -16,7 +16,7 @@ import { MatCardModule } from '@angular/material/card';
   imports: [PageWrapperComponent, CommonModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatButtonModule, TableComponent],
+    MatButtonModule],
   templateUrl: './region-list.component.html',
   styleUrl: './region-list.component.scss'
 })

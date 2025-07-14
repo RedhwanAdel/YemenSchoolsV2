@@ -15,7 +15,7 @@ import { PageWrapperComponent } from "../../../../shared/components/page-wrapper
 @Component({
   selector: 'app-city-list',
   standalone: true,
-  imports: [TableComponent,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatCardModule,

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
 import { MatTableDataSource } from '@angular/material/table';
 import { async } from 'rxjs';
@@ -6,6 +6,11 @@ import { DialogService } from '../../../../core/services/dialog.service';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
+import { SchoolService } from '../../../../core/services/school.service';
+import { SchoolParams } from '../../../../shared/models/school/schoolParams';
+import { SchoolListItem } from '../../../../shared/models/school/school';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 
 export interface UserData {
   id: string;
@@ -24,39 +29,38 @@ export interface UserData {
   templateUrl: './school-list.component.html',
   styleUrl: './school-list.component.scss'
 })
-export class SchoolListComponent {
+export class SchoolListComponent implements OnInit {
+
 
   router = inject(Router);
   private dialogService = inject(DialogService);
-  users: UserData[] = [
-    { id: '1', name: 'Alice Smith', email: 'alice@example.com', role: 'Admin', createdAt: new Date('2023-01-15'), status: 'Active', balance: 1200.50 },
-    { id: '2', name: 'Bob Johnson', email: 'bob@example.com', role: 'Editor', createdAt: new Date('2023-02-20'), status: 'Inactive', balance: 50.25 },
-    { id: '3', name: 'Charlie Brown', email: 'charlie@example.com', role: 'Viewer', createdAt: new Date('2023-03-10'), status: 'Active', balance: 300.00 },
-    { id: '4', name: 'Diana Prince', email: 'diana@example.com', role: 'Admin', createdAt: new Date('2023-04-01'), status: 'Active', balance: 750.75 },
-    { id: '5', name: 'Eve Adams', email: 'eve@example.com', role: 'Editor', createdAt: new Date('2023-05-05'), status: 'Active', balance: 200.00 },
-    { id: '6', name: 'Frank White', email: 'frank@example.com', role: 'Viewer', createdAt: new Date('2023-06-12'), status: 'Inactive', balance: 150.00 },
-    { id: '7', name: 'Grace Lee', email: 'grace@example.com', role: 'Admin', createdAt: new Date('2023-07-22'), status: 'Active', balance: 900.00 },
-    { id: '8', name: 'Harry Potter', email: 'harry@example.com', role: 'Viewer', createdAt: new Date('2023-08-30'), status: 'Active', balance: 450.00 },
-    { id: '9', name: 'Isabelle Chen', email: 'isabelle@example.com', role: 'Editor', createdAt: new Date('2023-09-19'), status: 'Active', balance: 600.00 },
-    { id: '10', name: 'Jack Miller', email: 'jack@example.com', role: 'Admin', createdAt: new Date('2023-10-25'), status: 'Inactive', balance: 80.00 },
-    { id: '11', name: 'Kelly Clark', email: 'kelly@example.com', role: 'Viewer', createdAt: new Date('2023-11-01'), status: 'Active', balance: 220.00 },
-    { id: '12', name: 'Liam Garcia', email: 'liam@example.com', role: 'Editor', createdAt: new Date('2023-12-15'), status: 'Active', balance: 500.00 },
-    { id: '13', name: 'Mia Rodriguez', email: 'mia@example.com', role: 'Admin', createdAt: new Date('2024-01-05'), status: 'Active', balance: 1000.00 },
-    { id: '14', name: 'Noah Davis', email: 'noah@example.com', role: 'Viewer', createdAt: new Date('2024-02-14'), status: 'Inactive', balance: 70.00 },
-    { id: '15', name: 'Olivia Martinez', email: 'olivia@example.com', role: 'Editor', createdAt: new Date('2024-03-20'), status: 'Active', balance: 350.00 },
-  ];
-  usersDataSource: MatTableDataSource<UserData> = new MatTableDataSource(this.users);
-  userColumns: TableColumn[] = [
-    { key: 'id', header: 'ID', sortable: true },
+  private schoolService = inject(SchoolService)
+  schools: SchoolListItem[] = [];
+  totalItems = 0;
+
+  schoolColumns: TableColumn[] = [
     { key: 'name', header: 'Name', sortable: true },
-    { key: 'email', header: 'Email', sortable: true },
-    { key: 'role', header: 'Role', sortable: true },
-    { key: 'createdAt', header: 'Created At', type: 'date', format: 'MMM d, y', sortable: true },
-    { key: 'status', header: 'Status', sortable: true },
-    { key: 'balance', header: 'Balance', type: 'currency', format: 'USD', sortable: true },
+    { key: 'city', header: 'City' },
+    { key: 'region', header: 'Region' },
+    { key: 'mainPhone', header: 'Phone ' },
+    { key: 'schoolType', header: 'SchoolType' },
+    { key: 'schoolLevel', header: 'SchoolLevel' },
+    { key: 'genderType', header: 'GenderType' },
   ];
-
-
+  schoolParams = new SchoolParams()
+  ngOnInit(): void {
+    this.loadSchools()
+  }
+  loadSchools() {
+    this.schoolService.getSchools(this.schoolParams).subscribe({
+      next: response => {
+        if (response.data) {
+          this.schools = response.data;
+          this.totalItems = response.totalCount
+        }
+      }
+    })
+  }
   handleUserAction(event: { actionKey: string; rowData: any }): void {
     console.log(`Action: ${event.actionKey} on User:`, event.rowData);
     // Implement your logic here based on actionKey and rowData
@@ -78,5 +82,17 @@ export class SchoolListComponent {
 
   async openConfirmDialog() {
     const confirmed = await this.dialogService.confirm('Confirm Delet', 'Are you sure you want to delete user');
+  }
+
+  onPageChange(event: PageEvent) {
+    this.schoolParams.pageNumber = event.pageIndex + 1;
+    this.schoolParams.pageSize = event.pageSize;
+    this.loadSchools();
+  }
+
+  onSortChange(sort: Sort): void {
+    this.schoolParams.orderBy = 1;
+    this.schoolParams.sortDirection = sort.direction as 'asc' | 'desc';
+    this.loadSchools(); // إعادة تحميل المدارس بالترتيب الجديد
   }
 }

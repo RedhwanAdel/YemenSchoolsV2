@@ -22,22 +22,17 @@ import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select'
 @Component({
   selector: 'app-schools',
   standalone: true,
-  imports: [TitelSectionComponent,
+  imports: [
     SchoolItemComponent,
     MatIconModule,
     FormsModule,
     MatPaginator,
-    MatMenu,
-    MatSelectionList,
-    MatListOption,
-    MatMenuTrigger,
     MatFormFieldModule,
     MatLabel,
     MatInput,
     MatButton,
     MatSelect,
-    MatOption
-  ],
+    MatOption],
   templateUrl: './schools.component.html',
   styleUrl: './schools.component.scss'
 })

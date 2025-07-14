@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Connection SQL
 builder.Services.AddDbContext<YemenShoolsDbContext>(option =>
 {
-	option.UseSqlServer(builder.Configuration.GetConnectionString("dbcontext"));
+    option.UseSqlServer(builder.Configuration.GetConnectionString("dbcontext"));
 });
 
 builder.Services.AddConfigureServices()
@@ -33,33 +33,33 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
 
-	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-	{
-		Name = "Authorization",
-		Type = SecuritySchemeType.Http,
-		Scheme = "bearer",
-		BearerFormat = "JWT",
-		In = ParameterLocation.Header,
-		Description = ": Bearer {token}"
-	});
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = ": Bearer {token}"
+    });
 
-	c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-	{
-		new OpenApiSecurityScheme {
-			Reference = new OpenApiReference {
-				Type = ReferenceType.SecurityScheme,
-				Id = "Bearer"
-			}
-		},
-		new string[] {}
-	}});
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+    {
+        new OpenApiSecurityScheme {
+            Reference = new OpenApiReference {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        },
+        new string[] {}
+    }});
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-	options.Cookie.SameSite = SameSiteMode.None;
-	options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-	options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.HttpOnly = true;
 });
 
 
@@ -69,20 +69,20 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddLocalization(opt =>
 {
-	opt.ResourcesPath = "";
+    opt.ResourcesPath = "";
 });
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-	List<CultureInfo> supportedCultures = new List<CultureInfo>
-	{
-			new CultureInfo("en-US"),
-			new CultureInfo("ar-YE")
-	};
+    List<CultureInfo> supportedCultures = new List<CultureInfo>
+    {
+            new CultureInfo("en-US"),
+            new CultureInfo("ar-YE")
+    };
 
-	options.DefaultRequestCulture = new RequestCulture("en-US");
-	options.SupportedCultures = supportedCultures;
-	options.SupportedUICultures = supportedCultures;
+    options.DefaultRequestCulture = new RequestCulture("en-US");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
 });
 
 #endregion
@@ -94,8 +94,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-	app.UseSwagger();
-	app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 #region Localization Middleware
 var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
@@ -114,15 +114,15 @@ using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try
 {
-	var context = services.GetRequiredService<YemenShoolsDbContext>();
+    var context = services.GetRequiredService<YemenShoolsDbContext>();
 
-	await context.Database.MigrateAsync();
-	//await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
-	await DataSeeder.SeedAsync(context);
+    await context.Database.MigrateAsync();
+    //await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
+    await DataSeeder.SeedAsync(context);
 }
 catch (Exception ex)
 {
-	var logger = services.GetRequiredService<ILogger<Program>>();
-	logger.LogError(ex, "An error occurred during migration");
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred during migration");
 }
 app.Run();
