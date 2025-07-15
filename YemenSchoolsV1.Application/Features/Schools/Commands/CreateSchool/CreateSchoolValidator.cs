@@ -1,12 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Features.Cities.Commands.CreateCity;
 using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchool
@@ -66,7 +60,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchool
 
             RuleFor(x => x.MainPhone)
                 .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.Required])
-                .MinimumLength(10).WithMessage(_localizer[SharedResourcesKeys.Atlest6No])
+                .MinimumLength(6).WithMessage(_localizer[SharedResourcesKeys.Atlest6No])
                 .MaximumLength(15).WithMessage(_localizer[SharedResourcesKeys.AtMostNo12No]);
 
             RuleFor(x => x.Email)
@@ -82,7 +76,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchool
             RuleFor(x => x.RegionId)
                 .NotEmpty().WithMessage(_localizer[SharedResourcesKeys.Required]);
 
-           
+
             RuleFor(x => x.GenderType)
                 .IsInEnum().WithMessage(_localizer[SharedResourcesKeys.NotValid]);
 

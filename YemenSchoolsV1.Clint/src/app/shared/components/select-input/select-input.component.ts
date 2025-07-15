@@ -15,9 +15,10 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 })
 export class SelectInputComponent {
   @Input() label = '';
-  @Input() options: string[] = [];
-
-  value: string = '';
+  @Input() options: any[] = [];
+  @Input() valueKey = 'id';
+  @Input() labelKey = 'name';
+  value: any;
   onChange: any = () => { };
   onTouched: any = () => { };
 

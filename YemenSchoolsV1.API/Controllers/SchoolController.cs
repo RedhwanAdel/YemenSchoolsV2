@@ -1,20 +1,17 @@
-﻿using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using YemenSchoolsV1.API.Bases;
-using YemenSchoolsV1.Application.Features.Cities.Commands.CreateCity;
-using YemenSchoolsV1.Application.Features.Cities.Commands.DeleteCity;
-using YemenSchoolsV1.Application.Features.Cities.Queries.GetCityDetails;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchool;
 using YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchoolPhons;
 using YemenSchoolsV1.Application.Features.Schools.Commands.DeleteSchool;
+using YemenSchoolsV1.Application.Features.Schools.Commands.UpdateSchool;
 using YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolDetails;
 using YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginated;
 
 namespace YemenSchoolsV1.API.Controllers
 {
-    
-    public class SchoolController : AppControllerBase
+
+    public class SchoolController(ISchoolRepositry schoolRepositry) : AppControllerBase
     {
 
         [HttpGet]
@@ -32,8 +29,26 @@ namespace YemenSchoolsV1.API.Controllers
             return NewResult(response);
         }
 
+        [HttpGet("GetSchoolByIdForUpdate/{id}")]
+        public async Task<IActionResult> GetSchoolByIdForUpdate([FromRoute] Guid id)
+        {
+            var school = await schoolRepositry.GetSchoolByIdForUpdateAsync(id);
+            if (school == null)
+            {
+                return NotFound(new { Message = "School not found" });
+            }
+            return Ok(school);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSchoolCommand command)
+        {
+            var response = await Mediator.Send(command);
+            return NewResult(response);
+
+        }
+        [HttpPut]
+        public async Task<IActionResult> Edit([FromBody] EditSchoolForAdminCommand command)
         {
             var response = await Mediator.Send(command);
             return NewResult(response);
@@ -55,6 +70,6 @@ namespace YemenSchoolsV1.API.Controllers
             var response = await Mediator.Send(new DeleteSchoolCommand(id));
             return NewResult(response);
         }
-      
+
     }
 }

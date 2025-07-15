@@ -24,20 +24,7 @@ export class PageWrapperComponent {
   @Input() headerTitle: string = 'Form';
   @Input() headerSubtitle: string = '';
   @Input() headerIcon: string = 'info';
-  @Input() saveButtonText: string = 'Save';
-  @Input() saveButtonColor: string = 'primary';
-  @Input() cancelButtonText: string = 'Cancel';
-  @Input() cancelButtonColor: string = 'accent';
-  @Input() showActions: boolean = true; // Control visibility of action buttons
+  @Input() headerStyle?: 'add' | 'edit';
 
-  @Output() saveClicked = new EventEmitter<void>();
-  @Output() cancelClicked = new EventEmitter<void>();
 
-  onSaveClick(): void {
-    this.saveClicked.emit();
-  }
-
-  onCancelClick(): void {
-    this.cancelClicked.emit();
-  }
 }

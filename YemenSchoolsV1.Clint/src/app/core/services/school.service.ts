@@ -3,9 +3,10 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { SchoolParams } from '../../shared/models/school/schoolParams';
 import { Pagination } from '../../shared/models/Pagination';
-import { SchoolListItem } from '../../shared/models/school/school';
+import { SchoolForUpdate, SchoolListItem } from '../../shared/models/school/school';
 import { SchoolDetails } from '../../shared/models/school/schoolDetails';
 import { ApiResponse } from '../../shared/models/ApiResponse';
+import { CreateSchoolDto } from '../../shared/models/school/schoolCommand';
 
 @Injectable({
   providedIn: 'root'
@@ -49,5 +50,19 @@ export class SchoolService {
   }
   getSchoolById(id: string) {
     return this.http.get<ApiResponse<SchoolDetails>>(this.baseUrl + 'School/' + id)
+  }
+
+  getSchoolByIdForUpdate(id: string) {
+    return this.http.get<SchoolForUpdate>(this.baseUrl + 'School/GetSchoolByIdForUpdate/' + id)
+  }
+  createSchool(school: any) {
+    return this.http.post<string>(this.baseUrl + 'school', school);
+  }
+  updateSchoolForAdmin(id: string, schoolData: SchoolForUpdate) {
+    schoolData.id = id
+    return this.http.put(this.baseUrl + 'School', schoolData);
+  }
+  deleteSchool(id: string) {
+    return this.http.delete(this.baseUrl + 'school/' + id);
   }
 }

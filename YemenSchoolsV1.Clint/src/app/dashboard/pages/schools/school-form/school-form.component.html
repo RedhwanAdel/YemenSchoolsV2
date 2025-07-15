@@ -1,0 +1,92 @@
+<app-page-wrapper
+  [headerTitle]="mode() === 'add' ? 'Add New School' : 'Edit School:'"
+  [headerSubtitle]="
+    mode() === 'add'
+      ? 'Enter details for the new school'
+      : 'Modify details for this school'
+  "
+  [headerIcon]="mode() === 'add' ? 'add_business' : 'edit'"
+  [headerStyle]="mode() === 'add' ? 'add' : 'edit'"
+>
+  <form [formGroup]="schoolForm" (ngSubmit)="onSumit()" class="row g-3">
+    <div class="col-md-6">
+      <app-form-input
+        label="School Name (Arabic)"
+        icon="school"
+        formControlName="nameAr"
+      />
+    </div>
+
+    <div class="col-md-6">
+      <app-form-input
+        label="School Name (English)"
+        icon="school"
+        formControlName="nameEn"
+      />
+    </div>
+
+    <div class="col-12">
+      <app-form-input
+        label="Address (Arabic)"
+        icon="location_on"
+        formControlName="addressAr"
+      />
+    </div>
+
+    <div class="col-12">
+      <app-form-input
+        label="Address (English)"
+        icon="location_on"
+        formControlName="addressEn"
+      />
+    </div>
+
+    <div class="col-md-4">
+      <app-select-input
+        label="City Id"
+        [options]="citeService.cities()"
+        labelKey="name"
+        valueKey="id"
+        formControlName="cityId"
+        (ngModelChange)="onCitiesChange($event)"
+      />
+    </div>
+
+    <div class="col-md-4">
+      <app-select-input
+        label="Region Id"
+        [options]="regionService.regions()"
+        labelKey="name"
+        valueKey="id"
+        formControlName="regionId"
+      />
+      <!-- <app-form-input label="Region Id" formControlName="regionId" /> -->
+    </div>
+
+    <div class="col-md-4">
+      <app-form-input label="Postal Code" formControlName="postalCode" />
+    </div>
+
+    <div class="col-md-6">
+      <app-form-input label="Phone" icon="phone" formControlName="mainPhone" />
+    </div>
+
+    <div class="col-md-6">
+      <app-form-input
+        label="Email"
+        icon="email"
+        formControlName="email"
+        type="email"
+      />
+    </div>
+
+    <mat-card-actions class="d-flex justify-content-end p-4 gap-3">
+      <button mat-raised-button color="primary" type="submit">
+        <mat-icon>save</mat-icon> {{ mode() === "add" ? "Create" : "Save" }}
+      </button>
+      <button mat-stroked-button color="accent">
+        <mat-icon>cancel</mat-icon> Cancel
+      </button>
+    </mat-card-actions>
+  </form>
+</app-page-wrapper>

@@ -10,3 +10,22 @@ export interface SchoolListItem {
     region: string;
     schoolLevel: string;
 }
+export interface SchoolForUpdate {
+    id: string;
+    nameAr: string;
+    nameEn: string;
+    addressAr: string;
+    addressEn: string;
+    postalCode: string;
+    mainPhone: string;
+    email: string;
+    schoolType: number;
+    genderType: number;
+    curriculumType: number;
+    schoolLevel: number;
+    cityId: string;
+    cityName: string;
+    regionId: string;
+    regionName: string;
+    phoneNumberList: string[];
+}

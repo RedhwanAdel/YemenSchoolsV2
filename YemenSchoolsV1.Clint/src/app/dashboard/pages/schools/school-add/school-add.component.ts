@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { SchoolEditComponent } from "../school-edit/school-edit.component";
-import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
-import { FormInputComponent } from "../../../../shared/components/form-input/form-input.component";
+import { SchoolFormComponent } from "../school-form/school-form.component";
 
 @Component({
   selector: 'app-school-add',
@@ -21,8 +19,7 @@ import { FormInputComponent } from "../../../../shared/components/form-input/for
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    PageWrapperComponent,
-    FormInputComponent
+    SchoolFormComponent
   ],
   templateUrl: './school-add.component.html',
   styleUrl: './school-add.component.scss'

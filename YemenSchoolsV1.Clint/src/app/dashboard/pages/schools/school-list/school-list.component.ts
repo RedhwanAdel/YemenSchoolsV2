@@ -11,6 +11,7 @@ import { SchoolParams } from '../../../../shared/models/school/schoolParams';
 import { SchoolListItem } from '../../../../shared/models/school/school';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
 
 export interface UserData {
   id: string;
@@ -31,6 +32,7 @@ export interface UserData {
 })
 export class SchoolListComponent implements OnInit {
 
+  private snack = inject(SnackbarService)
 
   router = inject(Router);
   private dialogService = inject(DialogService);
@@ -66,22 +68,35 @@ export class SchoolListComponent implements OnInit {
     // Implement your logic here based on actionKey and rowData
     switch (event.actionKey) {
       case 'view':
-        this.router.navigate(['/dash-board/schools-detail']);
+        this.router.navigate(['/dash-board/schools-detail', event.rowData.id]);
         break;
       case 'edit':
-        this.router.navigate(['/dash-board/schools-edit']);
+        this.router.navigate(['/dash-board/schools-edit', event.rowData.id]);
         break;
       case 'delete':
-        this.openConfirmDialog()
-        // if (confirm(`Are you sure you want to delete user: ${event.rowData.name}?`)) {
-        //   alert(`${event.rowData.name} deleted.`);
-        // }
+        this.openConfirmDialog(event.rowData.id, event.rowData.name)
+
         break;
     }
   }
+  async openConfirmDialog(id: string, name: string) {
+    const confirmed = await this.dialogService.confirm(
+      'Confirm Delete',
+      `Are you sure you want to delete the school: ${name}?`
+    );
 
-  async openConfirmDialog() {
-    const confirmed = await this.dialogService.confirm('Confirm Delet', 'Are you sure you want to delete user');
+    if (confirmed) {
+      this.schoolService.deleteSchool(id).subscribe({
+        next: () => {
+          this.snack.success('School deleted successfully!');
+          this.loadSchools();
+        },
+        error: (err) => {
+          this.snack.error('Failed to delete school.');
+          console.error(err);
+        }
+      });
+    }
   }
 
   onPageChange(event: PageEvent) {
