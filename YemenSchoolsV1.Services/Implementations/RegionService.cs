@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Persistence;
+﻿using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Services.Implementations
 {
-   public class RegionService:IRegionService
+    public class RegionService : IRegionService
     {
 
         #region filed
@@ -29,7 +24,7 @@ namespace YemenSchoolsV1.Services.Implementations
 
         public async Task<List<Region>> GetAllRegionsAsync()
         {
-            return await regionRepositry.GetAllAsync();
+            return await regionRepositry.getAllRegionIncludeAsync();
         }
         public async Task<Region?> GetRegionDetailsAsync(Guid id)
         {

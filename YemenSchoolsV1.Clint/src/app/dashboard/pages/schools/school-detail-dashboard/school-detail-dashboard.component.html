@@ -1,5 +1,5 @@
 <app-page-wrapper
-  headerTitle="{{ school?.name || 'School Name' }}"
+  headerTitle="{{ school?.nameEn }}"
   headerSubtitle="{{ school?.id || 'N/A' }}"
   headerIcon="account_balance"
 >
@@ -12,15 +12,15 @@
           <mat-icon matListItemIcon>location_on</mat-icon>
           <div matListItemTitle>Address</div>
           <div matListItemLine>
-            {{ school?.address || "N/A" }}, {{ school?.city || "N/A" }},
-            {{ school?.state || "N/A" }} {{ school?.zipCode || "N/A" }}
+            {{ school?.addressEn || "N/A" }}, {{ school?.cityName || "N/A" }},
+            {{ school?.email }} {{ school?.regionName || "N/A" }}
           </div>
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item>
           <mat-icon matListItemIcon>phone</mat-icon>
           <div matListItemTitle>Phone</div>
-          <div matListItemLine>{{ school?.phone || "N/A" }}</div>
+          <div matListItemLine>{{ school?.mainPhone || "N/A" }}</div>
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item>
@@ -32,16 +32,6 @@
         <mat-list-item>
           <mat-icon matListItemIcon>public</mat-icon>
           <div matListItemTitle>Website</div>
-          <div matListItemLine>
-            <a
-              [href]="school?.website"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="website-link"
-            >
-              {{ school?.website || "N/A" }}
-            </a>
-          </div>
         </mat-list-item>
       </mat-list>
     </div>
@@ -55,33 +45,27 @@
         <mat-list-item>
           <mat-icon matListItemIcon>person_outline</mat-icon>
           <div matListItemTitle>Principal</div>
-          <div matListItemLine>{{ school?.principal || "N/A" }}</div>
+          <div matListItemLine>{{ school?.postalCode || "N/A" }}</div>
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item>
           <mat-icon matListItemIcon>event_note</mat-icon>
           <div matListItemTitle>Founded Year</div>
-          <div matListItemLine>{{ school?.foundedYear || "N/A" }}</div>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item>
-          <mat-icon matListItemIcon>group_add</mat-icon>
-          <div matListItemTitle>Total Students</div>
-          <div matListItemLine>{{ school?.studentsCount || "N/A" }}</div>
-        </mat-list-item>
       </mat-list>
     </div>
   </div>
   <mat-card-actions
     class="card-actions-new d-flex justify-content-end p-4 gap-3"
   >
-    <button mat-raised-button color="primary" (click)="onEdit()">
+    <button mat-raised-button color="primary">
       <mat-icon>edit</mat-icon> Edit Details
     </button>
-    <button mat-raised-button color="warn" (click)="onDelete()">
+    <button mat-raised-button color="warn">
       <mat-icon>delete</mat-icon> Delete School
     </button>
-    <button mat-stroked-button color="accent" (click)="onContact()">
+    <button mat-stroked-button color="accent">
       <mat-icon>send</mat-icon> Send Message
     </button>
   </mat-card-actions>

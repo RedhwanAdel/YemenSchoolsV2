@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { FormInputComponent } from "../../../../shared/components/form-input/form-input.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CityFormComponent } from '../../cities/city-form/city-form.component';
 import { SelectInputComponent } from "../../../../shared/components/select-input/select-input.component";
+import { CitiesService } from '../../../../core/services/cities.service';
+import { RegionsService } from '../../../../core/services/regions.service';
 
 @Component({
   selector: 'app-region-form',
@@ -23,6 +25,9 @@ import { SelectInputComponent } from "../../../../shared/components/select-input
 export class RegionFormComponent implements OnInit {
   form!: FormGroup;
   isEdit = false;
+  cityService = inject(CitiesService)
+  regionService = inject(RegionsService)
+
   options = ['aden', 'sana', 'aben']
   constructor(
     private fb: FormBuilder,
@@ -31,22 +36,48 @@ export class RegionFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initializeForm()
+
+
+  }
+
+  initializeForm() {
+    this.cityService.getCites()
     this.isEdit = !!this.data?.model;
 
     this.form = this.fb.group({
       nameAr: [this.data?.model?.nameAr || '', Validators.required],
       nameEn: [this.data?.model?.nameEn || '', Validators.required],
-      city: [this.data?.model?.city || '', Validators.required],
-      imagePath: [null]  // File input
+      cityId: [this.data?.model?.cityId || '', Validators.required],
+      imagePath: [null]
     });
 
 
   }
-
-
   submit() {
     if (this.form.invalid) return;
-    this.dialogRef.close(this.form.value);
+
+    const region = this.form.value;
+
+    if (this.isEdit) {
+      const id = this.data.model.id;
+      this.regionService.updateRegion(id, region).subscribe({
+        next: (res) => {
+          this.dialogRef.close(res)
+          this.regionService.getRegions()
+        },
+        error: (err) => console.error('Update failed', err)
+      });
+    } else {
+      // إضافة
+      this.regionService.createRegion(region).subscribe({
+        next: (res) => {
+          this.regionService.getRegions()
+          this.dialogRef.close(res)
+        },
+        error: (err) => console.error('Add failed', err)
+      });
+    }
   }
 
   cancel() {

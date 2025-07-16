@@ -55,6 +55,7 @@ export class TableComponent implements OnInit {
   @Input() pageSize: number = 5;
   @Input() pageIndex: number = 0;
   @Input() hasActions: boolean = false;
+  @Input() usePaginator: boolean = true;
 
   @Output() actionClicked = new EventEmitter<{ actionKey: string; rowData: any }>();
   @Output() pageChange = new EventEmitter<PageEvent>();

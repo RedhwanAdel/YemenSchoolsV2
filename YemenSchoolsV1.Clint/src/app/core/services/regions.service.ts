@@ -15,6 +15,12 @@ export class RegionsService {
   private http = inject(HttpClient)
   regions = signal<Region[]>([]);
 
+  getRegions() {
+    return this.http.get<Pagination<Region>>(this.baseUrl + 'Regions').subscribe({
+      next: res => this.regions.set(res.data)
+    })
+  }
+
   getRegionsByCity(cityId: string) {
     return this.http.get<Pagination<Region>>(this.baseUrl + 'Regions/GetAllRegionsByCityID/' + cityId).pipe(
       map(res => {
@@ -22,5 +28,19 @@ export class RegionsService {
         return res
       })
     )
+  }
+
+
+  createRegion(region: any) {
+    return this.http.post<string>(this.baseUrl + 'Regions', region);
+  }
+
+  updateRegion(id: string, region: any) {
+    region.id = id
+    return this.http.put(this.baseUrl + 'Regions', region);
+  }
+
+  deleteRegion(id: string) {
+    return this.http.delete(this.baseUrl + 'Regions/' + id);
   }
 }

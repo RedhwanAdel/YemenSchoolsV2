@@ -13,11 +13,12 @@
     Add City
   </button>
 
-  <!-- <app-table
-    [dataSource]="productsDataSource"
-    [columns]="productColumns"
+  <app-table
+    [dataRow]="cityService.cities()"
+    [columns]="cityColumns"
     [hasActions]="true"
-    [actions]="actions"
     (actionClicked)="handleUserAction($event)"
-  ></app-table> -->
+    [usePaginator]="false"
+    [actions]="actions"
+  ></app-table>
 </app-page-wrapper>

@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Domain.Entities;
 using YemenSchoolsV1.Persistence.Data;
@@ -21,7 +16,11 @@ namespace YemenSchoolsV1.Persistence.Repositories
 
         public async Task<List<Region>?> GetRegionByCityIdIncludeAsync(Guid cityId)
         {
-            return await dbContext.Regions.Where(e=>e.CityId == cityId).Include(r=>r.City).ToListAsync();
+            return await dbContext.Regions.Where(e => e.CityId == cityId).Include(r => r.City).ToListAsync();
+        }
+        public async Task<List<Region>> getAllRegionIncludeAsync()
+        {
+            return await dbContext.Regions.Include(r => r.City).ToListAsync();
         }
         public async Task<int?> GetSchoolCount(Guid regionId)
         {

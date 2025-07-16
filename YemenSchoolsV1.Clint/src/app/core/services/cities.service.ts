@@ -17,4 +17,16 @@ export class CitiesService {
       next: res => this.cities.set(res.data)
     })
   }
+  createCity(city: any) {
+    return this.http.post<string>(this.baseUrl + 'cities', city);
+  }
+
+  updateCity(id: string, city: any) {
+    city.id = id
+    return this.http.put(this.baseUrl + 'cities', city);
+  }
+
+  deleteCity(id: string) {
+    return this.http.delete(this.baseUrl + 'cities/' + id);
+  }
 }

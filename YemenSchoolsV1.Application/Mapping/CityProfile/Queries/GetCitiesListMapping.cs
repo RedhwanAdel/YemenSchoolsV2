@@ -10,7 +10,6 @@ namespace YemenSchoolsV1.Application.Mapping.CityProfile
 
             CreateMap<City, GetCitiesListResponse>()
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.ImageUrl))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>src.Localize(src.NameAr,src.NameEn) ))
                 .ReverseMap();
 
         }

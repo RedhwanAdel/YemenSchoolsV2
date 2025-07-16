@@ -16,11 +16,11 @@
   <app-table
     [dataRow]="schools"
     [columns]="schoolColumns"
+    [hasActions]="true"
+    (actionClicked)="handleUserAction($event)"
     [totalItems]="totalItems"
     [pageSize]="schoolParams.pageSize"
-    [hasActions]="true"
     (pageChange)="onPageChange($event)"
-    (actionClicked)="handleUserAction($event)"
     (sortChange)="onSortChange($event)"
   >
   </app-table>

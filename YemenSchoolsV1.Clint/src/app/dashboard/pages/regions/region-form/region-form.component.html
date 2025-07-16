@@ -3,7 +3,13 @@
 <form [formGroup]="form" (ngSubmit)="submit()" mat-dialog-content class="pt-3">
   <app-form-input label="Name (Arabic)" formControlName="nameAr" />
   <app-form-input label="Name (English)" formControlName="nameEn" />
-  <app-select-input label="City" [options]="options" formControlName="city" />
+  <app-select-input
+    label="City Id"
+    [options]="cityService.cities()"
+    labelKey="nameEn"
+    valueKey="id"
+    formControlName="cityId"
+  />
   <app-form-input label="Image (Path)" formControlName="imagePath" />
 </form>
 
