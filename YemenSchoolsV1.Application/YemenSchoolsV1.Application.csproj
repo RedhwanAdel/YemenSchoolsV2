@@ -26,18 +26,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\AcademicYears\Queries\GetYearById\" />
     <Folder Include="Features\SchoolsNews\Commands\UpdateSchoolNews\" />
     <Folder Include="Features\Schools\Queries\GetSchoolsByCityId\" />
     <Folder Include="Features\Regions\Commands\UpdateRegion\" />
     <Folder Include="Features\Schools\Queries\GetSchoolsByRegionId\" />
-    <Folder Include="Features\Sections\Queries\GetById\" />
-    <Folder Include="Features\Stages\Queries\GetById\" />
     <Folder Include="Features\Students\Commands\Delete\" />
     <Folder Include="Features\Students\Commands\Update\" />
     <Folder Include="Features\SubjectGrades\Queries\" />
     <Folder Include="Features\Subjects\Queries\GetAllBySchoolId\" />
-    <Folder Include="Features\Terms\Queries\GetById\" />
 
   </ItemGroup>
 
