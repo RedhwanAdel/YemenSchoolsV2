@@ -16,6 +16,13 @@ import { TestErrorComponent } from './features/test-error/test-error.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { ServerErrorComponent } from './shared/components/server-error/server-error.component';
 import { SchoolsComponent } from './features/schools/schools.component';
+import { SchoolDashboardComponent } from './layout/school-dashboard/school-dashboard.component';
+import { SchoolDashOverviewComponent } from './features/school-dashboard/school-dash-overview/school-dash-overview.component';
+import { StageListComponent } from './features/school-dashboard/stage/stage-list/stage-list.component';
+import { AcadmicYearListComponent } from './features/school-dashboard/acadmic-year/acadmic-year-list/acadmic-year-list.component';
+import { TermListComponent } from './features/school-dashboard/term/term-list/term-list.component';
+import { GradeListComponent } from './features/school-dashboard/grade/grade-list/grade-list.component';
+import { SectionListComponent } from './features/school-dashboard/section/section-list/section-list.component';
 
 export const routes: Routes = [
     {
@@ -42,6 +49,20 @@ export const routes: Routes = [
             { path: 'schools-detail/:id', component: SchoolDetailDashboardComponent },
             { path: 'schools-add', component: SchoolAddComponent },
             { path: 'schools-edit/:id', component: SchoolEditComponent },
+        ],
+    },
+    {
+        path: 'school-dash-board',
+        component: SchoolDashboardComponent,
+        children: [
+            { path: '', redirectTo: 'overview', pathMatch: 'full' },
+            { path: 'overview', component: SchoolDashOverviewComponent },
+            { path: 'stages', component: StageListComponent },
+            { path: 'acadmic-year', component: AcadmicYearListComponent },
+            { path: 'term', component: TermListComponent },
+            { path: 'grade', component: GradeListComponent },
+            { path: 'section', component: SectionListComponent },
+
         ],
     },
     { path: 'not-found', component: NotFoundComponent },

@@ -1,0 +1,70 @@
+<div class="row my-3 gx-3 filter-container">
+  <div class="col-md-2 col-sm-4 col-6">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>stage</mat-label>
+      <mat-select
+        [(ngModel)]="params.stageId"
+        (selectionChange)="onStageChange()"
+      >
+        @for (stage of stageService.stages(); track stage.id) {
+        <mat-option [value]="stage.id">{{ stage.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-md-2 col-sm-4 col-6">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>year</mat-label>
+      <mat-select
+        [(ngModel)]="params.yearId"
+        (selectionChange)="onYearChange()"
+      >
+        @for (year of acadmicYearService.acadmicYears(); track year.id) {
+        <mat-option [value]="year.id">{{ year.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-2 col-sm-4 col-6">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>term</mat-label>
+      <mat-select
+        [(ngModel)]="params.termId"
+        (selectionChange)="onTermChange()"
+      >
+        @for (term of termService.terms(); track term.id) {
+        <mat-option [value]="term.id">{{ term.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-2 col-sm-4 col-6">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>grade</mat-label>
+      <mat-select
+        [(ngModel)]="params.gradeId"
+        (selectionChange)="onGradeChange()"
+      >
+        @for (grade of gradeService.grades(); track grade.id) {
+        <mat-option [value]="grade.id">{{ grade.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-2 col-sm-4 col-6">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>section</mat-label>
+      <mat-select
+        [(ngModel)]="params.sectionId"
+        (selectionChange)="onSectionChange()"
+      >
+        @for (section of sectionService.sections(); track section.id) {
+        <mat-option [value]="section.id">{{ section.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>

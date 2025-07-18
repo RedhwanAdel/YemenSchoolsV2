@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYears;
-using YemenSchoolsV1.Application.Features.Stages.Queries.GetAll;
+﻿using YemenSchoolsV1.Application.Features.Stages.Queries.GetAll;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Mapping.Stages
@@ -13,7 +7,9 @@ namespace YemenSchoolsV1.Application.Mapping.Stages
     {
         public void GetStagesListMapping()
         {
-            CreateMap<Stage, GetStagesListResponse>().ReverseMap();
+            CreateMap<Stage, GetStagesListResponse>()
+                .ForMember(dest => dest.SchoolName, opt => opt.MapFrom(src => src.School.NameEn))
+                .ReverseMap();
         }
     }
 }

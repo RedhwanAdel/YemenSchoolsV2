@@ -1,0 +1,24 @@
+<app-page-wrapper
+  headerTitle="Term List"
+  headerSubtitle="Explore Terms within selected Terms"
+  headerIcon="map"
+>
+  <button
+    card-actions
+    color="primary"
+    mat-flat-button
+    (click)="openRegionDialog()"
+  >
+    <i class="bi bi-plus-lg me-1"></i>
+    Add Term
+  </button>
+
+  <app-table
+    [dataRow]="termService.terms()"
+    [columns]="Columns"
+    [hasActions]="true"
+    (actionClicked)="handleUserAction($event)"
+    [usePaginator]="false"
+    [actions]="actions"
+  ></app-table>
+</app-page-wrapper>

@@ -1,0 +1,24 @@
+<app-page-wrapper
+  headerTitle="Stage List"
+  headerSubtitle="Explore stages within selected stages"
+  headerIcon="map"
+>
+  <button
+    card-actions
+    color="primary"
+    mat-flat-button
+    (click)="openRegionDialog()"
+  >
+    <i class="bi bi-plus-lg me-1"></i>
+    Add Stage
+  </button>
+
+  <app-table
+    [dataRow]="stageService.stages()"
+    [columns]="stageColumns"
+    [hasActions]="true"
+    (actionClicked)="handleUserAction($event)"
+    [usePaginator]="false"
+    [actions]="actions"
+  ></app-table>
+</app-page-wrapper>

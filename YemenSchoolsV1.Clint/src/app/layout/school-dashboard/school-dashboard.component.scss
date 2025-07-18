@@ -1,0 +1,41 @@
+ /* Using plain CSS */
+    .sidenav-container {
+      height: 100vh; /* Full viewport height */
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-width {
+      width: 250px; /* Fixed width for the sidebar */
+      border-right: 1px solid rgba(0, 0, 0, 0.12); /* Material design border */
+    }
+
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1; /* Allows it to take up remaining space */
+    }
+
+    .content-area {
+      flex-grow: 1; /* Pushes the footer to the bottom */
+      padding: 20px;
+      overflow-y: auto; /* Allows scrolling for main content */
+      background-color: #f0f0f0;
+      padding: 20px
+    }
+
+    /* Basic responsiveness (adjust as needed, e.g., using Bootstrap breakpoints) */
+    @media (max-width: 768px) {
+      .sidebar-width {
+        width: 100%; /* Sidebar takes full width on smaller screens */
+        position: fixed; /* Keep sidebar fixed */
+        z-index: 1000; /* Ensure it's above other content */
+      }
+      .mat-sidenav-container {
+        flex-direction: column; /* Stack header, content, footer */
+      }
+      .mat-sidenav {
+        /* Default mode will be 'over' on small screens if not explicitly set */
+        box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12);
+      }
+    }

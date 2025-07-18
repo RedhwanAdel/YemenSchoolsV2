@@ -222,6 +222,9 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("SchoolId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 

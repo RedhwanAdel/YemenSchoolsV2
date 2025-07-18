@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AccountService } from './account.service';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,12 @@ export class InitService {
 
   init() {
     return forkJoin({
-      user: this.accountService.getUserInfo()
+      user: this.accountService.getUserInfo().pipe(
+        catchError(error => {
+          console.warn('⚠️ Failed to fetch user info. Using fallback (null).');
+          return of(null); // أو بيانات وهمية حسب رغبتك
+        })
+      )
     })
   }
 }

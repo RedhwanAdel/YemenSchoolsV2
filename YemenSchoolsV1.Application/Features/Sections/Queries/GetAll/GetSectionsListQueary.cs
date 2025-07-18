@@ -4,15 +4,17 @@ using YemenSchoolsV1.Application.Wrappers;
 
 namespace YemenSchoolsV1.Application.Features.Sections.Queries.GetAll
 {
-	public class GetSectionsListQueary : IRequest<PaginatedResult<GetSectionsListResponse>>
-	{
-		public PaginationQuery Pagination { get; set; }
-		public Guid SchoolId { get; set; }
+    public class GetSectionsListQueary : IRequest<PaginatedResult<GetSectionsListResponse>>
+    {
+        public PaginationQuery Pagination { get; set; }
+        public Guid SchoolId { get; set; }
+        public Guid? GradId { get; set; }
 
-		public GetSectionsListQueary(PaginationQuery pagination, Guid schoolId)
-		{
-			Pagination = pagination;
-			SchoolId = schoolId;
-		}
-	}
+        public GetSectionsListQueary(PaginationQuery pagination, Guid schoolId, Guid? gradId)
+        {
+            Pagination = pagination;
+            SchoolId = schoolId;
+            GradId = gradId;
+        }
+    }
 }

@@ -1,0 +1,117 @@
+<div class="sidebar-header">
+  <!-- Close button for small screens -->
+  <div
+    *ngIf="isMobileView"
+    class="sidebar-close-btn d-flex justify-content-end w-100 p-2"
+  >
+    <button
+      mat-icon-button
+      (click)="closeSidebar.emit()"
+      aria-label="Close sidebar"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <img
+    src="https://placehold.co/80x80/aabbcc/ffffff?text=Logo"
+    alt="App Logo"
+    class="sidebar-logo"
+  />
+  <h3 class="sidebar-title">School Dashboard</h3>
+</div>
+
+<mat-divider></mat-divider>
+
+<mat-nav-list class="sidebar-nav-list">
+  <a mat-list-item routerLink="/">
+    <mat-icon matListItemIcon>home</mat-icon>
+    <span matListItemTitle>Home</span>
+  </a>
+  <!-- Dashboard -->
+  <a mat-list-item routerLink="/dash-board/" routerLinkActive="active-link">
+    <mat-icon matListItemIcon>dashboard</mat-icon>
+    <span matListItemTitle>Dashboard</span>
+  </a>
+
+  <a
+    mat-list-item
+    routerLink="/school-dash-board/stages"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>location_city</mat-icon>
+    <span matListItemTitle>Stages</span>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/school-dash-board/acadmic-year"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>location_city</mat-icon>
+    <span matListItemTitle>Acadmic Years</span>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/school-dash-board/term"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>location_city</mat-icon>
+    <span matListItemTitle>Terms</span>
+  </a>
+
+  <!-- Schools -->
+  <a
+    mat-list-item
+    routerLink="/school-dash-board/grade"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>school</mat-icon>
+    <span matListItemTitle>Grades</span>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/school-dash-board/section"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>school</mat-icon>
+    <span matListItemTitle>Sections</span>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/school-dash-board/schools"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>school</mat-icon>
+    <span matListItemTitle>Subjects</span>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/dash-board/schools"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>school</mat-icon>
+    <span matListItemTitle>Teatchers</span>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/dash-board/schools"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>school</mat-icon>
+    <span matListItemTitle>Student</span>
+  </a>
+
+  <mat-divider></mat-divider>
+
+  <!-- Settings -->
+  <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
+    <mat-icon matListItemIcon>settings</mat-icon>
+    <span matListItemTitle>Settings</span>
+  </a>
+
+  <!-- Help -->
+  <a mat-list-item routerLink="/help" routerLinkActive="active-link">
+    <mat-icon matListItemIcon>help_outline</mat-icon>
+    <span matListItemTitle>Help</span>
+  </a>
+</mat-nav-list>

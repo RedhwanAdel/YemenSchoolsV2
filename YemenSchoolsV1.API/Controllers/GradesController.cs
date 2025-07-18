@@ -13,9 +13,9 @@ namespace YemenSchoolsV1.API.Controllers
     public class GradesController : AppControllerBase
     {
         [HttpGet("GetAllGradesPaged/{schoolId:guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid schoolId, [FromQuery] PaginationQuery paginationQuery)
+        public async Task<IActionResult> GetAll([FromRoute] Guid schoolId, [FromQuery] PaginationQuery paginationQuery, [FromQuery] Guid? termId)
         {
-            var response = await Mediator.Send(new GetGradesListQueary(paginationQuery, schoolId));
+            var response = await Mediator.Send(new GetGradesListQueary(paginationQuery, schoolId, termId));
             return Ok(response);
         }
         [HttpGet]
