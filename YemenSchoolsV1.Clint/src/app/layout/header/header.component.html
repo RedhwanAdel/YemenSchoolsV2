@@ -5,7 +5,7 @@
     <a routerLink="/" class="logo d-flex align-items-center me-auto me-xl-0">
       <!-- Uncomment the line below if you also wish to use an image logo -->
       <!-- <img src="assets/img/logo.webp" alt=""> -->
-      <h1 class="sitename">Invent</h1>
+      <h1 class="sitename">مدارس اليمن</h1>
       <span>.</span>
     </a>
 
@@ -16,48 +16,48 @@
             routerLink="/"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
-            >Home</a
+            >الرئيسية</a
           >
         </li>
-        <li><a routerLink="/schools" routerLinkActive="active">Schools</a></li>
+        <li><a routerLink="/schools" routerLinkActive="active">المدارس</a></li>
         <li>
           <a routerLink="/school-details" routerLinkActive="active"
-            >school-details</a
+            >تفاصيل المدرسة</a
           >
         </li>
-        <li><a routerLink="/dash-board">Dashboard</a></li>
-        <li><a routerLink="/school-dash-board">School Dashboard</a></li>
+        <li><a routerLink="/dash-board">لوحة التحكم</a></li>
+        <li><a routerLink="/school-dash-board">لوحة تحكم المدرسة</a></li>
         <li>
-          <a routerLink="/test-error" routerLinkActive="active">Test error</a>
+          <a routerLink="/test-error" routerLinkActive="active">اختبار الخطأ</a>
         </li>
 
-        <li><a routerLinkActive="active">Team</a></li>
+        <li><a routerLinkActive="active">الفريق</a></li>
         <li class="dropdown">
           <a href="#"
-            ><span>Dropdown</span>
+            ><span>القائمة المنسدلة</span>
             <i class="bi bi-chevron-down toggle-dropdown"></i
           ></a>
           <ul>
-            <li><a href="#">Dropdown 1</a></li>
+            <li><a href="#">القائمة 1</a></li>
             <li class="dropdown">
               <a href="#"
-                ><span>Deep Dropdown</span>
+                ><span>القائمة المنسدلة العميقة</span>
                 <i class="bi bi-chevron-down toggle-dropdown"></i
               ></a>
               <ul>
-                <li><a href="#">Deep Dropdown 1</a></li>
-                <li><a href="#">Deep Dropdown 2</a></li>
-                <li><a href="#">Deep Dropdown 3</a></li>
-                <li><a href="#">Deep Dropdown 4</a></li>
-                <li><a href="#">Deep Dropdown 5</a></li>
+                <li><a href="#">القائمة العميقة 1</a></li>
+                <li><a href="#">القائمة العميقة 2</a></li>
+                <li><a href="#">القائمة العميقة 3</a></li>
+                <li><a href="#">القائمة العميقة 4</a></li>
+                <li><a href="#">القائمة العميقة 5</a></li>
               </ul>
             </li>
-            <li><a href="#">Dropdown 2</a></li>
-            <li><a href="#">Dropdown 3</a></li>
-            <li><a href="#">Dropdown 4</a></li>
+            <li><a href="#">القائمة 2</a></li>
+            <li><a href="#">القائمة 3</a></li>
+            <li><a href="#">القائمة 4</a></li>
           </ul>
         </li>
-        <li><a routerLinkActive="active">Contact</a></li>
+        <li><a routerLinkActive="active">تواصل معنا</a></li>
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
     </nav>
@@ -79,8 +79,8 @@
       } @else {
       <!-- روابط التسجيل وتسجيل الدخول -->
       <div class="">
-        <a class="btn-getstarted me-2" routerLink="/register">Register</a>
-        <a class="btn-getstarted" routerLink="/login">login</a>
+        <a class="btn-getstarted me-2" routerLink="/register">تسجيل</a>
+        <a class="btn-getstarted" routerLink="/login">تسجيل الدخول</a>
       </div>
       }
     </div>
@@ -89,15 +89,15 @@
     <mat-menu #userMenu="matMenu">
       <button mat-menu-item>
         <mat-icon>account_circle</mat-icon>
-        <span>Profile</span>
+        <span>الملف الشخصي</span>
       </button>
       <button mat-menu-item>
         <mat-icon>settings</mat-icon>
-        <span>Settings</span>
+        <span>الإعدادات</span>
       </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
-        <span>Logout</span>
+        <span>تسجيل خروج</span>
       </button>
     </mat-menu>
   </div>
