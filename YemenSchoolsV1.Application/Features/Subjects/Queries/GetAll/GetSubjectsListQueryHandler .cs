@@ -2,11 +2,6 @@
 using FinalProject.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Resources;
 
@@ -14,13 +9,13 @@ namespace YemenSchoolsV1.Application.Features.Subjects.Queries.GetAll
 {
     public class GetSubjectsListQueryHandler : ResponseHandler, IRequestHandler<GetSubjectsListQuery, Response<List<GetSubjectsListResponse>>>
     {
-        #region الفيلدز
+        #region 
         private readonly ISubjectService subjectService;
         private readonly IMapper mapper;
         private readonly IStringLocalizer<SharedResources> stringLocalizer;
         #endregion
 
-        #region المُنشئ
+        #region 
         public GetSubjectsListQueryHandler(ISubjectService subjectService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer)
             : base(stringLocalizer)
         {
@@ -30,7 +25,7 @@ namespace YemenSchoolsV1.Application.Features.Subjects.Queries.GetAll
         }
         #endregion
 
-        #region المعالج
+        #region 
         public async Task<Response<List<GetSubjectsListResponse>>> Handle(GetSubjectsListQuery request, CancellationToken cancellationToken)
         {
             var subjects = await subjectService.GetAllSubjectsAsync();

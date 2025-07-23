@@ -122,14 +122,14 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool>("IsCurrentYear")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("StageId")
+                    b.Property<Guid>("SchoolId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDate")
@@ -140,7 +140,7 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StageId");
+                    b.HasIndex("SchoolId");
 
                     b.ToTable("AcademicYears");
                 });
@@ -273,29 +273,6 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.AssignedSubject", b =>
-                {
-                    b.Property<Guid>("SubjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SectionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("AssignedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("SubjectId", "SectionId", "TeacherId");
-
-                    b.HasIndex("SectionId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("AssignedSubjects", (string)null);
-                });
-
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.City", b =>
                 {
                     b.Property<Guid>("Id")
@@ -326,34 +303,87 @@ namespace YemenSchoolsV1.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("TermId")
+                    b.HasKey("Id");
+
+                    b.ToTable("Grades", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Name = "الصف الأول"
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            Name = "الصف الثاني"
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444445"),
+                            Name = "KG"
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            Name = "الصف الثالث"
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            Name = "الصف الرابع"
+                        },
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Name = "الصف الخامس"
+                        },
+                        new
+                        {
+                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
+                            Name = "الصف السادس"
+                        },
+                        new
+                        {
+                            Id = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Name = "الصف السابع"
+                        },
+                        new
+                        {
+                            Id = new Guid("88888888-8888-8888-8888-888888888888"),
+                            Name = "الصف الثامن"
+                        },
+                        new
+                        {
+                            Id = new Guid("99999999-9999-9999-9999-999999999999"),
+                            Name = "الصف التاسع"
+                        });
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.GradeSubject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                    b.Property<Guid>("SchoolGradeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TermId");
+                    b.HasIndex("SchoolGradeId");
 
-                    b.ToTable("Grades", (string)null);
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("GradeSubject");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.NewsPhoto", b =>
@@ -565,6 +595,30 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.ToTable("Schools");
                 });
 
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolGrade", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("SchoolId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StageGradeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.HasIndex("StageGradeId");
+
+                    b.ToTable("SchoolGrade");
+                });
+
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolNews", b =>
                 {
                     b.Property<Guid>("Id")
@@ -612,7 +666,7 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.HasIndex("SchoolId");
 
-                    b.ToTable("schoolPhones");
+                    b.ToTable("SchoolPhones");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolPhoto", b =>
@@ -657,37 +711,58 @@ namespace YemenSchoolsV1.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<Guid>("GradeId")
+                    b.Property<Guid>("AcademicYearId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("RoomNumber")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                    b.Property<Guid>("SchoolGradeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GradeId");
+                    b.HasIndex("AcademicYearId");
+
+                    b.HasIndex("SchoolGradeId");
 
                     b.ToTable("Sections", (string)null);
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SectionSubject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GradeSubjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TeacherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TermId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GradeSubjectId");
+
+                    b.HasIndex("SectionId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.HasIndex("TermId");
+
+                    b.ToTable("SectionSubject");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Stage", b =>
@@ -700,14 +775,114 @@ namespace YemenSchoolsV1.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("SchoolId")
+                    b.HasKey("Id");
+
+                    b.ToTable("Stages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111112"),
+                            Name = "المرحلة الإبتدائية"
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222223"),
+                            Name = "المرحلة الإعدادية"
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222783"),
+                            Name = "الروضة"
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333334"),
+                            Name = "المرحلة الثانوية"
+                        });
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.StageGrade", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GradeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SchoolId");
+                    b.HasIndex("GradeId");
 
-                    b.ToTable("Stages");
+                    b.HasIndex("StageId");
+
+                    b.ToTable("StageGrade");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("aaaa1111-0000-0000-0000-000000000001"),
+                            GradeId = new Guid("44444444-4444-4444-4444-444444444445"),
+                            StageId = new Guid("22222222-2222-2222-2222-222222222783")
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaa1111-0000-0000-0000-000000000002"),
+                            GradeId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            StageId = new Guid("11111111-1111-1111-1111-111111111112")
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaa1111-0000-0000-0000-000000000003"),
+                            GradeId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            StageId = new Guid("11111111-1111-1111-1111-111111111112")
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaa1111-0000-0000-0000-000000000004"),
+                            GradeId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            StageId = new Guid("11111111-1111-1111-1111-111111111112")
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaa1111-0000-0000-0000-000000000005"),
+                            GradeId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            StageId = new Guid("11111111-1111-1111-1111-111111111112")
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaa1111-0000-0000-0000-000000000006"),
+                            GradeId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            StageId = new Guid("11111111-1111-1111-1111-111111111112")
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaa1111-0000-0000-0000-000000000007"),
+                            GradeId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            StageId = new Guid("11111111-1111-1111-1111-111111111112")
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaa1111-0000-0000-0000-000000000008"),
+                            GradeId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            StageId = new Guid("22222222-2222-2222-2222-222222222223")
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaa1111-0000-0000-0000-000000000009"),
+                            GradeId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            StageId = new Guid("22222222-2222-2222-2222-222222222223")
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaa1111-0000-0000-0000-000000000010"),
+                            GradeId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            StageId = new Guid("22222222-2222-2222-2222-222222222223")
+                        });
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Student", b =>
@@ -784,55 +959,101 @@ namespace YemenSchoolsV1.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<string>("NameAr")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("NameEn")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid>("SchoolId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SchoolId");
-
                     b.ToTable("Subjects", (string)null);
-                });
 
-            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SubjectGrade", b =>
-                {
-                    b.Property<Guid>("SubjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GradeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("MaxMark")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<decimal>("MinPassMark")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.HasKey("SubjectId", "GradeId");
-
-                    b.HasIndex("GradeId");
-
-                    b.ToTable("SubjectGrades", (string)null);
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "القرآن الكريم"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "التربية الإسلامية"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "اللغة العربية"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "الرياضيات"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "العلوم"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "الاجتماعيات"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "اللغة الإنجليزية"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "التاريخ"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "الجغرافيا"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "الوطنية"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000011"),
+                            Name = "الجبر"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000012"),
+                            Name = "الهندسة"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000013"),
+                            Name = "الكيمياء"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000014"),
+                            Name = "الأحياء"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000015"),
+                            Name = "الفيزياء"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000016"),
+                            Name = "الرسم"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000017"),
+                            Name = "الحاسوب"
+                        });
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Teacher", b =>
@@ -912,23 +1133,14 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Property<Guid>("AcademicYearId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -976,13 +1188,13 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.AcademicYear", b =>
                 {
-                    b.HasOne("YemenSchoolsV1.Domain.Entities.Stage", "Stage")
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.School", "School")
                         .WithMany("AcademicYears")
-                        .HasForeignKey("StageId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Stage");
+                    b.Navigation("School");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.AppUserRole", b =>
@@ -1016,42 +1228,23 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.AssignedSubject", b =>
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.GradeSubject", b =>
                 {
-                    b.HasOne("YemenSchoolsV1.Domain.Entities.Section", "Section")
-                        .WithMany("AssignedSubjects")
-                        .HasForeignKey("SectionId")
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.SchoolGrade", "SchoolGrade")
+                        .WithMany("GradeSubjects")
+                        .HasForeignKey("SchoolGradeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("YemenSchoolsV1.Domain.Entities.Subject", "Subject")
-                        .WithMany("AssignedSubjects")
+                        .WithMany("GradeSubjects")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("YemenSchoolsV1.Domain.Entities.Teacher", "Teacher")
-                        .WithMany("AssignedSubjects")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Section");
+                    b.Navigation("SchoolGrade");
 
                     b.Navigation("Subject");
-
-                    b.Navigation("Teacher");
-                });
-
-            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Grade", b =>
-                {
-                    b.HasOne("YemenSchoolsV1.Domain.Entities.Term", "Term")
-                        .WithMany("Grades")
-                        .HasForeignKey("TermId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Term");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.NewsPhoto", b =>
@@ -1124,6 +1317,25 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Navigation("Region");
                 });
 
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolGrade", b =>
+                {
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.School", "School")
+                        .WithMany("SchoolGrades")
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.StageGrade", "StageGrade")
+                        .WithMany("SchoolGrades")
+                        .HasForeignKey("StageGradeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("School");
+
+                    b.Navigation("StageGrade");
+                });
+
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolNews", b =>
                 {
                     b.HasOne("YemenSchoolsV1.Domain.Entities.School", "School")
@@ -1170,32 +1382,81 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Section", b =>
                 {
-                    b.HasOne("YemenSchoolsV1.Domain.Entities.Grade", "Grade")
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.AcademicYear", "AcademicYear")
                         .WithMany("Sections")
+                        .HasForeignKey("AcademicYearId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.SchoolGrade", "SchoolGrade")
+                        .WithMany("Sections")
+                        .HasForeignKey("SchoolGradeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AcademicYear");
+
+                    b.Navigation("SchoolGrade");
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SectionSubject", b =>
+                {
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.GradeSubject", "GradeSubject")
+                        .WithMany("SectionSubjects")
+                        .HasForeignKey("GradeSubjectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.Section", "Section")
+                        .WithMany("SectionSubjects")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId");
+
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.Term", "Term")
+                        .WithMany("SectionSubjects")
+                        .HasForeignKey("TermId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("GradeSubject");
+
+                    b.Navigation("Section");
+
+                    b.Navigation("Teacher");
+
+                    b.Navigation("Term");
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.StageGrade", b =>
+                {
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.Grade", "Grade")
+                        .WithMany("StageGrades")
                         .HasForeignKey("GradeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Grade");
-                });
-
-            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Stage", b =>
-                {
-                    b.HasOne("YemenSchoolsV1.Domain.Entities.School", "School")
-                        .WithMany("Stages")
-                        .HasForeignKey("SchoolId")
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.Stage", "Stage")
+                        .WithMany("StageGrades")
+                        .HasForeignKey("StageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("School");
+                    b.Navigation("Grade");
+
+                    b.Navigation("Stage");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Student", b =>
                 {
                     b.HasOne("YemenSchoolsV1.Domain.Entities.Section", "Section")
-                        .WithMany("Students")
+                        .WithMany()
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("YemenSchoolsV1.Domain.Entities.AppUser", "User")
@@ -1206,36 +1467,6 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Navigation("Section");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Subject", b =>
-                {
-                    b.HasOne("YemenSchoolsV1.Domain.Entities.School", "School")
-                        .WithMany("Subjects")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("School");
-                });
-
-            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SubjectGrade", b =>
-                {
-                    b.HasOne("YemenSchoolsV1.Domain.Entities.Grade", "Grade")
-                        .WithMany("SubjectGrades")
-                        .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("YemenSchoolsV1.Domain.Entities.Subject", "Subject")
-                        .WithMany("SubjectGrades")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Grade");
-
-                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Teacher", b =>
@@ -1268,6 +1499,8 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.AcademicYear", b =>
                 {
+                    b.Navigation("Sections");
+
                     b.Navigation("Terms");
                 });
 
@@ -1290,9 +1523,12 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Grade", b =>
                 {
-                    b.Navigation("Sections");
+                    b.Navigation("StageGrades");
+                });
 
-                    b.Navigation("SubjectGrades");
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.GradeSubject", b =>
+                {
+                    b.Navigation("SectionSubjects");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Parent", b =>
@@ -1307,6 +1543,10 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.School", b =>
                 {
+                    b.Navigation("AcademicYears");
+
+                    b.Navigation("SchoolGrades");
+
                     b.Navigation("SchoolNews");
 
                     b.Navigation("SchoolPhones");
@@ -1315,11 +1555,14 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.Navigation("SchoolRatings");
 
-                    b.Navigation("Stages");
-
-                    b.Navigation("Subjects");
-
                     b.Navigation("Teachers");
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolGrade", b =>
+                {
+                    b.Navigation("GradeSubjects");
+
+                    b.Navigation("Sections");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolNews", b =>
@@ -1329,14 +1572,17 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Section", b =>
                 {
-                    b.Navigation("AssignedSubjects");
-
-                    b.Navigation("Students");
+                    b.Navigation("SectionSubjects");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Stage", b =>
                 {
-                    b.Navigation("AcademicYears");
+                    b.Navigation("StageGrades");
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.StageGrade", b =>
+                {
+                    b.Navigation("SchoolGrades");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Student", b =>
@@ -1346,19 +1592,12 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Subject", b =>
                 {
-                    b.Navigation("AssignedSubjects");
-
-                    b.Navigation("SubjectGrades");
-                });
-
-            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Teacher", b =>
-                {
-                    b.Navigation("AssignedSubjects");
+                    b.Navigation("GradeSubjects");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Term", b =>
                 {
-                    b.Navigation("Grades");
+                    b.Navigation("SectionSubjects");
                 });
 #pragma warning restore 612, 618
         }

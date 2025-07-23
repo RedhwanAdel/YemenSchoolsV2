@@ -2,15 +2,12 @@
 using FinalProject.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System.Linq.Expressions;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
-using YemenSchoolsV1.Application.Wrappers;
-using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYears
 {
-    public class GetYearListQuearyHandler : ResponseHandler, IRequestHandler<GetYearListQueary, PaginatedResult<GetYearListResponse>>
+    public class GetYearListQuearyHandler : ResponseHandler, IRequestHandler<GetYearListQueary, Response<List<GetYearListResponse>>>
     {
         private readonly IAcademicYearRepository academicYearRepository;
         #region faild
@@ -28,16 +25,18 @@ namespace YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYears
         }
 
         #endregion
-        public async Task<PaginatedResult<GetYearListResponse>> Handle(GetYearListQueary request, CancellationToken cancellationToken)
+        public async Task<Response<List<GetYearListResponse>>> Handle(GetYearListQueary request, CancellationToken cancellationToken)
         {
-            var result = await academicYearRepository.GetPagedAsync(
-                paginationQuery: request.Pagination,
-                predicate: x => x.Stage.SchoolId == request.SchoolId && x.StageId == request.StageId,
-                orderBy: x => x.OrderBy(s => s.Name),
-                 includes: new List<Expression<Func<AcademicYear, object>>> { s => s.Stage });
+            var resultDomain = await academicYearRepository.GetAllAsync();
 
-            return PaginatedResult<GetYearListResponse>.Success(mapper.Map<List<GetYearListResponse>>(result.Data), result.TotalRecords, result.PageNumber, result.PageSize);
+            var result = mapper.Map<List<GetYearListResponse>>(resultDomain);
 
+            if (result == null)
+            {
+                return NotFound<List<GetYearListResponse>>();
+            }
+
+            return Success(result);
         }
     }
 }

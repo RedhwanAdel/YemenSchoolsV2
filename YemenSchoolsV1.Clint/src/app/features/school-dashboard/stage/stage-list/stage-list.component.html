@@ -1,24 +1,43 @@
-<app-page-wrapper
-  headerTitle="Stage List"
-  headerSubtitle="Explore stages within selected stages"
-  headerIcon="map"
->
-  <button
-    card-actions
-    color="primary"
-    mat-flat-button
-    (click)="openRegionDialog()"
-  >
-    <i class="bi bi-plus-lg me-1"></i>
-    Add Stage
-  </button>
+<div class="p-4">
+  <h2 class="text-xl font-bold mb-4">إدارة الصفوف والمراحل</h2>
 
-  <app-table
-    [dataRow]="stageService.stages()"
-    [columns]="stageColumns"
-    [hasActions]="true"
-    (actionClicked)="handleUserAction($event)"
-    [usePaginator]="false"
-    [actions]="actions"
-  ></app-table>
-</app-page-wrapper>
+  <table mat-table [dataSource]="stageGrades" class="mat-elevation-z8 w-full">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>اختيار</th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox [(ngModel)]="selectionMap[row.id]"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- Stage Column -->
+    <ng-container matColumnDef="stage">
+      <th mat-header-cell *matHeaderCellDef>المرحلة</th>
+      <td mat-cell *matCellDef="let row">{{ row.stageName }}</td>
+    </ng-container>
+
+    <!-- Grade Column -->
+    <ng-container matColumnDef="grade">
+      <th mat-header-cell *matHeaderCellDef>الصف</th>
+      <td mat-cell *matCellDef="let row">{{ row.gradeName }}</td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>الوصف</th>
+      <td mat-cell *matCellDef="let row">{{ row.description || "-" }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+  </table>
+
+  <button
+    mat-raised-button
+    color="primary"
+    class="mt-4"
+    (click)="submitSelection()"
+  >
+    حفظ الإعدادات
+  </button>
+</div>

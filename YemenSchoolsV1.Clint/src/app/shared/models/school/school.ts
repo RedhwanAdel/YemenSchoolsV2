@@ -1,3 +1,5 @@
+import { Subject } from "./subject";
+
 export interface SchoolListItem {
     id: string;
     name: string;
@@ -28,4 +30,33 @@ export interface SchoolForUpdate {
     regionId: string;
     regionName: string;
     phoneNumberList: string[];
+}
+export interface CreateSchoolGradeDto {
+    schoolId: string;
+    stageGradeIds: string[];
+}
+export interface StageGradeDto {
+    stageGradeId: string;
+    stageName?: string;
+    gradeName?: string;
+    isSelected: boolean;
+}
+export interface SchoolGradeSubject {
+    stageGradeId: string;
+    subjectIds: string[];
+}
+export interface SchoolGradeWithDetailsDto {
+    id: string; // هذا هو SchoolGradeId من الباك إند
+    stageName?: string;
+    gradeName?: string;
+    // أضف أي خصائص أخرى إذا كانت موجودة في الـ DTO
+}
+
+export interface AssignSubjectsToSchoolGradeDto {
+    schoolGradeId: string; // استخدم هذا بدلاً من stageGradeId
+    subjectIds: string[];
+}
+export interface SchoolGradeSubjectsInit {
+    stageGradeId: string;
+    subjectsIds: string[];
 }

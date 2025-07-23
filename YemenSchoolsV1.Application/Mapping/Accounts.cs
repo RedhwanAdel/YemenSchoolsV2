@@ -5,13 +5,13 @@ using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Mapping
 {
-	public partial class Accounts : Profile
-	{
-		public Accounts()
-		{
-			CreateMap<AppUser, RegisterCommand>()
-				.ReverseMap();
-			CreateMap<AppUser, LoginCommand>().ReverseMap();
-		}
-	}
+    public partial class Accounts : Profile
+    {
+        public Accounts()
+        {
+            CreateMap<AppUser, RegisterCommand>()
+                .ReverseMap();
+            CreateMap<AppUser, LoginCommand>().ReverseMap();
+        }
+    }
 }

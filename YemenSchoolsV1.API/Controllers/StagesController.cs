@@ -4,26 +4,18 @@ using YemenSchoolsV1.Application.Features.Stages.Commands.Create;
 using YemenSchoolsV1.Application.Features.Stages.Commands.Delete;
 using YemenSchoolsV1.Application.Features.Stages.Commands.Update;
 using YemenSchoolsV1.Application.Features.Stages.Queries.GetAll;
-using YemenSchoolsV1.Application.Features.Stages.Queries.GetById;
-using YemenSchoolsV1.Application.Helpers;
 
 namespace YemenSchoolsV1.API.Controllers
 {
     public class StagesController : AppControllerBase
     {
-        [HttpGet("GetAllStagesPaged/{schoolId:guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid schoolId, [FromQuery] PaginationQuery paginationQuery)
+        [HttpGet()]
+        public async Task<IActionResult> GetAll()
         {
-            var response = await Mediator.Send(new GetStagesListQueary(paginationQuery, schoolId));
+            var response = await Mediator.Send(new GetStagesListQueary());
             return Ok(response);
         }
-        [HttpGet]
-        [Route("{id:guid}")]
-        public async Task<IActionResult> GetSingle([FromRoute] Guid id)
-        {
-            var response = await Mediator.Send(new GetStageByIdQueary(id));
-            return NewResult(response);
-        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateStageCommand command)
         {

@@ -1,0 +1,52 @@
+<div class="p-4">
+  <h2 class="mb-4 text-2xl font-semibold text-gray-800">
+    تعيين المواد الدراسية للصفوف 📚
+  </h2>
+
+  <mat-accordion multi="true" class="mat-elevation-z2">
+    <mat-expansion-panel *ngFor="let grade of gradesOfSchool" class="mb-4">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="text-lg font-medium">
+          {{ grade.stageName }} - {{ grade.gradeName }}
+        </mat-panel-title>
+        <mat-panel-description>
+          <span>
+            المواد المختارة:
+            <span class="text-sm text-gray-600">
+              {{ getSelectedSubjectNames(grade.id) }}
+            </span>
+          </span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="p-4 bg-gray-50 rounded-md">
+        <h3 class="text-md font-medium mb-3">
+          اختر المواد الدراسية لهذا الصف:
+        </h3>
+        <mat-selection-list
+          [(ngModel)]="selectedSubjects[grade.id]"
+          [multiple]="true"
+          (ngModelChange)="checkForChanges(grade.id)"
+          class="subject-selection-list"
+        >
+          @for (subject of subjectService.subjects(); track subject.id) {
+          <mat-list-option [value]="subject.id">
+            {{ subject.name }}
+          </mat-list-option>
+          }
+        </mat-selection-list>
+
+        <div class="flex justify-end mt-4">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onSaveSubjects(grade.id)"
+            [disabled]="!hasChangesMap[grade.id]"
+          >
+            <mat-icon>save</mat-icon> حفظ المواد
+          </button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

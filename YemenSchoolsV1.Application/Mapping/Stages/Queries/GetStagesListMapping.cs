@@ -8,7 +8,6 @@ namespace YemenSchoolsV1.Application.Mapping.Stages
         public void GetStagesListMapping()
         {
             CreateMap<Stage, GetStagesListResponse>()
-                .ForMember(dest => dest.SchoolName, opt => opt.MapFrom(src => src.School.NameEn))
                 .ReverseMap();
         }
     }

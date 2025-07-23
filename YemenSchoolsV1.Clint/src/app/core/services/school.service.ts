@@ -3,10 +3,12 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { SchoolParams } from '../../shared/models/school/schoolParams';
 import { Pagination } from '../../shared/models/Pagination';
-import { SchoolForUpdate, SchoolListItem } from '../../shared/models/school/school';
+import { AssignSubjectsToSchoolGradeDto, CreateSchoolGradeDto, SchoolForUpdate, SchoolGradeSubject, SchoolGradeWithDetailsDto, SchoolListItem, StageGradeDto } from '../../shared/models/school/school';
 import { SchoolDetails } from '../../shared/models/school/schoolDetails';
 import { ApiResponse } from '../../shared/models/ApiResponse';
 import { CreateSchoolDto } from '../../shared/models/school/schoolCommand';
+import { map } from 'rxjs';
+import { Subject } from '../../shared/models/school/subject';
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +66,39 @@ export class SchoolService {
   }
   deleteSchool(id: string) {
     return this.http.delete(this.baseUrl + 'school/' + id);
+  }
+
+
+  // schoolGrad
+  getStageGradesForSchool(schoolId: string) {
+    return this.http.get<ApiResponse<StageGradeDto[]>>(`${this.baseUrl}SchoolGrade/${schoolId}`);
+  }
+
+  getSelectedStageGradesForSchool(schoolId: string) {
+    return this.http.get<ApiResponse<StageGradeDto[]>>(`${this.baseUrl}SchoolGrade/${schoolId}`).pipe(
+      map(res => res.data.filter(sg => sg.isSelected))
+    );
+  }
+
+  getSchoolGrade(schoolId: string) {
+    return this.http.get<ApiResponse<SchoolGradeWithDetailsDto[]>>(`${this.baseUrl}SchoolGrade/grade/${schoolId}`).pipe(
+      map(res => res.data)
+    );
+  }
+
+  syncStageGrades(data: CreateSchoolGradeDto) {
+    return this.http.post<ApiResponse<string>>(`${this.baseUrl}SchoolGrade/sync-stage-grades`, data);
+  }
+
+  // دالة لجلب المواد المعينة لصف معين (StageGrade)
+  getSubjectsForSchoolGrade(schoolGradeId: string) {
+    return this.http.get<ApiResponse<Subject[]>>(this.baseUrl + 'school/' + schoolGradeId + '/subjects').pipe(
+      map(res => res.data)
+    );
+  }
+
+  // دالة لتعيين المواد لصف معين
+  assignSubjectsToStageGrade(data: AssignSubjectsToSchoolGradeDto) {
+    return this.http.post(this.baseUrl + 'school/assign-grade-subjects', data);
   }
 }

@@ -7,9 +7,7 @@ namespace YemenSchoolsV1.Application.Mapping.AcademicYears
     {
         public void GetYearsListMapping()
         {
-            CreateMap<AcademicYear, GetYearListResponse>()
-                                .ForMember(dest => dest.StageName, opt => opt.MapFrom(src => src.Stage.Name))
-.ReverseMap();
+            CreateMap<AcademicYear, GetYearListResponse>().ReverseMap();
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using YemenSchoolsV1.Application.Features.Terms.Queries.GetById;
-using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Mapping.Terms
 {
@@ -11,7 +9,6 @@ namespace YemenSchoolsV1.Application.Mapping.Terms
             CreateTermMapping();
             EditTermMapping();
             GetTermListMapping();
-            CreateMap<Term, GetTermByIdResponse>().ReverseMap();
 
         }
     }

@@ -2,15 +2,12 @@
 using FinalProject.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System.Linq.Expressions;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
-using YemenSchoolsV1.Application.Wrappers;
-using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.Grades.Queries
 {
-    public class GetGradesListQuearyHandler : ResponseHandler, IRequestHandler<GetGradesListQueary, PaginatedResult<GetGradesListResponse>>
+    public class GetGradesListQuearyHandler : ResponseHandler, IRequestHandler<GetGradesListQueary, Response<List<GetGradesListResponse>>>
     {
         private readonly IGradeRepositry gradeRepositry;
         #region faild
@@ -29,15 +26,17 @@ namespace YemenSchoolsV1.Application.Features.Grades.Queries
         }
 
         #endregion
-        public async Task<PaginatedResult<GetGradesListResponse>> Handle(GetGradesListQueary request, CancellationToken cancellationToken)
+        public async Task<Response<List<GetGradesListResponse>>> Handle(GetGradesListQueary request, CancellationToken cancellationToken)
         {
-            var result = await gradeRepositry.GetPagedAsync(
-                  paginationQuery: request.Pagination,
-                  predicate: x => x.Term.AcademicYear.Stage.SchoolId == request.SchoolId && x.TermId == request.TermId,
-                  orderBy: x => x.OrderBy(s => s.Name),
-                   includes: new List<Expression<Func<Grade, object>>> { s => s.Term });
+            var resultDomain = await gradeRepositry.GetAllAsync();
+            var result = mapper.Map<List<GetGradesListResponse>>(resultDomain);
 
-            return PaginatedResult<GetGradesListResponse>.Success(mapper.Map<List<GetGradesListResponse>>(result.Data), result.TotalRecords, result.PageNumber, result.PageSize);
+            if (result == null)
+            {
+                return NotFound<List<GetGradesListResponse>>();
+            }
+
+            return Success(result);
         }
 
     }

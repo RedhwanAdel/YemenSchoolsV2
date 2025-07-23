@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using YemenSchoolsV1.Application.Features.Grades.Queries.GetGradeById;
+using YemenSchoolsV1.API.Dto;
+using YemenSchoolsV1.Application.Features.Grades.Queries;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Mapping.Grades
@@ -10,8 +11,11 @@ namespace YemenSchoolsV1.Application.Mapping.Grades
         {
             CreateGradeMapping();
             EditGradeMapping();
-            GetYearsListMapping();
-            CreateMap<Grade, GetGradeByIdResponse>().ReverseMap();
+            CreateMap<Grade, GetGradesListResponse>().ReverseMap();
+            CreateMap<StageGrade, StageGradeDto>()
+                      .ForMember(dest => dest.StageName, opt => opt.MapFrom(src => src.Stage.Name))
+                      .ForMember(dest => dest.GradeName, opt => opt.MapFrom(src => src.Grade.Name))
+                      .ReverseMap();
 
         }
     }

@@ -5,7 +5,6 @@ namespace YemenSchoolsV1.Application.Contracts.Persistence
 {
     public interface ISectionRepositry : IGenericRepositoryAsync<Section>
     {
-        Task<Section?> GetSectioneByIdIncludeAsync(Guid id);
 
     }
 }

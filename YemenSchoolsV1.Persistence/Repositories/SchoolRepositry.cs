@@ -17,7 +17,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
 
         public async Task CreateSchoolPhonesRangAsync(List<SchoolPhone> schoolPhones)
         {
-            await dbContext.schoolPhones.AddRangeAsync(schoolPhones);
+            await dbContext.SchoolPhones.AddRangeAsync(schoolPhones);
             await dbContext.SaveChangesAsync();
         }
 
@@ -64,6 +64,42 @@ namespace YemenSchoolsV1.Persistence.Repositories
          .Include(s => s.City)
          .Include(s => s.Region);
 
+        }
+
+
+        public async Task AssignSubjectsToSchoolGradeAsync(Guid schoolGradeId, List<Guid> subjectIds)
+        {
+            if (subjectIds == null)
+                return;
+
+            var existingAssignments = await dbContext.GradeSubject
+                                .AsNoTracking()
+                                .Where(gs => gs.SchoolGradeId == schoolGradeId)
+                                .ToListAsync();
+
+            dbContext.GradeSubject.RemoveRange(existingAssignments.Where(ea => !subjectIds.Contains(ea.SubjectId)));
+
+            var existingSubjectIds = existingAssignments.Select(ea => ea.SubjectId).ToList();
+            var newSubjectIds = subjectIds.Except(existingSubjectIds).ToList();
+
+            foreach (var newSubjectId in newSubjectIds)
+            {
+                dbContext.GradeSubject.Add(new GradeSubject
+                {
+                    SchoolGradeId = schoolGradeId,
+                    SubjectId = newSubjectId
+                });
+            }
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<SubjectDto>> GetSubjectsForSchoolGradeAsync(Guid schoolGradeId)
+        {
+            return await dbContext.GradeSubject
+                                 .Where(gs => gs.SchoolGradeId == schoolGradeId)
+                                 .Select(gs => new SubjectDto { Id = gs.Subject.Id, Name = gs.Subject.Name })
+                                 .ToListAsync();
         }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
 import { StageService } from '../../../../core/services/stage.service';
@@ -6,77 +6,45 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogService } from '../../../../core/services/dialog.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MatCardModule } from '@angular/material/card';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-stage-list',
   standalone: true,
-  imports: [PageWrapperComponent, MatButton, TableComponent],
+  imports: [FormsModule, CommonModule, MatTableModule, MatCheckboxModule, MatButtonModule],
   templateUrl: './stage-list.component.html',
   styleUrl: './stage-list.component.scss'
 })
-export class StageListComponent implements OnInit {
-  private dialogService = inject(DialogService);
-  private dialog = inject(MatDialog);
-  stageService = inject(StageService)
-  private snack = inject(SnackbarService)
+export class StageListComponent {
+  stageGrades: any[] = [
+    { id: '1', stageName: 'حضانة', gradeName: 'روضة أولى', description: 'أطفال من عمر 3 إلى 4 سنوات' },
+    { id: '2', stageName: 'حضانة', gradeName: 'روضة ثانية', description: 'أطفال من عمر 4 إلى 5 سنوات' },
+    { id: '3', stageName: 'ابتدائي', gradeName: 'الصف الأول' },
+    { id: '4', stageName: 'ابتدائي', gradeName: 'الصف الثاني' },
+    { id: '5', stageName: 'ابتدائي', gradeName: 'الصف الثالث' },
+    { id: '6', stageName: 'ابتدائي', gradeName: 'الصف الرابع' },
+    { id: '7', stageName: 'ابتدائي', gradeName: 'الصف الخامس' },
+    { id: '8', stageName: 'ابتدائي', gradeName: 'الصف السادس' },
+    { id: '9', stageName: 'إعدادي', gradeName: 'الصف السابع' },
+    { id: '10', stageName: 'إعدادي', gradeName: 'الصف الثامن' },
+    { id: '11', stageName: 'إعدادي', gradeName: 'الصف التاسع' },
+    { id: '12', stageName: 'ثانوي', gradeName: 'الصف العاشر' },
+    { id: '13', stageName: 'ثانوي', gradeName: 'الصف الحادي عشر' },
+    { id: '14', stageName: 'ثانوي', gradeName: 'الصف الثاني عشر' },
+  ];;
+  @Output() selectionChanged = new EventEmitter<any[]>();
 
-  stageColumns: TableColumn[] = [
-    { key: 'id', header: ' ID', sortable: true },
-    { key: 'name', header: ' Name ', sortable: true },
-    { key: 'schoolName', header: 'School Name ', sortable: true },
-  ];
-  actions: TableAction[] = [
-    { actionKey: 'edit', icon: 'edit', tooltip: 'Edit User', color: 'accent' },
-    { actionKey: 'delete', icon: 'delete', tooltip: 'Delete User', color: 'warn' },
-  ];
+  columns = ['select', 'stage', 'grade', 'description'];
+  selectionMap: Record<string, boolean> = {};
 
-
-
-  ngOnInit(): void {
-    this.stageService.getStages()
-  }
-
-
-
-  handleUserAction(event: { actionKey: string; rowData: any }): void {
-    console.log(`Action: ${event.actionKey} on User:`, event.rowData);
-    // Implement your logic here based on actionKey and rowData
-    switch (event.actionKey) {
-
-      case 'edit':
-        this.openRegionDialog(event.rowData)
-        break;
-      case 'delete':
-        this.openConfirmDialog(event.rowData.id, event.rowData.name)
-
-        break;
-    }
-  }
-
-  async openConfirmDialog(id: string, name: string) {
-    const confirmed = await this.dialogService.confirm(
-      'Confirm Delete',
-      `Are you sure you want to delete the stage: ${name}?`
-    );
-
-    if (confirmed) {
-      this.stageService.deleteStage(id).subscribe({
-        next: () => {
-          this.snack.success('stage deleted successfully!');
-          this.stageService.getStages();
-        },
-        error: (err) => {
-          this.snack.error('Failed to delete stage.');
-          console.error(err);
-        }
-      });
-    }
-  }
-
-  openRegionDialog(city?: any) {
-
-
+  submitSelection() {
+    const selected = this.stageGrades.filter(g => this.selectionMap[g.id]);
+    console.log(selected)
+    this.selectionChanged.emit(selected);
   }
 
 }

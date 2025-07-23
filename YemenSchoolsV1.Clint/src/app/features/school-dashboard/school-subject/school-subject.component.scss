@@ -1,0 +1,105 @@
+.p-4 {
+  padding: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem; /* 24px */
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.text-gray-800 {
+  color: #2d3748; /* Dark gray */
+}
+
+.mat-accordion {
+  width: 100%;
+}
+
+.mat-expansion-panel {
+  border-radius: 8px;
+  overflow: hidden; /* Ensure rounded corners are applied correctly */
+}
+
+.mat-expansion-panel-header {
+  height: 64px; /* Standard height for headers */
+}
+
+.mat-panel-title {
+  font-size: 1.125rem; /* 18px */
+  font-weight: 500;
+}
+
+.mat-panel-description {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.text-sm {
+  font-size: 0.875rem; /* 14px */
+}
+
+.text-gray-600 {
+  color: #4a5568; /* Medium gray */
+}
+
+.bg-gray-50 {
+  background-color: #f9fafb; /* Very light gray */
+}
+
+.rounded-md {
+  border-radius: 0.375rem; /* 6px */
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.text-md {
+  font-size: 1rem; /* 16px */
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+
+.subject-selection-list {
+  max-height: 250px; /* Limit height for scrollability */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #e2e8f0; /* Light border */
+  border-radius: 4px;
+  background-color: white;
+  padding: 8px 0;
+}
+
+.mat-list-option {
+  padding: 8px 16px !important; /* Adjust padding for list items */
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mat-raised-button {
+  min-width: 120px; /* Give buttons a consistent minimum width */
+}

@@ -5,7 +5,6 @@ namespace YemenSchoolsV1.Application.Contracts.Persistence
 {
     public interface IAcademicYearRepository : IGenericRepositoryAsync<AcademicYear>
     {
-        Task<AcademicYear?> GetAcadmicYearByIdIncludeAsync(Guid id);
 
     }
 }

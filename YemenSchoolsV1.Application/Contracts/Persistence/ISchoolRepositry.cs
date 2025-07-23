@@ -10,6 +10,9 @@ namespace YemenSchoolsV1.Application.Contracts.Persistence
         Task<School?> GetSchoolDetailsInculdeAsync(Guid cityId);
         Task CreateSchoolPhonesRangAsync(List<SchoolPhone> schoolPhones);
         Task<SchoolForUpdate?> GetSchoolByIdForUpdateAsync(Guid schoolId);
+        Task AssignSubjectsToSchoolGradeAsync(Guid schoolGradeId, List<Guid> subjectIds);
+        Task<List<SubjectDto>> GetSubjectsForSchoolGradeAsync(Guid schoolGradeId);
+
 
 
     }

@@ -1,20 +1,19 @@
 ﻿namespace YemenSchoolsV1.Domain.Entities
 {
-	public class Section
-	{
-		public Guid Id { get; set; }
-		public string Name { get; set; }
-		public Guid GradeId { get; set; }
+    public class Section
+    {
+        public Guid Id { get; set; }
+        public required string Name { get; set; }
+        public Guid AcademicYearId { get; set; }
+        public Guid SchoolGradeId { get; set; }
+        public int Capacity { get; set; }
 
-		public int? RoomNumber { get; set; }
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-		public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-		public bool IsActive { get; set; } = true; // حالة التفعيل (فعال/معطل)
 
-		// Navigation Property
-		public Grade Grade { get; set; } = null!; // الصف الدراسي المرتبط
-		public ICollection<AssignedSubject> AssignedSubjects { get; set; } = [];
-		public ICollection<Student> Students { get; set; } = [];
+        // Navigation Property
+        public SchoolGrade SchoolGrade { get; set; } = null!;
+        public AcademicYear AcademicYear { get; set; } = null!;
+        public ICollection<SectionSubject> SectionSubjects { get; set; } = [];
 
-	}
+
+    }
 }

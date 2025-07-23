@@ -1,10 +1,5 @@
 ﻿using FinalProject.Application.Bases;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace YemenSchoolsV1.Application.Features.Subjects.Commands.Update
 {
@@ -12,7 +7,7 @@ namespace YemenSchoolsV1.Application.Features.Subjects.Commands.Update
     {
         public Guid Id { get; set; }
 
-        public string NameAr { get; set; } = string.Empty;
-        public string NameEn { get; set; } = string.Empty;
+        public string? NameAr { get; set; }
+        public string? NameEn { get; set; }
     }
 }

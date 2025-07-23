@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FinalProject.Application.Bases;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Dto;
 using YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchool;
 using YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchoolPhons;
 using YemenSchoolsV1.Application.Features.Schools.Commands.DeleteSchool;
@@ -69,6 +72,30 @@ namespace YemenSchoolsV1.API.Controllers
         {
             var response = await Mediator.Send(new DeleteSchoolCommand(id));
             return NewResult(response);
+        }
+
+
+
+
+        [HttpPost("assign-grade-subjects")]
+        public async Task<IActionResult> AssignSubjectsToSchoolGrade([FromBody] AssignSubjectsToSchoolGradeDto request)
+        {
+            if (request.SchoolGradeId == Guid.Empty)
+                return NewResult(new Response<string>("معرف الصف غير صالح.", false) { StatusCode = HttpStatusCode.BadRequest });
+
+            await schoolRepositry.AssignSubjectsToSchoolGradeAsync(request.SchoolGradeId, request.SubjectIds);
+
+            return NewResult(new Response<string>("تم حفظ إعدادات المواد بنجاح.") { StatusCode = HttpStatusCode.OK, Succeeded = true });
+
+        }
+
+
+        [HttpGet("{schoolGradeId}/subjects")]
+        public async Task<ActionResult<IEnumerable<SubjectDto>>> GetSubjectsForSchoolGrade(Guid schoolGradeId)
+        {
+
+            var subjects = await schoolRepositry.GetSubjectsForSchoolGradeAsync(schoolGradeId);
+            return NewResult(new Response<List<SubjectDto>>(subjects) { StatusCode = HttpStatusCode.OK, Succeeded = true });
         }
 
     }

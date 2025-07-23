@@ -2,15 +2,12 @@
 using FinalProject.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System.Linq.Expressions;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
-using YemenSchoolsV1.Application.Wrappers;
-using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.Stages.Queries.GetAll
 {
-    public class GetStagesListQuearyHandler : ResponseHandler, IRequestHandler<GetStagesListQueary, PaginatedResult<GetStagesListResponse>>
+    public class GetStagesListQuearyHandler : ResponseHandler, IRequestHandler<GetStagesListQueary, Response<List<GetStagesListResponse>>>
     {
         #region Fields
         private readonly IStageRepositry stageRepositry;
@@ -28,21 +25,16 @@ namespace YemenSchoolsV1.Application.Features.Stages.Queries.GetAll
         }
 
         #endregion
-        public async Task<PaginatedResult<GetStagesListResponse>> Handle(GetStagesListQueary request, CancellationToken cancellationToken)
+        public async Task<Response<List<GetStagesListResponse>>> Handle(GetStagesListQueary request, CancellationToken cancellationToken)
         {
-            var stages = await stageRepositry.GetPagedAsync(predicate: x => x.SchoolId == request.SchoolId,
-                paginationQuery: request.Pagination,
-                orderBy: x => x.OrderBy(s => s.Name),
-                 includes: new List<Expression<Func<Stage, object>>> { s => s.School });
+            var stagesDomain = await stageRepositry.GetAllAsync();
+            var stages = mapper.Map<List<GetStagesListResponse>>(stagesDomain);
 
-
-
-            return PaginatedResult<GetStagesListResponse>.Success(
-                mapper.Map<List<GetStagesListResponse>>(stages.Data),
-                stages.TotalRecords,
-                stages.PageNumber,
-                stages.PageSize
-                );
+            if (stages == null)
+            {
+                return NotFound<List<GetStagesListResponse>>();
+            }
+            return Success(stages);
         }
     }
 }

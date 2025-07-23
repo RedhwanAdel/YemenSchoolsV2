@@ -5,7 +5,6 @@ namespace YemenSchoolsV1.Application.Contracts.Persistence
 {
     public interface IStageRepositry : IGenericRepositoryAsync<Stage>
     {
-        Task<Stage?> GetStageByIdIncludeAsync(Guid id);
 
     }
 }

@@ -1,21 +1,10 @@
-﻿using MediatR;
-using YemenSchoolsV1.Application.Helpers;
-using YemenSchoolsV1.Application.Wrappers;
+﻿using FinalProject.Application.Bases;
+using MediatR;
 
 namespace YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYears
 {
-    public class GetYearListQueary : IRequest<PaginatedResult<GetYearListResponse>>
+    public class GetYearListQueary : IRequest<Response<List<GetYearListResponse>>>
     {
-        public PaginationQuery Pagination { get; set; }
-        public Guid SchoolId { get; set; }
-        public Guid? StageId { get; set; }
 
-
-        public GetYearListQueary(PaginationQuery pagination, Guid schoolId, Guid? stageId)
-        {
-            Pagination = pagination;
-            SchoolId = schoolId;
-            StageId = stageId;
-        }
     }
 }

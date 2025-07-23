@@ -3,29 +3,13 @@ using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Features.AcademicYears.Commands.CreateYear;
 using YemenSchoolsV1.Application.Features.AcademicYears.Commands.DeleteYear;
 using YemenSchoolsV1.Application.Features.AcademicYears.Commands.UpdateYear;
-using YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYearById;
-using YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYears;
-using YemenSchoolsV1.Application.Helpers;
 
 namespace YemenSchoolsV1.API.Controllers
 {
 
     public class AcademicYearsController : AppControllerBase
     {
-        [HttpGet("GetAllYearsPaged/{schoolId:guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid schoolId, [FromQuery] PaginationQuery paginationQuery, [FromQuery] Guid? stageId)
-        {
-            var response = await Mediator.Send(new GetYearListQueary(paginationQuery, schoolId, stageId));
-            return Ok(response);
-        }
 
-        [HttpGet]
-        [Route("{id:guid}")]
-        public async Task<IActionResult> GetSingle([FromRoute] Guid id)
-        {
-            var response = await Mediator.Send(new GetYearByIdQueary(id));
-            return NewResult(response);
-        }
 
 
         [HttpPost]
