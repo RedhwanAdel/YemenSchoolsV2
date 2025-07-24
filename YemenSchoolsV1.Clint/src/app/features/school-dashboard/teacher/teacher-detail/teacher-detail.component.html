@@ -1,0 +1,90 @@
+<app-page-wrapper
+  headerTitle="{{ teacher?.name }}"
+  headerSubtitle="{{ teacher?.id || 'N/A' }}"
+  headerIcon="person"
+>
+  <div class="row g-4">
+    <!-- Contact Information -->
+    <div class="col-12 col-md-6">
+      <h4 class="section-title text-primary mb-3">Contact Information</h4>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListItemIcon>location_on</mat-icon>
+          <div matListItemTitle>Address</div>
+          <div matListItemLine>{{ teacher?.address || "N/A" }}</div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <mat-list-item>
+          <mat-icon matListItemIcon>phone</mat-icon>
+          <div matListItemTitle>Phone</div>
+          <div matListItemLine>{{ teacher?.phoneNumber || "N/A" }}</div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <mat-list-item>
+          <mat-icon matListItemIcon>email</mat-icon>
+          <div matListItemTitle>Email</div>
+          <div matListItemLine>{{ teacher?.email || "N/A" }}</div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
+    <!-- Employment & Profile -->
+    <div class="col-12 col-md-6">
+      <h4 class="section-title text-primary mb-3">Employment Details</h4>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListItemIcon>badge</mat-icon>
+          <div matListItemTitle>Specialization</div>
+          <div matListItemLine>{{ teacher?.specialization || "N/A" }}</div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <mat-list-item>
+          <mat-icon matListItemIcon>event</mat-icon>
+          <div matListItemTitle>Hire Date</div>
+          <div matListItemLine>
+            {{ teacher?.hireDate | date : "mediumDate" }}
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <mat-list-item>
+          <mat-icon matListItemIcon>work_outline</mat-icon>
+          <div matListItemTitle>Employment Status</div>
+          <div matListItemLine>{{ teacher?.employmentStatus || "N/A" }}</div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+
+        <mat-list-item>
+          <mat-icon matListItemIcon>transgender</mat-icon>
+          <div matListItemTitle>Gender</div>
+          <div matListItemLine>
+            {{
+              teacher?.gender === 1
+                ? "Male"
+                : teacher?.gender === 2
+                ? "Female"
+                : "N/A"
+            }}
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+
+  <mat-card-actions
+    class="card-actions-new d-flex justify-content-end p-4 gap-3"
+  >
+    <button mat-raised-button color="primary">
+      <mat-icon>edit</mat-icon> Edit Teacher
+    </button>
+    <button mat-raised-button color="warn">
+      <mat-icon>delete</mat-icon> Delete Teacher
+    </button>
+    <button mat-stroked-button color="accent">
+      <mat-icon>send</mat-icon> Send Message
+    </button>
+  </mat-card-actions>
+</app-page-wrapper>

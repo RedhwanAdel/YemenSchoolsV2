@@ -140,4 +140,7 @@ export class SchoolFormComponent implements OnInit {
     }
 
   }
+  onCancel() {
+    this.router.navigate(['dash-board', 'schools']);
+  }
 }

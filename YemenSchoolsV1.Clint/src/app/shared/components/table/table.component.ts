@@ -68,10 +68,13 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
 
     this.displayedColumns = this.columns.map(col => col.key);
+
     if (this.hasActions) this.displayedColumns.push('actions');
   }
 
   onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
     this.pageChange.emit(event);
   }
   ngOnChanges(): void {

@@ -1,0 +1,23 @@
+<app-page-wrapper
+  headerTitle="City List"
+  headerSubtitle="Browse all available cities in the system"
+  headerIcon="location_city"
+>
+  <button
+    card-actions
+    color="primary"
+    mat-flat-button
+    routerLink="/school-dash-board/school-teacher-add"
+  >
+    <i class="bi bi-plus-lg me-1"></i>
+    Add Teacher
+  </button>
+
+  <app-table
+    [dataRow]="teachers()"
+    [columns]="Columns"
+    [hasActions]="true"
+    (actionClicked)="handleUserAction($event)"
+    [usePaginator]="false"
+  ></app-table>
+</app-page-wrapper>

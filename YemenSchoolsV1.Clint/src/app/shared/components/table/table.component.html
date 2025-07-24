@@ -11,6 +11,7 @@
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 </div>
+
 }
 <div class="mat-elevation-z2 table-wrapper">
   <table
@@ -20,7 +21,7 @@
     (matSortChange)="sortData($event)"
   >
     <ng-container matColumnDef="counter">
-      <th mat-header-cell *matHeaderCellDef>#</th>
+      <th mat-header-cell *matHeaderCellDef>No.</th>
       <td mat-cell *matCellDef="let element; let i = index">
         {{ i + 1 + (usePaginator ? pageIndex * pageSize : 0) }}
       </td>
@@ -83,6 +84,7 @@
         No data available.
       </td>
     </tr>
+
     }
   </table>
 

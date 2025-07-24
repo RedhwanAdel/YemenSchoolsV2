@@ -84,7 +84,12 @@
       <button mat-raised-button color="primary" type="submit">
         <mat-icon>save</mat-icon> {{ mode() === "add" ? "Create" : "Save" }}
       </button>
-      <button mat-stroked-button color="accent">
+      <button
+        mat-stroked-button
+        color="accent"
+        (click)="onCancel()"
+        type="button"
+      >
         <mat-icon>cancel</mat-icon> Cancel
       </button>
     </mat-card-actions>

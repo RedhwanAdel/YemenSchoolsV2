@@ -1,0 +1,138 @@
+<app-page-wrapper
+  [headerTitle]="mode() === 'add' ? 'Add New School' : 'Edit School:'"
+  [headerSubtitle]="
+    mode() === 'add'
+      ? 'Enter details for the new school'
+      : 'Modify details for this school'
+  "
+  [headerIcon]="mode() === 'add' ? 'add_business' : 'edit'"
+  [headerStyle]="mode() === 'add' ? 'add' : 'edit'"
+>
+  <form [formGroup]="teacherForm" (ngSubmit)="onSumit()" class="row g-3">
+    <div class="row">
+      <div class="col-md-6">
+        <app-form-input
+          label="Name (Arabic)"
+          icon="person"
+          formControlName="nameAr"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <app-form-input
+          label="Name (English)"
+          icon="person"
+          formControlName="nameEn"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <app-form-input
+          label="Email"
+          icon="email"
+          formControlName="email"
+          type="email"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <app-form-input
+          label="Phone Number"
+          icon="phone"
+          formControlName="phoneNumber"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <app-form-input
+          label="Main Phone"
+          icon="call"
+          formControlName="mainPhone"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <app-form-input
+          label="Postal Code"
+          icon="location_on"
+          formControlName="postalCode"
+        />
+      </div>
+
+      <div class="col-12">
+        <app-form-input
+          label="Address"
+          icon="location_on"
+          formControlName="address"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <app-select-input
+          label="Gender"
+          icon="wc"
+          formControlName="gender"
+          valueKey="value"
+          labelKey="label"
+          [options]="[
+            { value: 1, label: 'Male' },
+            { value: 2, label: 'Female' }
+          ]"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <app-form-input
+          label="Hire Date"
+          icon="event"
+          type="date"
+          formControlName="hireDate"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <app-form-input
+          label="Specialization"
+          icon="work"
+          formControlName="specialization"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <app-select-input
+          label="Employment Status"
+          icon="assignment_ind"
+          formControlName="employmentStatus"
+          valueKey="value"
+          labelKey="label"
+          [options]="[
+            { value: 'Permanent', label: 'Permanent' },
+            { value: 'Contract', label: 'Contract' }
+          ]"
+        />
+      </div>
+
+      <div class="col-12">
+        <app-form-input
+          label="Profile Picture URL"
+          icon="image"
+          formControlName="profilePictureUrl"
+        />
+      </div>
+    </div>
+
+    <mat-card-actions class="d-flex justify-content-end p-4 gap-3">
+      <button mat-raised-button color="primary" type="submit">
+        <mat-icon>save</mat-icon> {{ mode() === "add" ? "Create" : "Save" }}
+      </button>
+      <button
+        mat-stroked-button
+        color="accent"
+        (click)="onCancel()"
+        type="button"
+      >
+        <mat-icon>cancel</mat-icon> Cancel
+      </button>
+    </mat-card-actions>
+  </form>
+</app-page-wrapper>

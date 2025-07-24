@@ -25,6 +25,11 @@ import { SectionListComponent } from './features/school-dashboard/section/sectio
 import { SchoolGradeComponent } from './features/school-dashboard/school-grade/school-grade.component';
 import { SchoolSubjectComponent } from './features/school-dashboard/school-subject/school-subject.component';
 import { YearListComponent } from './features/school-dashboard/year/year-list/year-list.component';
+import { TeacherListComponent } from './features/school-dashboard/teacher/teacher-list/teacher-list.component';
+import { TeacherFormComponent } from './features/school-dashboard/teacher/teacher-form/teacher-form.component';
+import { TeacherAddComponent } from './features/school-dashboard/teacher/teacher-add/teacher-add.component';
+import { TeacherEditComponent } from './features/school-dashboard/teacher/teacher-edit/teacher-edit.component';
+import { TeacherDetailComponent } from './features/school-dashboard/teacher/teacher-detail/teacher-detail.component';
 
 export const routes: Routes = [
     {
@@ -63,6 +68,10 @@ export const routes: Routes = [
             { path: 'school-subject', component: SchoolSubjectComponent },
             { path: 'school-years', component: YearListComponent },
             { path: 'school-term', component: TermListComponent },
+            { path: 'school-teacher-list', component: TeacherListComponent },
+            { path: 'school-teacher-add', component: TeacherAddComponent },
+            { path: 'school-teacher-edit/:id', component: TeacherEditComponent },
+            { path: 'school-teacher-detail/:id', component: TeacherDetailComponent },
             { path: 'term', component: TermListComponent },
             { path: 'grade', component: GradeListComponent },
             { path: 'section', component: SectionListComponent },
