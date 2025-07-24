@@ -3,12 +3,21 @@ using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Features.Terms.Commands.CreateTerm;
 using YemenSchoolsV1.Application.Features.Terms.Commands.DeleteTerm;
 using YemenSchoolsV1.Application.Features.Terms.Commands.UpdateTerm;
+using YemenSchoolsV1.Application.Features.Terms.Queries.GetByYearId;
 
 namespace YemenSchoolsV1.API.Controllers
 {
 
     public class TermsController : AppControllerBase
     {
+        [HttpGet("{yearId}")]
+
+        public async Task<IActionResult> GetAll([FromRoute] Guid yearId)
+        {
+            var response = await Mediator.Send(new GetTermByYearIdQuery(yearId));
+            return NewResult(response);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTermCommand command)

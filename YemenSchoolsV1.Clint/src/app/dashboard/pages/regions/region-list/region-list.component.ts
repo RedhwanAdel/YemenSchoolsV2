@@ -32,7 +32,6 @@ export class RegionListComponent implements OnInit {
 
 
   regionColumns: TableColumn[] = [
-    { key: 'id', header: 'Product ID', sortable: true },
     { key: 'nameEn', header: 'Product Name En', sortable: true },
     { key: 'nameAr', header: 'Product Name Ar', sortable: true },
     { key: 'cityName', header: 'City Name ', sortable: true },

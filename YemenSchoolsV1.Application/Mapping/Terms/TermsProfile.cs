@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using YemenSchoolsV1.Application.Features.Terms.Queries.GetByYearId;
+using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Mapping.Terms
 {
@@ -8,7 +10,9 @@ namespace YemenSchoolsV1.Application.Mapping.Terms
         {
             CreateTermMapping();
             EditTermMapping();
-            GetTermListMapping();
+            CreateMap<Term, GetTermByYearIdResponse>()
+                    .ForMember(dest => dest.AcademicYearName, opt => opt.MapFrom(src => src.AcademicYear.Name))
+                    .ReverseMap();
 
         }
     }

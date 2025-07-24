@@ -35,7 +35,6 @@ export class CityListComponent implements OnInit {
   private snack = inject(SnackbarService)
 
   cityColumns: TableColumn[] = [
-    { key: 'id', header: 'City ID' },
     { key: 'nameEn', header: 'city Name En' },
     { key: 'nameAr', header: 'city Name Ar' },
   ];

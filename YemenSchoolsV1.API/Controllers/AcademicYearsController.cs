@@ -3,14 +3,20 @@ using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Features.AcademicYears.Commands.CreateYear;
 using YemenSchoolsV1.Application.Features.AcademicYears.Commands.DeleteYear;
 using YemenSchoolsV1.Application.Features.AcademicYears.Commands.UpdateYear;
+using YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYears;
 
 namespace YemenSchoolsV1.API.Controllers
 {
 
     public class AcademicYearsController : AppControllerBase
     {
+        [HttpGet("{schoolId}")]
 
-
+        public async Task<IActionResult> GetAll([FromRoute] Guid schoolId)
+        {
+            var response = await Mediator.Send(new GetYearListQueary(schoolId));
+            return NewResult(response);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateYearCommand command)

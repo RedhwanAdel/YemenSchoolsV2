@@ -24,6 +24,7 @@ import { GradeListComponent } from './features/school-dashboard/grade/grade-list
 import { SectionListComponent } from './features/school-dashboard/section/section-list/section-list.component';
 import { SchoolGradeComponent } from './features/school-dashboard/school-grade/school-grade.component';
 import { SchoolSubjectComponent } from './features/school-dashboard/school-subject/school-subject.component';
+import { YearListComponent } from './features/school-dashboard/year/year-list/year-list.component';
 
 export const routes: Routes = [
     {
@@ -60,6 +61,8 @@ export const routes: Routes = [
             { path: 'overview', component: SchoolDashOverviewComponent },
             { path: 'school-grade', component: SchoolGradeComponent },
             { path: 'school-subject', component: SchoolSubjectComponent },
+            { path: 'school-years', component: YearListComponent },
+            { path: 'school-term', component: TermListComponent },
             { path: 'term', component: TermListComponent },
             { path: 'grade', component: GradeListComponent },
             { path: 'section', component: SectionListComponent },

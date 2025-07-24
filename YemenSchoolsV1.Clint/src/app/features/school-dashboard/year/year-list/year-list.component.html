@@ -1,0 +1,24 @@
+<app-page-wrapper
+  headerTitle="City List"
+  headerSubtitle="Browse all available cities in the system"
+  headerIcon="location_city"
+>
+  <button
+    card-actions
+    color="primary"
+    mat-flat-button
+    (click)="openYearDialog()"
+  >
+    <i class="bi bi-plus-lg me-1"></i>
+    Add Year
+  </button>
+
+  <app-table
+    [dataRow]="years()"
+    [columns]="Columns"
+    [hasActions]="true"
+    (actionClicked)="handleUserAction($event)"
+    [usePaginator]="false"
+    [actions]="actions"
+  ></app-table>
+</app-page-wrapper>

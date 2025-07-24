@@ -30,14 +30,8 @@
     <Folder Include="Features\Schools\Queries\GetSchoolsByCityId\" />
     <Folder Include="Features\Regions\Commands\UpdateRegion\" />
     <Folder Include="Features\Schools\Queries\GetSchoolsByRegionId\" />
-    <Folder Include="Features\Sections\Commands\Create\" />
-    <Folder Include="Features\Sections\Commands\Delete\" />
-    <Folder Include="Features\Sections\Commands\Update\" />
-    <Folder Include="Features\Sections\Queries\GetAll\" />
-    <Folder Include="Features\Sections\Queries\GetById\" />
     <Folder Include="Features\Students\Commands\Delete\" />
     <Folder Include="Features\Students\Commands\Update\" />
-    <Folder Include="Features\Terms\Queries\" />
 
   </ItemGroup>
 

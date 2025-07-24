@@ -1,39 +1,32 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
-import { TermService } from '../../../../core/services/term.service';
+import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogService } from '../../../../core/services/dialog.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { MatButton } from '@angular/material/button';
-import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
-import { Term } from '../../../../shared/models/term/term';
-import { AccountService } from '../../../../core/services/account.service';
 import { YearDto } from '../../../../shared/models/AcademicYear/AcademicYear';
-import { MatFormField, MatLabel, MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
-import { TermFormComponent } from '../term-form/term-form.component';
+import { AccountService } from '../../../../core/services/account.service';
+import { MatButton } from '@angular/material/button';
+import { YearFormComponent } from '../year-form/year-form.component';
 
 @Component({
-  selector: 'app-term-list',
+  selector: 'app-year-list',
   standalone: true,
-  imports: [PageWrapperComponent, TableComponent, MatButton, MatSelectModule, MatLabel, MatFormField, FormsModule],
-  templateUrl: './term-list.component.html',
-  styleUrl: './term-list.component.scss'
+  imports: [PageWrapperComponent, TableComponent, MatButton],
+  templateUrl: './year-list.component.html',
+  styleUrl: './year-list.component.scss'
 })
-export class TermListComponent implements OnInit {
-  termService = inject(TermService)
+export class YearListComponent implements OnInit {
   private dialogService = inject(DialogService);
   private dialog = inject(MatDialog);
   yearService = inject(AcadmicYearService)
-  private snack = inject(SnackbarService)
   private accountService = inject(AccountService)
+  private snack = inject(SnackbarService)
   years = signal<YearDto[]>([])
-  terms = signal<Term[]>([])
-  selectedYear: string | null = null;
+
   Columns: TableColumn[] = [
     { key: 'name', header: ' Name ' },
-    { key: 'academicYearName', header: ' Year Name ' },
     { key: 'startDate', header: ' start Date ', type: 'date' },
     { key: 'endDate', header: ' end Date ', type: 'date' },
   ];
@@ -44,8 +37,8 @@ export class TermListComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+
     this.loadYears()
-    this.loadTerms()
   }
 
 
@@ -56,10 +49,10 @@ export class TermListComponent implements OnInit {
     switch (event.actionKey) {
 
       case 'edit':
-        this.opentermDialog(event.rowData)
+        this.openYearDialog(event.rowData)
         break;
       case 'delete':
-        this.openConfirmDialog(event.rowData.id, event.rowData.nameEn)
+        this.openConfirmDialog(event.rowData.id, event.rowData.name)
 
         break;
     }
@@ -73,20 +66,7 @@ export class TermListComponent implements OnInit {
       })
     }
   }
-  loadTerms() {
 
-    if (!this.selectedYear) {
-      this.snack.error('pleas Select year')
-      return;
-    }
-    this.termService.getTerms(this.selectedYear).subscribe({
-      next: res => this.terms.set(res.data)
-    })
-
-  }
-  yearChange() {
-    this.loadTerms()
-  }
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
       'Confirm Delete',
@@ -94,10 +74,10 @@ export class TermListComponent implements OnInit {
     );
 
     if (confirmed) {
-      this.termService.deleteTerm(id).subscribe({
+      this.yearService.deleteAcademicYear(id).subscribe({
         next: () => {
           this.snack.success('city deleted successfully!');
-          this.terms();
+          this.loadYears();
         },
         error: (err) => {
           this.snack.error('Failed to delete city.');
@@ -107,20 +87,19 @@ export class TermListComponent implements OnInit {
     }
   }
 
-  opentermDialog(term?: any) {
-
-    const dialogRef = this.dialog.open(TermFormComponent, {
+  openYearDialog(year?: any) {
+    const dialogRef = this.dialog.open(YearFormComponent, {
       width: '400px',
-      data: { model: term }
+      data: { model: year }
     });
 
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.loadTerms()
+        this.loadYears()
       }
     });
   }
 
-}
 
+}

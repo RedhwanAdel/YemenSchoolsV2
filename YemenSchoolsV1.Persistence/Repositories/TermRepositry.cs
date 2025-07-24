@@ -13,6 +13,10 @@ namespace YemenSchoolsV1.Persistence.Repositories
         {
             this.dbContext = dbContext;
         }
+        public async Task<List<Term>> GetTermByYearIdAsync(Guid id)
+        {
+            return await dbContext.Terms.Include(x => x.AcademicYear).Where(e => e.AcademicYearId == id).ToListAsync();
+        }
         public async Task<Term?> GetTermByIdIncludeAsync(Guid id)
         {
             return await dbContext.Terms.Where(e => e.Id == id).Include(r => r.AcademicYear).SingleOrDefaultAsync();

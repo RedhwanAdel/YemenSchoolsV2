@@ -56,6 +56,7 @@ export class TableComponent implements OnInit {
   @Input() pageIndex: number = 0;
   @Input() hasActions: boolean = false;
   @Input() usePaginator: boolean = true;
+  @Input() allowSerch: boolean = true;
 
   @Output() actionClicked = new EventEmitter<{ actionKey: string; rowData: any }>();
   @Output() pageChange = new EventEmitter<PageEvent>();
@@ -65,6 +66,7 @@ export class TableComponent implements OnInit {
   displayedColumns: string[] = [];
 
   ngOnInit(): void {
+
     this.displayedColumns = this.columns.map(col => col.key);
     if (this.hasActions) this.displayedColumns.push('actions');
   }

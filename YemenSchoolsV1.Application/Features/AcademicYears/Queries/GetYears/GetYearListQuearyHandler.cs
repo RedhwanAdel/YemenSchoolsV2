@@ -27,7 +27,7 @@ namespace YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYears
         #endregion
         public async Task<Response<List<GetYearListResponse>>> Handle(GetYearListQueary request, CancellationToken cancellationToken)
         {
-            var resultDomain = await academicYearRepository.GetAllAsync();
+            var resultDomain = await academicYearRepository.GetYearsBySchoolIdAsync(request.Id);
 
             var result = mapper.Map<List<GetYearListResponse>>(resultDomain);
 
