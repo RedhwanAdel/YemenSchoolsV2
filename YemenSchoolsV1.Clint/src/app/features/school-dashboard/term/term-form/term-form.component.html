@@ -2,13 +2,13 @@
 
 <form [formGroup]="form" (ngSubmit)="submit()" mat-dialog-content class="pt-3">
   <app-form-input label="Name " formControlName="name" />
-  <app-select-input
+  <!-- <app-select-input
     label="City Id"
     [options]="yearService.years()"
     labelKey="name"
     valueKey="id"
     formControlName="academicYearId"
-  />
+  /> -->
   <app-form-input label="startDate" type="date" formControlName="startDate" />
   <app-form-input label="startDate" type="date" formControlName="endDate" />
 </form>

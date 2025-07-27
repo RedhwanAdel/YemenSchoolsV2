@@ -30,6 +30,7 @@ namespace YemenSchoolsV1.Persistence.Data
         public DbSet<Grade> Grades { get; set; }
         public DbSet<GradeSubject> GradeSubject { get; set; }
         public DbSet<StageGrade> StageGrade { get; set; }
+        public DbSet<SectionSubject> SectionSubject { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }

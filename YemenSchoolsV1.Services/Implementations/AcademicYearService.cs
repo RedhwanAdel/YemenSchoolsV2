@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Persistence;
+﻿using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Domain.Entities;
-using YemenSchoolsV1.Persistence.Repositories;
 
 namespace YemenSchoolsV1.Services.Implementations
 {
@@ -20,6 +14,21 @@ namespace YemenSchoolsV1.Services.Implementations
         }
         public async Task<AcademicYear?> CreateYearAsync(AcademicYear year)
         {
+
+            var existingYears = await academicYearRepository.GetYearsBySchoolIdAsync(year.SchoolId);
+
+
+            if (existingYears == null || existingYears.Count == 0)
+            {
+                year.IsCurrentYear = true;
+            }
+            else
+            {
+                year.IsCurrentYear = false;
+            }
+
+
+
             if (year == null)
             {
                 throw new ArgumentNullException(nameof(year));

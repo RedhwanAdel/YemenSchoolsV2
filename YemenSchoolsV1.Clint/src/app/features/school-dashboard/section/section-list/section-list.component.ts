@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
 import { SectionService } from '../../../../core/services/section.service';
@@ -6,6 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogService } from '../../../../core/services/dialog.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MatButton } from '@angular/material/button';
+import { ActivatedRoute } from '@angular/router';
+import { Section } from '../../../../shared/models/section/section';
+import { SectionFormComponent } from '../section-form/section-form.component';
+import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
 
 @Component({
   selector: 'app-section-list',
@@ -18,13 +22,14 @@ export class SectionListComponent implements OnInit {
   private dialogService = inject(DialogService);
   private dialog = inject(MatDialog);
   sectionService = inject(SectionService)
+  yearService = inject(AcadmicYearService)
   private snack = inject(SnackbarService)
+  private route = inject(ActivatedRoute);
 
+  sections = signal<Section[]>([])
   Columns: TableColumn[] = [
-    { key: 'id', header: ' ID', sortable: true },
     { key: 'name', header: ' Name ', sortable: true },
-    { key: 'gradeName', header: 'Grade Name ', sortable: true },
-    { key: 'roomNumber', header: 'Room Number', sortable: true },
+    { key: 'capacity', header: 'capacity ', sortable: true },
   ];
   actions: TableAction[] = [
     { actionKey: 'edit', icon: 'edit', tooltip: 'Edit User', color: 'accent' },
@@ -34,10 +39,18 @@ export class SectionListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.sectionService.getSections()
+    this.loadSections()
   }
 
+  loadSections() {
+    const gradeId = this.route.snapshot.paramMap.get('id');
+    if (!gradeId) return;
+    const yearId = this.yearService.currentAcademicYearId()!
+    this.sectionService.getSectionsByYearAndGrade(yearId, gradeId).subscribe({
+      next: res => this.sections.set(res.data)
+    })
 
+  }
 
   handleUserAction(event: { actionKey: string; rowData: any }): void {
     console.log(`Action: ${event.actionKey} on User:`, event.rowData);
@@ -45,7 +58,7 @@ export class SectionListComponent implements OnInit {
     switch (event.actionKey) {
 
       case 'edit':
-        this.openRegionDialog(event.rowData)
+        this.openSectionDialog(event.rowData)
         break;
       case 'delete':
         this.openConfirmDialog(event.rowData.id, event.rowData.name)
@@ -64,7 +77,7 @@ export class SectionListComponent implements OnInit {
       this.sectionService.deleteSection(id).subscribe({
         next: () => {
           this.snack.success('section deleted successfully!');
-          this.sectionService.getSections();
+          this.loadSections()
         },
         error: (err) => {
           this.snack.error('Failed to delete section.');
@@ -74,8 +87,24 @@ export class SectionListComponent implements OnInit {
     }
   }
 
-  openRegionDialog(city?: any) {
+  openSectionDialog(section?: any) {
+    const gradeId = this.route.snapshot.paramMap.get('id');
+    if (!gradeId) return;
 
 
+    const dialogRef = this.dialog.open(SectionFormComponent, {
+      width: '400px',
+      data: {
+        model: section,
+        gradeId: gradeId
+      }
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadSections()
+      }
+    });
   }
 }

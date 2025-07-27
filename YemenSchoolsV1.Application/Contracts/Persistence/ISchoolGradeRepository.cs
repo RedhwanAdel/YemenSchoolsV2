@@ -8,8 +8,8 @@ namespace YemenSchoolsV1.Application.Contracts.Persistence
     public interface ISchoolGradeRepository : IGenericRepositoryAsync<SchoolGrade>
     {
         Task SyncSchoolStageGradesAsync(Guid schoolId, List<Guid> stageGradeIds);
-        Task<List<StageGradeDto>> GetStageGradesForSchoolAsync(Guid schoolId);
-        Task<List<SchoolGradeDto>> GetSchoolGradesAsync(Guid schoolId);
+        Task<List<StageGradeDto>> GetStageGradesAsync(Guid schoolId);
+        Task<List<SchoolGradeDto>> GetSchoolGradesBySchoolIdAsync(Guid schoolId);
 
 
 

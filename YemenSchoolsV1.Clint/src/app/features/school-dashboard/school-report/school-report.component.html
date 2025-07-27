@@ -1,0 +1,140 @@
+<div class="school-report-container">
+  <mat-toolbar color="primary" class="report-header">
+    <mat-icon>school</mat-icon>
+    <span>تقرير المدرسة الشامل</span>
+  </mat-toolbar>
+
+  <div *ngIf="isLoading()" class="loading-spinner">
+    <mat-spinner></mat-spinner>
+    <p>جاري تحميل بيانات التقرير...</p>
+  </div>
+
+  <div *ngIf="errorMessage()" class="error-message">
+    <mat-icon color="warn">error_outline</mat-icon>
+    <p>{{ errorMessage() }}</p>
+  </div>
+
+  <div *ngIf="reportData() as report" class="report-content">
+    <mat-card class="report-card school-info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon color="accent">info</mat-icon> معلومات المدرسة
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div>
+            <mat-icon>title</mat-icon> <strong>الاسم العربي:</strong>
+            {{ report.nameAr }}
+          </div>
+          <div>
+            <mat-icon>title</mat-icon> <strong>الاسم الإنجليزي:</strong>
+            {{ report.nameEn }}
+          </div>
+          <div>
+            <mat-icon>location_on</mat-icon> <strong>العنوان:</strong>
+            {{ report.addressAr }}
+          </div>
+          <div>
+            <mat-icon>map</mat-icon> <strong>المدينة:</strong>
+            {{ report.cityNameAr }} ({{ report.regionNameAr }})
+          </div>
+          <div>
+            <mat-icon>phone</mat-icon> <strong>الهاتف الرئيسي:</strong>
+            {{ report.mainPhone }}
+          </div>
+          <div>
+            <mat-icon>email</mat-icon> <strong>البريد الإلكتروني:</strong>
+            {{ report.email }}
+          </div>
+          <div>
+            <mat-icon>category</mat-icon> <strong>نوع المدرسة:</strong>
+            {{ getSchoolType(report.schoolType) }}
+          </div>
+          <div>
+            <mat-icon>grade</mat-icon> <strong>المستوى الدراسي:</strong>
+            {{ getSchoolLevel(report.schoolLevel) }}
+          </div>
+          <div>
+            <mat-icon>wc</mat-icon> <strong>نوع الجنس:</strong>
+            {{ getGenderType(report.genderType) }}
+          </div>
+          <div>
+            <mat-icon>local_post_office</mat-icon>
+            <strong>الرمز البريدي:</strong> {{ report.postalCode }}
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="report-card stats-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon color="accent">analytics</mat-icon> إحصائيات عامة
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <mat-icon color="primary">people</mat-icon>
+            <div class="stat-value">{{ report.studentsCount }}</div>
+            <div class="stat-label">عدد الطلاب</div>
+          </div>
+          <div class="stat-item">
+            <mat-icon color="accent">person_add</mat-icon>
+            <div class="stat-value">{{ report.teachersCount }}</div>
+            <div class="stat-label">عدد المعلمين</div>
+          </div>
+          <div class="stat-item">
+            <mat-icon color="warn">menu_book</mat-icon>
+            <div class="stat-value">{{ report.subjectsCount }}</div>
+            <div class="stat-label">عدد المواد</div>
+          </div>
+          <div class="stat-item">
+            <mat-icon color="info">class</mat-icon>
+            <div class="stat-value">{{ report.sectionsCount }}</div>
+            <div class="stat-label">عدد الفصول/الشعب</div>
+          </div>
+          <div class="stat-item">
+            <mat-icon color="success">school</mat-icon>
+            <div class="stat-value">{{ report.gradesCount }}</div>
+            <div class="stat-label">عدد المراحل/الصفوف</div>
+          </div>
+          <div class="stat-item">
+            <mat-icon color="primary">date_range</mat-icon>
+            <div class="stat-value">{{ report.academicYearsCount }}</div>
+            <div class="stat-label">عدد السنوات الدراسية</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="report-card activity-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon color="accent">local_activity</mat-icon> أنشطة إضافية
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="activity-grid">
+          <div class="activity-item">
+            <mat-icon>article</mat-icon>
+            <span>أخبار:</span> {{ report.newsCount }}
+          </div>
+          <div class="activity-item">
+            <mat-icon>photo_library</mat-icon>
+            <span>صور:</span> {{ report.photosCount }}
+          </div>
+          <div class="activity-item">
+            <mat-icon>family_restroom</mat-icon>
+            <span>أولياء أمور:</span> {{ report.parentsCount }}
+          </div>
+          <div class="activity-item">
+            <mat-icon>star</mat-icon>
+            <span>تقييمات:</span> {{ report.ratingsCount }}
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

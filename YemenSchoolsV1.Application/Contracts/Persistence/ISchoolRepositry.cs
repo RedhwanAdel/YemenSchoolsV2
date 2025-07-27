@@ -12,6 +12,7 @@ namespace YemenSchoolsV1.Application.Contracts.Persistence
         Task<SchoolForUpdate?> GetSchoolByIdForUpdateAsync(Guid schoolId);
         Task AssignSubjectsToSchoolGradeAsync(Guid schoolGradeId, List<Guid> subjectIds);
         Task<List<SubjectDto>> GetSubjectsForSchoolGradeAsync(Guid schoolGradeId);
+        Task<SchoolReportDto?> GetSchoolReportAsync(Guid schoolId);
 
 
 

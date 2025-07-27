@@ -1,0 +1,231 @@
+/* src/app/components/school-report/school-report.component.scss */
+
+.school-report-container {
+  padding: 24px;
+  max-width: 1000px;
+  margin: 24px auto;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.report-header {
+  margin-bottom: 24px;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 500;
+  background-color: #3f51b5; /* لون أساسي جميل */
+  color: white; /* نص أبيض */
+  padding: 16px;
+
+  mat-icon {
+    margin-right: 8px;
+    font-size: 32px; /* حجم أكبر للأيقونة الرئيسية */
+  }
+}
+
+.loading-spinner, .error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: rgba(0, 0, 0, 0.6);
+
+  mat-spinner {
+    margin-bottom: 16px;
+  }
+
+  mat-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 1.1em;
+  }
+}
+
+.report-content {
+  display: grid;
+  gap: 24px;
+}
+
+.report-card {
+  margin-bottom: 16px;
+  border-radius: 12px; /* حواف أكثر استدارة للبطاقات */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* ظل أقوى وأجمل */
+
+  mat-card-header {
+    background-color: #e8eaf6; /* لون خلفية فاتح ومريح للهيدر */
+    padding: 16px 24px; /* padding أكبر قليلاً */
+    border-bottom: 1px solid #c5cae9;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      font-size: 1.4em; /* حجم أكبر للعنوان */
+      color: #303f9f; /* لون أزرق داكن جذاب */
+      font-weight: 600;
+
+      mat-icon {
+        margin-right: 12px; /* مسافة أكبر للأيقونة */
+        font-size: 28px; /* حجم أكبر لأيقونة العنوان */
+        color: #5c6bc0; /* لون الأيقونة في الهيدر */
+      }
+    }
+  }
+
+  mat-card-content {
+    padding: 24px;
+  }
+}
+
+/* تحسين أيقونات قسم معلومات المدرسة الأساسية */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px; /* مسافة أكبر بين العناصر */
+
+  div {
+    display: flex;
+    align-items: center;
+    font-size: 1.05em;
+    color: #424242; /* لون نص أغمق قليلاً */
+    // إضافة حواف خفيفة أو خلفية للعناصر الفردية إذا أردت
+    // background-color: #fcfcfc;
+    // border-radius: 6px;
+    // padding: 8px;
+
+    mat-icon {
+      margin-right: 12px; /* مسافة أكبر */
+      font-size: 24px; /* حجم أكبر */
+      color: #7986cb; /* لون أزرق فاتح للأيقونات */
+      // يمكنك إضافة ظل بسيط أو خلفية دائرية للأيقونات هنا:
+      // background-color: #e8eaf6;
+      // border-radius: 50%;
+      // padding: 4px;
+      // box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    strong {
+      color: #212121; /* لون أغمق للنصوص الهامة */
+      margin-right: 6px;
+    }
+  }
+}
+
+/* تحسين أيقونات قسم الإحصائيات والأعداد (بطاقات الإحصائيات الفردية) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* تعديل على العرض الأدنى */
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px; /* padding أكبر */
+  border: 1px solid #e0e0e0;
+  border-radius: 10px; /* حواف مستديرة أكثر */
+  background-color: #ffffff; /* خلفية بيضاء */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08); /* ظل أجمل */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer; /* للإشارة إلى أنها يمكن التفاعل معها */
+
+  &:hover {
+    transform: translateY(-5px); /* حركة رفع عند التحويم */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* ظل أقوى عند التحويم */
+  }
+
+  mat-icon {
+    font-size: 56px; /* أيقونات أكبر حجمًا */
+    margin-bottom: 12px;
+    // الألوان هنا يمكن التحكم بها من الـ HTML مباشرة (color="primary" etc.)
+    // لكن يمكننا أيضًا إعطائها ظل نصي لجعلها تبرز:
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .stat-value {
+    font-size: 2.8em; /* حجم أكبر للعدد */
+    font-weight: bold;
+    color: #3f51b5; /* لون أزرق أساسي */
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 1em; /* حجم الخط */
+    color: #555;
+    text-align: center;
+  }
+}
+
+/* قسم الأنشطة الأخرى (الأخبار، الصور، التقييمات) */
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* تعديل العرض الأدنى */
+  gap: 20px; /* مسافة أكبر */
+
+  .activity-item {
+    display: flex;
+    align-items: center;
+    font-size: 1.05em;
+    color: #424242;
+    padding: 12px 0;
+    background-color: #fdfdfd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    mat-icon {
+      margin-right: 12px;
+      margin-left: 15px; /* لتوسيط الأيقونة في البداية */
+      font-size: 26px; /* حجم أكبر */
+      color: #00897b; /* لون أخضر زمردي جميل */
+    }
+
+    span {
+      font-weight: bold;
+      margin-right: 8px;
+      color: #212121;
+    }
+  }
+}
+
+/* تحسينات للطباعة (اختياري) - تبقى كما هي أو يمكن تعديلها حسب الحاجة */
+@media print {
+  body {
+    background-color: #fff !important;
+  }
+  .school-report-container {
+    box-shadow: none !important;
+    border: 1px solid #eee;
+    margin: 0;
+    padding: 16px;
+    max-width: none;
+  }
+  .report-header {
+    background-color: #f0f0f0 !important;
+    color: #333 !important;
+    border-bottom: 1px solid #ccc;
+  }
+  .report-card {
+    box-shadow: none !important;
+    border: 1px solid #ddd;
+  }
+  .report-card mat-card-header {
+    background-color: #f8f8f8 !important;
+  }
+  .loading-spinner, .error-message {
+    display: none;
+  }
+}

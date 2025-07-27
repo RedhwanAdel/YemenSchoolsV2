@@ -51,7 +51,8 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
-        @for (action of actions; track action.actionKey) {
+        @for (action of actions; track action.actionKey) { @if
+        (!action.showCondition || action.showCondition(element)) {
         <button
           mat-icon-button
           [attr.aria-label]="action.tooltip"
@@ -61,11 +62,10 @@
         >
           <mat-icon>{{ action.icon }}</mat-icon>
         </button>
-        }
+        } }
       </td>
     </ng-container>
     }
-
     <tr
       mat-header-row
       *matHeaderRowDef="['counter'].concat(displayedColumns)"
@@ -73,6 +73,7 @@
     <tr
       mat-row
       *matRowDef="let row; columns: ['counter'].concat(displayedColumns)"
+      [ngClass]="{ 'current-year-row': row.isCurrentYear }"
     ></tr>
 
     @if(dataRow.length === 0){

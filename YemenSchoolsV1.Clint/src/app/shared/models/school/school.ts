@@ -60,3 +60,32 @@ export interface SchoolGradeSubjectsInit {
     stageGradeId: string;
     subjectsIds: string[];
 }
+export interface SchoolReportData {
+    schoolId: string;
+    nameAr: string;
+    nameEn: string;
+    descriptionAr: string | null;
+    addressAr: string;
+    postalCode: string;
+    mainPhone: string;
+    email: string;
+    schoolType: number; // قد تحتاج إلى تحويلها إلى اسم مفهوم لاحقًا (مثال: 'حكومي', 'خاص')
+    schoolLevel: number; // قد تحتاج إلى تحويلها إلى اسم مفهوم
+    genderType: number; // قد تحتاج إلى تحويلها إلى اسم مفهوم
+    curriculumType: number; // قد تحتاج إلى تحويلها إلى اسم مفهوم
+    cityId: string;
+    cityNameAr: string;
+    regionId: string;
+    regionNameAr: string;
+    phoneNumbers: any[]; // نوع البيانات حسب ما يأتي من الـ API
+    teachersCount: number;
+    studentsCount: number;
+    gradesCount: number;
+    subjectsCount: number;
+    sectionsCount: number;
+    academicYearsCount: number;
+    newsCount: number;
+    photosCount: number;
+    parentsCount: number;
+    ratingsCount: number;
+}

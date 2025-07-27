@@ -29,7 +29,7 @@ namespace YemenSchoolsV1.API.Controllers
         {
             if (schoolId == Guid.Empty)
                 return NewResult(new Response<List<StageGradeDto>>("معرف المدرسة غير صالح.", false) { StatusCode = HttpStatusCode.BadRequest });
-            var result = await schoolGradeRepository.GetStageGradesForSchoolAsync(schoolId);
+            var result = await schoolGradeRepository.GetStageGradesAsync(schoolId);
             return NewResult(new Response<List<StageGradeDto>>(result) { StatusCode = HttpStatusCode.OK, Succeeded = true });
         }
 
@@ -38,7 +38,7 @@ namespace YemenSchoolsV1.API.Controllers
         {
             if (schoolId == Guid.Empty)
                 return NewResult(new Response<List<SchoolGradeDto>>("معرف المدرسة غير صالح.", false) { StatusCode = HttpStatusCode.BadRequest });
-            var result = await schoolGradeRepository.GetSchoolGradesAsync(schoolId);
+            var result = await schoolGradeRepository.GetSchoolGradesBySchoolIdAsync(schoolId);
             return NewResult(new Response<List<SchoolGradeDto>>(result) { StatusCode = HttpStatusCode.OK, Succeeded = true });
         }
 

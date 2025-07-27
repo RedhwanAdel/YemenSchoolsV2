@@ -1,0 +1,14 @@
+<app-page-wrapper
+  headerTitle="City List"
+  headerSubtitle="Browse all available cities in the system"
+  headerIcon="location_city"
+>
+  <app-table
+    [dataRow]="sectionsOfYear"
+    [columns]="Columns"
+    [hasActions]="true"
+    (actionClicked)="handleUserAction($event)"
+    [usePaginator]="false"
+    [actions]="actions"
+  ></app-table>
+</app-page-wrapper>

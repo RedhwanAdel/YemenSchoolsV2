@@ -98,5 +98,16 @@ namespace YemenSchoolsV1.API.Controllers
             return NewResult(new Response<List<SubjectDto>>(subjects) { StatusCode = HttpStatusCode.OK, Succeeded = true });
         }
 
+
+        [HttpGet("{id:guid}/report")]
+        public async Task<IActionResult> GetSchoolReport([FromRoute] Guid id)
+        {
+            var report = await schoolRepositry.GetSchoolReportAsync(id);
+            if (report == null)
+                return NewResult(new Response<string>("School not found.", false) { StatusCode = HttpStatusCode.NotFound });
+
+            return NewResult(new Response<SchoolReportDto>(report) { StatusCode = HttpStatusCode.OK, Succeeded = true });
+        }
+
     }
 }

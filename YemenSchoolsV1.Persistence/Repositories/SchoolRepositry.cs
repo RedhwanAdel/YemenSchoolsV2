@@ -98,8 +98,74 @@ namespace YemenSchoolsV1.Persistence.Repositories
         {
             return await dbContext.GradeSubject
                                  .Where(gs => gs.SchoolGradeId == schoolGradeId)
-                                 .Select(gs => new SubjectDto { Id = gs.Subject.Id, Name = gs.Subject.Name })
+                                 .Select(gs => new SubjectDto { Id = gs.Subject.Id, Name = gs.Subject.Name, gradeSubjectId = gs.Id })
                                  .ToListAsync();
         }
+
+
+
+        public async Task<SchoolReportDto?> GetSchoolReportAsync(Guid schoolId)
+        {
+            var school = await dbContext.Schools
+                .Include(s => s.City)
+                .Include(s => s.Region)
+                .Include(s => s.SchoolPhones)
+                .Include(s => s.Teachers)
+                .Include(s => s.SchoolGrades)
+                    .ThenInclude(sg => sg.GradeSubjects)
+                .Include(s => s.SchoolGrades)
+                    .ThenInclude(sg => sg.Sections)
+                .Include(s => s.AcademicYears)
+                    .ThenInclude(ay => ay.Sections)
+                .Include(s => s.SchoolNews)
+                .Include(s => s.SchoolPhotos)
+                .Include(s => s.SchoolRatings)
+                .FirstOrDefaultAsync(s => s.Id == schoolId);
+
+            if (school == null)
+                return null;
+
+            // Count unique grades, subjects, sections, students, etc.
+            var grades = school.SchoolGrades;
+            var subjectsCount = grades.SelectMany(g => g.GradeSubjects).Select(gs => gs.SubjectId).Distinct().Count();
+            var sectionsCount = grades.SelectMany(g => g.Sections).Count();
+            var studentsCount = grades.SelectMany(g => g.Sections).SelectMany(sec => sec.SectionSubjects);
+            var academicYearsCount = school.AcademicYears.Count;
+            var newsCount = school.SchoolNews.Count;
+            var photosCount = school.SchoolPhotos.Count;
+            var ratingsCount = school.SchoolRatings.Count;
+            var parentsCount = 0; // If you have a way to count parents, add logic here
+
+            return new SchoolReportDto
+            {
+                SchoolId = school.Id,
+                NameAr = school.NameAr,
+                NameEn = school.NameEn,
+                DescriptionAr = school.DescriptionAr,
+                AddressAr = school.AddressAr,
+                PostalCode = school.PostalCode,
+                MainPhone = school.MainPhone,
+                Email = school.Email,
+                SchoolType = (int)school.SchoolType,
+                SchoolLevel = (int)school.SchoolLevel,
+                GenderType = (int)school.GenderType,
+                CurriculumType = (int)school.CurriculumType,
+                CityId = school.CityId,
+                CityNameAr = school.City?.NameAr,
+                RegionId = school.RegionId,
+                RegionNameAr = school.Region?.NameAr,
+                PhoneNumbers = school.SchoolPhones.Select(p => p.PhoneNumber).ToList(),
+                TeachersCount = school.Teachers.Count,
+                GradesCount = grades.Count,
+                SubjectsCount = subjectsCount,
+                SectionsCount = sectionsCount,
+                AcademicYearsCount = academicYearsCount,
+                NewsCount = newsCount,
+                PhotosCount = photosCount,
+                ParentsCount = parentsCount,
+                RatingsCount = ratingsCount
+            };
+        }
+
     }
 }

@@ -59,7 +59,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
         }
 
 
-        public async Task<List<StageGradeDto>> GetStageGradesForSchoolAsync(Guid schoolId)
+        public async Task<List<StageGradeDto>> GetStageGradesAsync(Guid schoolId)
         {
             var result = await dbContext.StageGrade
                 .Select(sg => new StageGradeDto
@@ -76,7 +76,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
         }
 
 
-        public async Task<List<SchoolGradeDto>> GetSchoolGradesAsync(Guid schoolId)
+        public async Task<List<SchoolGradeDto>> GetSchoolGradesBySchoolIdAsync(Guid schoolId)
         {
             var result = await dbContext.SchoolGrade
                 .Include(x => x.StageGrade)

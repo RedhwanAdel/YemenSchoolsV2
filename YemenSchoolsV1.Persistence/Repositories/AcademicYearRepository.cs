@@ -17,6 +17,36 @@ namespace YemenSchoolsV1.Persistence.Repositories
         {
             return await dbContext.AcademicYears.Where(e => e.SchoolId == id).ToListAsync();
         }
+        public async Task<Guid?> SetCurrentYearAsync(Guid schoolId, Guid academicYearId)
+        {
+            var years = await dbContext.AcademicYears
+                .Where(y => y.SchoolId == schoolId)
+                .ToListAsync();
+
+
+            if (years.Count == 0)
+                return null;
+
+            foreach (var year in years)
+                year.IsCurrentYear = false;
+
+            var currentYear = years.FirstOrDefault(y => y.Id == academicYearId);
+            if (currentYear == null)
+                return null;
+
+            currentYear.IsCurrentYear = true;
+
+            await dbContext.SaveChangesAsync();
+            return currentYear.Id;
+        }
+
+        public async Task<Guid?> GetCurrentYearIdAsync(Guid schoolId)
+        {
+            return await dbContext.AcademicYears
+                .Where(y => y.SchoolId == schoolId && y.IsCurrentYear)
+                .Select(y => (Guid?)y.Id)
+                .FirstOrDefaultAsync();
+        }
 
     }
 }

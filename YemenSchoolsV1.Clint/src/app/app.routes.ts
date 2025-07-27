@@ -20,7 +20,6 @@ import { SchoolDashboardComponent } from './layout/school-dashboard/school-dashb
 import { SchoolDashOverviewComponent } from './features/school-dashboard/school-dash-overview/school-dash-overview.component';
 import { StageListComponent } from './features/school-dashboard/stage/stage-list/stage-list.component';
 import { TermListComponent } from './features/school-dashboard/term/term-list/term-list.component';
-import { GradeListComponent } from './features/school-dashboard/grade/grade-list/grade-list.component';
 import { SectionListComponent } from './features/school-dashboard/section/section-list/section-list.component';
 import { SchoolGradeComponent } from './features/school-dashboard/school-grade/school-grade.component';
 import { SchoolSubjectComponent } from './features/school-dashboard/school-subject/school-subject.component';
@@ -30,6 +29,10 @@ import { TeacherFormComponent } from './features/school-dashboard/teacher/teache
 import { TeacherAddComponent } from './features/school-dashboard/teacher/teacher-add/teacher-add.component';
 import { TeacherEditComponent } from './features/school-dashboard/teacher/teacher-edit/teacher-edit.component';
 import { TeacherDetailComponent } from './features/school-dashboard/teacher/teacher-detail/teacher-detail.component';
+import { GradeListComponent } from './features/school-dashboard/section/grade-list/grade-list.component';
+import { SectionSubjectListComponent } from './features/school-dashboard/section-subject/section-subject-list/section-subject-list.component';
+import { SectionSubjectAssignmentComponent } from './features/school-dashboard/section-subject/section-subject-assignment/section-subject-assignment.component';
+import { SchoolReportComponent } from './features/school-dashboard/school-report/school-report.component';
 
 export const routes: Routes = [
     {
@@ -73,8 +76,11 @@ export const routes: Routes = [
             { path: 'school-teacher-edit/:id', component: TeacherEditComponent },
             { path: 'school-teacher-detail/:id', component: TeacherDetailComponent },
             { path: 'term', component: TermListComponent },
-            { path: 'grade', component: GradeListComponent },
-            { path: 'section', component: SectionListComponent },
+            { path: 'report', component: SchoolReportComponent },
+            { path: 'section-grade-list', component: GradeListComponent },
+            { path: 'section-subject', component: SectionSubjectListComponent },
+            { path: 'section-subject-assignment/:sectionId', component: SectionSubjectAssignmentComponent },
+            { path: 'section-list/:id', component: SectionListComponent },
 
         ],
     },

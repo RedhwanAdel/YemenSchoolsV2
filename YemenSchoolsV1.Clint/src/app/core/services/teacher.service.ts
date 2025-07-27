@@ -20,7 +20,7 @@ export class TeacherService {
 
   getTeachers(schoolId: string) {
 
-    return this.http.get<ApiResponse<YearDto[]>>(this.baseUrl + 'Teachers/GeAlltBySchoolId/' + this.schoolId)
+    return this.http.get<ApiResponse<Teacher[]>>(this.baseUrl + 'Teachers/GeAlltBySchoolId/' + this.schoolId)
   }
 
   getTeacherById(id: string) {

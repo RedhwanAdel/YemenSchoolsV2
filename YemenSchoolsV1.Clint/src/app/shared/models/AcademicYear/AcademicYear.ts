@@ -3,6 +3,8 @@ export interface YearDto {
     name: string;
     startDate: Date;
     endDate: Date;
+    isCurrentYear: boolean
+    isCurrentYearDisplay?: string;
 }
 
 export interface CreateYearDto {

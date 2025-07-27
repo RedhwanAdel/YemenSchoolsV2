@@ -28,9 +28,7 @@ export class TermListComponent implements OnInit {
   yearService = inject(AcadmicYearService)
   private snack = inject(SnackbarService)
   private accountService = inject(AccountService)
-  years = signal<YearDto[]>([])
   terms = signal<Term[]>([])
-  selectedYear: string | null = null;
   Columns: TableColumn[] = [
     { key: 'name', header: ' Name ' },
     { key: 'academicYearName', header: ' Year Name ' },
@@ -44,7 +42,6 @@ export class TermListComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.loadYears()
     this.loadTerms()
   }
 
@@ -65,28 +62,17 @@ export class TermListComponent implements OnInit {
     }
   }
 
-  loadYears() {
-    const schoolId = this.accountService.currentUser()?.schoolId
-    if (schoolId) {
-      this.yearService.getAcademicYears(schoolId).subscribe({
-        next: res => this.years.set(res.data)
-      })
-    }
-  }
-  loadTerms() {
 
-    if (!this.selectedYear) {
-      this.snack.error('pleas Select year')
-      return;
-    }
-    this.termService.getTerms(this.selectedYear).subscribe({
+  loadTerms() {
+    const yearId = this.yearService.currentAcademicYearId()!
+    console.log(yearId)
+
+    this.termService.getTerms(yearId).subscribe({
       next: res => this.terms.set(res.data)
     })
 
   }
-  yearChange() {
-    this.loadTerms()
-  }
+
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
       'Confirm Delete',
@@ -97,7 +83,7 @@ export class TermListComponent implements OnInit {
       this.termService.deleteTerm(id).subscribe({
         next: () => {
           this.snack.success('city deleted successfully!');
-          this.terms();
+          this.loadTerms();
         },
         error: (err) => {
           this.snack.error('Failed to delete city.');

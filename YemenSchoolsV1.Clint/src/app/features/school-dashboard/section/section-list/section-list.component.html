@@ -7,14 +7,14 @@
     card-actions
     color="primary"
     mat-flat-button
-    (click)="openRegionDialog()"
+    (click)="openSectionDialog()"
   >
     <i class="bi bi-plus-lg me-1"></i>
     Add Section
   </button>
 
   <app-table
-    [dataRow]="sectionService.sections()"
+    [dataRow]="sections()"
     [columns]="Columns"
     [hasActions]="true"
     (actionClicked)="handleUserAction($event)"

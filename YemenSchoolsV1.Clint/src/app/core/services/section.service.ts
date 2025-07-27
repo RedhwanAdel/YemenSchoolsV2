@@ -1,9 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Section } from '../../shared/models/section/section';
+import { Section, SectionsOfYear } from '../../shared/models/section/section';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Pagination } from '../../shared/models/Pagination';
 import { AccountService } from './account.service';
+import { ApiResponse } from '../../shared/models/ApiResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +18,25 @@ export class SectionService {
 
   private schoolId = this.accountService.currentUser()?.schoolId
 
-  getSections(gradeId?: string) {
+  getSectionsByYearAndGrade(academicYearId: string, schoolGradeId: string) {
     let params = new HttpParams();
-    if (gradeId) {
-      params = params.append('gradeId', gradeId);
-    }
-    return this.http.get<Pagination<Section>>(this.baseUrl + 'Sections/GetAllSectiosPaged/' + this.schoolId, { params }).subscribe({
-      next: res => this.sections.set(res.data)
-    })
+    params = params.append('academicYearId', academicYearId);
+    params = params.append('schoolGradeId', schoolGradeId);
+
+    return this.http.get<ApiResponse<Section[]>>(this.baseUrl + 'Sections/by-academic-year-and-grade', { params })
   }
+
+  getSectionById(id: string) {
+    return this.http.get<ApiResponse<Section>>(this.baseUrl + 'Sections/' + id)
+
+  }
+  getSectionsForSpcificYear(academicYearId: string) {
+    let params = new HttpParams();
+    params = params.append('academicYearId', academicYearId);
+
+    return this.http.get<ApiResponse<SectionsOfYear[]>>(this.baseUrl + 'Sections/by-academic-year', { params })
+  }
+
 
   createSection(section: any) {
     return this.http.post<string>(this.baseUrl + 'Sections', section);
@@ -33,7 +44,7 @@ export class SectionService {
 
   updateSection(id: string, section: any) {
     section.id = id
-    return this.http.put(this.baseUrl + 'Sections', section);
+    return this.http.put(this.baseUrl + 'Sections/' + id, section);
   }
 
   deleteSection(id: string) {

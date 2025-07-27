@@ -23,6 +23,8 @@ export interface TableAction {
   icon: string;      // Material icon name (e.g., 'edit', 'visibility', 'delete')
   tooltip: string;   // Tooltip text for the button
   color?: string;    // Optional color for the button (e.g., 'primary', 'accent', 'warn')
+  showCondition?: (rowData: any) => boolean;
+
 }
 
 @Component({

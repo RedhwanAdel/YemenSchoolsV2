@@ -29,11 +29,15 @@ export class YearListComponent implements OnInit {
     { key: 'name', header: ' Name ' },
     { key: 'startDate', header: ' start Date ', type: 'date' },
     { key: 'endDate', header: ' end Date ', type: 'date' },
+    { key: 'isCurrentYearDisplay', header: 'Status', sortable: false },
+
   ];
 
   actions: TableAction[] = [
     { actionKey: 'edit', icon: 'edit', tooltip: 'Edit User', color: 'accent' },
     { actionKey: 'delete', icon: 'delete', tooltip: 'Delete User', color: 'warn' },
+    { actionKey: 'set-as-current', icon: 'check_circle', tooltip: 'Set as Current Year', color: 'primary', showCondition: (rowData: YearDto) => !rowData.isCurrentYear }
+
   ];
 
   ngOnInit(): void {
@@ -55,16 +59,47 @@ export class YearListComponent implements OnInit {
         this.openConfirmDialog(event.rowData.id, event.rowData.name)
 
         break;
+      case 'set-as-current':
+        this.onSetCurrentYear(event.rowData.id);
+        break;
     }
+  }
+  onSetCurrentYear(academicYearId: string): void {
+    // يمكنك إضافة تأكيد هنا قبل استدعاء الخدمة
+    this.dialogService.confirm(
+      'Set Current Year',
+      `Are you sure you want to set this year as the current academic year? This will affect all future operations.`
+    ).then(confirmed => {
+      if (confirmed) {
+        this.yearService.SetCurrentYear(academicYearId).subscribe({
+          next: () => {
+            this.snack.success('Academic year set as current successfully!');
+            this.loadYears(); // إعادة تحميل قائمة الأعوام لتحديث حالة "نشط حالياً"
+          },
+          error: (err) => {
+            this.snack.error('Failed to set academic year as current.');
+            console.error(err);
+          }
+        });
+      }
+    });
   }
 
   loadYears() {
-    const schoolId = this.accountService.currentUser()?.schoolId
-    if (schoolId) {
-      this.yearService.getAcademicYears(schoolId).subscribe({
-        next: res => this.years.set(res.data)
-      })
-    }
+    this.yearService.getAcademicYears().subscribe({
+      next: (res) => {
+        const yearsWithStatus = res.data?.map(year => ({
+          ...year,
+          isCurrentYearDisplay: year.isCurrentYear ? 'Current' : 'Not Current'
+        })) || [];
+        this.years.set(yearsWithStatus); // تحديث Signal الأعوام
+      },
+      error: (err) => {
+        this.snack.error('Failed to load academic years.');
+        console.error(err);
+      }
+    })
+
   }
 
   async openConfirmDialog(id: string, name: string) {

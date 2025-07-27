@@ -10,6 +10,7 @@ import { YearDto } from '../../../../shared/models/AcademicYear/AcademicYear';
 import { YearFormComponent } from '../../year/year-form/year-form.component';
 import { MatButton } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
+import { Teacher } from '../../../../shared/models/teachers/teacher';
 
 @Component({
   selector: 'app-teacher-list',
@@ -26,7 +27,7 @@ export class TeacherListComponent implements OnInit {
   teacherService = inject(TeacherService)
   private accountService = inject(AccountService)
   private snack = inject(SnackbarService)
-  teachers = signal<YearDto[]>([])
+  teachers = signal<Teacher[]>([])
 
   Columns: TableColumn[] = [
     { key: 'name', header: ' Name ' },

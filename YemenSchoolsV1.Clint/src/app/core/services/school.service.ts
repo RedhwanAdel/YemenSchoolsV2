@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { SchoolParams } from '../../shared/models/school/schoolParams';
 import { Pagination } from '../../shared/models/Pagination';
-import { AssignSubjectsToSchoolGradeDto, CreateSchoolGradeDto, SchoolForUpdate, SchoolGradeSubject, SchoolGradeWithDetailsDto, SchoolListItem, StageGradeDto } from '../../shared/models/school/school';
+import { AssignSubjectsToSchoolGradeDto, CreateSchoolGradeDto, SchoolForUpdate, SchoolGradeSubject, SchoolGradeWithDetailsDto, SchoolListItem, SchoolReportData, StageGradeDto } from '../../shared/models/school/school';
 import { SchoolDetails } from '../../shared/models/school/schoolDetails';
 import { ApiResponse } from '../../shared/models/ApiResponse';
 import { CreateSchoolDto } from '../../shared/models/school/schoolCommand';
@@ -100,5 +100,10 @@ export class SchoolService {
   // دالة لتعيين المواد لصف معين
   assignSubjectsToStageGrade(data: AssignSubjectsToSchoolGradeDto) {
     return this.http.post(this.baseUrl + 'school/assign-grade-subjects', data);
+  }
+
+
+  getSchoolReport(schoolId: string) {
+    return this.http.get<ApiResponse<SchoolReportData>>(this.baseUrl + 'School/' + schoolId + '/report');
   }
 }

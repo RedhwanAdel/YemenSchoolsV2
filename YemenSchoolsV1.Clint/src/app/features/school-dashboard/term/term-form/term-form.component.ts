@@ -45,7 +45,7 @@ export class TermFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadYears()
+    // this.loadYears()
     console.log(this.years())
 
     this.buildForm()
@@ -60,23 +60,22 @@ export class TermFormComponent implements OnInit {
 
     this.form = this.fb.group({
       name: [this.data?.model?.name || '', Validators.required],
-      academicYearId: [this.data?.model?.academicYearId || '', Validators.required],
+      // academicYearId: [this.data?.model?.academicYearId || '', Validators.required],
       startDate: [this.formatDate(this.data?.model?.startDate), Validators.required],
       endDate: [this.formatDate(this.data?.model?.endDate), Validators.required],
     });
   }
 
-  loadYears() {
-    const schoolId = this.accountService.currentUser()?.schoolId
-    if (schoolId) {
-      this.yearService.getAcademicYears(schoolId).subscribe({
-        next: res => {
-          this.years.set(res.data)
+  // loadYears() {
 
-        }
-      })
-    }
-  }
+  //   this.yearService.getAcademicYears().subscribe({
+  //     next: res => {
+  //       this.years.set(res.data)
+
+  //     }
+  //   })
+
+  // }
 
   formatDate(dateString: string | Date | undefined): string | null {
     if (!dateString) return null;
@@ -93,6 +92,7 @@ export class TermFormComponent implements OnInit {
     if (this.form.invalid) return;
 
     const term = this.form.value;
+    term.academicYearId = this.yearService.currentAcademicYearId()
 
     if (this.isEdit) {
       const id = this.data.model.id;
