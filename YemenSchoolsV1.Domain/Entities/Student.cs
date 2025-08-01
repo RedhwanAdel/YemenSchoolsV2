@@ -4,38 +4,32 @@ using YemenSchoolsV1.Domain.Enums;
 
 namespace YemenSchoolsV1.Domain.Entities
 {
-	public class Student : GeneralLocalizableEntity, ISchoolEntity
-	{
-		public Guid Id { get; set; }
-		public string RegisterNo { get; set; }
+    public class Student : GeneralLocalizableEntity, ISchoolEntity
+    {
+        public Guid Id { get; set; }
+        public required string RegisterNo { get; set; }
+        public required string NameEn { get; set; }
+        public required string NameAr { get; set; }
+        public required string Nationality { get; set; }
+        public required string Address { get; set; }
+        public Gender Gender { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string? ProfileImage { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Email { get; set; }
+        public bool IsActive { get; set; } = true;
+        public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
 
-		public string NameEn { get; set; }
+        public Guid SchoolId { get; set; }
+        public Guid CurrentAcademicYearId { get; set; }
+        public Guid CurrentSectionId { get; set; }
+        public Guid UserId { get; set; }
 
-		public string NameAr { get; set; }
+        public School School { get; set; } = null!;
+        public AcademicYear CurrentAcademicYear { get; set; } = null!;
+        public Section CurrentSection { get; set; } = null!;
+        public AppUser User { get; set; } = null!;
+        public ICollection<ParentStudent> Parents { get; set; } = [];
 
-		public DateTime BirthDate { get; set; }
-		public string? ProfileImage { get; set; }
-
-		public Gender Gender { get; set; }
-
-		public string? Nationality { get; set; }
-
-		public string? PhoneNumber { get; set; }
-
-		public string? Address { get; set; }
-
-		public string? Email { get; set; }
-		public bool IsActive { get; set; } = true;
-
-		public Guid? UserId { get; set; }
-		public AppUser User { get; set; } = null!;
-
-		public Guid SectionId { get; set; }
-		public Section Section { get; set; } = null!;
-		public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
-		public Guid SchoolId { get; set; }
-
-		public ICollection<ParentStudent> Parents { get; set; } = [];
-
-	}
+    }
 }

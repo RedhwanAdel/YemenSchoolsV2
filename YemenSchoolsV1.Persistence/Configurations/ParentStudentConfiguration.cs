@@ -4,26 +4,27 @@ using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Persistence.Configurations
 {
-	public class ParentStudentConfiguration : IEntityTypeConfiguration<ParentStudent>
-	{
-		public void Configure(EntityTypeBuilder<ParentStudent> builder)
-		{
-			builder.HasKey(ps => new { ps.ParentId, ps.StudentId });
+    public class ParentStudentConfiguration : IEntityTypeConfiguration<ParentStudent>
+    {
+        public void Configure(EntityTypeBuilder<ParentStudent> builder)
+        {
+            builder.HasKey(ps => ps.Id);
+            builder.HasIndex(ps => new { ps.ParentId, ps.StudentId })
+               .IsUnique();
+            builder.Property(ps => ps.RelationType).IsRequired().HasMaxLength(50);
+            builder.Property(ps => ps.IsPrimaryContact).IsRequired();
 
-			builder.HasOne(ps => ps.Parent)
-				   .WithMany(p => p.Students)
-				   .HasForeignKey(ps => ps.ParentId)
-				   .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(ps => ps.Parent)
+                .WithMany(p => p.Students)
+                .HasForeignKey(ps => ps.ParentId)
+                .IsRequired();
 
-			builder.HasOne(ps => ps.Student)
-				   .WithMany(s => s.Parents)
-				   .HasForeignKey(ps => ps.StudentId)
-				   .OnDelete(DeleteBehavior.Restrict);
-
-			builder.Property(ps => ps.RelationType)
-				   .IsRequired()
-				   .HasMaxLength(50);
-		}
-	}
+            // تعريف العلاقة One-to-Many من Student إلى ParentStudent
+            builder.HasOne(ps => ps.Student)
+                   .WithMany(s => s.Parents)
+                   .HasForeignKey(ps => ps.StudentId)
+                   .IsRequired();
+        }
+    }
 
 }

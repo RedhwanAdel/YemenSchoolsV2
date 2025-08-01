@@ -1,6 +1,6 @@
 <div class="container school-details-container">
   <mat-card class="school-profile-main-card">
-    <!-- Hero Header -->
+    <!-- رأس الصفحة -->
     <div
       class="school-header-hero position-relative text-white"
       [style.background-image]="'url(' + school?.coverImage + ')'"
@@ -11,20 +11,20 @@
         <div class="school-logo-circle">
           <img
             src="assets/images/schools/{{ school?.logo }}"
-            alt="School Logo"
+            alt="شعار المدرسة"
             class="school-logo-img"
           />
         </div>
 
         <h1 class="school-name">{{ school?.name }}</h1>
-        <p class="school-slogan">Cultivating Minds, Inspiring Futures</p>
+        <p class="school-slogan">نُنمّي العقول، ونُلهم المستقبل</p>
 
         <div
           class="school-contact-info d-flex flex-wrap justify-content-center"
         >
           <div class="me-4 mb-2 d-flex align-items-center">
             <mat-icon class="me-1" color="accent">location_on</mat-icon>
-            456 Knowledge Blvd, Innovate City, State 12345
+            456 شارع المعرفة، مدينة الابتكار، الولاية 12345
           </div>
           <div class="mb-2 d-flex align-items-center">
             <mat-icon class="me-1" color="accent">phone</mat-icon>
@@ -36,28 +36,28 @@
 
     <mat-divider class="mb-4"></mat-divider>
 
-    <!-- Tabs -->
+    <!-- التبويبات -->
     <mat-tab-group
       class="school-tabs"
       mat-stretch-tabs="false"
       mat-align-tabs="start"
     >
-      <mat-tab label="Overview"
-        ><app-school-overview></app-school-overview
-      ></mat-tab>
-      <mat-tab label="Academics">
+      <mat-tab label="نظرة عامة">
+        <app-school-overview></app-school-overview>
+      </mat-tab>
+      <mat-tab label="الأكاديميون">
         <app-school-academics></app-school-academics>
       </mat-tab>
-      <mat-tab label="Admissions">
+      <mat-tab label="القبول">
         <app-school-admissions></app-school-admissions>
       </mat-tab>
-      <mat-tab label="Campus & Facilities">
+      <mat-tab label="الحرم والمرافق">
         <app-school-campus-facilities></app-school-campus-facilities>
       </mat-tab>
-      <mat-tab label="News & Events">
+      <mat-tab label="الأخبار والفعاليات">
         <app-school-news-events></app-school-news-events>
       </mat-tab>
-      <mat-tab label="Contact Us">
+      <mat-tab label="اتصل بنا">
         <app-school-contact-us></app-school-contact-us>
       </mat-tab>
     </mat-tab-group>

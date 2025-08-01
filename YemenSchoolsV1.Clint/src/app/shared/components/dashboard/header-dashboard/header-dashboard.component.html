@@ -1,46 +1,46 @@
 <mat-toolbar color="primary" class="app-header-toolbar">
-  <!-- Menu Toggle Button -->
+  <!-- زر إظهار/إخفاء القائمة الجانبية -->
   <button
     mat-icon-button
     (click)="onMenuToggle()"
-    aria-label="Toggle sidebar menu"
+    aria-label="تبديل القائمة الجانبية"
   >
     <mat-icon>menu</mat-icon>
   </button>
 
-  <!-- Title -->
-  <span class="app-title">My Angular App</span>
+  <!-- العنوان -->
+  <span class="app-title">تطبيقي بـ Angular</span>
 
-  <!-- Spacer to push items to the right -->
+  <!-- فاصل لدفع العناصر لليمين -->
   <span class="toolbar-spacer"></span>
 
-  <!-- Notification Icon -->
+  <!-- أيقونة الإشعارات -->
   <button
     mat-icon-button
     class="notification-button"
-    aria-label="Show notifications"
+    aria-label="عرض الإشعارات"
   >
     <mat-icon>notifications</mat-icon>
   </button>
 
-  <!-- User Menu -->
+  <!-- قائمة المستخدم -->
   <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
     <mat-icon>person</mat-icon>
-    <span>John Doe</span>
+    <span>رضوان</span>
     <mat-icon>arrow_drop_down</mat-icon>
   </button>
   <mat-menu #userMenu="matMenu">
     <button mat-menu-item>
       <mat-icon>account_circle</mat-icon>
-      <span>Profile</span>
+      <span>الملف الشخصي</span>
     </button>
     <button mat-menu-item>
       <mat-icon>settings</mat-icon>
-      <span>Settings</span>
+      <span>الإعدادات</span>
     </button>
     <button mat-menu-item (click)="onLogout()">
       <mat-icon>exit_to_app</mat-icon>
-      <span>Logout</span>
+      <span>تسجيل الخروج</span>
     </button>
   </mat-menu>
 </mat-toolbar>

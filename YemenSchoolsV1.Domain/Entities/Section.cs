@@ -13,6 +13,8 @@
         public SchoolGrade SchoolGrade { get; set; } = null!;
         public AcademicYear AcademicYear { get; set; } = null!;
         public ICollection<SectionSubject> SectionSubjects { get; set; } = [];
+        public ICollection<Student> Students { get; set; } = [];
+
 
 
     }

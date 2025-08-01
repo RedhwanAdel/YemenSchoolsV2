@@ -42,33 +42,33 @@ export class SchoolsComponent implements OnInit {
   regionService = inject(RegionsService)
   schools?: Pagination<SchoolListItem>
   sortOptions = [
-    { name: 'Alphabetical', value: SchoolOrdering.Name },
-    { name: 'City', value: SchoolOrdering.City },
-    { name: 'Region', value: SchoolOrdering.Region },
+    { name: 'أبجدي', value: SchoolOrdering.Name },
+    { name: 'المدن', value: SchoolOrdering.City },
+    { name: 'المناطق', value: SchoolOrdering.Region },
   ]
   sortDirectionOptions = [
-    { name: 'Ascending', value: 'asc' },
-    { name: 'Descending', value: 'desc' },
+    { name: 'تصاعدي', value: 'asc' },
+    { name: 'تنازلي', value: 'desc' },
   ];
 
 
   schoolTypes = [
-    { value: 0, name: 'Private' },
-    { value: 1, name: 'Public' },
-    { value: 2, name: 'International' }
+    { value: 0, name: 'خاص' },
+    { value: 1, name: 'عام' },
+    { value: 2, name: 'عالمي' }
   ];
 
   genders = [
-    { value: 0, name: 'Boys' },
-    { value: 1, name: 'Girls' },
-    { value: 2, name: 'Both' }
+    { value: 0, name: 'أولاد' },
+    { value: 1, name: 'بنات' },
+    { value: 2, name: 'أولاد وبنات' }
   ];
 
   schoolLevels = [
-    { value: 1, name: 'Kindergarten' },
-    { value: 2, name: 'Elementary' },
-    { value: 4, name: 'Middle' },
-    { value: 8, name: 'High' }
+    { value: 1, name: 'روضة' },
+    { value: 2, name: 'ابتدائي' },
+    { value: 4, name: 'متوسط' },
+    { value: 8, name: 'ثانوي' }
   ];
   selectedLevels: number[] = [];
 

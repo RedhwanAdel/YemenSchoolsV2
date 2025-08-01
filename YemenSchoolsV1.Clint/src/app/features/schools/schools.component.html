@@ -9,7 +9,7 @@
         [showFirstLastButtons]="true"
         [pageSizeOptions]="pageSizeOptions"
         [pageIndex]="schoolParams.pageNumber - 1"
-        aria-label="Select page"
+        aria-label="اختر الصفحة"
       ></mat-paginator>
     </div>
 
@@ -20,11 +20,11 @@
         class="d-flex align-items-center w-100"
       >
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Search schools...</mat-label>
+          <mat-label>ابحث عن المدارس...</mat-label>
           <input
             matInput
             type="text"
-            placeholder="Search by name or keyword"
+            placeholder="ابحث بالاسم أو الكلمات المفتاحية"
             name="search"
             [(ngModel)]="schoolParams.search"
           />
@@ -35,7 +35,7 @@
 
     <div class="col-12 col-lg-auto order-lg-3">
       <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Sort By</mat-label>
+        <mat-label>ترتيب حسب</mat-label>
         <mat-select
           [value]="schoolParams.orderBy"
           (selectionChange)="onSortChange($event.value)"
@@ -48,9 +48,10 @@
         </mat-select>
       </mat-form-field>
     </div>
+
     <div class="col-12 col-lg-auto order-lg-3">
       <mat-form-field appearance="outline" class="">
-        <mat-label>Sort Direction</mat-label>
+        <mat-label>اتجاه الترتيب</mat-label>
         <mat-select
           [value]="schoolParams.sortDirection"
           (selectionChange)="onSortDirectionChange($event.value)"
@@ -71,18 +72,18 @@
     <div class="col-lg-3 mb-4">
       <div class="p-4 border rounded bg-white shadow-sm">
         <h5 class="mb-4 d-flex align-items-center">
-          <mat-icon class="me-2">filter_list</mat-icon> Filters
+          <mat-icon class="me-2">filter_list</mat-icon> الفلاتر
         </h5>
 
         <div class="mb-3">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>City</mat-label>
+            <mat-label>المدينة</mat-label>
             <mat-select
               [(ngModel)]="schoolParams.cityId"
               name="city"
               (selectionChange)="onCityChange($event)"
             >
-              <mat-option value="">All Cities</mat-option>
+              <mat-option value="">كل المدن</mat-option>
               @for (city of citiesService.cities(); track city.id) {
               <mat-option [value]="city.id">{{ city.nameEn }}</mat-option>
               }
@@ -92,9 +93,9 @@
 
         <div class="mb-3">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Region</mat-label>
+            <mat-label>المنطقة</mat-label>
             <mat-select [(ngModel)]="schoolParams.regionId" name="region">
-              <mat-option value="">All Regions</mat-option>
+              <mat-option value="">كل المناطق</mat-option>
               @for (region of regions(); track region.id) {
               <mat-option [value]="region.id">{{ region.name }}</mat-option>
               }
@@ -104,9 +105,9 @@
 
         <div class="mb-3">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>School Type</mat-label>
+            <mat-label>نوع المدرسة</mat-label>
             <mat-select [(ngModel)]="schoolParams.type" name="schoolType">
-              <mat-option value="">All Types</mat-option>
+              <mat-option value="">كل الأنواع</mat-option>
               @for (type of schoolTypes; track type.value) {
               <mat-option [value]="type.value">{{ type.name }}</mat-option>
               }
@@ -116,9 +117,9 @@
 
         <div class="mb-3">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Gender</mat-label>
+            <mat-label>الجنس</mat-label>
             <mat-select [(ngModel)]="schoolParams.gender" name="gender">
-              <mat-option value="">All Genders</mat-option>
+              <mat-option value="">كافة الأنواع</mat-option>
               @for (gender of genders; track gender.value) {
               <mat-option [value]="gender.value">{{ gender.name }}</mat-option>
               }
@@ -128,7 +129,7 @@
 
         <div class="mb-3">
           <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Levels</mat-label>
+            <mat-label>المراحل الدراسية</mat-label>
             <mat-select
               (ngModelChange)="onLevelsChange()"
               [(ngModel)]="schoolParams.levels"
@@ -148,7 +149,7 @@
           color="primary"
           (click)="applyFilters()"
         >
-          Apply Filters
+          تطبيق الفلاتر
         </button>
       </div>
     </div>
@@ -162,7 +163,7 @@
         } @empty {
         <div class="col-12">
           <div class="alert alert-info text-center" role="alert">
-            No schools found matching your criteria.
+            لم يتم العثور على مدارس تطابق المعايير.
           </div>
         </div>
         }

@@ -41,5 +41,7 @@ namespace YemenSchoolsV1.Domain.Entities
         public ICollection<AcademicYear> AcademicYears { get; set; } = [];
         public ICollection<SchoolGrade> SchoolGrades { get; set; } = [];
         public ICollection<Teacher> Teachers { get; set; } = [];
+        public ICollection<Student> Students { get; set; } = [];
+
     }
 }

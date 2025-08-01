@@ -1,6 +1,6 @@
 <app-page-wrapper
-  headerTitle="Term List"
-  headerSubtitle="Explore Terms within selected Terms"
+  headerTitle="قائمة الفصول الدراسية"
+  headerSubtitle="استعرض الفصول الدراسية المرتبطة بالسنة المختارة"
   headerIcon="map"
 >
   <button
@@ -10,21 +10,8 @@
     (click)="opentermDialog()"
   >
     <i class="bi bi-plus-lg me-1"></i>
-    Add Term
+    إضافة فصل دراسي
   </button>
-  <!-- 
-  <div class="col-12 col-lg-auto order-lg-3 my-2">
-    <mat-form-field appearance="outline" class="">
-      <mat-label>Year List</mat-label>
-      <mat-select [(ngModel)]="selectedYear" (ngModelChange)="yearChange()">
-        @for (dir of years(); track dir.id) {
-        <mat-option [value]="dir.id">
-          {{ dir.name }}
-        </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </div> -->
 
   <app-table
     [allowSerch]="false"

@@ -1,14 +1,14 @@
-<div class="container py-4">
+<div class="container py-4" dir="rtl">
   <mat-card class="mb-4 shadow-sm">
     <mat-card-content class="p-4">
       <h2
         class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
       >
-        Get in Touch with Sunrise Academy
+        تواصل معنا في أكاديمية الشروق
       </h2>
       <p class="lead text-secondary-emphasis mb-3">
-        We're here to help! Whether you have questions about admissions,
-        academic programs, or general inquiries, feel free to reach out to us.
+        نحن هنا لمساعدتك! سواء كانت لديك استفسارات حول القبول، البرامج
+        الأكاديمية، أو أي أسئلة عامة، لا تتردد في التواصل معنا.
       </p>
 
       <div class="row g-3">
@@ -16,9 +16,9 @@
           <div class="p-3 bg-light rounded-3 h-100 d-flex align-items-center">
             <mat-icon color="primary" class="me-3 fs-2">location_on</mat-icon>
             <div>
-              <h5 class="fw-semibold text-dark">Our Location</h5>
+              <h5 class="fw-semibold text-dark">موقعنا</h5>
               <p class="text-secondary-emphasis mb-0">
-                456 Knowledge Blvd, Innovate City, State 12345
+                456 شارع المعرفة، مدينة الابتكار، الولاية 12345
               </p>
             </div>
           </div>
@@ -27,7 +27,7 @@
           <div class="p-3 bg-light rounded-3 h-100 d-flex align-items-center">
             <mat-icon color="primary" class="me-3 fs-2">phone</mat-icon>
             <div>
-              <h5 class="fw-semibold text-dark">Call Us</h5>
+              <h5 class="fw-semibold text-dark">اتصل بنا</h5>
               <p class="text-secondary-emphasis mb-0">(555) 987-6543</p>
             </div>
           </div>
@@ -36,13 +36,14 @@
           <div class="p-3 bg-light rounded-3 h-100 d-flex align-items-center">
             <mat-icon color="primary" class="me-3 fs-2">mail_outline</mat-icon>
             <div>
-              <h5 class="fw-semibold text-dark">Email Us</h5>
+              <h5 class="fw-semibold text-dark">راسلنا عبر البريد</h5>
               <p class="text-secondary-emphasis mb-0">
                 <a
                   href="mailto:info@sunriseacademy.edu"
                   class="text-decoration-none text-primary"
-                  >info sunriseacademy.edu</a
                 >
+                  infosunriseacademy.edu
+                </a>
               </p>
             </div>
           </div>
@@ -56,11 +57,11 @@
       <h2
         class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
       >
-        Send Us a Message
+        أرسل لنا رسالة
       </h2>
       <form (ngSubmit)="onSubmit()" #contactFormRef="ngForm">
         <div class="mb-3">
-          <label for="name" class="form-label">Your Name</label>
+          <label for="name" class="form-label">الاسم</label>
           <input
             type="text"
             class="form-control"
@@ -71,7 +72,7 @@
           />
         </div>
         <div class="mb-3">
-          <label for="email" class="form-label">Your Email</label>
+          <label for="email" class="form-label">البريد الإلكتروني</label>
           <input
             type="email"
             class="form-control"
@@ -83,7 +84,7 @@
           />
         </div>
         <div class="mb-3">
-          <label for="subject" class="form-label">Subject</label>
+          <label for="subject" class="form-label">الموضوع</label>
           <input
             type="text"
             class="form-control"
@@ -94,7 +95,7 @@
           />
         </div>
         <div class="mb-3">
-          <label for="message" class="form-label">Your Message</label>
+          <label for="message" class="form-label">رسالتك</label>
           <textarea
             class="form-control"
             id="message"
@@ -109,7 +110,7 @@
           class="btn btn-primary"
           [disabled]="!contactFormRef.valid"
         >
-          Send Message
+          إرسال الرسالة
         </button>
       </form>
     </mat-card-content>
