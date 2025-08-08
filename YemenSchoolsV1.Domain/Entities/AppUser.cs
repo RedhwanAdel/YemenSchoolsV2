@@ -11,8 +11,7 @@ namespace YemenSchoolsV1.Domain.Entities
 
         public Guid EntityId { get; set; } // المفتاح الخارجي: يربط AppUser بـ Parent.Id أو Student.Id أو Teacher.Id
         public string UserType { get; set; } // "Parent", "Student", "Teacher", "Admin", "SuperAdmin"
-        public Parent? ParentEntity { get; set; } // يربط هذا المستخدم بكيان ولي الأمر إذا كان UserType = 'Parent'
-        public Student? StudentEntity { get; set; }
+
         public ICollection<AppUserRole> UserRoles { get; set; } = [];
 
     }
