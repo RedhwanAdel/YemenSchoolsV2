@@ -1,0 +1,21 @@
+<mat-toolbar class="topbar px-4">
+  <div class="brand">
+    <a routerLink="/" class="logo d-flex align-items-center me-auto me-xl-0">
+      <h1 class="sitename">مدارس اليمن</h1>
+      <span>.</span>
+    </a>
+  </div>
+  <div class="actions">
+    <button mat-icon-button (click)="notifications.emit()" title="الإشعارات">
+      <mat-icon>notifications</mat-icon>
+    </button>
+
+    <div class="user-profile">
+      <img src="https://i.pravatar.cc/40?img=32" alt="avatar" class="avatar" />
+      <div style="text-align: right">
+        <div class="user-name">أحمد العبد</div>
+        <div class="user-role">ولي الأمر</div>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>

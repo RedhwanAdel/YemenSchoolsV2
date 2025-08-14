@@ -9,6 +9,7 @@ import { ApiResponse } from '../../shared/models/ApiResponse';
 import { CreateSchoolDto } from '../../shared/models/school/schoolCommand';
 import { map } from 'rxjs';
 import { Subject } from '../../shared/models/school/subject';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,9 @@ import { Subject } from '../../shared/models/school/subject';
 export class SchoolService {
   baseUrl = environment.apiUrl
   private http = inject(HttpClient)
+  accountService = inject(AccountService)
+  private schoolId = this.accountService.currentUser()?.schoolId
+
   getSchools(schoolParams: SchoolParams) {
     let params = new HttpParams();
 
@@ -80,8 +84,9 @@ export class SchoolService {
     );
   }
 
-  getSchoolGrade(schoolId: string) {
-    return this.http.get<ApiResponse<SchoolGradeWithDetailsDto[]>>(`${this.baseUrl}SchoolGrade/grade/${schoolId}`).pipe(
+  getSchoolGrade() {
+
+    return this.http.get<ApiResponse<SchoolGradeWithDetailsDto[]>>(`${this.baseUrl}SchoolGrade/grade/${this.schoolId}`).pipe(
       map(res => res.data)
     );
   }

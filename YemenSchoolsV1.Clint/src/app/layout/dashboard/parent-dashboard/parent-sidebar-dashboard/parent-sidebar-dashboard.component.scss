@@ -1,0 +1,39 @@
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  
+  a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 10px;
+    color: #111827;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s, color 0.2s;
+
+    mat-icon {
+      color: #6b7280;
+    }
+  }
+
+  a:hover {
+    background: #f1f5f9;
+  }
+
+  a.active {
+    background: #5d57f4;
+    color: #fff;
+    span{
+        color: #fff;
+    }
+    mat-icon {
+      color: #fff;
+    }
+  }
+}
+
+

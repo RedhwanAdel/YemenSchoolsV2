@@ -1,0 +1,13 @@
+<div class="bg-white rounded-3 p-0 m-0">
+  <mat-nav-list class="nav-list pt-0">
+    <a
+      mat-list-item
+      *ngFor="let item of navItems"
+      [class.active]="activeSection === item.section"
+      (click)="selectSection.emit(item.section)"
+    >
+      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+      <span matListItemTitle>{{ item.title }}</span>
+    </a>
+  </mat-nav-list>
+</div>

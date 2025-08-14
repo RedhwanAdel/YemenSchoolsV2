@@ -1,0 +1,36 @@
+<div class="bg-white rounded-4 p-3">
+  <div class="dash-header">
+    <h5 class="fw-bolder">لوحة تحكم ولي الأمر</h5>
+    <div class="stats">
+      <mat-card class="stat-card">
+        <div class="num">3</div>
+        <div class="label">عدد الأبناء</div>
+      </mat-card>
+      <mat-card class="stat-card">
+        <div class="num">2</div>
+        <div class="label">إخطارات جديدة</div>
+      </mat-card>
+      <mat-card class="stat-card">
+        <div class="num">4</div>
+        <div class="label">واجبات قادمة</div>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="child-cards-container">
+      <app-child-card
+        *ngFor="let child of students"
+        [child]="child"
+        (openProfile)="openChildProfile.emit($event)"
+      ></app-child-card>
+    </div>
+    <div class="side-widgets">
+      <app-calendar></app-calendar>
+
+      <!-- <app-assignments-widget></app-assignments-widget> -->
+    </div>
+
+    <!-- <app-side-widgets></app-side-widgets> -->
+  </div>
+</div>

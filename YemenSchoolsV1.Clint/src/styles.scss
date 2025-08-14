@@ -6,6 +6,20 @@
 // بناءً على --accent-color: #5d57f4 (لون بنفسجي أزرق)
 // ========================
 
+// +++++++++++++++++++++++
+.mdc-linear-progress.mat-primary {
+  --mdc-linear-progress-active-indicator-color: #0b74ff; /* لون للأداء الممتاز */
+}
+
+.mdc-linear-progress.mat-accent {
+  --mdc-linear-progress-active-indicator-color: #06ad66 !important; /* لون للأداء الجيد */
+}
+
+.mdc-linear-progress.mat-warn {
+  --mdc-linear-progress-active-indicator-color: #f59e0b !important; /* لون للأداء الذي يحتاج إلى تحسين */
+}
+
+// ++++++++++++++++++++++++
 $custom-primary-palette: (
   50:  #e8e7fd, // فاتح جداً
   100: #c7c4fa,
@@ -156,8 +170,8 @@ $custom-theme: mat.m2-define-light-theme((
 body {
   color: var(--default-color);
   background-color: var(--background-color);
-  font-family: var(--default-font);
-      font-family: 'Cairo', sans-serif;
+      font-family: "Segoe UI", Tahoma, "Noto Kufi Arabic", system-ui, -apple-system, Arial;
+
 
 }
 

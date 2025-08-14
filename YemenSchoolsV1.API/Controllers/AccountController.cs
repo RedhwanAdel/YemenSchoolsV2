@@ -33,6 +33,8 @@ namespace YemenSchoolsV1.API.Controllers
                 user.FirstName,
                 user.LastName,
                 user.Email,
+                user.EntityId,
+                user.UserType,
                 user.SchoolId
             });
 

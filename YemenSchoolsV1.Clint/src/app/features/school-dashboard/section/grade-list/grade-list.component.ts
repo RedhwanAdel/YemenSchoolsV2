@@ -56,12 +56,11 @@ export class GradeListComponent implements OnInit {
   }
 
   loadGrades() {
-    const schoolId = this.accountService.currentUser()?.schoolId
-    if (schoolId) {
-      this.schoolService.getSchoolGrade(schoolId).subscribe({
-        next: res => this.gradesOfSchool = res
-      })
-    }
+
+    this.schoolService.getSchoolGrade().subscribe({
+      next: res => this.gradesOfSchool = res
+    })
+
   }
 
 

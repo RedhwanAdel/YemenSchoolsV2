@@ -45,8 +45,7 @@ export class SectionListComponent implements OnInit {
   loadSections() {
     const gradeId = this.route.snapshot.paramMap.get('id');
     if (!gradeId) return;
-    const yearId = this.yearService.currentAcademicYearId()!
-    this.sectionService.getSectionsByYearAndGrade(yearId, gradeId).subscribe({
+    this.sectionService.getSectionsByYearAndGrade(gradeId).subscribe({
       next: res => this.sections.set(res.data)
     })
 

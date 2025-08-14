@@ -2,26 +2,70 @@
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Dto.Parents;
+using YemenSchoolsV1.Application.Dto.Students;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.Parents
 {
     public class ParentService : IParentService
     {
+
+
         private readonly IParentRepositry _parentRepository;
         private readonly UserManager<AppUser> _userManager;
 
+
+        public async Task<List<StudentWithSchoolInfoDto>> GetStudentsWithSchoolInfoByParentIdAsync(Guid parentId)
+        {
+            var students = await _parentRepository.GetStudentsByParentIdAsync(parentId);
+
+            return students.Select(s => new StudentWithSchoolInfoDto
+            {
+                StudentId = s.Id,
+                StudentName = s.NameAr,
+                ImageUrl = s.ProfileImage, // or s.Image if that's your property
+                SchoolName = s.CurrentSection?.SchoolGrade?.School?.NameAr ?? "",
+                ClassName = s.CurrentSection?.SchoolGrade?.StageGrade?.Grade?.Name ?? "",
+                SectionName = s.CurrentSection?.Name ?? ""
+            }).ToList();
+        }
+        public async Task<ParentCheckDto> CheckParentByNationalIdAsync(string nationalId)
+        {
+            var parent = await _parentRepository.GetParentByNationalIdAsync(nationalId);
+
+            if (parent == null)
+            {
+                return new ParentCheckDto { Exists = false };
+            }
+
+            return new ParentCheckDto
+            {
+                Id = parent.Id,
+                NameAr = parent.NameAr,
+                Exists = true
+            };
+        }
         public ParentService(IParentRepositry parentRepository, UserManager<AppUser> userManager)
         {
             _parentRepository = parentRepository;
             _userManager = userManager;
         }
 
-        public async Task<(bool Succeeded, string Message)> CreateParentWithUserAsync(ParentCreateDto dto, string defaultPassword)
+        public async Task<bool> IsParentExistByNationalIdAsync(string nationalId)
+        {
+
+            if (!string.IsNullOrWhiteSpace(nationalId))
+            {
+                // Check by National ID
+                return await _parentRepository.ParentExistsByNationalIdAsync(nationalId);
+            }
+            return false;
+        }
+
+        public async Task<(bool Succeeded, string Message, Guid? ParentId)> CreateParentWithUserAsync(ParentCreateDto dto, string defaultPassword)
         {
             if (await _parentRepository.ParentExistsByNationalIdAsync(dto.NationalId))
-                return (false, "يوجد ولي أمر بنفس رقم الهوية.");
-
+                return (false, "يوجد ولي أمر بنفس رقم الهوية.", null);
 
             // إنشاء المستخدم في الهوية
             var user = new AppUser
@@ -29,13 +73,12 @@ namespace YemenSchoolsV1.Application.Features.Parents
                 UserName = dto.NationalId,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
-                FirstName = dto.NameAr, // Set custom fields
+                FirstName = dto.NameAr,
                 UserType = "Parent"
-
             };
             var userResult = await _userManager.CreateAsync(user, defaultPassword);
             if (!userResult.Succeeded)
-                return (false, string.Join("; ", userResult.Errors.Select(e => e.Description)));
+                return (false, string.Join("; ", userResult.Errors.Select(e => e.Description)), null);
 
             // إنشاء ولي الأمر وربطه بالمستخدم
             var parent = new Parent
@@ -58,25 +101,21 @@ namespace YemenSchoolsV1.Application.Features.Parents
             var updateUserResult = await _userManager.UpdateAsync(user);
             if (!updateUserResult.Succeeded)
             {
-                // If updating the user fails, we must roll back the user creation to avoid orphaned data.
                 await _userManager.DeleteAsync(user);
-                return (false, "فشل تحديث حساب المستخدم. تم إلغاء العملية.");
+                return (false, "فشل تحديث حساب المستخدم. تم إلغاء العملية.", null);
             }
 
             try
             {
-                // Using a repository method (assuming it uses SaveChanges)
                 await _parentRepository.AddAsync(parent);
-                return (true, "تم إنشاء ولي الأمر والمستخدم بنجاح.");
+                return (true, "تم إنشاء ولي الأمر والمستخدم بنجاح.", parent.Id);
             }
             catch
             {
-                // CRITICAL: If adding the parent fails, we must delete the previously created user account.
                 await _userManager.DeleteAsync(user);
-                return (false, "فشل إنشاء ولي الأمر. تم إلغاء حساب المستخدم.");
+                return (false, "فشل إنشاء ولي الأمر. تم إلغاء حساب المستخدم.", null);
             }
         }
-
         public async Task<(bool Succeeded, string Message)> UpdateParentProfileAsync(Guid userId, ParentUpdateDto dto)
         {
             try

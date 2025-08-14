@@ -1,0 +1,35 @@
+<mat-card class="child-card">
+  <div class="child-top">
+    <img [src]="imageUrlOrDefault" alt="صورة الطالب" class="avatar" />
+    <div style="flex: 1">
+      <div class="child-name">{{ child.studentName }}</div>
+      <div class="child-meta">
+        <p>{{ child.schoolName }}</p>
+        {{ child.className }} - {{ child.sectionName }}
+      </div>
+    </div>
+    <div style="text-align: end">
+      <div class="label">المعدل</div>
+      <div class="num">{{ child.avg }}%</div>
+    </div>
+  </div>
+  <mat-progress-bar
+    mode="determinate"
+    [value]="child.avg"
+    [color]="getProgressBarColor()"
+  ></mat-progress-bar>
+  <div class="grade">
+    <div>آخر درجة: {{ child.avg }}</div>
+    <div>متوسط: {{ child.avg }}%</div>
+  </div>
+  <mat-card-actions class="card-actions">
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="openProfile.emit(child.studentId)"
+    >
+      عرض الملف
+    </button>
+    <button mat-stroked-button>رسالة للمعلم</button>
+  </mat-card-actions>
+</mat-card>

@@ -14,6 +14,28 @@ namespace YemenSchoolsV1.Persistence.Repositories
             this.dbContext = dbContext;
         }
 
+        public async Task<List<Student>> GetStudentsByParentIdAsync(Guid parentId)
+        {
+            return await dbContext.ParentStudents
+                .Where(ps => ps.ParentId == parentId)
+
+                    .Include(ps => ps.Student)
+                    .ThenInclude(s => s.School)
+                    .Include(ps => ps.Student)
+                        .ThenInclude(s => s.CurrentSection)
+                            .ThenInclude(sec => sec.SchoolGrade)
+                                .ThenInclude(grade => grade.StageGrade)
+                                    .ThenInclude(stage => stage.Grade)
+
+                                    .Select(ps => ps.Student)
+                                    .ToListAsync();
+        }
+        public async Task<Parent?> GetParentByNationalIdAsync(string nationalId)
+        {
+            return await dbContext.Parents
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.NationalId == nationalId);
+        }
         public async Task<bool> ParentExistsByNationalIdAsync(string nationalId) =>
         await dbContext.Parents.AnyAsync(p => p.NationalId == nationalId);
 

@@ -41,14 +41,7 @@ export class SchoolSubjectComponent implements OnInit {
   // gradesOfSchool ستكون من نوع SchoolGradeWithDetailsDto[]
   gradesOfSchool: SchoolGradeWithDetailsDto[] = [];
   ngOnInit(): void {
-    const schoolId = this.acoountService.currentUser()?.schoolId;
-    if (!schoolId) {
-      console.warn('School ID not found. Cannot load grades and subjects.');
-      this.snackBar.open('فشل تحميل البيانات: معرف المدرسة غير موجود.', 'إغلاق', {
-        duration: 3000,
-      });
-      return;
-    }
+
 
     this.subjectService.getSubjects().subscribe({
       next: (subjects) => {
@@ -60,7 +53,7 @@ export class SchoolSubjectComponent implements OnInit {
       }
     });
 
-    this.schoolService.getSchoolGrade(schoolId).subscribe({
+    this.schoolService.getSchoolGrade().subscribe({
       next: (grades: SchoolGradeWithDetailsDto[]) => {
         this.gradesOfSchool = grades;
         this.gradesOfSchool.forEach((schoolGrade) => {

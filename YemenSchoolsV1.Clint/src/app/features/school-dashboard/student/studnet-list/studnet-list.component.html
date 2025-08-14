@@ -1,0 +1,23 @@
+<app-page-wrapper
+  headerTitle="قائمة المعلمين"
+  headerSubtitle="استعرض جميع المعلمين المتاحين في النظام"
+  headerIcon="location_city"
+>
+  <button
+    card-actions
+    color="primary"
+    mat-flat-button
+    routerLink="/school-dash-board/school-student-add"
+  >
+    <i class="bi bi-plus-lg me-1"></i>
+    إضافة طالب
+  </button>
+
+  <app-table
+    [dataRow]="students()"
+    [columns]="Columns"
+    [hasActions]="true"
+    (actionClicked)="handleUserAction($event)"
+    [usePaginator]="false"
+  ></app-table>
+</app-page-wrapper>

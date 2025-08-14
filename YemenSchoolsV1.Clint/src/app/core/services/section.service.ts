@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Pagination } from '../../shared/models/Pagination';
 import { AccountService } from './account.service';
 import { ApiResponse } from '../../shared/models/ApiResponse';
+import { AcadmicYearService } from './acadmic-year.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,16 @@ export class SectionService {
   private http = inject(HttpClient)
   sections = signal<Section[]>([]);
   accountService = inject(AccountService)
+  yearService = inject(AcadmicYearService)
 
   private schoolId = this.accountService.currentUser()?.schoolId
+  yearId = this.yearService.currentAcademicYearId()
 
-  getSectionsByYearAndGrade(academicYearId: string, schoolGradeId: string) {
+  getSectionsByYearAndGrade(schoolGradeId: string) {
     let params = new HttpParams();
-    params = params.append('academicYearId', academicYearId);
+    if (this.yearId) {
+      params = params.append('academicYearId', this.yearId);
+    }
     params = params.append('schoolGradeId', schoolGradeId);
 
     return this.http.get<ApiResponse<Section[]>>(this.baseUrl + 'Sections/by-academic-year-and-grade', { params })

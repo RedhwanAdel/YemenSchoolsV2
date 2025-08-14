@@ -1,0 +1,241 @@
+<app-page-wrapper
+  headerTitle="إضافة طالب جديد"
+  headerSubtitle="أدخل تفاصيل الطالب وولي أمره"
+  headerIcon="person_add"
+  headerStyle="add"
+>
+  <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="row g-3">
+    <!-- بيانات الطالب -->
+    <h3 class="text-xl font-semibold text-gray-700 mb-4 col-12">
+      بيانات الطالب
+    </h3>
+
+    <div class="col-md-6">
+      <app-form-input
+        label="الاسم بالعربية"
+        icon="person"
+        formControlName="nameAr"
+      />
+    </div>
+    <div class="col-md-6">
+      <app-form-input
+        label="الاسم بالإنجليزية"
+        icon="person"
+        formControlName="nameEn"
+      />
+    </div>
+    <div class="col-md-6">
+      <app-form-input
+        label="رقم التسجيل"
+        icon="vpn_key"
+        formControlName="registerNo"
+      />
+    </div>
+    <div class="col-md-6">
+      <app-form-input
+        label="رقم الهاتف"
+        icon="phone"
+        formControlName="phoneNumber"
+      />
+    </div>
+    <div class="col-md-6">
+      <app-form-input
+        label="البريد الإلكتروني"
+        icon="email"
+        type="email"
+        formControlName="email"
+      />
+    </div>
+    <div class="col-md-6">
+      <app-form-input
+        label="الجنسية"
+        icon="flag"
+        formControlName="nationality"
+      />
+    </div>
+    <div class="col-md-6">
+      <app-form-input
+        label="تاريخ الميلاد"
+        icon="cake"
+        type="date"
+        formControlName="dateOfBirth"
+      />
+    </div>
+    <div class="col-md-6">
+      <app-select-input
+        label="الجنس"
+        icon="wc"
+        formControlName="gender"
+        valueKey="value"
+        labelKey="label"
+        [options]="[
+          { value: 1, label: 'ذكر' },
+          { value: 2, label: 'أنثى' }
+        ]"
+      />
+    </div>
+    <div class="col-md-6">
+      <app-select-input
+        label="الصف"
+        icon="school"
+        formControlName="grade"
+        valueKey="id"
+        labelKey="gradeName"
+        [options]="grades()"
+        (valueChange)="onGradeChange($event)"
+      />
+    </div>
+    <div class="col-md-6">
+      <app-select-input
+        label="الشعبة"
+        icon="group"
+        formControlName="currentSectionId"
+        valueKey="id"
+        labelKey="name"
+        [options]="sections()"
+      />
+    </div>
+    <div class="col-12">
+      <app-form-input
+        label="العنوان"
+        icon="location_on"
+        formControlName="address"
+      />
+    </div>
+
+    <!-- بيانات ولي الأمر -->
+    <h3 class="text-xl font-semibold text-gray-700 mb-4 mt-4 col-12">
+      بيانات ولي الأمر
+    </h3>
+
+    <div class="row align-items-end">
+      <div class="col-md-6">
+        <app-form-input
+          label="الرقم الوطني لولي الأمر"
+          icon="badge"
+          formControlName="nationalId"
+        />
+      </div>
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="searchParent()"
+      >
+        <mat-icon>search</mat-icon> بحث
+      </button>
+    </div>
+
+    <!-- إذا وجد ولي الأمر -->
+    <div
+      *ngIf="foundParent && foundParent.exists"
+      class="mt-3 p-3 border rounded bg-light col-12"
+    >
+      <p>
+        تم العثور على ولي الأمر: <strong>{{ foundParent.nameAr }}</strong>
+      </p>
+      <app-form-input label="نوع العلاقة" formControlName="relationType" />
+    </div>
+
+    <!-- إذا لم يوجد ولي الأمر -->
+    <div
+      *ngIf="foundParent && !foundParent.exists"
+      formGroupName="newParent"
+      class="row g-3 mt-3"
+    >
+      <div class="col-md-6">
+        <app-form-input
+          label="اسم ولي الأمر"
+          icon="person"
+          formControlName="nameAr"
+        />
+      </div>
+      <div class="col-md-6">
+        <app-form-input
+          label=" Enاسم ولي الأمر"
+          icon="person"
+          formControlName="nameEn"
+        />
+      </div>
+      <div class="col-md-6">
+        <app-form-input
+          label="رقم الهاتف"
+          icon="phone"
+          formControlName="phoneNumber"
+        />
+      </div>
+      <div class="col-md-6">
+        <app-form-input
+          label="البريد الإلكتروني"
+          icon="email"
+          type="email"
+          formControlName="email"
+        />
+      </div>
+      <div class="col-md-6">
+        <app-form-input
+          label="عنوان السكن"
+          icon="home"
+          formControlName="address"
+        />
+      </div>
+      <div class="col-md-6">
+        <app-form-input
+          label="المسمى الوظيفي"
+          icon="work"
+          formControlName="jobTitle"
+        />
+      </div>
+      <div class="col-md-6">
+        <app-form-input
+          label="نوع القرابة"
+          icon="work"
+          formControlName="relationType"
+        />
+      </div>
+      <div class="col-md-6">
+        <app-form-input
+          label="تاريخ الميلاد"
+          icon="calendar_today"
+          type="date"
+          formControlName="dateOfBirth"
+        />
+      </div>
+      <div class="col-md-6">
+        <app-form-input
+          label="الرقم الوطني"
+          icon="badge"
+          formControlName="nationalId"
+        />
+      </div>
+      <div class="col-md-6">
+        <app-select-input
+          label="الجنس"
+          icon="wc"
+          formControlName="gender"
+          valueKey="value"
+          labelKey="label"
+          [options]="[
+            { value: 1, label: 'ذكر' },
+            { value: 2, label: 'أنثى' }
+          ]"
+        />
+      </div>
+    </div>
+
+    <!-- أزرار -->
+    <mat-card-actions class="d-flex justify-content-end p-4 gap-3 col-12">
+      <button mat-raised-button color="primary" type="submit">
+        <mat-icon>save</mat-icon> إنشاء
+      </button>
+      <button
+        mat-stroked-button
+        color="accent"
+        type="button"
+        (click)="onCancel()"
+      >
+        <mat-icon>cancel</mat-icon> إلغاء
+      </button>
+    </mat-card-actions>
+  </form>
+</app-page-wrapper>

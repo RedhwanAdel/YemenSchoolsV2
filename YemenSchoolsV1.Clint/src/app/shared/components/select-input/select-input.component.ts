@@ -1,4 +1,4 @@
-import { Component, Input, Self } from '@angular/core';
+import { Component, EventEmitter, Input, Output, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
@@ -18,6 +18,8 @@ export class SelectInputComponent {
   @Input() options: any[] = [];
   @Input() valueKey = 'id';
   @Input() labelKey = 'name';
+  @Output() valueChange = new EventEmitter<any>();
+
   value: any;
   onChange: any = () => { };
   onTouched: any = () => { };
@@ -29,6 +31,7 @@ export class SelectInputComponent {
   onSelect(event: MatSelectChange) {
     this.value = event.value;
     this.onChange(this.value);
+    this.valueChange.emit(this.value)
   }
 
   writeValue(value: any): void {

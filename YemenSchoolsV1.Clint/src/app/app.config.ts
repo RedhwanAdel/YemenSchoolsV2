@@ -10,6 +10,7 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatNativeDateModule, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 
 
 function initializeApp(initService: InitService) {
@@ -25,6 +26,8 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
+    provideNativeDateAdapter(),
+    { provide: MAT_DATE_LOCALE, useValue: 'ar-EG' },
     provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor, authInterceptor])),
     {
       provide: APP_INITIALIZER,

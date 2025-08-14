@@ -1,0 +1,87 @@
+.calendar-card {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #edf2f7;
+  display: flex;
+  flex-direction: column;
+}
+
+// التنسيقات العامة للتقويم
+.mat-calendar {
+  direction: rtl; // جعل اتجاه التقويم من اليمين إلى اليسار
+  font-family: inherit; // وراثة الخط من التطبيق
+}
+
+// تنسيق رأس التقويم (الشهور والسنوات)
+.mat-calendar-header {
+  padding: 0;
+  border-bottom: 1px solid #eef2f7;
+  margin-bottom: 8px;
+  .mat-calendar-controls {
+    justify-content: space-between;
+  }
+}
+
+// تنسيق أسماء الأيام
+.mat-calendar-table-header {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 600;
+  th {
+    padding: 0 4px;
+  }
+}
+
+// تنسيق خلايا الأيام
+.mat-calendar-body-cell-content {
+  border-radius: 8px;
+  height: 40px;
+  width: 40px;
+  display: grid;
+  place-items: center;
+  transition: background-color 0.2s, color 0.2s;
+  font-weight: 500;
+}
+
+// تمييز اليوم الحالي
+.mat-calendar-body-today.mat-calendar-body-cell-content {
+  background: #eef6ff;
+  color: #0b74ff;
+  font-weight: 700;
+  border-color: #0b74ff;
+}
+
+// تنسيق الأيام عند التمرير عليها
+.mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-today) {
+  background-color: #f1f5f9;
+}
+
+// تنسيق الأيام غير التابعة للشهر الحالي
+.mat-calendar-body-cell-content[aria-disabled="true"] {
+  color: #aeb9c7;
+}
+
+// Dark mode styles
+.dark {
+  .calendar-card {
+    background: #071029;
+    border-color: #0e2233;
+  }
+  .mat-calendar-header {
+    border-bottom-color: #0e2233;
+  }
+  .mat-calendar-table-header th {
+    color: #aeb9c7;
+  }
+  .mat-calendar-body-cell-content {
+    color: #e6eef8;
+  }
+  .mat-calendar-body-today.mat-calendar-body-cell-content {
+    background: #06203a;
+    color: #88c6ff;
+    border-color: #06203a;
+  }
+  .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-today) {
+    background-color: #152233;
+  }
+}

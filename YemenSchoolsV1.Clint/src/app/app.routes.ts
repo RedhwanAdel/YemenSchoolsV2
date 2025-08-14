@@ -33,6 +33,9 @@ import { GradeListComponent } from './features/school-dashboard/section/grade-li
 import { SectionSubjectListComponent } from './features/school-dashboard/section-subject/section-subject-list/section-subject-list.component';
 import { SectionSubjectAssignmentComponent } from './features/school-dashboard/section-subject/section-subject-assignment/section-subject-assignment.component';
 import { SchoolReportComponent } from './features/school-dashboard/school-report/school-report.component';
+import { ParentDashboardComponent } from './layout/dashboard/parent-dashboard/parent-dashboard.component';
+import { StudnetListComponent } from './features/school-dashboard/student/studnet-list/studnet-list.component';
+import { StudentAddComponent } from './features/school-dashboard/student/student-add/student-add.component';
 
 export const routes: Routes = [
     {
@@ -71,6 +74,9 @@ export const routes: Routes = [
             { path: 'school-subject', component: SchoolSubjectComponent },
             { path: 'school-years', component: YearListComponent },
             { path: 'school-term', component: TermListComponent },
+            { path: 'school-student-list', component: StudnetListComponent },
+            { path: 'school-student-add', component: StudentAddComponent },
+
             { path: 'school-teacher-list', component: TeacherListComponent },
             { path: 'school-teacher-add', component: TeacherAddComponent },
             { path: 'school-teacher-edit/:id', component: TeacherEditComponent },
@@ -81,6 +87,14 @@ export const routes: Routes = [
             { path: 'section-subject', component: SectionSubjectListComponent },
             { path: 'section-subject-assignment/:sectionId', component: SectionSubjectAssignmentComponent },
             { path: 'section-list/:id', component: SectionListComponent },
+
+        ],
+    },
+    {
+        path: 'parent-dash-board',
+        component: ParentDashboardComponent,
+        children: [
+
 
         ],
     },

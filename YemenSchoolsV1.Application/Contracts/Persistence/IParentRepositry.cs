@@ -5,6 +5,9 @@ namespace YemenSchoolsV1.Application.Contracts.Persistence
 {
     public interface IParentRepositry : IGenericRepositoryAsync<Parent>
     {
+        Task<List<Student>> GetStudentsByParentIdAsync(Guid parentId);
+        Task<Parent?> GetParentByNationalIdAsync(string nationalId);
+
         Task<bool> ParentExistsByNationalIdAsync(string nationalId);
         Task<Parent?> GetParentByUserIdAsync(Guid userId);
         Task<Parent?> GetParentByIdWithStudentsAsync(Guid parentId);

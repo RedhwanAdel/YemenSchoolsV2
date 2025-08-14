@@ -1,13 +1,19 @@
 ﻿using YemenSchoolsV1.Application.Dto.Parents;
+using YemenSchoolsV1.Application.Dto.Students;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Contracts.Services
 {
     public interface IParentService
     {
-        Task<(bool Succeeded, string Message)> CreateParentWithUserAsync(ParentCreateDto dto, string defaultPassword);
+        Task<List<StudentWithSchoolInfoDto>> GetStudentsWithSchoolInfoByParentIdAsync(Guid parentId);
 
+        Task<(bool Succeeded, string Message, Guid? ParentId)> CreateParentWithUserAsync(ParentCreateDto dto, string defaultPassword);
         // R - Read
+        Task<ParentCheckDto> CheckParentByNationalIdAsync(string nationalId);
+
+        Task<bool> IsParentExistByNationalIdAsync(string nationalId);
+
         Task<ParentWithStudentsDto?> GetParentWithStudentsAsync(Guid parentId);
         Task<ParentWithStudentsDto?> GetParentProfileAsync(Guid userId);
         Task<IEnumerable<Parent>> GetAllParentsAsync();

@@ -1,0 +1,19 @@
+<app-parent-header-dashboard
+  (modeToggle)="toggleDarkMode()"
+></app-parent-header-dashboard>
+<div class="layout">
+  <aside class="sidebar-container">
+    <app-parent-sidebar-dashboard></app-parent-sidebar-dashboard>
+  </aside>
+  <main class="main-content">
+    <app-parent-dashboard-page
+      *ngIf="currentView === 'dashboard'"
+      (openChildProfile)="showProfile($event)"
+    ></app-parent-dashboard-page>
+    <!-- <app-profile-page
+      *ngIf="currentView === 'profile'"
+      [child]="selectedChild"
+      (goBack)="currentView = 'dashboard'"
+    ></app-profile-page> -->
+  </main>
+</div>
