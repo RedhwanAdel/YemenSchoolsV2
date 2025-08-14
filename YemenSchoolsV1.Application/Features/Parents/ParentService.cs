@@ -13,6 +13,11 @@ namespace YemenSchoolsV1.Application.Features.Parents
 
         private readonly IParentRepositry _parentRepository;
         private readonly UserManager<AppUser> _userManager;
+        public ParentService(IParentRepositry parentRepository, UserManager<AppUser> userManager)
+        {
+            _parentRepository = parentRepository;
+            _userManager = userManager;
+        }
 
 
         public async Task<List<StudentWithSchoolInfoDto>> GetStudentsWithSchoolInfoByParentIdAsync(Guid parentId)
@@ -45,11 +50,7 @@ namespace YemenSchoolsV1.Application.Features.Parents
                 Exists = true
             };
         }
-        public ParentService(IParentRepositry parentRepository, UserManager<AppUser> userManager)
-        {
-            _parentRepository = parentRepository;
-            _userManager = userManager;
-        }
+
 
         public async Task<bool> IsParentExistByNationalIdAsync(string nationalId)
         {

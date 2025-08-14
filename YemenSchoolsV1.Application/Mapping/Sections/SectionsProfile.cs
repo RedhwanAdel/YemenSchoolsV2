@@ -9,6 +9,9 @@ namespace YemenSchoolsV1.Application.Mapping.Sections
         public SectionsProfile()
         {
             CreateMap<Section, SectionByGradeAndYearDto>()
+                .ForMember(dest => dest.ClassTeacherName,
+                    opt => opt.MapFrom(src => src.ClassTeacher != null ? src.ClassTeacher.NameAr : null))
+
              .ReverseMap();
             CreateMap<Section, CreateSectionDto>()
            .ReverseMap();

@@ -30,6 +30,10 @@ export class SectionService {
 
     return this.http.get<ApiResponse<Section[]>>(this.baseUrl + 'Sections/by-academic-year-and-grade', { params })
   }
+  getSectionsByTeacherId(teacherId: string) {
+
+    return this.http.get<ApiResponse<Section[]>>(this.baseUrl + 'Sections/by-teacherId/' + teacherId)
+  }
 
   getSectionById(id: string) {
     return this.http.get<ApiResponse<Section>>(this.baseUrl + 'Sections/' + id)

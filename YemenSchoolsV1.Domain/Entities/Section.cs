@@ -7,13 +7,17 @@
         public Guid AcademicYearId { get; set; }
         public Guid SchoolGradeId { get; set; }
         public int Capacity { get; set; }
-
+        // إضافة هذا العمود لربط مربي الصف
+        public Guid? ClassTeacherId { get; set; }
 
         // Navigation Property
+        public Teacher? ClassTeacher { get; set; }
         public SchoolGrade SchoolGrade { get; set; } = null!;
         public AcademicYear AcademicYear { get; set; } = null!;
         public ICollection<SectionSubject> SectionSubjects { get; set; } = [];
         public ICollection<Student> Students { get; set; } = [];
+        public ICollection<Attendance> Attendances { get; set; } = [];
+
 
 
 

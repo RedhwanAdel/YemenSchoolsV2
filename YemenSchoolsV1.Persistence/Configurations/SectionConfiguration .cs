@@ -20,6 +20,12 @@ namespace YemenSchoolsV1.Persistence.Configurations
                .WithOne(ss => ss.Section)
                .HasForeignKey(ss => ss.SectionId)
                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(s => s.ClassTeacher)
+            .WithMany(t => t.Sections)
+            .HasForeignKey(s => s.ClassTeacherId)
+            .IsRequired(false) // لأن مربي الصف قد لا يكون معيّنًا دائمًا
+            .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

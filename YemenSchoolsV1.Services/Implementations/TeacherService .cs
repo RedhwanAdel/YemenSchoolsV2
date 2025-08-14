@@ -1,59 +1,83 @@
-﻿using YemenSchoolsV1.Application.Contracts.Persistence;
+﻿using Microsoft.AspNetCore.Identity;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Services.Implementations
 {
-	public class TeacherService : ITeacherService
-	{
-		private readonly ITeacherRepositry teacherRepository;
+    public class TeacherService : ITeacherService
+    {
+        private readonly ITeacherRepositry teacherRepository;
+        private readonly UserManager<AppUser> _userManager;
 
-		public TeacherService(ITeacherRepositry teacherRepository)
-		{
-			this.teacherRepository = teacherRepository;
-		}
+        public TeacherService(ITeacherRepositry teacherRepository, UserManager<AppUser> userManager)
+        {
+            this.teacherRepository = teacherRepository;
+            _userManager = userManager;
+        }
 
-		public async Task<Teacher?> CreateTeacherAsync(Teacher teacher)
-		{
-			if (teacher == null)
-			{
-				throw new ArgumentNullException(nameof(teacher));
-			}
-			return await teacherRepository.AddAsync(teacher);
-		}
+        public async Task<Teacher?> CreateTeacherAsync(Teacher teacher)
+        {
+            if (teacher == null)
+            {
+                throw new ArgumentNullException(nameof(teacher));
+            }
+            var user = new AppUser
+            {
+                UserName = teacher.Email,
+                Email = teacher.Email,
+                PhoneNumber = teacher.PhoneNumber,
+                FirstName = teacher.NameAr,
+                UserType = "Teacher"
+            };
+            var userResult = await _userManager.CreateAsync(user, "Pa$$w0rd");
+            if (!userResult.Succeeded)
+                return null;
+            teacher.Id = Guid.NewGuid();
+            teacher.UserId = user.Id;
+            user.EntityId = teacher.Id;
 
-		public async Task<bool> DeleteTeacherAsync(Guid id)
-		{
-			var teacher = await teacherRepository.GetByIdAsync(id);
-			if (teacher == null)
-				return false;
-			return await teacherRepository.DeleteAsync(id);
-		}
+            var updateUserResult = await _userManager.UpdateAsync(user);
+            if (!updateUserResult.Succeeded)
+            {
+                await _userManager.DeleteAsync(user);
+                return null;
+            }
+            return await teacherRepository.AddAsync(teacher);
+        }
 
-		public async Task<Teacher?> EditTeacherAsync(Guid id, Teacher teacher)
-		{
-			if (teacher == null)
-			{
-				throw new ArgumentNullException(nameof(teacher));
-			}
-			var existingTeacher = await teacherRepository.GetByIdAsync(id);
-			if (existingTeacher == null) { return null; }
-			return await teacherRepository.UpdateAsync(id, teacher);
-		}
+        public async Task<bool> DeleteTeacherAsync(Guid id)
+        {
+            var teacher = await teacherRepository.GetByIdAsync(id);
+            if (teacher == null)
+                return false;
+            return await teacherRepository.DeleteAsync(id);
+        }
 
-		public async Task<List<Teacher>> GetAllTeachersAsync()
-		{
-			return await teacherRepository.GetAllAsync();
-		}
+        public async Task<Teacher?> EditTeacherAsync(Guid id, Teacher teacher)
+        {
+            if (teacher == null)
+            {
+                throw new ArgumentNullException(nameof(teacher));
+            }
+            var existingTeacher = await teacherRepository.GetByIdAsync(id);
+            if (existingTeacher == null) { return null; }
+            return await teacherRepository.UpdateAsync(id, teacher);
+        }
 
-		public async Task<List<Teacher>> GetTeachersBySchoolIdAsync(Guid schoolId)
-		{
-			return await teacherRepository.GetAllBySchoolIdAsync(schoolId);
-		}
+        public async Task<List<Teacher>> GetAllTeachersAsync()
+        {
+            return await teacherRepository.GetAllAsync();
+        }
 
-		public async Task<Teacher?> GetTeacherDetailsAsync(Guid id)
-		{
-			return await teacherRepository.GetByIdAsync(id);
-		}
-	}
+        public async Task<List<Teacher>> GetTeachersBySchoolIdAsync(Guid schoolId)
+        {
+            return await teacherRepository.GetAllBySchoolIdAsync(schoolId);
+        }
+
+        public async Task<Teacher?> GetTeacherDetailsAsync(Guid id)
+        {
+            return await teacherRepository.GetByIdAsync(id);
+        }
+    }
 }

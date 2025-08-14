@@ -30,6 +30,7 @@ export class SectionListComponent implements OnInit {
   Columns: TableColumn[] = [
     { key: 'name', header: ' Name ', sortable: true },
     { key: 'capacity', header: 'capacity ', sortable: true },
+    { key: 'classTeacherName', header: 'Teacher Name ', sortable: true },
   ];
   actions: TableAction[] = [
     { actionKey: 'edit', icon: 'edit', tooltip: 'Edit User', color: 'accent' },

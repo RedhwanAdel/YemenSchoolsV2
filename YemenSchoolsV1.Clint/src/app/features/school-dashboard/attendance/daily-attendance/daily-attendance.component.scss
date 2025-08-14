@@ -1,0 +1,105 @@
+/* تنسيق بطاقة الحضور */
+.attendance-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+}
+
+/* تنسيق رأس البطاقة */
+.attendance-card .mat-card-header {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 24px;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.attendance-card .mat-card-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.attendance-card .mat-card-subtitle {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.attendance-card .mat-icon {
+  margin-right: 8px;
+}
+
+/* تنسيق الجدول */
+.attendance-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.attendance-table .mat-header-cell {
+  background-color: #e9ecef;
+  color: #495057;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 16px 24px;
+  text-align: right;
+}
+
+.attendance-table .mat-row {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.attendance-table .mat-row:hover {
+  background-color: #e9ecef;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.attendance-table .mat-cell {
+  padding: 16px 24px;
+  font-size: 1rem;
+  color: #343a40;
+}
+
+/* تنسيق أزرار الحالة */
+mat-button-toggle-group {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #dee2e6;
+}
+
+mat-button-toggle {
+  text-transform: capitalize;
+  font-weight: 500;
+  color: #495057;
+  transition: all 0.3s;
+}
+
+mat-button-toggle.mat-button-toggle-checked {
+  background-color: #5d57f4;
+  color: #ffffff;
+}
+
+/* تنسيق زر الحفظ */
+.mat-raised-button.mat-primary {
+  background-color: #5d57f4;
+  color: #fff;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+}
+
+.mat-raised-button.mat-primary:hover {
+  background-color: #4c46d4;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}

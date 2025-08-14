@@ -6,6 +6,8 @@
         public required string Name { get; set; }
         public Guid AcademicYearId { get; set; }
         public Guid SchoolGradeId { get; set; }
+        public Guid? ClassTeacherId { get; set; }
+
         public int Capacity { get; set; }
     }
 }

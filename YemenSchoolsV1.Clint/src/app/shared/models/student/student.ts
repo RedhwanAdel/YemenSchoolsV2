@@ -20,6 +20,12 @@ export interface Student {
         final: number;
     }[];
 }
+
+export interface StudentList {
+    id: string;
+    name: string;
+    registerNo: string;
+}
 export interface CreateStudentDto {
     registerNo: string;
     nameAr: string;
@@ -38,4 +44,16 @@ export interface CreateStudentDto {
 export interface ParentAssociationDto {
     parentId: string;
     relationType: string; // مثال: "أب", "أم", "ولي أمر"
+}
+export interface StudentStatus {
+    [studentId: string]: number; // 0: Present, 1: AbsentWithoutExcuse, etc.
+}
+export interface CreateAttendanceRequest {
+    sectionId: string;
+    date: string;
+    studentStatuses: StudentStatus;
+}
+
+export interface UpdateAttendanceRequest {
+    studentStatuses: StudentStatus;
 }

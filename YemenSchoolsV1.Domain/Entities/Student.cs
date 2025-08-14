@@ -30,6 +30,8 @@ namespace YemenSchoolsV1.Domain.Entities
         public Section CurrentSection { get; set; } = null!;
         public AppUser User { get; set; } = null!;
         public ICollection<ParentStudent> Parents { get; set; } = [];
+        public ICollection<AttendanceDetail> AttendanceDetails { get; set; } = [];
+
 
     }
 }

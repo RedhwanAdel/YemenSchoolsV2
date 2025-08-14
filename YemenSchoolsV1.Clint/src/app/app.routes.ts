@@ -36,6 +36,8 @@ import { SchoolReportComponent } from './features/school-dashboard/school-report
 import { ParentDashboardComponent } from './layout/dashboard/parent-dashboard/parent-dashboard.component';
 import { StudnetListComponent } from './features/school-dashboard/student/studnet-list/studnet-list.component';
 import { StudentAddComponent } from './features/school-dashboard/student/student-add/student-add.component';
+import { DailyAttendanceComponent } from './features/school-dashboard/attendance/daily-attendance/daily-attendance.component';
+import { SectionListByTeacherIdComponent } from './features/school-dashboard/attendance/section-list-by-teacher-id/section-list-by-teacher-id.component';
 
 export const routes: Routes = [
     {
@@ -87,6 +89,8 @@ export const routes: Routes = [
             { path: 'section-subject', component: SectionSubjectListComponent },
             { path: 'section-subject-assignment/:sectionId', component: SectionSubjectAssignmentComponent },
             { path: 'section-list/:id', component: SectionListComponent },
+            { path: 'attendance', component: SectionListByTeacherIdComponent },
+            { path: 'attendance/:teacherId', component: DailyAttendanceComponent }
 
         ],
     },

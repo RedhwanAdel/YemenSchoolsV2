@@ -283,6 +283,71 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Attendance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AcademicYearId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClassTeacherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDayOff")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcademicYearId");
+
+                    b.HasIndex("ClassTeacherId");
+
+                    b.HasIndex("SectionId");
+
+                    b.ToTable("Attendances");
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.AttendanceDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttendanceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttendanceId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("AttendanceDetails");
+                });
+
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.City", b =>
                 {
                     b.Property<Guid>("Id")
@@ -751,6 +816,9 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("ClassTeacherId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -762,6 +830,8 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AcademicYearId");
+
+                    b.HasIndex("ClassTeacherId");
 
                     b.HasIndex("SchoolGradeId");
 
@@ -1278,6 +1348,52 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Attendance", b =>
+                {
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.AcademicYear", "AcademicYear")
+                        .WithMany("Attendances")
+                        .HasForeignKey("AcademicYearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.Teacher", "ClassTeacher")
+                        .WithMany("Attendances")
+                        .HasForeignKey("ClassTeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.Section", "Section")
+                        .WithMany("Attendances")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AcademicYear");
+
+                    b.Navigation("ClassTeacher");
+
+                    b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.AttendanceDetail", b =>
+                {
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.Attendance", "Attendance")
+                        .WithMany("AttendanceDetails")
+                        .HasForeignKey("AttendanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.Student", "Student")
+                        .WithMany("AttendanceDetails")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Attendance");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.GradeSubject", b =>
                 {
                     b.HasOne("YemenSchoolsV1.Domain.Entities.SchoolGrade", "SchoolGrade")
@@ -1439,6 +1555,11 @@ namespace YemenSchoolsV1.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.Teacher", "ClassTeacher")
+                        .WithMany("Sections")
+                        .HasForeignKey("ClassTeacherId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("YemenSchoolsV1.Domain.Entities.SchoolGrade", "SchoolGrade")
                         .WithMany("Sections")
                         .HasForeignKey("SchoolGradeId")
@@ -1446,6 +1567,8 @@ namespace YemenSchoolsV1.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("AcademicYear");
+
+                    b.Navigation("ClassTeacher");
 
                     b.Navigation("SchoolGrade");
                 });
@@ -1567,6 +1690,8 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.AcademicYear", b =>
                 {
+                    b.Navigation("Attendances");
+
                     b.Navigation("Sections");
 
                     b.Navigation("Students");
@@ -1582,6 +1707,11 @@ namespace YemenSchoolsV1.Persistence.Migrations
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.AppUser", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Attendance", b =>
+                {
+                    b.Navigation("AttendanceDetails");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.City", b =>
@@ -1644,6 +1774,8 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Section", b =>
                 {
+                    b.Navigation("Attendances");
+
                     b.Navigation("SectionSubjects");
 
                     b.Navigation("Students");
@@ -1661,12 +1793,21 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Student", b =>
                 {
+                    b.Navigation("AttendanceDetails");
+
                     b.Navigation("Parents");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Subject", b =>
                 {
                     b.Navigation("GradeSubjects");
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Teacher", b =>
+                {
+                    b.Navigation("Attendances");
+
+                    b.Navigation("Sections");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Term", b =>

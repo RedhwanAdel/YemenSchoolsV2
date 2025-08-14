@@ -38,6 +38,8 @@ namespace YemenSchoolsV1.Persistence.Data
         public DbSet<Student> Students { get; set; }
         public DbSet<Parent> Parents { get; set; }
         public DbSet<ParentStudent> ParentStudents { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<AttendanceDetail> AttendanceDetails { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -115,6 +117,8 @@ namespace YemenSchoolsV1.Persistence.Data
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
             modelBuilder.ApplyConfiguration(new ParentConfiguration());
             modelBuilder.ApplyConfiguration(new ParentStudentConfiguration());
+            modelBuilder.ApplyConfiguration(new AttendanceConfiguration());
+            modelBuilder.ApplyConfiguration(new AttendanceDetailConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

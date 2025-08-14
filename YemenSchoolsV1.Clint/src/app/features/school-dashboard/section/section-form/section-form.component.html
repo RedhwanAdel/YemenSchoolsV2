@@ -3,6 +3,13 @@
 <form [formGroup]="form" (ngSubmit)="submit()" mat-dialog-content class="pt-3">
   <app-form-input label="Name " formControlName="name" />
   <app-form-input label="capacity" type="number" formControlName="capacity" />
+  <app-select-input
+    label="teacer Id"
+    [options]="teachers"
+    labelKey="name"
+    valueKey="id"
+    formControlName="classTeacherId"
+  />
 </form>
 
 <mat-dialog-actions align="end">

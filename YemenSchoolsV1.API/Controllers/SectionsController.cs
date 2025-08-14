@@ -38,6 +38,17 @@ namespace YemenSchoolsV1.API.Controllers
             return NewResult(new Response<IEnumerable<SectionByGradeAndYearDto>>(sectionDtos) { StatusCode = HttpStatusCode.OK, Succeeded = true });
         }
 
+        [HttpGet("by-teacherId/{teacherId:guid}")]
+        public async Task<IActionResult> GetByTeacherId(Guid teacherId)
+        {
+            if (teacherId == Guid.Empty)
+                return NewResult(new Response<IEnumerable<SectionByGradeAndYearDto>>("Invalid teacher ID.", false) { StatusCode = HttpStatusCode.BadRequest });
+
+            var sections = await _sectionRepositry.GetSectionsByTeacherIdAsync(teacherId);
+            var sectionDtos = mapper.Map<IEnumerable<SectionByGradeAndYearDto>>(sections);
+            return NewResult(new Response<IEnumerable<SectionByGradeAndYearDto>>(sectionDtos) { StatusCode = HttpStatusCode.OK, Succeeded = true });
+        }
+
         /// <summary>
         /// Create a new section.
         /// </summary>
@@ -71,7 +82,9 @@ namespace YemenSchoolsV1.API.Controllers
                 Name = dto.Name,
                 AcademicYearId = dto.AcademicYearId,
                 SchoolGradeId = dto.SchoolGradeId,
-                Capacity = dto.Capacity
+                Capacity = dto.Capacity,
+                ClassTeacherId = dto.ClassTeacherId
+
             };
 
             var updated = await _sectionRepositry.UpdateAsync(id, section);
@@ -102,5 +115,7 @@ namespace YemenSchoolsV1.API.Controllers
             var summaries = await _sectionRepositry.GetSectionSummariesByAcademicYearAsync(academicYearId);
             return NewResult(new Response<List<SectionSummaryDto>>(summaries) { StatusCode = HttpStatusCode.OK, Succeeded = true });
         }
+
+
     }
 }

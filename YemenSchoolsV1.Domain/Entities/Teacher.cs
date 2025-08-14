@@ -35,5 +35,9 @@ namespace YemenSchoolsV1.Domain.Entities
         public AppUser User { get; set; } = null!;
 
         // العلاقة مع المواد المخصصة له
+        public ICollection<Section> Sections { get; set; } = [];
+        public ICollection<Attendance> Attendances { get; set; } = [];
+
+
     }
 }

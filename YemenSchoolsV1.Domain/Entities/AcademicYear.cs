@@ -17,6 +17,8 @@
         public ICollection<Term> Terms { get; set; } = [];
         public ICollection<Section> Sections { get; set; } = [];
         public ICollection<Student> Students { get; set; } = [];
+        public ICollection<Attendance> Attendances { get; set; } = [];
+
 
 
     }

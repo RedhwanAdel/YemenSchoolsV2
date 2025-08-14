@@ -7,6 +7,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { SectionService } from '../../../../core/services/section.service';
 import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
+import { TeacherService } from '../../../../core/services/teacher.service';
+import { AccountService } from '../../../../core/services/account.service';
+import { Teacher } from '../../../../shared/models/teachers/teacher';
+import { SelectInputComponent } from '../../../../shared/components/select-input/select-input.component';
 
 @Component({
   selector: 'app-section-form',
@@ -16,7 +20,9 @@ import { AcadmicYearService } from '../../../../core/services/acadmic-year.servi
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    FormInputComponent],
+    FormInputComponent,
+    SelectInputComponent
+  ],
   templateUrl: './section-form.component.html',
   styleUrl: './section-form.component.scss'
 })
@@ -25,6 +31,8 @@ export class SectionFormComponent implements OnInit {
   isEdit = false;
   sctionService = inject(SectionService)
   yearService = inject(AcadmicYearService)
+  teacherService = inject(TeacherService)
+  accountService = inject(AccountService)
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<SectionFormComponent>,
@@ -35,12 +43,15 @@ export class SectionFormComponent implements OnInit {
     }
   ) { }
 
+  teachers: Teacher[] = []
   ngOnInit() {
+    this.loadTeachers()
     this.isEdit = !!this.data?.model;
 
     this.form = this.fb.group({
       name: [this.data?.model?.name || '', Validators.required],
       capacity: [this.data?.model?.capacity || '', Validators.required],
+      classTeacherId: [this.data?.model?.classTeacherId || ''],
 
     });
 
@@ -48,7 +59,15 @@ export class SectionFormComponent implements OnInit {
   }
 
 
-
+  loadTeachers() {
+    const schoolId = this.accountService.currentUser()?.schoolId
+    if (!schoolId) return
+    this.teacherService.getTeachers(schoolId).subscribe({
+      next: res => {
+        this.teachers = res.data
+      }
+    })
+  }
   submit() {
     if (this.form.invalid) return;
 

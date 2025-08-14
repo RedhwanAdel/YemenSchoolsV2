@@ -21,6 +21,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
                                  .Where(cs => cs.AcademicYearId == academicYearId && cs.SchoolGradeId == schoolGradeId)
                                  .Include(cs => cs.AcademicYear)
                                  .Include(cs => cs.SchoolGrade)
+                                 .Include(cs => cs.ClassTeacher)
                                  .ToListAsync();
         }
 
@@ -30,6 +31,15 @@ namespace YemenSchoolsV1.Persistence.Repositories
                                  .Include(cs => cs.AcademicYear)
                                  .Include(cs => cs.SchoolGrade)
                                  .FirstOrDefaultAsync(cs => cs.Id == sectionId);
+        }
+        public async Task<IEnumerable<Section>> GetSectionsByTeacherIdAsync(Guid teacherId)
+        {
+            return await dbContext.Sections
+                                 .Where(cs => cs.ClassTeacherId == teacherId)
+                                 .Include(cs => cs.AcademicYear)
+                                 .Include(cs => cs.SchoolGrade)
+                                 .Include(cs => cs.ClassTeacher)
+                                 .ToListAsync();
         }
 
         public async Task<List<SectionSummaryDto>> GetSectionSummariesByAcademicYearAsync(Guid academicYearId)
