@@ -12,6 +12,8 @@
         public GradeSubject GradeSubject { get; set; } = null!;
         public Term Term { get; set; } = null!;
         public Teacher Teacher { get; set; } = null!;
+        public ICollection<Mark> Marks { get; set; } = [];
+
 
     }
 }

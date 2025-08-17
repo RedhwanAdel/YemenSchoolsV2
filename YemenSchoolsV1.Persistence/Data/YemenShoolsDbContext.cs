@@ -40,6 +40,7 @@ namespace YemenSchoolsV1.Persistence.Data
         public DbSet<ParentStudent> ParentStudents { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<AttendanceDetail> AttendanceDetails { get; set; }
+        public DbSet<Mark> Marks { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

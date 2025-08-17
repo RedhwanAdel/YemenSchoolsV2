@@ -1,0 +1,115 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12">
+      <mat-card class="mark-entry-card mat-elevation-z8">
+        <mat-card-header>
+          <mat-card-title>إدخال درجات الطلاب</mat-card-title>
+          <mat-card-subtitle>اختر المادة ونوع التقييم</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>اختر المادة</mat-label>
+                <mat-select
+                  [(ngModel)]="selectedSectionSubjectId"
+                  (selectionChange)="onSectionSubjectChange()"
+                >
+                  <mat-option
+                    *ngFor="let ss of sectionSubjects"
+                    [value]="ss.id"
+                  >
+                    {{ ss.subjectName }} - {{ ss.sectionName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>اختر نوع التقييم</mat-label>
+                <mat-select [(ngModel)]="selectedAssessmentType">
+                  <mat-option
+                    *ngFor="let at of assessmentTypes"
+                    [value]="at.value"
+                  >
+                    {{ at.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div *ngIf="isLoading" class="d-flex justify-content-center my-5">
+            <mat-spinner></mat-spinner>
+          </div>
+
+          <div *ngIf="!isLoading && students.length > 0">
+            <table mat-table [dataSource]="students" class="w-100 mt-4">
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef>#</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  {{ i + 1 }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>اسم الطالب</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.name }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="registerNo">
+                <th mat-header-cell *matHeaderCellDef>قيد الطالب</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.registerNo }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="score">
+                <th mat-header-cell *matHeaderCellDef>الدرجة</th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-form-field appearance="outline" class="w-75">
+                    <input
+                      matInput
+                      type="number"
+                      [(ngModel)]="studentScores[element.id]"
+                      min="0"
+                      max="100"
+                    />
+                  </mat-form-field>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+
+          <div
+            *ngIf="!isLoading && students.length === 0"
+            class="alert alert-info text-center mt-4"
+          >
+            الرجاء اختيار مادة لعرض الطلاب.
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="
+              !selectedSectionSubjectId ||
+              !selectedAssessmentType ||
+              students.length === 0 ||
+              isLoading
+            "
+            (click)="saveMarks()"
+          >
+            حفظ الدرجات
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -30,6 +30,7 @@ namespace YemenSchoolsV1.Persistence
 
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+            services.AddScoped<IMarkRepository, MarkRepository>();
 
             return services;
         }

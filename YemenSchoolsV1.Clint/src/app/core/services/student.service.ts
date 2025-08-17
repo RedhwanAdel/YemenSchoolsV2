@@ -1,10 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { CreateStudentDto, Student, StudentList } from '../../shared/models/student/student';
+import { CreateStudentDto, StudentList } from '../../shared/models/student/student';
 import { AccountService } from './account.service';
 import { AcadmicYearService } from './acadmic-year.service';
 import { ApiResponse } from '../../shared/models/ApiResponse';
+import { Student } from '../../shared/models/mark/mark';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +24,12 @@ export class StudentService {
     return this.http.post(this.apiUrl + 'Student', studentData);
   }
 
+  // لجلب الطلاب في شعبة معينة
+  getStudentsBySectionId(sectionId: string) {
+    return this.http.get<ApiResponse<Student[]>>(`${this.apiUrl}Student/by-section/${sectionId}`).pipe(
+      map(res => res.data)
+    );
+  }
 
   getStudentProfile(id: string) {
     return this.http.get(`${this.apiUrl}/${id}`);

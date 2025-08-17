@@ -5,6 +5,8 @@ namespace YemenSchoolsV1.Application.Contracts.Services
 {
     public interface IStudentService
     {
+        Task<IEnumerable<Student>> GetStudentsBySectionAsync(Guid sectionId);
+
         Task<(bool Succeeded, string Message)> CreateStudentAsync(StudentCreateDto dto);
         Task<StudentWithParentsDto?> GetStudentProfileWithParentsAsync(Guid studentId);
         Task<IEnumerable<Student>> GetStudentsByAcademicYearAndSectionAsync(Guid academicYearId, Guid sectionId);

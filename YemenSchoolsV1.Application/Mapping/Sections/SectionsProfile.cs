@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using YemenSchoolsV1.Application.Dto;
+using YemenSchoolsV1.Application.Dto.Students;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Mapping.Sections
@@ -16,6 +17,8 @@ namespace YemenSchoolsV1.Application.Mapping.Sections
             CreateMap<Section, CreateSectionDto>()
            .ReverseMap();
             CreateMap<SectionSubject, SectionSubjectInfoDto>()
+           .ReverseMap();
+            CreateMap<SectionSubject, SectionSubjecUpdateDto>()
            .ReverseMap();
             CreateMap<SectionSubject, CreateSectionSubjectDto>()
            .ReverseMap();

@@ -54,7 +54,40 @@ namespace YemenSchoolsV1.API.Controllers
 
             return NewResult(successResponse);
         }
+        /// <summary>
+        /// Gets students by academic year and section.
+        /// </summary>
+        [HttpGet("by-section/{sectionId}")]
+        public async Task<IActionResult> GetStudentsBySection(Guid sectionId)
+        {
+            if (sectionId == Guid.Empty)
+            {
+                var response = new Response<List<StudentListDto>>("AcademicYearId and SectionId are required.", false)
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+                return NewResult(response);
+            }
 
+            var students = await _studentService.GetStudentsBySectionAsync(sectionId);
+
+            var result = students.Select(s => new StudentListDto
+            {
+                Id = s.Id,
+                Name = s.NameAr,
+                SectionId = s.CurrentSectionId,
+                RegisterNo = s.RegisterNo,
+
+            }).ToList();
+
+            var successResponse = new Response<List<StudentListDto>>(result, "تم جلب الطلاب بنجاح")
+            {
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Succeeded = true
+            };
+
+            return NewResult(successResponse);
+        }
         /// <summary>
         /// ينشئ سجلًا جديدًا لطالب في النظام.
         /// </summary>

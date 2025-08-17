@@ -30,7 +30,7 @@ export class SectionSubjectService {
   }
 
   update(id: string, dto: SectionSubjectInfoDto) {
-    return this.http.put(this.baseUrl + 'SectionSubjects', dto);
+    return this.http.put(this.baseUrl + 'SectionSubjects/' + id, dto);
   }
 
   delete(id: string) {

@@ -3,7 +3,10 @@ using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Contracts.Persistence
 {
-	public interface ITeacherRepositry : IGenericRepositoryAsync<Teacher>
-	{
-	}
+    public interface ITeacherRepositry : IGenericRepositoryAsync<Teacher>
+    {
+        Task<IEnumerable<SectionSubject>> GetTeacherSectionSubjectsAsync(Guid teacherId);
+
+
+    }
 }

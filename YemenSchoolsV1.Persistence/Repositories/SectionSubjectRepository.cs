@@ -14,6 +14,16 @@ namespace YemenSchoolsV1.Persistence.Repositories
         {
             this.dbContext = dbContext;
         }
+        public async Task<SectionSubject?> GetSectionSubjectsInfoAsync(Guid Id)
+        {
+            return await dbContext.SectionSubject
+                .Include(ss => ss.Section)
+                .Include(ss => ss.GradeSubject)
+                    .ThenInclude(gs => gs.Subject)
+                    .FirstOrDefaultAsync(ss => ss.Id == Id);
+
+
+        }
 
         public async Task<List<SectionSubjectInfoDto>> GetSectionSubjectsInfoBySectionIdAsync(Guid sectionId)
         {

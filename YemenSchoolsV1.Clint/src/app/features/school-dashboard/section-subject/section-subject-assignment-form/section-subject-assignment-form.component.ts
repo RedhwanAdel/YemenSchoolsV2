@@ -120,7 +120,7 @@ export class SectionSubjectAssignmentFormComponent implements OnInit {
     sectionSubject.sectionId = sectionId;
 
     if (this.isEdit) {
-      const id = sectionSubject.id
+      const id = this.data.model.id
       this.sectionSubjectService.update(id, sectionSubject).subscribe({
         next: (res) => {
           this.dialogRef.close(res)

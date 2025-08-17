@@ -31,6 +31,8 @@ namespace YemenSchoolsV1.Domain.Entities
         public AppUser User { get; set; } = null!;
         public ICollection<ParentStudent> Parents { get; set; } = [];
         public ICollection<AttendanceDetail> AttendanceDetails { get; set; } = [];
+        public ICollection<Mark> Marks { get; set; } = [];
+
 
 
     }

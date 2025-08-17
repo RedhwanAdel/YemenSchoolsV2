@@ -187,7 +187,10 @@ namespace YemenSchoolsV1.Application.Features.Students
         {
             return await _studentRepository.GetStudentsByAcademicYearAndSectionAsync(academicYearId, sectionId);
         }
-
+        public async Task<IEnumerable<Student>> GetStudentsBySectionAsync(Guid sectionId)
+        {
+            return await _studentRepository.GetStudentsBySectionIdAsync(sectionId);
+        }
         /// <summary>
         /// يقوم بتحديث بيانات ملف الطالب.
         /// </summary>

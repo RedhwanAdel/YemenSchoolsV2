@@ -5,6 +5,7 @@ using System.Net;
 using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto;
+using YemenSchoolsV1.Application.Dto.Students;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.API.Controllers
@@ -56,7 +57,7 @@ namespace YemenSchoolsV1.API.Controllers
 
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] SectionSubjectInfoDto dto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] SectionSubjecUpdateDto dto)
         {
             if (dto == null)
                 return NewResult(new Response<string>("SectionSubject data is required.", false) { StatusCode = HttpStatusCode.BadRequest });

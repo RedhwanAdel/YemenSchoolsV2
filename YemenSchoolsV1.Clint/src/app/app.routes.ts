@@ -38,6 +38,7 @@ import { StudnetListComponent } from './features/school-dashboard/student/studne
 import { StudentAddComponent } from './features/school-dashboard/student/student-add/student-add.component';
 import { DailyAttendanceComponent } from './features/school-dashboard/attendance/daily-attendance/daily-attendance.component';
 import { SectionListByTeacherIdComponent } from './features/school-dashboard/attendance/section-list-by-teacher-id/section-list-by-teacher-id.component';
+import { MarkEntryComponent } from './features/school-dashboard/mark/mark-entry/mark-entry.component';
 
 export const routes: Routes = [
     {
@@ -90,7 +91,8 @@ export const routes: Routes = [
             { path: 'section-subject-assignment/:sectionId', component: SectionSubjectAssignmentComponent },
             { path: 'section-list/:id', component: SectionListComponent },
             { path: 'attendance', component: SectionListByTeacherIdComponent },
-            { path: 'attendance/:teacherId', component: DailyAttendanceComponent }
+            { path: 'attendance/:teacherId', component: DailyAttendanceComponent },
+            { path: 'mark-entry', component: MarkEntryComponent }
 
         ],
     },

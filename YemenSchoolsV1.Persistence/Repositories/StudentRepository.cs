@@ -30,6 +30,12 @@ namespace YemenSchoolsV1.Persistence.Repositories
                                  .Where(s => s.CurrentAcademicYearId == academicYearId && s.CurrentSectionId == sectionId)
                                  .ToListAsync();
         }
+        public async Task<IEnumerable<Student>> GetStudentsBySectionIdAsync(Guid sectionId)
+        {
+            return await _context.Students
+                                 .Where(s => s.CurrentSectionId == sectionId)
+                                 .ToListAsync();
+        }
 
         public async Task AddParentToStudentAsync(ParentStudent parentStudent)
         {
