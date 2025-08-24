@@ -20,7 +20,12 @@ export interface Student {
         final: number;
     }[];
 }
-
+export interface StudentListDto {
+    id: string;
+    Name: string;
+    className: string | null;
+    sectionName: string | null;
+}
 export interface StudentList {
     id: string;
     name: string;

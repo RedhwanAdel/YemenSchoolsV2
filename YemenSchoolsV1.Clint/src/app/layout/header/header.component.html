@@ -23,9 +23,20 @@
             >تفاصيل المدرسة</a
           >
         </li>
+        @if (accountService.currentUser()?.userType === userTypes.SuperAdmin ||
+        true) {
+
         <li><a routerLink="/dash-board">لوحة التحكم</a></li>
+        } @if (accountService.currentUser()?.userType === userTypes.Admin ||
+        accountService.currentUser()?.userType === userTypes.Teacher || true) {
         <li><a routerLink="/school-dash-board">لوحة تحكم المدرسة</a></li>
+
+        } @if (accountService.currentUser()?.userType === userTypes.Parent||
+        true) {
         <li><a routerLink="/parent-dash-board">لوحة تحكم اولياء الأمور</a></li>
+
+        }
+
         <li>
           <a routerLink="/test-error" routerLinkActive="active">اختبار الخطأ</a>
         </li>

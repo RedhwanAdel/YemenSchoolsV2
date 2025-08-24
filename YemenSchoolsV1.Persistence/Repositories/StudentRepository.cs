@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Dto.Students;
 using YemenSchoolsV1.Domain.Entities;
 using YemenSchoolsV1.Persistence.Data;
 
@@ -36,7 +37,30 @@ namespace YemenSchoolsV1.Persistence.Repositories
                                  .Where(s => s.CurrentSectionId == sectionId)
                                  .ToListAsync();
         }
-
+        public async Task<IEnumerable<StudentListDto>> GetStudentsBySchoolIdAsync(Guid schoolId)
+        {
+            return await _context.Students
+                .Where(s => s.SchoolId == schoolId)
+                .Include(s => s.CurrentSection)
+                    .ThenInclude(sec => sec.SchoolGrade)
+                        .ThenInclude(sg => sg.StageGrade)
+                            .ThenInclude(stg => stg.Grade)
+                .Select(s => new StudentListDto
+                {
+                    Id = s.Id,
+                    Name = s.NameAr, // Adjust property as needed
+                    RegisterNo = s.RegisterNo,
+                    SectionName = s.CurrentSection != null ? s.CurrentSection.Name : null,
+                    GradeName = s.CurrentSection != null &&
+                                s.CurrentSection.SchoolGrade != null &&
+                                s.CurrentSection.SchoolGrade.StageGrade != null &&
+                                s.CurrentSection.SchoolGrade.StageGrade.Grade != null
+                                ? s.CurrentSection.SchoolGrade.StageGrade.Grade.Name
+                                : null
+                    // Add other properties as needed
+                })
+                .ToListAsync();
+        }
         public async Task AddParentToStudentAsync(ParentStudent parentStudent)
         {
             await _context.ParentStudents.AddAsync(parentStudent);

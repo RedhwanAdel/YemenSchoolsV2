@@ -80,7 +80,7 @@
   transition: transform 0.3s ease-out; /* Smooth scroll-up effect */
   /* NEW: Set initial transform to hide the contact info below */
   transform: translateY(
-    55%
+    60%
   ); /* Default position, contact info is hidden below */
   z-index: 100;
 }
@@ -88,7 +88,7 @@
 .school-card:hover .card-content-scrollable {
   /* NEW: Move up to reveal contact info */
   transform: translateY(
-    40%
+    30%
   ); /* Adjust -50px based on the height of your contact-info-section */
   /* This value should ideally be the height of the contact-info-section */
 }
@@ -96,7 +96,7 @@
 .card-body-main {
   padding: 15px;
   padding-bottom: 0;
-  padding-top: 50px;
+  // padding-top: 50px;
   /* NEW: Add padding-bottom here to make space for the contact info that will be hidden initially */
   /* padding-bottom: 60px;  */
 }
@@ -149,7 +149,7 @@
 .contact-info li {
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  justify-content: space-between;
 }
 
 .contact-info li:last-child {

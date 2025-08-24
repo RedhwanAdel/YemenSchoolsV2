@@ -1,4 +1,5 @@
 ﻿using FinalProject.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Dto.Students;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Contracts.Persistence
@@ -6,6 +7,7 @@ namespace YemenSchoolsV1.Application.Contracts.Persistence
     public interface IStudentRepository : IGenericRepositoryAsync<Student>
     {
         Task<IEnumerable<Student>> GetStudentsBySectionIdAsync(Guid sectionId);
+        Task<IEnumerable<StudentListDto>> GetStudentsBySchoolIdAsync(Guid schoolId);
 
         Task<bool> StudentExistsByRegisterNoAsync(string registerNo);
         //Task<Student?> GetStudentByIdAsync(Guid studentId);

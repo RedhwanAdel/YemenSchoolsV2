@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { CreateMarksDto, SectionSubject, Student } from '../../shared/models/mark/mark';
+import { CreateMarksDto, SectionSubject, Student, SubjectReportDto } from '../../shared/models/mark/mark';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,9 @@ export class MarkService {
   getTeacherSectionSubjects() {
     // يجب أن تكون هذه النقطة في الـ API موجودة وتجلب البيانات بناءً على هوية المعلم
     return this.http.get<SectionSubject[]>(this.apiUrl + '/section-subjects');
+  }
+  getStudentSubjectsReport(studentId: string) {
+    return this.http.get<SubjectReportDto[]>(`${this.apiUrl}/StudentSubjectsReport/${studentId}`);
   }
 
 

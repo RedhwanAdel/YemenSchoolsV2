@@ -4,10 +4,12 @@ namespace YemenSchoolsV1.Application.Contracts.Services
 {
     public interface IMarkService
     {
+        Task<IEnumerable<StudentSubjectReportDto>> GetStudentSubjectsReportAsync(Guid studentId);
+
         Task<IEnumerable<SectionSubjectDto>> GetTeacherSectionSubjectsAsync(Guid teacherId);
 
         // لإدخال درجات مجموعة من الطلاب في مادة معينة
-        Task CreateMarksAsync(Guid teacherId, Guid sectionSubjectId, string assessmentType, Dictionary<Guid, double> studentScores);
+        Task CreateMarksAsync(Guid teacherId, Guid sectionSubjectId, string assessmentType, Dictionary<Guid, double> studentScores, int maxScore);
 
         // لتحديث درجات مجموعة من الطلاب في مادة معينة
         Task UpdateMarksAsync(Guid teacherId, Guid sectionSubjectId, string assessmentType, Dictionary<Guid, double> studentScores);

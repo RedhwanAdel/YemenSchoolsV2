@@ -22,10 +22,23 @@ import { RouterLink } from '@angular/router';
 })
 export class SchoolItemComponent {
   genderLabels: { [key: string]: string } = {
-    Boys: 'Boys',
-    Girls: 'Girls',
-    Both: 'Boys & Girls'
+    Boys: 'بنين',
+    Girls: 'بنات',
+    Both: 'بنين وبنات'
   };
+  schoolType: { [key: string]: string } =
+    {
+      Private: 'خاص',
+      Public: 'عام'
+    };
+  schoolLevel: { [key: string]: string } =
+    {
+      None: '',
+      Kindergarten: 'روضة',
+      Elementary: 'ابتدائي',
+      Middle: 'متوسط',
+      High: 'ثانوي'
+    };
 
   school = input.required<SchoolListItem>()
   get logo() {

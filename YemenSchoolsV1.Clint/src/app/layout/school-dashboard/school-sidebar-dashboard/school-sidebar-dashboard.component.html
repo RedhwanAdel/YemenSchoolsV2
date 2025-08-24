@@ -29,6 +29,7 @@
     <span matListItemTitle>الرئيسية</span>
   </a>
 
+  @if(accountService.currentUser()?.userType === userTypes.Admin || true){
   <a
     mat-list-item
     routerLink="/school-dash-board/school-grade"
@@ -82,22 +83,6 @@
   </a>
   <a
     mat-list-item
-    routerLink="/school-dash-board/attendance"
-    routerLinkActive="active-link"
-  >
-    <mat-icon matListItemIcon>location_city</mat-icon>
-    <span matListItemTitle>التحضير</span>
-  </a>
-  <a
-    mat-list-item
-    routerLink="/school-dash-board/mark-entry"
-    routerLinkActive="active-link"
-  >
-    <mat-icon matListItemIcon>location_city</mat-icon>
-    <span matListItemTitle>الدرجات</span>
-  </a>
-  <a
-    mat-list-item
     routerLink="/school-dash-board/section-grade-list"
     routerLinkActive="active-link"
   >
@@ -120,4 +105,23 @@
     <mat-icon matListItemIcon>location_city</mat-icon>
     <span matListItemTitle>تقارير</span>
   </a>
+
+  } @if (accountService.currentUser()?.userType === userTypes.Teacher || true) {
+  <a
+    mat-list-item
+    routerLink="/school-dash-board/attendance"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>location_city</mat-icon>
+    <span matListItemTitle>التحضير</span>
+  </a>
+  <a
+    mat-list-item
+    routerLink="/school-dash-board/mark-entry"
+    routerLinkActive="active-link"
+  >
+    <mat-icon matListItemIcon>location_city</mat-icon>
+    <span matListItemTitle>الدرجات</span>
+  </a>
+  }
 </mat-nav-list>

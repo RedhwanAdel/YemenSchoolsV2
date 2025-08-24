@@ -5,11 +5,12 @@ import { MatCardModule } from '@angular/material/card';
 import { Student } from '../../../shared/models/student/student';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { StudentWithSchoolInfoDto } from '../../../shared/models/parent';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-child-card',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatProgressBarModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatProgressBarModule, RouterLink],
   templateUrl: './child-card.component.html',
   styleUrl: './child-card.component.scss'
 })

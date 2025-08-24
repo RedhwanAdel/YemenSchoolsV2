@@ -1,0 +1,89 @@
+<div class="container-fluid py-4">
+  <mat-card class="calendar-card mat-elevation-z4">
+    <mat-card-header>
+      <mat-card-title class="card-title mb-2"
+        >تقرير الحضور الشهري</mat-card-title
+      >
+    </mat-card-header>
+
+    <mat-card-content class="calendar-content py-2">
+      <div class="controls-container">
+        <mat-form-field appearance="outline" class="month-selector mb-2">
+          <mat-label>اختر الشهر</mat-label>
+          <mat-select
+            [(ngModel)]="selectedMonth"
+            (selectionChange)="onMonthChange()"
+          >
+            <mat-option
+              *ngFor="let month of availableMonths"
+              [value]="month.value"
+            >
+              {{ month.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger text-center mt-3">
+        {{ errorMessage }}
+      </div>
+
+      <div
+        *ngIf="
+          !isLoading &&
+          calendarDays &&
+          calendarDays.length === 0 &&
+          !errorMessage
+        "
+        class="alert alert-info text-center mt-3"
+      >
+        لا توجد بيانات حضور لهذا الشهر.
+      </div>
+
+      <ng-container
+        *ngIf="!isLoading && calendarDays && calendarDays.length > 0"
+      >
+        <div class="week-header-grid">
+          <div class="day-header">السبت</div>
+          <div class="day-header">الأحد</div>
+          <div class="day-header">الاثنين</div>
+          <div class="day-header">الثلاثاء</div>
+          <div class="day-header">الأربعاء</div>
+          <div class="day-header">الخميس</div>
+          <div class="day-header">الجمعة</div>
+        </div>
+
+        <div class="days-grid">
+          <div
+            class="day-box"
+            *ngFor="let day of calendarDays"
+            [ngClass]="day.status ? getStatusClass(day.status) : ''"
+          >
+            {{ day.date }}
+          </div>
+        </div>
+      </ng-container>
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-actions class="legend-container">
+      <div class="legend-item">
+        <div class="color-box present"></div>
+        <span>حاضر</span>
+      </div>
+      <div class="legend-item">
+        <div class="color-box absent"></div>
+        <span>غائب</span>
+      </div>
+      <div class="legend-item">
+        <div class="color-box excused"></div>
+        <span>غائب بعذر</span>
+      </div>
+      <div class="legend-item">
+        <div class="color-box late"></div>
+        <span>متأخر</span>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,70 @@
+<div class="grades-dashboard">
+  <ng-container *ngIf="subjects && subjects.length > 0; else noSubjects">
+    <div class="dashboard-grid">
+      <mat-card
+        *ngFor="let subject of subjects"
+        class="grade-card"
+        [class.excellent]="subject.score >= 90"
+        [class.good]="subject.score >= 75 && subject.score < 90"
+        [class.fail]="subject.score < 75"
+        (click)="showSubjectDetails(subject)"
+      >
+        <div class="grade-card-content">
+          <h4>{{ subject.name }}</h4>
+          <div class="score">{{ subject.score }}%</div>
+          <div class="grade-label">{{ subject.grade }}</div>
+        </div>
+      </mat-card>
+    </div>
+
+    <mat-card *ngIf="selectedSubject" class="details-card mat-elevation-z2">
+      <h3>تفاصيل مادة {{ selectedSubject.name }}</h3>
+
+      <div class="details-section">
+        <div class="grades-table-container">
+          <table class="details-table">
+            <thead>
+              <tr>
+                <th>نوع التقييم</th>
+                <th>الدرجة</th>
+                <th>الدرجة القصوى</th>
+                <th>النسبة المئوية</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container
+                *ngIf="
+                  selectedSubject.details.grades &&
+                    selectedSubject.details.grades.length > 0;
+                  else noGrades
+                "
+              >
+                <tr *ngFor="let grade of selectedSubject.details.grades">
+                  <td>{{ grade.type }}</td>
+                  <td>{{ grade.score }}</td>
+                  <td>{{ grade.total }}</td>
+                  <td>{{ grade.percentage }}</td>
+                </tr>
+              </ng-container>
+              <ng-template #noGrades>
+                <tr>
+                  <td colspan="4" class="no-data-cell">
+                    لا توجد درجات متوفرة لهذه المادة.
+                  </td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </mat-card>
+  </ng-container>
+
+  <ng-template #noSubjects>
+    <div class="no-data-message mat-elevation-z2">
+      <mat-icon class="info-icon">info</mat-icon>
+      <h3>لا توجد مواد أو درجات لعرضها حالياً.</h3>
+      <p>يرجى مراجعة قسم الإدارة للتأكد من إدخال البيانات.</p>
+    </div>
+  </ng-template>
+</div>

@@ -20,6 +20,10 @@ namespace YemenSchoolsV1.Persistence.Repositories
                 .Include(ss => ss.Section)
                 .Include(ss => ss.GradeSubject)
                     .ThenInclude(gs => gs.Subject)
+                    .Include(s => s.Section)
+                    .ThenInclude(s => s.SchoolGrade)
+                    .ThenInclude(s => s.StageGrade)
+                    .ThenInclude(s => s.Grade)
                 .ToListAsync();
         }
     }

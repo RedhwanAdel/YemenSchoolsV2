@@ -6,14 +6,10 @@
     <app-parent-sidebar-dashboard></app-parent-sidebar-dashboard>
   </aside>
   <main class="main-content">
-    <app-parent-dashboard-page
+    <router-outlet></router-outlet>
+    <!-- <app-parent-dashboard-page
       *ngIf="currentView === 'dashboard'"
       (openChildProfile)="showProfile($event)"
     ></app-parent-dashboard-page>
-    <!-- <app-profile-page
-      *ngIf="currentView === 'profile'"
-      [child]="selectedChild"
-      (goBack)="currentView = 'dashboard'"
-    ></app-profile-page> -->
-  </main>
+  --></main>
 </div>

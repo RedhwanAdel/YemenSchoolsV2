@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 import { CreateAttendanceRequest, UpdateAttendanceRequest } from '../../shared/models/student/student';
+import { ApiResponse } from '../../shared/models/ApiResponse';
+import { AttendanceDetailDto } from '../../shared/models/attendance/attendance';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +29,13 @@ export class AttendanceService {
   getStudentAttendanceReport(studentId: string) {
     // نفترض وجود نقطة نهاية لجلب تقرير الطالب
     return this.http.get<any>(`${this.apiUrl}student-report/${studentId}`);
+  }
+
+  getStudentAttendanceReportByDate(studentId: string, year: number, month: number) {
+    // نفترض وجود نقطة نهاية لجلب تقرير الطالب
+
+    return this.http.get<ApiResponse<AttendanceDetailDto[]>>(`${this.apiUrl}/student/${studentId}/report/${year}/${month}`).pipe(
+      map(res => res.data)
+    );
   }
 }

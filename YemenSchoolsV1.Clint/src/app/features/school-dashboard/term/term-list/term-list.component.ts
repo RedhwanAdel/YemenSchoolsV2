@@ -17,7 +17,7 @@ import { TermFormComponent } from '../term-form/term-form.component';
 @Component({
   selector: 'app-term-list',
   standalone: true,
-  imports: [PageWrapperComponent, TableComponent, MatButton, MatSelectModule, MatLabel, MatFormField, FormsModule],
+  imports: [PageWrapperComponent, TableComponent, MatButton, MatSelectModule, FormsModule],
   templateUrl: './term-list.component.html',
   styleUrl: './term-list.component.scss'
 })

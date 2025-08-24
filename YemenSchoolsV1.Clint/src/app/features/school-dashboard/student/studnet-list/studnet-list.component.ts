@@ -7,7 +7,7 @@ import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { TeacherService } from '../../../../core/services/teacher.service';
 import { TableColumn, TableComponent } from '../../../../shared/components/table/table.component';
 import { Teacher } from '../../../../shared/models/teachers/teacher';
-import { Student } from '../../../../shared/models/student/student';
+import { Student, StudentListDto } from '../../../../shared/models/student/student';
 import { StudentService } from '../../../../core/services/student.service';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { MatButton } from '@angular/material/button';
@@ -22,18 +22,17 @@ import { MatButton } from '@angular/material/button';
 export class StudnetListComponent {
   private dialogService = inject(DialogService);
   router = inject(Router);
-
+  accountService = inject(AccountService)
   private dialog = inject(MatDialog);
   studentService = inject(StudentService)
   private snack = inject(SnackbarService)
-  students = signal<Student[]>([])
+  students = signal<StudentListDto[]>([])
 
   Columns: TableColumn[] = [
     { key: 'name', header: ' Name ' },
-    { key: 'email', header: ' email ' },
-    { key: 'phoneNumber', header: ' phoneNumber ' },
-    { key: 'employmentStatus', header: ' employmentStatus ' },
-    { key: 'specialization', header: ' specialization ' },
+    { key: 'registerNo', header: ' Register No ' },
+    { key: 'gradeName', header: ' Class ' },
+    { key: 'sectionName', header: ' Section ' }
   ];
 
   ngOnInit(): void {
@@ -61,12 +60,12 @@ export class StudnetListComponent {
   }
 
   loadStudent() {
-    // const schoolId = this.accountService.currentUser()?.schoolId
-    // if (schoolId) {
-    //   this.teacherService.getTeachers(schoolId).subscribe({
-    //     next: res => this.teachers.set(res.data)
-    //   })
-    // }
+    const schoolId = this.accountService.currentUser()?.schoolId
+    if (schoolId) {
+      this.studentService.getStudentsBySchoolId(schoolId).subscribe({
+        next: res => this.students.set(res)
+      })
+    }
   }
 
   async openConfirmDialog(id: string, name: string) {

@@ -1,0 +1,155 @@
+/* student-grades.component.css */
+.grades-dashboard {
+  padding: 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.grade-card {
+  padding: 0;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.grade-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.grade-card-content {
+  padding: 25px;
+  background-color: #f7f9fc;
+}
+
+.grade-card.excellent .grade-card-content {
+  background-color: #e8f5e9;
+}
+.grade-card.good .grade-card-content {
+  background-color: #fffde7;
+}
+.grade-card.fail .grade-card-content {
+  background-color: #ffebee;
+}
+
+.grade-card h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.score {
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.grade-card.excellent .score,
+.grade-card.excellent .grade-label {
+  color: #4caf50;
+}
+.grade-card.good .score,
+.grade-card.good .grade-label {
+  color: #ff9800;
+}
+.grade-card.fail .score,
+.grade-card.fail .grade-label {
+  color: #f44336;
+}
+
+.grade-label {
+  font-weight: 500;
+  padding: 5px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* قسم التفاصيل */
+.details-card {
+  margin-top: 30px;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.details-card h3 {
+  text-align: center;
+  color: #00796b;
+  margin-bottom: 25px;
+}
+
+.details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.grades-table-container {
+  overflow-x: auto;
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.details-table th,
+.details-table td {
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.details-table th {
+  background-color: #00796b;
+  color: #fff;
+  font-weight: 500;
+}
+
+.details-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.details-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* ... باقي التنسيقات كما هي ... */
+
+.no-data-message {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f0f4f7;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.no-data-message .info-icon {
+  font-size: 50px;
+  color: #1a237e;
+}
+
+.no-data-message h3 {
+  margin: 10px 0 5px 0;
+  color: #1a237e;
+}
+
+.no-data-message p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.no-data-cell {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 20px;
+}

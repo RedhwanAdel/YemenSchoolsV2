@@ -1,12 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { CreateStudentDto, StudentList } from '../../shared/models/student/student';
+import { CreateStudentDto, StudentList, StudentListDto } from '../../shared/models/student/student';
 import { AccountService } from './account.service';
 import { AcadmicYearService } from './acadmic-year.service';
 import { ApiResponse } from '../../shared/models/ApiResponse';
 import { Student } from '../../shared/models/mark/mark';
 import { map } from 'rxjs';
+import { StudentWithSchoolInfoDto } from '../../shared/models/parent';
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +31,14 @@ export class StudentService {
       map(res => res.data)
     );
   }
+  getStudentsBySchoolId(schoolId: string) {
+    return this.http.get<ApiResponse<StudentListDto[]>>(`${this.apiUrl}Student/student-by-school/${schoolId}`).pipe(
+      map(res => res.data)
+    );
+  }
 
   getStudentProfile(id: string) {
-    return this.http.get(`${this.apiUrl}/${id}`);
+    return this.http.get(`${this.apiUrl}/Student/${id}`);
   }
 
 

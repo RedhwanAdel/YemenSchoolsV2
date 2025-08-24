@@ -5,6 +5,7 @@
     {
         // معرف العلاقة بين الشعبة والمادة والمعلم
         public Guid SectionSubjectId { get; set; }
+        public int MaxScore { get; set; }
 
         // نوع التقييم (مثلاً: "الاختبار الأول")
         public required string AssessmentType { get; set; }

@@ -88,6 +88,24 @@ namespace YemenSchoolsV1.API.Controllers
 
             return NewResult(successResponse);
         }
+
+
+        [HttpGet("student-by-school/{schoolId}")]
+        public async Task<IActionResult> GetStudentsBySchool(Guid schoolId)
+        {
+
+
+            var students = await _studentService.GetStudentsBySchoolIdAsync(schoolId);
+
+
+            var successResponse = new Response<IEnumerable<StudentListDto>>(students, "تم جلب الطلاب بنجاح")
+            {
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Succeeded = true
+            };
+
+            return NewResult(successResponse);
+        }
         /// <summary>
         /// ينشئ سجلًا جديدًا لطالب في النظام.
         /// </summary>

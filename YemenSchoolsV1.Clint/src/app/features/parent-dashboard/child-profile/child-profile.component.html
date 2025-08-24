@@ -1,0 +1,39 @@
+<mat-card class="student-profile mat-elevation-z3">
+  <div class="profile-header compact">
+    <div class="profile-image-container">
+      <img src="assets/img/person/person-m-1.webp" alt="Student" />
+    </div>
+    <div class="info">
+      <h2>{{ student?.studentName }}</h2>
+      <div class="details-row">
+        <span class="detail-item">
+          <mat-icon>school</mat-icon>
+          {{ student?.className }} - {{ student?.sectionName }}
+        </span>
+        <span class="detail-item">
+          <mat-icon>cake</mat-icon>
+          13 سنة
+        </span>
+      </div>
+      <p class="school">{{ student?.schoolName }}</p>
+    </div>
+  </div>
+  <div class="school-year">العام الدراسي: 2025 - 2026</div>
+</mat-card>
+
+<mat-card class="student-tabs mat-elevation-z2">
+  <mat-tab-group>
+    <mat-tab label="📊 الدرجات">
+      <app-child-grades />
+    </mat-tab>
+    <mat-tab label="📅 الحضور">
+      <app-child-attendance />
+    </mat-tab>
+    <mat-tab label="🙂 السلوك">
+      <p>محتوى السلوك (قريباً)...</p>
+    </mat-tab>
+    <mat-tab label="⚽ الأنشطة">
+      <p>محتوى الأنشطة (قريباً)...</p>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

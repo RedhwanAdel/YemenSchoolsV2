@@ -2,7 +2,7 @@
   <a routerLink="/school/{{ school().id }}" class="card-link">
     <div class="card-image-container">
       <img
-        [src]="school().coverImage"
+        [src]="'assets/images/schools/' + school().coverImage"
         class="card-img-top"
         alt="Arcadia Global School"
       />
@@ -26,11 +26,11 @@
         ></div>
 
         <h5 class="card-title">{{ school().name }}</h5>
-        <p class="card-text">{{ school().schoolLevel }}</p>
-        <p class="card-text">{{ genderLabels[school().genderType] }}</p>
+        <p class="card-text mb-0">{{ schoolLevel[school().schoolLevel] }}</p>
+        <p class="card-text mb-0">{{ genderLabels[school().genderType] }}</p>
       </div>
       <div class="contact-info-section">
-        <ul class="contact-info list-unstyled d-flex">
+        <ul class="contact-info list-unstyled d-flex p-0">
           <li><i class="bi bi-phone-fill"></i> {{ school().mainPhone }}</li>
           <li>
             <i class="bi bi-geo-alt-fill"></i> {{ school().city }}/
@@ -45,7 +45,7 @@
       <span class="tag-icon" style="background-color: #0c007f"
         ><i class="material-icons">bookmark_border</i></span
       >
-      <span class="tag-name">{{ school().schoolType }}</span>
+      <span class="tag-name"> {{ schoolType[school().schoolType] }}</span>
     </div>
     <div class="action-icons">
       <a

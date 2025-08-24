@@ -26,6 +26,7 @@
     <button
       mat-flat-button
       color="primary"
+      routerLink="/parent-dash-board/child-profile/{{ child.studentId }}"
       (click)="openProfile.emit(child.studentId)"
     >
       عرض الملف

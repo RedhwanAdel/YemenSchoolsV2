@@ -2,6 +2,7 @@
 export interface CreateMarksDto {
     sectionSubjectId: string;
     assessmentType: string;
+    maxScore: number;
     studentScores: { [key: string]: number };
 }
 
@@ -18,6 +19,7 @@ export interface SectionSubject {
     sectionName: string;
     subjectName: string;
     sectionId: string;
+    gradeName: string;
 }
 
 // يمثل نوع التقييم
@@ -25,3 +27,21 @@ export interface AssessmentType {
     value: string;
     viewValue: string;
 }
+export interface SubjectReportDto {
+    name: string;             // اسم المادة
+    score: number;            // مجموع الدرجات
+    grade: string;            // التقدير (ممتاز/جيد ...إلخ)
+    details: SubjectDetails;  // تفاصيل المادة (درجات + حضور)
+}
+
+export interface SubjectDetails {
+    grades: GradeDetail[];    // تفاصيل كل اختبار/واجب
+}
+
+export interface GradeDetail {
+    type: string;             // نوع التقييم (اختبار أول، نهائي...)
+    score: number;            // الدرجة التي حصل عليها
+    total: number;            // الدرجة الكاملة
+    percentage: string;       // النسبة (مثلاً 95%)
+}
+

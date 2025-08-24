@@ -15,6 +15,14 @@ namespace YemenSchoolsV1.API.Controllers
             _markService = markService;
         }
 
+        // GET: api/Marks/StudentSubjectsReport/{studentId}
+        [HttpGet("StudentSubjectsReport/{studentId}")]
+        public async Task<ActionResult<IEnumerable<StudentSubjectReportDto>>> GetStudentSubjectsReport(Guid studentId)
+        {
+            var report = await _markService.GetStudentSubjectsReportAsync(studentId);
+
+            return Ok(report);
+        }
         /// <summary>
         /// لجلب جميع الشعب والمواد التي يدرسها المعلم الحالي
         /// </summary>
@@ -51,7 +59,8 @@ namespace YemenSchoolsV1.API.Controllers
                     teacherId,
                     dto.SectionSubjectId,
                     dto.AssessmentType,
-                    dto.StudentScores
+                    dto.StudentScores,
+                    dto.MaxScore
                 );
                 return StatusCode(201, new { message = "Marks created successfully." });
             }

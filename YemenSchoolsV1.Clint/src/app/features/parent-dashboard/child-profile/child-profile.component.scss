@@ -1,0 +1,68 @@
+.student-profile {
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.profile-header.compact {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.profile-image-container {
+  margin-right: 15px;
+}
+
+.profile-header.compact img {
+  width: 70px; /* صورة أصغر بكثير */
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+  flex-grow: 1;
+}
+
+.info h2 {
+  margin: 0 0 5px 0;
+  font-size: 1.4rem; /* خط أصغر */
+  color: #333;
+}
+
+.details-row {
+  display: flex;
+  gap: 15px;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+}
+
+.detail-item mat-icon {
+  font-size: 16px;
+  margin-left: 5px; /* مسافة للرمز */
+  color: #999;
+}
+
+.school {
+  margin: 4px 0 0;
+  color: #777;
+  font-size: 0.85rem;
+}
+
+.school-year {
+  text-align: center;
+  font-weight: bold;
+  color: #007bff;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.student-tabs {
+  padding: 12px;
+}

@@ -4,6 +4,7 @@ import { AccountService } from '../../core/services/account.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
+import { UserType } from '../../shared/models/enum/userType';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +20,8 @@ import { MatDivider } from '@angular/material/divider';
 })
 export class HeaderComponent {
   accountService = inject(AccountService)
+  userTypes = UserType;
+
   logout() {
     this.accountService.logout().subscribe({
       next: () => this.accountService.currentUser.set(null)

@@ -36,10 +36,13 @@ export class MarkEntryComponent {
 
   assessmentTypes: AssessmentType[] = [
     { value: 'الاختبار الأول', viewValue: 'الاختبار الأول' },
-    { value: 'الاختبار النهائي', viewValue: 'الاختبار النهائي' },
+    { value: 'الاختبار الثاني', viewValue: 'الاختبار الثاني' },
+    { value: 'الامتحان النهائي', viewValue: 'الامتحان النهائي' },
+    { value: 'عمل منزلي', viewValue: 'عمل منزلي' },
     { value: 'الواجب', viewValue: 'الواجب' },
   ];
   selectedAssessmentType: string | null = null;
+  maxScore: number | null = null;
   students: Student[] = [];
   studentScores: { [key: string]: number } = {};
   displayedColumns: string[] = ['position', 'name', 'registerNo', 'score'];
@@ -91,7 +94,7 @@ export class MarkEntryComponent {
   }
 
   saveMarks(): void {
-    if (!this.selectedSectionSubjectId || !this.selectedAssessmentType) {
+    if (!this.selectedSectionSubjectId || !this.selectedAssessmentType || !this.maxScore) {
       alert('Please select a subject and assessment type.');
       return;
     }
@@ -99,7 +102,8 @@ export class MarkEntryComponent {
     const marksDto: CreateMarksDto = {
       sectionSubjectId: this.selectedSectionSubjectId,
       assessmentType: this.selectedAssessmentType,
-      studentScores: this.studentScores
+      studentScores: this.studentScores,
+      maxScore: this.maxScore
     };
 
     this.isLoading = true;

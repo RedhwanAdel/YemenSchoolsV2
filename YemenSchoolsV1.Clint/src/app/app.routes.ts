@@ -39,6 +39,9 @@ import { StudentAddComponent } from './features/school-dashboard/student/student
 import { DailyAttendanceComponent } from './features/school-dashboard/attendance/daily-attendance/daily-attendance.component';
 import { SectionListByTeacherIdComponent } from './features/school-dashboard/attendance/section-list-by-teacher-id/section-list-by-teacher-id.component';
 import { MarkEntryComponent } from './features/school-dashboard/mark/mark-entry/mark-entry.component';
+import { ChildProfileComponent } from './features/parent-dashboard/child-profile/child-profile.component';
+import { ParentOverViewComponent } from './features/parent-dashboard/parent-over-view/parent-over-view.component';
+import { ParentDashboardPageComponent } from './features/parent-dashboard/parent-dashboard-page/parent-dashboard-page.component';
 
 export const routes: Routes = [
     {
@@ -100,6 +103,11 @@ export const routes: Routes = [
         path: 'parent-dash-board',
         component: ParentDashboardComponent,
         children: [
+            { path: '', redirectTo: 'overview', pathMatch: 'full' },
+            { path: 'overview', component: ParentDashboardPageComponent },
+
+            { path: 'child-profile/:studentId', component: ChildProfileComponent },
+
 
 
         ],

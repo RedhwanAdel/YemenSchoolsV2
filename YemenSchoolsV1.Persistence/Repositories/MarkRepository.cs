@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Dto.Marks;
 using YemenSchoolsV1.Domain.Entities;
 using YemenSchoolsV1.Persistence.Data;
 
@@ -21,7 +22,58 @@ namespace YemenSchoolsV1.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<StudentSubjectReportDto>> GetStudentSubjectsReportAsync(Guid studentId)
+        {
+            var marks = await _context.Marks
+                .Include(m => m.SectionSubject)
+                    .ThenInclude(ss => ss.GradeSubject)
+                        .ThenInclude(gs => gs.Subject)
+                .Where(m => m.StudentId == studentId)
+                .ToListAsync();
+            // 2. التحقق من وجود درجات للطالب
+            if (!marks.Any())
+            {
+                return Enumerable.Empty<StudentSubjectReportDto>();
+            }
 
+
+            var subjectsReport = marks
+                .GroupBy(m => m.SectionSubject.GradeSubject.Subject)
+                .Select(g =>
+                {
+                    var subject = g.Key;
+                    var grades = g.Select(m => new GradeItemDto
+                    {
+                        Type = m.AssessmentType ?? "غير محدد",
+                        Score = m.Score,
+                        Total = m.MaxScore,
+                        Percentage = m.MaxScore > 0 ? $"{(m.Score / m.MaxScore * 100):F0}%" : "0%"
+                    }).ToList();
+
+                    var totalScore = g.Sum(m => m.Score);
+                    var totalMax = g.Sum(m => m.MaxScore);
+                    var percentage = totalMax > 0 ? (totalScore / totalMax) * 100 : 0;
+                    var grade = percentage >= 90 ? "ممتاز"
+                                : percentage >= 80 ? "جيد جداً"
+                                : percentage >= 70 ? "جيد"
+                                : percentage >= 60 ? "مقبول"
+                                : "ضعيف";
+
+                    return new StudentSubjectReportDto
+                    {
+                        Name = subject.Name,
+                        Score = (int)percentage,
+                        Grade = grade,
+                        Details = new SubjectDetailsDto
+                        {
+                            Grades = grades
+                        }
+                    };
+                })
+                .ToList();
+
+            return subjectsReport;
+        }
         // جلب درجة حسب المعرف
         public async Task<Mark?> GetMarkByIdAsync(Guid markId)
         {

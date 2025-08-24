@@ -1,10 +1,12 @@
 ﻿using FinalProject.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Dto.Marks;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Contracts.Persistence
 {
     public interface IMarkRepository : IGenericRepositoryAsync<Mark>
     {
+        Task<IEnumerable<StudentSubjectReportDto>> GetStudentSubjectsReportAsync(Guid studentId);
 
 
         // لإضافة مجموعة من الدرجات (مفيد عند إدخال درجات شعبة كاملة)

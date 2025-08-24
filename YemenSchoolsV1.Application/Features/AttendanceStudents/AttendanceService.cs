@@ -87,5 +87,28 @@ namespace YemenSchoolsV1.Application.Features.AttendanceStudents
                                               .Where(ad => ad.StudentId == studentId)
                                               .ToListAsync();
         }
+
+        /// <summary>
+        /// يجلب تقرير حضور طالب لشهر وسنة محددين.
+        /// </summary>
+        /// <param name="studentId">معرف الطالب.</param>
+        /// <param name="year">السنة.</param>
+        /// <param name="month">الشهر (1-12).</param>
+        /// <returns>قائمة بسجلات حضور الطالب للشهر المحدد.</returns>
+        public async Task<List<AttendanceDetail>> GetStudentAttendanceByMonthAsync(Guid studentId, int year, int month)
+        {
+            // 1. تحديد بداية ونهاية الشهر المحدد
+            var startDate = new DateTime(year, month, 1);
+            var endDate = startDate.AddMonths(1).AddDays(-1);
+
+            // 2. تعديل الاستعلام ليشمل تصفية التاريخ
+            return await _attendanceRepository.GetAll()
+                .Include(a => a.AttendanceDetails)
+                .SelectMany(a => a.AttendanceDetails)
+                .Where(ad => ad.StudentId == studentId &&
+                             ad.CreatedAt.Date >= startDate.Date &&
+                             ad.CreatedAt.Date <= endDate.Date)
+                .ToListAsync();
+        }
     }
 }

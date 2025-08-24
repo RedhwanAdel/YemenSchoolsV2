@@ -85,7 +85,7 @@
             >
               <mat-option value="">كل المدن</mat-option>
               @for (city of citiesService.cities(); track city.id) {
-              <mat-option [value]="city.id">{{ city.nameEn }}</mat-option>
+              <mat-option [value]="city.id">{{ city.nameAr }}</mat-option>
               }
             </mat-select>
           </mat-form-field>

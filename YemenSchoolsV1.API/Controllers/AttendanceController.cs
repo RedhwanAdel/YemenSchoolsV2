@@ -71,5 +71,32 @@ namespace YemenSchoolsV1.API.Controllers
             // Explicitly specify the type argument for NewResult
             return NewResult(new Response<List<AttendanceDetailDto>>(result, "Attendance report retrieved successfully") { StatusCode = HttpStatusCode.OK, Succeeded = true });
         }
+
+
+        [HttpGet("student/{studentId}/report/{year}/{month}")]
+        public async Task<IActionResult> GetStudentAttendanceReport(Guid studentId, [FromRoute] int year, [FromRoute] int month)
+        {
+            if (studentId == Guid.Empty)
+                return NewResult<object>(new Response<object>("Invalid student ID.", false) { StatusCode = HttpStatusCode.BadRequest });
+
+            // نفس التحقق من صحة الشهر والسنة
+            if (year < 2000 || month < 1 || month > 12)
+                return NewResult<object>(new Response<object>("Invalid year or month.", false) { StatusCode = HttpStatusCode.BadRequest });
+
+            // استدعاء الدالة الجديدة في الخدمة مع تمرير المعلمات
+            var details = await _attendanceService.GetStudentAttendanceByMonthAsync(studentId, year, month);
+
+            var result = details.Select(d => new AttendanceDetailDto
+            {
+                Id = d.Id,
+                AttendanceId = d.AttendanceId,
+                StudentId = d.StudentId,
+                Status = d.Status,
+                Notes = d.Notes,
+                CreatedAt = d.CreatedAt
+            }).ToList();
+
+            return NewResult(new Response<List<AttendanceDetailDto>>(result, "Attendance report retrieved successfully") { StatusCode = HttpStatusCode.OK, Succeeded = true });
+        }
     }
 }

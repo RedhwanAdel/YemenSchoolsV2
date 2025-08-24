@@ -24,8 +24,11 @@ namespace YemenSchoolsV1.Application.Features.Marks
             _studentRepository = studentRepository;
             _teacherRepository = teacherRepository;
         }
-
-        public async Task CreateMarksAsync(Guid teacherId, Guid sectionSubjectId, string assessmentType, Dictionary<Guid, double> studentScores)
+        public async Task<IEnumerable<StudentSubjectReportDto>> GetStudentSubjectsReportAsync(Guid studentId)
+        {
+            return await _markRepository.GetStudentSubjectsReportAsync(studentId);
+        }
+        public async Task CreateMarksAsync(Guid teacherId, Guid sectionSubjectId, string assessmentType, Dictionary<Guid, double> studentScores, int maxScore)
         {
             // التحقق من صلاحية المعلم
             var sectionSubject = await _sectionSubjectRepository.GetByIdAsync(sectionSubjectId);
@@ -48,7 +51,7 @@ namespace YemenSchoolsV1.Application.Features.Marks
                 SectionSubjectId = sectionSubjectId,
                 Score = s.Value,
                 AssessmentType = assessmentType,
-                MaxScore = 100 // يمكن جعلها ديناميكية
+                MaxScore = maxScore // يمكن جعلها ديناميكية
             }).ToList();
 
             await _markRepository.AddMarksAsync(marks);
@@ -159,7 +162,8 @@ namespace YemenSchoolsV1.Application.Features.Marks
                 Id = ss.Id,
                 SectionName = ss.Section.Name,
                 SubjectName = ss.GradeSubject.Subject.Name,
-                SectionId = ss.SectionId
+                SectionId = ss.SectionId,
+                GradeName = ss.Section.SchoolGrade.StageGrade.Grade.Name
             }).ToList();
 
             return sectionSubjectDtos;

@@ -5,6 +5,8 @@ namespace YemenSchoolsV1.Application.Contracts.Services
 {
     public interface IAttendanceService
     {
+        Task<List<AttendanceDetail>> GetStudentAttendanceByMonthAsync(Guid studentId, int year, int month);
+
         Task<Attendance> CreateDailyAttendanceAsync(Guid classTeacherId, Guid sectionId, DateTime date, Dictionary<Guid, AttendanceStatus> studentStatuses);
         Task UpdateDailyAttendanceAsync(Guid attendanceId, Dictionary<Guid, AttendanceStatus> newStudentStatuses);
         Task<List<AttendanceDetail>> GetStudentAttendanceReportAsync(Guid studentId);

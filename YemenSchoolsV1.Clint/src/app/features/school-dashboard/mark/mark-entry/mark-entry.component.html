@@ -20,12 +20,13 @@
                     *ngFor="let ss of sectionSubjects"
                     [value]="ss.id"
                   >
-                    {{ ss.subjectName }} - {{ ss.sectionName }}
+                    {{ ss.subjectName }} - {{ ss.gradeName }} -
+                    {{ ss.sectionName }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>اختر نوع التقييم</mat-label>
                 <mat-select [(ngModel)]="selectedAssessmentType">
@@ -36,6 +37,18 @@
                     {{ at.viewValue }}
                   </mat-option>
                 </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>الدرجة القصوى</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  placeholder="مثال: 100"
+                  [(ngModel)]="maxScore"
+                />
+                <mat-icon matSuffix>star</mat-icon>
               </mat-form-field>
             </div>
           </div>
