@@ -14,19 +14,72 @@ namespace YemenSchoolsV1.Application.Features.Students
         private readonly IParentRepositry _parentRepository;
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<StudentService> _logger;
+        private readonly ISectionRepositry sectionRepositry;
 
         public StudentService(
             IStudentRepository studentRepository,
             IParentRepositry parentRepository,
             UserManager<AppUser> userManager,
-            ILogger<StudentService> logger
+            ILogger<StudentService> logger,
+            ISectionRepositry sectionRepositry
             )
         {
             _studentRepository = studentRepository;
             _parentRepository = parentRepository;
             _userManager = userManager;
             _logger = logger;
+            this.sectionRepositry = sectionRepositry;
         }
+
+
+        public async Task<(bool Succeeded, string Message)> PromoteStudentsToNewSectionAsync(List<Guid> studentIds, Guid newSectionId)
+        {
+            if (studentIds == null || !studentIds.Any())
+            {
+                _logger.LogWarning("No student IDs provided for promotion.");
+                return (false, "لم يتم تحديد أي طلاب للترقية.");
+            }
+
+            var newSection = await sectionRepositry.GetSectionByIdAsync(newSectionId);
+            if (newSection == null)
+            {
+                _logger.LogWarning("New section with Id {SectionId} not found.", newSectionId);
+                return (false, "الشعبة الجديدة غير موجودة.");
+            }
+
+            var firstStudent = await _studentRepository.GetByIdAsync(studentIds.First());
+            if (firstStudent == null)
+            {
+                _logger.LogWarning("First student with Id {StudentId} not found.", studentIds.First());
+                return (false, "الطالب الأول المحدد غير موجود.");
+            }
+
+            var currentSection = await sectionRepositry.GetSectionByIdAsync(firstStudent.CurrentSectionId);
+            if (currentSection == null)
+            {
+                _logger.LogWarning("Current section with Id {SectionId} not found for student {StudentId}.", firstStudent.CurrentSectionId, firstStudent.Id);
+                return (false, "الشعبة الحالية للطالب غير موجودة.");
+            }
+
+            if (newSection.AcademicYear.StartDate <= currentSection.AcademicYear.StartDate)
+            {
+                _logger.LogWarning("Attempted to promote to same or previous academic year. Current: {CurrentDate}, New: {NewDate}", currentSection.AcademicYear.StartDate, newSection.AcademicYear.StartDate);
+                return (false, "لا يمكن ترقية الطلاب إلى نفس السنة أو سنة سابقة.");
+            }
+
+            try
+            {
+                await _studentRepository.PromoteStudentsAsync(studentIds, newSection.AcademicYearId, newSectionId);
+                _logger.LogInformation("Students promoted successfully to section {SectionId}.", newSectionId);
+                return (true, "تمت ترقية الطلاب بنجاح.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to promote students to new section {SectionId}.", newSectionId);
+                return (false, "حدث خطأ غير متوقع أثناء ترقية الطلاب.");
+            }
+        }
+
 
         /// <summary>
         /// ينشئ طالبًا جديدًا في النظام.

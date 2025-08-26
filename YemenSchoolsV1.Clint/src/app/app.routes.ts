@@ -42,6 +42,8 @@ import { MarkEntryComponent } from './features/school-dashboard/mark/mark-entry/
 import { ChildProfileComponent } from './features/parent-dashboard/child-profile/child-profile.component';
 import { ParentOverViewComponent } from './features/parent-dashboard/parent-over-view/parent-over-view.component';
 import { ParentDashboardPageComponent } from './features/parent-dashboard/parent-dashboard-page/parent-dashboard-page.component';
+import { PromoteSectionListComponent } from './features/school-dashboard/promote-students/promote-section-list/promote-section-list.component';
+import { PromoteStudentsComponent } from './features/school-dashboard/promote-students/promote-students/promote-students.component';
 
 export const routes: Routes = [
     {
@@ -93,6 +95,8 @@ export const routes: Routes = [
             { path: 'section-subject', component: SectionSubjectListComponent },
             { path: 'section-subject-assignment/:sectionId', component: SectionSubjectAssignmentComponent },
             { path: 'section-list/:id', component: SectionListComponent },
+            { path: 'promote', component: PromoteSectionListComponent },
+            { path: 'promote/:sectionId', component: PromoteStudentsComponent },
             { path: 'attendance', component: SectionListByTeacherIdComponent },
             { path: 'attendance/:teacherId', component: DailyAttendanceComponent },
             { path: 'mark-entry', component: MarkEntryComponent }

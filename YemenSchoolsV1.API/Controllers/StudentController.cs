@@ -16,7 +16,34 @@ namespace YemenSchoolsV1.API.Controllers
             _studentService = studentService;
             _logger = logger;
         }
+        [HttpPost("promote")]
+        public async Task<IActionResult> PromoteStudents([FromBody] PromotionDto dto)
+        {
+            var (succeeded, message) = await _studentService.PromoteStudentsToNewSectionAsync(dto.StudentIds, dto.NewSectionId);
 
+            var response = new Response<string>(message, succeeded);
+
+            if (succeeded)
+            {
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                return NewResult(response);
+            }
+
+            if (message.Contains("غير موجودة") || message.Contains("غير موجود"))
+            {
+                response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                return NewResult(response);
+            }
+
+            if (message.Contains("لا يمكن ترقية الطلاب"))
+            {
+                response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                return NewResult(response);
+            }
+
+            response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+            return NewResult(response);
+        }
 
         /// <summary>
         /// Gets students by academic year and section.

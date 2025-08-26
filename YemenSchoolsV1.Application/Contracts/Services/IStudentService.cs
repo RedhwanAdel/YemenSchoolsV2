@@ -5,6 +5,8 @@ namespace YemenSchoolsV1.Application.Contracts.Services
 {
     public interface IStudentService
     {
+        Task<(bool Succeeded, string Message)> PromoteStudentsToNewSectionAsync(List<Guid> studentIds, Guid newSectionId);
+
         Task<IEnumerable<StudentListDto>> GetStudentsBySchoolIdAsync(Guid schoolId);
 
         Task<IEnumerable<Student>> GetStudentsBySectionAsync(Guid sectionId);

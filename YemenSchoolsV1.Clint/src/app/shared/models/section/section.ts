@@ -3,6 +3,7 @@ export interface Section {
     name: string;
     academicYearId?: string;
     schoolGradeId?: string;
+    gradeName?: string;
     capacity: number;
 }
 export interface SectionsOfYear {

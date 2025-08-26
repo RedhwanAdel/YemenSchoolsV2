@@ -1,0 +1,14 @@
+<app-page-wrapper
+  headerTitle="صفوف المدرسة"
+  headerSubtitle="استعرض الصفوف المرتبطة بالمدرسة المختارة"
+  headerIcon="location_city"
+>
+  <app-table
+    [dataRow]="sections"
+    [columns]="Columns"
+    [hasActions]="true"
+    (actionClicked)="handleUserAction($event)"
+    [usePaginator]="false"
+    [actions]="actions"
+  ></app-table>
+</app-page-wrapper>

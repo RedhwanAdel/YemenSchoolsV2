@@ -6,6 +6,8 @@ namespace YemenSchoolsV1.Application.Contracts.Persistence
 {
     public interface IStudentRepository : IGenericRepositoryAsync<Student>
     {
+        Task PromoteStudentsAsync(List<Guid> studentIds, Guid newAcademicYearId, Guid newSectionId);
+
         Task<IEnumerable<Student>> GetStudentsBySectionIdAsync(Guid sectionId);
         Task<IEnumerable<StudentListDto>> GetStudentsBySchoolIdAsync(Guid schoolId);
 

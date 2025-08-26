@@ -14,6 +14,23 @@ namespace YemenSchoolsV1.Persistence.Repositories
         {
             this._context = _context;
         }
+        public async Task PromoteStudentsAsync(List<Guid> studentIds, Guid newAcademicYearId, Guid newSectionId)
+        {
+            // 1. استلام الطلاب المحددين
+            var studentsToPromote = await _context.Students
+                .Where(s => studentIds.Contains(s.Id))
+                .ToListAsync();
+
+            // 2. تحديث بياناتهم
+            foreach (var student in studentsToPromote)
+            {
+                student.CurrentAcademicYearId = newAcademicYearId;
+                student.CurrentSectionId = newSectionId;
+            }
+
+            // 3. حفظ التغييرات في قاعدة البيانات
+            await _context.SaveChangesAsync();
+        }
         public async Task<bool> StudentExistsByRegisterNoAsync(string registerNo) =>
             await _context.Students.AnyAsync(s => s.RegisterNo == registerNo);
 

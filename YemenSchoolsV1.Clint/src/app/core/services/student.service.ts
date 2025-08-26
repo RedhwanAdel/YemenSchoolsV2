@@ -20,6 +20,13 @@ export class StudentService {
   private http = inject(HttpClient)
   accountService = inject(AccountService)
   yearService = inject(AcadmicYearService)
+
+
+
+  promoteStudent(studentData: any) {
+
+    return this.http.post(this.apiUrl + 'Student/promote', studentData);
+  }
   createStudent(studentData: any) {
 
     return this.http.post(this.apiUrl + 'Student', studentData);

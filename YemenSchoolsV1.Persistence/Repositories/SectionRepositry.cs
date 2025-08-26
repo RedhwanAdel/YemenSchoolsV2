@@ -25,6 +25,8 @@ namespace YemenSchoolsV1.Persistence.Repositories
                                  .ToListAsync();
         }
 
+
+
         public async Task<Section?> GetSectionByIdAsync(Guid sectionId)
         {
             return await dbContext.Sections
@@ -38,6 +40,8 @@ namespace YemenSchoolsV1.Persistence.Repositories
                                  .Where(cs => cs.ClassTeacherId == teacherId)
                                  .Include(cs => cs.AcademicYear)
                                  .Include(cs => cs.SchoolGrade)
+                                 .ThenInclude(s => s.StageGrade)
+                                 .ThenInclude(g => g.Grade)
                                  .Include(cs => cs.ClassTeacher)
                                  .ToListAsync();
         }
