@@ -7,8 +7,10 @@ export class SchoolParams {
     regionId?: string;
     sortDirection: 'asc' | 'desc' = 'desc';
     type?: number;     // SchoolType (enum as number)
+    CurriculumType?: number;
     gender?: number;   // GenderType (enum as number)
     levels: number = 0; // SchoolLevel as flags
+
 }
 export enum SchoolOrdering {
     Rating = 0,

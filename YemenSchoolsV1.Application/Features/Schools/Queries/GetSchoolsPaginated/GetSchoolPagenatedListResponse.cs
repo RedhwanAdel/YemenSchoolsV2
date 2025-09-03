@@ -12,6 +12,7 @@
         public string? CoverImage { get; set; }
         public string? MainPhone { get; set; }
         public string SchoolLevel { get; set; }
+        public string CurriculumType { get; set; }
         public double AverageRating { get; set; }
 
 

@@ -44,6 +44,8 @@ export class SchoolService {
 
     if (schoolParams.type)
       params = params.append('type', schoolParams.type.toString());
+    if (schoolParams.CurriculumType)
+      params = params.append('CurriculumType', schoolParams.CurriculumType.toString());
 
     if (schoolParams.levels) {
       params = params.append('levels', schoolParams.levels.toString());

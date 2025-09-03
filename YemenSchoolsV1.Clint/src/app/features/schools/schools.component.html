@@ -114,6 +114,20 @@
             </mat-select>
           </mat-form-field>
         </div>
+        <div class="mb-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>منهج المدرسة</mat-label>
+            <mat-select
+              [(ngModel)]="schoolParams.CurriculumType"
+              name="schoolType"
+            >
+              <mat-option value="">كل المناهج</mat-option>
+              @for (curr of curriculumTypes; track curr.value) {
+              <mat-option [value]="curr.value">{{ curr.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
 
         <div class="mb-3">
           <mat-form-field appearance="outline" class="w-100">

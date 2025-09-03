@@ -11,7 +11,9 @@ export interface SchoolListItem {
     city: string;
     region: string;
     schoolLevel: string;
+    curriculumType: string;
     averageRating: number;
+
 
 }
 export interface SchoolForUpdate {

@@ -42,6 +42,15 @@ export class SchoolItemComponent {
       Middle: 'متوسط',
       High: 'ثانوي'
     };
+  curriculumType: { [key: string]: string } =
+    {
+      National: 'وطني',
+      International: 'دولي',
+      Hybrid: 'مشترك',
+      Arabic: 'عربي',
+      American: 'أمريكي',
+      British: 'بريطاني'
+    };
 
   school = input.required<SchoolListItem>()
   get logo() {

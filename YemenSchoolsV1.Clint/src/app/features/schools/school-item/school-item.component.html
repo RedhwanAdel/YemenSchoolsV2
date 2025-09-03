@@ -57,13 +57,16 @@
     </div>
   </a>
   <div class="card-footer">
-    <div class="curriculum-tag">
+    <div class="curriculum-tag d-flex justify-content-between">
       <span class="tag-icon" style="background-color: #0c007f"
         ><i class="material-icons">bookmark_border</i></span
       >
       <span class="tag-name"> {{ schoolType[school().schoolType] }}</span>
     </div>
     <div class="action-icons">
+      <span class="tag-name ms-3">
+        منهج/{{ curriculumType[school().curriculumType] }}</span
+      >
       <a
         href="#"
         class="quick-view-btn"

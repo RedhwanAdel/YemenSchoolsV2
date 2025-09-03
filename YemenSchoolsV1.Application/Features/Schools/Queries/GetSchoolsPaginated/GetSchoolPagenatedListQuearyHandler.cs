@@ -63,11 +63,16 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
             {
                 queryable = queryable.Where(x => x.SchoolType == request.Type.Value);
             }
+            if (request.CurriculumType.HasValue)
+            {
+                queryable = queryable.Where(x => x.CurriculumType == request.CurriculumType.Value);
+            }
 
             if (request.Levels.HasValue)
             {
                 queryable = queryable.Where(x => (x.SchoolLevel & request.Levels.Value) != 0);
             }
+
 
             if (request.Gender.HasValue)
             {
@@ -88,6 +93,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
                     CoverImage = s.CoverImage,
                     MainPhone = s.MainPhone,
                     SchoolLevel = s.SchoolLevel.ToString(),
+                    CurriculumType = s.CurriculumType.ToString(),
                     AverageRating = s.Reviews.Any() ? s.Reviews.Average(r => r.Rating) : 0.0
                 });
 

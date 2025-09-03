@@ -250,7 +250,7 @@
       "email": "fgreen@hunt.com",
       "schoolType": 1,
       "genderType": 0,
-      "curriculumType": 1,
+      "curriculumType": 2,
       "schoolLevel": 2,
       "cityId": "0600baeb-2e9c-4f6a-af2f-e7839adf3031",
       "regionId": "5786872e-e65a-4400-b3d9-c723b4eaf1e2"
@@ -266,7 +266,7 @@
       "email": "johngriffin@bonilla.info",
       "schoolType": 1,
       "genderType": 0,
-      "curriculumType": 1,
+      "curriculumType": 4,
       "schoolLevel": 0,
       "cityId": "b9b6a052-d64f-408c-a9f4-8c8469726f6e",
       "regionId": "c11bd69f-a28a-4469-a984-8e7164773437"
@@ -298,7 +298,7 @@
       "email": "thomas73@castillo.org",
       "schoolType": 1,
       "genderType": 1,
-      "curriculumType": 0,
+      "curriculumType": 4,
       "schoolLevel": 1,
       "cityId": "0600baeb-2e9c-4f6a-af2f-e7839adf3031",
       "regionId": "5133cea0-2c72-4808-b3e3-7e140a1e24e7"
@@ -330,7 +330,7 @@
       "email": "perezdavid@bonilla-west.com",
       "schoolType": 1,
       "genderType": 1,
-      "curriculumType": 0,
+      "curriculumType": 4,
       "schoolLevel": 0,
       "cityId": "e27d808b-bd72-49b1-b1c8-fc03fb76e4b1",
       "regionId": "c231fd41-93ec-4fce-a7f6-186eb672e541"
@@ -362,7 +362,7 @@
       "email": "cherylortiz@martin.biz",
       "schoolType": 0,
       "genderType": 0,
-      "curriculumType": 1,
+      "curriculumType": 5,
       "schoolLevel": 0,
       "cityId": "0b42dc01-a289-447e-980d-033607245531",
       "regionId": "78af47f2-22bb-4a2e-afe9-69cd7bf36d80"
@@ -394,7 +394,7 @@
       "email": "qpeterson@bell-gonzalez.com",
       "schoolType": 1,
       "genderType": 0,
-      "curriculumType": 1,
+      "curriculumType": 5,
       "schoolLevel": 1,
       "cityId": "e27d808b-bd72-49b1-b1c8-fc03fb76e4b1",
       "regionId": "110c449b-b738-4713-b0fb-dee0b25a0b9c"

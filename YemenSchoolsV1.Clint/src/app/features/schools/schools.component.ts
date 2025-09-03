@@ -64,6 +64,14 @@ export class SchoolsComponent implements OnInit {
     { value: 1, name: 'بنات' },
     { value: 2, name: 'أولاد وبنات' }
   ];
+  curriculumTypes = [
+    { value: '0', name: 'منهج وطني' },
+    { value: '1', name: 'منهج دولي' },
+    { value: '2', name: 'منهج مختلط' },
+    { value: '3', name: 'عربي' },
+    { value: '4', name: 'أمريكي' },
+    { value: '5', name: 'بريطاني' }
+  ];
 
   schoolLevels = [
     { value: 1, name: 'روضة' },
