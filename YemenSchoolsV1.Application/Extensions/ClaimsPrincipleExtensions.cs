@@ -16,6 +16,18 @@ namespace YemenSchoolsV1.Application.Extensions
 
             return userToReturn;
         }
+        public static Guid GetUserId(this ClaimsPrincipal user)
+        {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+                throw new UnauthorizedAccessException("User Id not found in claims.");
+
+            return Guid.Parse(userId);
+        }
+
         public static string GetEmail(this ClaimsPrincipal user)
         {
             var email = user.FindFirstValue(ClaimTypes.Email) ?? throw new AuthenticationException("Email claim not found");
@@ -25,6 +37,11 @@ namespace YemenSchoolsV1.Application.Extensions
         {
             var entityId = user.FindFirstValue("EntityId") ?? throw new AuthenticationException("EntityId claim not found");
             return Guid.Parse(entityId);
+        }
+        public static string GetUserType(this ClaimsPrincipal user)
+        {
+            var userType = user.FindFirstValue("UserType") ?? throw new AuthenticationException("UserType claim not found");
+            return userType;
         }
 
 

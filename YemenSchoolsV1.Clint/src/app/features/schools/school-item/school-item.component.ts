@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-school-item',
@@ -15,7 +16,9 @@ import { RouterLink } from '@angular/router';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    RouterLink
+    RouterLink,
+    CommonModule,
+
   ],
   templateUrl: './school-item.component.html',
   styleUrl: './school-item.component.scss'
@@ -43,5 +46,8 @@ export class SchoolItemComponent {
   school = input.required<SchoolListItem>()
   get logo() {
     return this.school().logo
+  }
+  roundRating(rating: number): number {
+    return Math.round(rating);
   }
 }

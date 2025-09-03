@@ -1,0 +1,123 @@
+.report-container {
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  padding: 30px;
+  direction: rtl; /* Set direction to right-to-left for Arabic */
+}
+
+.elegant-report-card {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+/* Header Styles */
+.report-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 15px;
+}
+
+.school-name {
+  font-size: 1.8em;
+  color: #333;
+  margin: 0;
+  font-weight: bold;
+}
+
+.report-title {
+  font-size: 1.5em;
+  color: #555;
+  margin: 5px 0;
+}
+
+.report-period {
+  font-size: 1em;
+  color: #888;
+}
+
+/* Student Info Section */
+.student-info-section {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  font-size: 1.1em;
+  color: #444;
+}
+
+/* Table Styles */
+.subjects-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.mat-header-cell, .mat-cell {
+  padding: 15px;
+  text-align: right;
+}
+
+.mat-header-cell {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.mat-row:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Grade Colors */
+.grade-text {
+  font-weight: bold;
+}
+
+.excellent { color: #28a745; }
+.very-good { color: #007bff; }
+.good { color: #ffc107; }
+.pass { color: #6c757d; }
+.fail { color: #dc3545; }
+
+/* Final Summary Section */
+.final-summary-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  gap: 15px;
+}
+
+.summary-item {
+  font-size: 1.2em;
+  color: #444;
+}
+
+.final-grade-item {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.final-grade-text {
+  font-size: 1.2em;
+}
+.details-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.details-list li {
+  margin-bottom: 5px;
+  border-bottom: 1px dashed #eee;
+  padding-bottom: 5px;
+}

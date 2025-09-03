@@ -14,7 +14,6 @@ import { ParentDashboardPageComponent } from "../../../features/parent-dashboard
     CommonModule,
     ParentSidebarDashboardComponent,
     ParentHeaderDashboardComponent,
-    ParentDashboardPageComponent,
     RouterOutlet
   ],
   templateUrl: './parent-dashboard.component.html',

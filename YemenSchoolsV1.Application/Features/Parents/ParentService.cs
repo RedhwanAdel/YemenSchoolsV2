@@ -74,7 +74,7 @@ namespace YemenSchoolsV1.Application.Features.Parents
                 UserName = dto.NationalId,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
-                FirstName = dto.NameAr,
+                Name = dto.NameAr,
                 UserType = "Parent"
             };
             var userResult = await _userManager.CreateAsync(user, defaultPassword);
@@ -288,6 +288,11 @@ namespace YemenSchoolsV1.Application.Features.Parents
             {
                 return (false, "فشل إزالة علاقة الطالب بولي الأمر.");
             }
+        }
+
+        public async Task<List<TeacherInfoForParentDto>> GetTeachersForParentAsync(Guid parentId)
+        {
+            return await _parentRepository.GetTeachersForParentAsync(parentId);
         }
 
     }

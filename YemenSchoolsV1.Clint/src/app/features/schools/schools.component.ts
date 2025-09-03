@@ -42,6 +42,7 @@ export class SchoolsComponent implements OnInit {
   regionService = inject(RegionsService)
   schools?: Pagination<SchoolListItem>
   sortOptions = [
+    { name: 'التقييم', value: SchoolOrdering.Rating },
     { name: 'أبجدي', value: SchoolOrdering.Name },
     { name: 'المدن', value: SchoolOrdering.City },
     { name: 'المناطق', value: SchoolOrdering.Region },

@@ -6,6 +6,8 @@ namespace YemenSchoolsV1.Application.Contracts.Services
 {
     public interface IParentService
     {
+        Task<List<TeacherInfoForParentDto>> GetTeachersForParentAsync(Guid parentId);
+
         Task<List<StudentWithSchoolInfoDto>> GetStudentsWithSchoolInfoByParentIdAsync(Guid parentId);
 
         Task<(bool Succeeded, string Message, Guid? ParentId)> CreateParentWithUserAsync(ParentCreateDto dto, string defaultPassword);

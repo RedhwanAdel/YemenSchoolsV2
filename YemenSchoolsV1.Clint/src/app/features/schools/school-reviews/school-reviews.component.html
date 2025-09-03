@@ -1,0 +1,67 @@
+<div class="reviews-container">
+  <mat-card class="average-card">
+    <mat-card-content class="average-rating">
+      <mat-icon>star</mat-icon>
+      {{ averageRating | number : "1.1-1" }} / 5
+      <span>({{ reviews.length }} Reviews)</span>
+    </mat-card-content>
+  </mat-card>
+
+  <ng-container *ngIf="isLoggedIn; else loginPrompt">
+    <mat-card class="add-review-card">
+      <mat-card-title>أضف تقييمك</mat-card-title>
+      <mat-card-content>
+        <div class="rating-stars">
+          <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+            <mat-icon
+              (click)="newRating = star"
+              [color]="star <= newRating ? 'warn' : 'disabled'"
+            >
+              star
+            </mat-icon>
+          </ng-container>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>اكتب تعليقك</mat-label>
+          <textarea matInput rows="3" [(ngModel)]="newComment"></textarea>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="submitReview()">
+          إرسال
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+
+  <ng-template #loginPrompt>
+    <mat-card class="login-prompt-card">
+      <mat-card-content>
+        <p>
+          التعليق متاح فقط للمستخدمين المسجلين.
+          <a routerLink="/login">سجل الدخول</a> لترك تقييمك.
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+
+  <mat-card *ngFor="let r of reviews" class="review-card">
+    <mat-card-header>
+      <div class="user-info">
+        <mat-icon>account_circle</mat-icon>
+        <mat-card-title>{{ r.userName }}</mat-card-title>
+      </div>
+      <mat-card-subtitle>{{ r.createdAt | date : "short" }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="review-rating-stars">
+        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+          <mat-icon [color]="star <= r.rating ? 'warn' : 'disabled'"
+            >star</mat-icon
+          >
+        </ng-container>
+      </div>
+      <p>{{ r.comment }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

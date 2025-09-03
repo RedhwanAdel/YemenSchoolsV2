@@ -68,8 +68,9 @@ namespace YemenSchoolsV1.API.Controllers
                 if (teacher == null) return NotFound();
                 return Ok(new
                 {
-                    user.FirstName,
-                    user.LastName,
+                    user.Id,
+                    user.Name,
+                    user.ImageUrl,
                     user.Email,
                     user.EntityId,
                     user.UserType,
@@ -80,8 +81,9 @@ namespace YemenSchoolsV1.API.Controllers
             }
             return Ok(new
             {
-                user.FirstName,
-                user.LastName,
+                user.Id,
+                user.Name,
+                user.ImageUrl,
                 user.Email,
                 user.EntityId,
                 user.UserType,

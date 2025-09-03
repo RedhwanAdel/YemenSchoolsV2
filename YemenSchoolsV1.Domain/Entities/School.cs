@@ -1,4 +1,5 @@
-﻿using YemenSchoolsV1.Domain.Commons;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using YemenSchoolsV1.Domain.Commons;
 using YemenSchoolsV1.Domain.Enums;
 
 namespace YemenSchoolsV1.Domain.Entities
@@ -24,7 +25,8 @@ namespace YemenSchoolsV1.Domain.Entities
         public CurriculumType CurriculumType { get; set; } // نوع المنهج
         public SchoolLevel SchoolLevel { get; set; } // مستوى المراحل الدراسية
 
-
+        [NotMapped]
+        public double AverageRating => Reviews.Any() ? Reviews.Average(r => r.Rating) : 0.0;
 
         //Relation
         public Guid CityId { get; set; } // معرف المدينة
@@ -36,7 +38,7 @@ namespace YemenSchoolsV1.Domain.Entities
         public ICollection<SchoolNews> SchoolNews { get; set; } = [];
         public ICollection<SchoolPhoto> SchoolPhotos { get; set; } = [];
         public ICollection<SchoolPhone> SchoolPhones { get; set; } = [];
-        public ICollection<SchoolRating> SchoolRatings { get; set; } = [];
+        public ICollection<SchoolReview> Reviews { get; set; } = [];
 
         public ICollection<AcademicYear> AcademicYears { get; set; } = [];
         public ICollection<SchoolGrade> SchoolGrades { get; set; } = [];

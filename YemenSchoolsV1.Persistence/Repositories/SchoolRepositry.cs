@@ -119,7 +119,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
                     .ThenInclude(ay => ay.Sections)
                 .Include(s => s.SchoolNews)
                 .Include(s => s.SchoolPhotos)
-                .Include(s => s.SchoolRatings)
+                .Include(s => s.Reviews)
                 .FirstOrDefaultAsync(s => s.Id == schoolId);
 
             if (school == null)
@@ -133,7 +133,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
             var academicYearsCount = school.AcademicYears.Count;
             var newsCount = school.SchoolNews.Count;
             var photosCount = school.SchoolPhotos.Count;
-            var ratingsCount = school.SchoolRatings.Count;
+            var ratingsCount = school.Reviews.Count;
             var parentsCount = 0; // If you have a way to count parents, add logic here
 
             return new SchoolReportDto

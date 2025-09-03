@@ -1,13 +1,53 @@
 <div class="bg-white rounded-3 p-0 m-0">
   <mat-nav-list class="nav-list pt-0">
+    <a mat-list-item [routerLink]="'/'" routerLinkActive="active">
+      <mat-icon matListItemIcon>dashboard</mat-icon>
+      <span matListItemTitle>الرئيسية</span>
+    </a>
     <a
       mat-list-item
-      *ngFor="let item of navItems"
-      [class.active]="activeSection === item.section"
-      (click)="selectSection.emit(item.section)"
+      [routerLink]="'/parent-dash-board'"
+      routerLinkActive="active"
     >
-      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-      <span matListItemTitle>{{ item.title }}</span>
+      <mat-icon matListItemIcon>dashboard</mat-icon>
+      <span matListItemTitle>لوحة التحكم</span>
+    </a>
+
+    <a mat-list-item [routerLink]="'/calendar'" routerLinkActive="active">
+      <mat-icon matListItemIcon>calendar_today</mat-icon>
+      <span matListItemTitle>التقويم</span>
+    </a>
+
+    <a
+      mat-list-item
+      [routerLink]="'/parent-dash-board/teacher-list'"
+      routerLinkActive="active"
+    >
+      <mat-icon matListItemIcon>mail_outline</mat-icon>
+      <span matListItemTitle>الرسائل</span>
+    </a>
+
+    <a
+      mat-list-item
+      [routerLink]="'/parent-dash-board/student-report'"
+      routerLinkActive="active"
+    >
+      <mat-icon matListItemIcon>assessment</mat-icon>
+      <span matListItemTitle>التقارير</span>
+    </a>
+
+    <a mat-list-item [routerLink]="'/payments'" routerLinkActive="active">
+      <mat-icon matListItemIcon>credit_card</mat-icon>
+      <span matListItemTitle>المصاريف</span>
+    </a>
+
+    <a
+      mat-list-item
+      [routerLink]="'/parent-dash-board/update-parent-profile'"
+      routerLinkActive="active"
+    >
+      <mat-icon matListItemIcon>settings</mat-icon>
+      <span matListItemTitle>الإعدادات</span>
     </a>
   </mat-nav-list>
 </div>

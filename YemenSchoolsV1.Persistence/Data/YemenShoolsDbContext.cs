@@ -21,12 +21,13 @@ namespace YemenSchoolsV1.Persistence.Data
         public DbSet<School> Schools { get; set; }
         public DbSet<SchoolNews> SchoolNews { get; set; }
         public DbSet<SchoolGrade> SchoolGrade { get; set; }
-        public DbSet<SchoolRating> SchoolRatings { get; set; }
+        public DbSet<SchoolReview> schoolReviews { get; set; }
         public DbSet<SchoolPhoto> SchoolPhotos { get; set; }
         public DbSet<SchoolPhone> SchoolPhones { get; set; }
         public DbSet<NewsPhoto> NewsPhotos { get; set; }
         public DbSet<AcademicYear> AcademicYears { get; set; }
         public DbSet<Term> Terms { get; set; }
+        public DbSet<Message> Messages { get; set; }
         public DbSet<Grade> Grades { get; set; }
         public DbSet<GradeSubject> GradeSubject { get; set; }
         public DbSet<StageGrade> StageGrade { get; set; }
@@ -41,6 +42,7 @@ namespace YemenSchoolsV1.Persistence.Data
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<AttendanceDetail> AttendanceDetails { get; set; }
         public DbSet<Mark> Marks { get; set; }
+        public DbSet<AppUser> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -120,6 +122,7 @@ namespace YemenSchoolsV1.Persistence.Data
             modelBuilder.ApplyConfiguration(new ParentStudentConfiguration());
             modelBuilder.ApplyConfiguration(new AttendanceConfiguration());
             modelBuilder.ApplyConfiguration(new AttendanceDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new MessageConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

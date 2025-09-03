@@ -5,6 +5,7 @@ using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Dto.Parents;
 using YemenSchoolsV1.Application.Dto.Students;
+using YemenSchoolsV1.Application.Extensions;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.API.Controllers
@@ -22,6 +23,26 @@ namespace YemenSchoolsV1.API.Controllers
         }
 
 
+
+        /// <summary>
+        /// Retrieves all teachers who teach the children of the authenticated parent.
+        /// </summary>
+        /// <returns>List of teachers with related info.</returns>
+        [HttpGet("teachers")]
+        [ProducesResponseType(typeof(Response<List<TeacherInfoForParentDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetTeachersForParent()
+        {
+            var parentId = User.GetEntityId();
+
+
+            var teachers = await _parentService.GetTeachersForParentAsync(parentId);
+            var responseObj = new Response<List<TeacherInfoForParentDto>>(teachers, "تم جلب بيانات المعلمين بنجاح")
+            {
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Succeeded = true
+            };
+            return NewResult(responseObj);
+        }
 
         /// <summary>
         /// Retrieves all students for a parent, including school, class, section, name, and image.

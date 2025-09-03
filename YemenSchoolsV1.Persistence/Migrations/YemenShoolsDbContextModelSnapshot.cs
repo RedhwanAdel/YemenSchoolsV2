@@ -196,19 +196,18 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Property<Guid>("EntityId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("LastName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -493,6 +492,47 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("Marks");
+                });
+
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("MessageSent")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<bool>("RecipientDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("RecipientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageSent");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.NewsPhoto", b =>
@@ -822,20 +862,37 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.ToTable("SchoolPhotos");
                 });
 
-            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolRating", b =>
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolReview", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("SchoolId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SchoolId");
 
-                    b.ToTable("SchoolRatings");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("schoolReviews");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Section", b =>
@@ -1466,6 +1523,25 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Message", b =>
+                {
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.AppUser", "Recipient")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.AppUser", "Sender")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.NewsPhoto", b =>
                 {
                     b.HasOne("YemenSchoolsV1.Domain.Entities.SchoolNews", "SchoolNews")
@@ -1589,15 +1665,23 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Navigation("School");
                 });
 
-            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolRating", b =>
+            modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolReview", b =>
                 {
                     b.HasOne("YemenSchoolsV1.Domain.Entities.School", "School")
-                        .WithMany("SchoolRatings")
+                        .WithMany("Reviews")
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("YemenSchoolsV1.Domain.Entities.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("School");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Section", b =>
@@ -1759,6 +1843,10 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.AppUser", b =>
                 {
+                    b.Navigation("MessagesReceived");
+
+                    b.Navigation("MessagesSent");
+
                     b.Navigation("UserRoles");
                 });
 
@@ -1798,6 +1886,8 @@ namespace YemenSchoolsV1.Persistence.Migrations
                 {
                     b.Navigation("AcademicYears");
 
+                    b.Navigation("Reviews");
+
                     b.Navigation("SchoolGrades");
 
                     b.Navigation("SchoolNews");
@@ -1805,8 +1895,6 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.Navigation("SchoolPhones");
 
                     b.Navigation("SchoolPhotos");
-
-                    b.Navigation("SchoolRatings");
 
                     b.Navigation("Students");
 

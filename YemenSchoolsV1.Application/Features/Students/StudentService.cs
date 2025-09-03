@@ -120,7 +120,7 @@ namespace YemenSchoolsV1.Application.Features.Students
                 var studentUser = new AppUser
                 {
                     UserName = $"S-{dto.RegisterNo}",
-                    FirstName = dto.NameAr,
+                    Name = dto.NameAr,
                     Email = dto.Email,
                     UserType = "Student",
                     EmailConfirmed = true,

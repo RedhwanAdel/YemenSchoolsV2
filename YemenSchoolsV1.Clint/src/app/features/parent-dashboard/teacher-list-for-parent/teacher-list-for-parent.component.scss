@@ -1,0 +1,83 @@
+/* شبكة البطاقات */
+.teachers-grid {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* البطاقة */
+.teacher-card {
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.teacher-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* الهيدر */
+.teacher-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* الصورة */
+.teacher-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+/* اسم وبيانات المعلم */
+.teacher-info mat-card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #111827;
+}
+
+.teacher-info mat-card-subtitle {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* تفاصيل البطاقة */
+mat-card-content {
+  padding: 0 1rem 1rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.teacher-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.teacher-detail mat-icon {
+  color: #4f46e5; /* Indigo */
+  font-size: 20px;
+}
+
+/* زر المراسلة */
+mat-card-actions {
+  padding: 0 1rem 1rem;
+}
+
+.contact-button {
+  width: 100%;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}

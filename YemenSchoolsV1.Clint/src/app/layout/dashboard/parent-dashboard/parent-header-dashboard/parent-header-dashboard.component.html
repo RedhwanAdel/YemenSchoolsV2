@@ -2,7 +2,6 @@
   <div class="brand">
     <a routerLink="/" class="logo d-flex align-items-center me-auto me-xl-0">
       <h1 class="sitename">مدارس اليمن</h1>
-      <span>.</span>
     </a>
   </div>
   <div class="actions">
@@ -11,9 +10,13 @@
     </button>
 
     <div class="user-profile">
-      <img src="https://i.pravatar.cc/40?img=32" alt="avatar" class="avatar" />
+      <img
+        [src]="'assets/img/person/person-m-5.webp'"
+        alt="avatar"
+        class="avatar"
+      />
       <div style="text-align: right">
-        <div class="user-name">أحمد العبد</div>
+        <div class="user-name">{{ user?.name }}</div>
         <div class="user-role">ولي الأمر</div>
       </div>
     </div>

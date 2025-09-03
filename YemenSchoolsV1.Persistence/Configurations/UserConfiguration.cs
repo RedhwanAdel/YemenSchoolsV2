@@ -8,8 +8,7 @@ namespace YemenSchoolsV1.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
-            builder.Property(u => u.FirstName).HasMaxLength(100); // اختياري
-            builder.Property(u => u.LastName).HasMaxLength(100); // اختياري
+            builder.Property(u => u.Name).HasMaxLength(100); // اختياري
 
 
             builder.Property(u => u.EntityId).IsRequired(); // يجب أن يرتبط بحساب مستخدم بكيان فعلي

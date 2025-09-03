@@ -9,7 +9,7 @@
   </button>
 
   <!-- العنوان -->
-  <span class="app-title">تطبيقي بـ Angular</span>
+  <span class="app-title">مدارس اليمن</span>
 
   <!-- فاصل لدفع العناصر لليمين -->
   <span class="toolbar-spacer"></span>
@@ -26,7 +26,7 @@
   <!-- قائمة المستخدم -->
   <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
     <mat-icon>person</mat-icon>
-    <span>رضوان</span>
+    <span>{{ user?.name }}</span>
     <mat-icon>arrow_drop_down</mat-icon>
   </button>
   <mat-menu #userMenu="matMenu">

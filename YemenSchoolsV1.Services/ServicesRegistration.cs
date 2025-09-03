@@ -4,6 +4,7 @@ using YemenSchoolsV1.Application.Features.Accounts;
 using YemenSchoolsV1.Application.Features.AttendanceStudents;
 using YemenSchoolsV1.Application.Features.Marks;
 using YemenSchoolsV1.Application.Features.Parents;
+using YemenSchoolsV1.Application.Features.Schools;
 using YemenSchoolsV1.Application.Features.Students;
 using YemenSchoolsV1.Services.Implementations;
 
@@ -34,6 +35,7 @@ namespace FinalProject.Services
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<IMarkService, MarkService>();
+            services.AddScoped<ISchoolReviewService, SchoolReviewService>();
 
 
 

@@ -11,6 +11,7 @@ import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatNativeDateModule, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { languageInterceptor } from './core/interceptors/language.interceptor';
 
 
 function initializeApp(initService: InitService) {
@@ -28,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideNativeDateAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: 'ar-EG' },
-    provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor, authInterceptor])),
+    provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor, authInterceptor, languageInterceptor])),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,

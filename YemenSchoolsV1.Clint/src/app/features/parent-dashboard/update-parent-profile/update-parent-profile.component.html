@@ -1,0 +1,95 @@
+<mat-card class="max-w-xl mx-auto my-8 p-6">
+  <mat-card-header class="justify-center text-center mb-4">
+    <mat-card-title class="text-3xl font-bold">ملف ولي الأمر</mat-card-title>
+    <mat-card-subtitle class="text-lg text-gray-600">
+      تعديل بياناتك الشخصية ومعلومات حسابك
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-tab-group mat-stretch-tabs="false">
+    <mat-tab label="البيانات الشخصية">
+      <div class="p-6">
+        <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()">
+          <div class="flex flex-col items-center mb-6">
+            <img
+              [src]="profileImageUrl"
+              alt="profile"
+              class="rounded-full w-28 h-28 object-cover border-2 border-blue-400 shadow-md"
+            />
+            <input
+              type="file"
+              (change)="onFileSelected($event)"
+              class="mt-4 text-sm text-blue-600 cursor-pointer"
+            />
+          </div>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>الاسم الكامل</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full mt-4">
+            <mat-label>رقم الهاتف</mat-label>
+            <input matInput formControlName="phoneNumber" type="tel" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full mt-4">
+            <mat-label>البريد الإلكتروني</mat-label>
+            <input matInput formControlName="email" type="email" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full mt-4">
+            <mat-label>العنوان</mat-label>
+            <input matInput formControlName="address" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full mt-4">
+            <mat-label>المسمى الوظيفي</mat-label>
+            <input matInput formControlName="jobTitle" />
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="w-full mt-6"
+            [disabled]="profileForm.invalid"
+          >
+            حفظ التغييرات
+          </button>
+        </form>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="كلمة المرور">
+      <div class="p-6">
+        <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>كلمة المرور الحالية</mat-label>
+            <input matInput type="password" formControlName="oldPassword" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full mt-4">
+            <mat-label>كلمة المرور الجديدة</mat-label>
+            <input matInput type="password" formControlName="newPassword" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full mt-4">
+            <mat-label>تأكيد كلمة المرور الجديدة</mat-label>
+            <input matInput type="password" formControlName="confirmPassword" />
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="accent"
+            type="submit"
+            class="w-full mt-6"
+            [disabled]="passwordForm.invalid"
+          >
+            تغيير كلمة المرور
+          </button>
+        </form>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

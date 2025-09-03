@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AccountService } from './account.service';
 import { ApiResponse } from '../../shared/models/ApiResponse';
-import { ParentCheckDto, StudentWithSchoolInfoDto } from '../../shared/models/parent';
+import { ParentCheckDto, StudentWithSchoolInfoDto, TeacherInfoForParentDto } from '../../shared/models/parent';
 import { map } from 'rxjs';
 import { SnackbarService } from './snackbar.service';
 
@@ -20,7 +20,10 @@ export class ParentService {
   private schoolId = this.accountService.currentUser()?.schoolId
   private parentId = this.accountService.currentUser()?.entityId
 
+  GetTeachersForParent() {
 
+    return this.http.get<ApiResponse<TeacherInfoForParentDto[]>>(`${this.baseUrl}Parents/teachers`)
+  }
   GetStudentsWithSchoolInfoForParent() {
     if (!this.parentId) {
       this.snack.error('لم يتم ايجاد معرف المستخدم الرجاء تسجيل الدخول')

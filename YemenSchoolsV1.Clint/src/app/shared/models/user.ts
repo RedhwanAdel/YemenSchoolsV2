@@ -1,6 +1,7 @@
 export type User = {
-    firstName: string;
-    lastName: string;
+    id: string;
+    name: string;
+    imageUrl?: string;
     email: string;
     entityId: string;
     userType: string;

@@ -1,0 +1,46 @@
+<div class="chat-page">
+  <mat-card class="chat-card">
+    <!-- الهيدر -->
+    <mat-card-header class="chat-header">
+      <img
+        src="assets/img/person/person-m-5.webp"
+        alt="Teacher"
+        class="teacher-avatar"
+      />
+      <div>
+        <mat-card-title>{{ teacher?.name }}</mat-card-title>
+        <mat-card-subtitle>{{ schoolName }}</mat-card-subtitle>
+      </div>
+    </mat-card-header>
+
+    <!-- الرسائل -->
+    <mat-card-content class="chat-messages">
+      <div
+        *ngFor="let msg of messages()"
+        [ngClass]="{
+          'msg-sent': msg.senderId === senderId,
+          'msg-received': msg.senderId !== senderId
+        }"
+        class="chat-message"
+      >
+        <p>{{ msg.content }}</p>
+        <span class="msg-time">{{ msg.messageSent }}</span>
+      </div>
+    </mat-card-content>
+
+    <!-- الإدخال -->
+    <mat-card-actions class="chat-input">
+      <mat-form-field appearance="outline" class="msg-input">
+        <input
+          matInput
+          placeholder="اكتب رسالتك..."
+          [(ngModel)]="messageContent"
+          (keyup.enter)="sendMessage()"
+        />
+      </mat-form-field>
+      <button mat-icon-button color="primary" (click)="sendMessage()">
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

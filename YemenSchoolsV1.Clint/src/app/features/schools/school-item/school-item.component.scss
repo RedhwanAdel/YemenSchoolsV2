@@ -1,4 +1,15 @@
 
+.school-rating i {
+  font-size: 1rem; /* حجم النجوم */
+  margin-right: 2px; /* مسافة صغيرة بين النجوم */
+}
+
+.school-rating .rating-number {
+  font-size: 0.85rem;
+  color: #555;
+  font-weight: 500;
+}
+
 .school-card {
   border: 1px solid #e0e0e0;
   min-height: 300px;

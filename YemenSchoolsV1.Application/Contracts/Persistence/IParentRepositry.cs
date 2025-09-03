@@ -1,4 +1,5 @@
 ﻿using FinalProject.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Dto.Parents;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Contracts.Persistence
@@ -16,6 +17,8 @@ namespace YemenSchoolsV1.Application.Contracts.Persistence
         //Task<(bool Succeeded, string Message)> DeleteParentAndRelatedDataAsync(Parent parent);
         Task AddStudentToParentAsync(ParentStudent parentStudent);
         Task RemoveStudentFromParentAsync(Guid parentId, Guid studentId);
+        Task<List<TeacherInfoForParentDto>> GetTeachersForParentAsync(Guid parentId);
+
 
     }
 }

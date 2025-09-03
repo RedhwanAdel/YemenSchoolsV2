@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Dto.Parents;
 using YemenSchoolsV1.Domain.Entities;
 using YemenSchoolsV1.Persistence.Data;
 
@@ -117,6 +118,29 @@ namespace YemenSchoolsV1.Persistence.Repositories
                 dbContext.ParentStudents.Remove(parentStudent);
                 await dbContext.SaveChangesAsync();
             }
+        }
+
+
+        public async Task<List<TeacherInfoForParentDto>> GetTeachersForParentAsync(Guid parentId)
+        {
+            var query = dbContext.Parents
+                .Where(p => p.Id == parentId)
+                .SelectMany(p => p.Students)
+                .SelectMany(ps => ps.Student.CurrentSection.SectionSubjects
+                    .Select(ss => new TeacherInfoForParentDto
+                    {
+                        TeacherId = ss.Teacher.Id,
+                        TeacherName = ss.Teacher.NameAr,
+                        TeacherPhoto = ss.Teacher.ProfilePictureUrl,
+                        SchoolName = ss.Teacher.School.NameAr,
+                        GradeName = ps.Student.CurrentSection.SchoolGrade.StageGrade.Grade.Name,
+                        SectionName = ps.Student.CurrentSection.Name,
+                        SubjectName = ss.GradeSubject.Subject.Name,
+                        StudentName = ps.Student.NameAr
+                    }))
+                .Distinct();
+
+            return await query.ToListAsync();
         }
     }
 }

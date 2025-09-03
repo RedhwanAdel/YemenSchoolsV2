@@ -1,0 +1,57 @@
+<app-page-wrapper
+  headerTitle="قائمة المعلمين"
+  headerSubtitle="المعلمين الذين يدرسون أبناءك"
+  headerIcon="school"
+>
+  <div class="teachers-grid">
+    @for (teacher of teachers(); track trackByTeacherId($index, teacher)) {
+    <mat-card class="teacher-card">
+      <mat-card-header>
+        <div class="teacher-header">
+          <img
+            src="assets/img/person/person-m-5.webp"
+            [alt]="'صورة ' + teacher.teacherName"
+            class="teacher-avatar"
+          />
+          <div class="teacher-info">
+            <mat-card-title>{{ teacher.teacherName }}</mat-card-title>
+            <mat-card-subtitle>{{ teacher.schoolName }}</mat-card-subtitle>
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="teacher-detail">
+          <mat-icon>book</mat-icon>
+          <p><strong>المادة:</strong> {{ teacher.subjectName }}</p>
+        </div>
+        <div class="teacher-detail">
+          <mat-icon>school</mat-icon>
+          <p>
+            <strong>الصف:</strong> {{ teacher.gradeName }} -
+            {{ teacher.sectionName }}
+          </p>
+        </div>
+        <div class="teacher-detail">
+          <mat-icon>person</mat-icon>
+          <p><strong>الطالب:</strong> {{ teacher.studentName }}</p>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button
+          mat-stroked-button
+          color="primary"
+          [routerLink]="
+            '/parent-dash-board/teacher-contact/' + teacher.teacherId
+          "
+          class="contact-button"
+        >
+          <mat-icon>chat</mat-icon>
+          مراسلة
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    }
+  </div>
+</app-page-wrapper>

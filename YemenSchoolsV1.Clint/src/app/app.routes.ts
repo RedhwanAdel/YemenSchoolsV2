@@ -44,6 +44,11 @@ import { ParentOverViewComponent } from './features/parent-dashboard/parent-over
 import { ParentDashboardPageComponent } from './features/parent-dashboard/parent-dashboard-page/parent-dashboard-page.component';
 import { PromoteSectionListComponent } from './features/school-dashboard/promote-students/promote-section-list/promote-section-list.component';
 import { PromoteStudentsComponent } from './features/school-dashboard/promote-students/promote-students/promote-students.component';
+import { MessagesComponent } from './features/messages/messages.component';
+import { TeacherListForParentComponent } from './features/parent-dashboard/teacher-list-for-parent/teacher-list-for-parent.component';
+import { TeacherContactComponent } from './features/messages/teacher-contact/teacher-contact.component';
+import { StudentMarkReportComponent } from './features/reports/student-mark-report/student-mark-report.component';
+import { UpdateParentProfileComponent } from './features/parent-dashboard/update-parent-profile/update-parent-profile.component';
 
 export const routes: Routes = [
     {
@@ -56,6 +61,7 @@ export const routes: Routes = [
             { path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },
             { path: 'test-error', component: TestErrorComponent },
+            { path: 'messages', component: MessagesComponent },
         ]
     },
     {
@@ -109,6 +115,10 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'overview', pathMatch: 'full' },
             { path: 'overview', component: ParentDashboardPageComponent },
+            { path: 'teacher-list', component: TeacherListForParentComponent },
+            { path: 'student-report', component: StudentMarkReportComponent },
+            { path: 'update-parent-profile', component: UpdateParentProfileComponent },
+            { path: 'teacher-contact/:id', component: TeacherContactComponent },
 
             { path: 'child-profile/:studentId', component: ChildProfileComponent },
 

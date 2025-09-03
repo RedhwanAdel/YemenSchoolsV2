@@ -59,6 +59,12 @@
       <mat-tab label="الأخبار والفعاليات">
         <app-school-news-events></app-school-news-events>
       </mat-tab>
+      <mat-tab label="المعرض">
+        <app-school-gallery></app-school-gallery>
+      </mat-tab>
+      <mat-tab label="التقييم">
+        <app-school-reviews [schoolId]="schoolId"></app-school-reviews>
+      </mat-tab>
       <mat-tab label="اتصل بنا">
         <app-school-contact-us></app-school-contact-us>
       </mat-tab>

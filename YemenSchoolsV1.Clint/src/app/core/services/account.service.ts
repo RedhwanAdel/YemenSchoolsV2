@@ -11,7 +11,12 @@ export class AccountService {
   baseUrl = environment.apiUrl;
   private http = inject(HttpClient)
   currentUser = signal<User | null>(null)
-
+  isUserLoggedIn() {
+    if (this.currentUser()) {
+      return true
+    }
+    return false
+  }
   login(value: any) {
     let params = new HttpParams();
     params = params.append('useCookies', true);

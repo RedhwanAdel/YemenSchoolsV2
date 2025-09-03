@@ -1,0 +1,80 @@
+.reviews-container {
+  max-width: 700px;
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* زيادة المسافة بين العناصر */
+}
+
+.average-card {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.average-rating mat-icon {
+  vertical-align: middle;
+  color: gold;
+  margin-right: 0.2rem;
+  font-size: 2rem; /* تكبير أيقونة النجمة */
+}
+
+.add-review-card {
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* إضافة ظل خفيف */
+}
+
+.login-prompt-card {
+  padding: 1rem;
+  text-align: center;
+  background-color: #f0f0f0; /* خلفية خفيفة */
+  color: #333;
+}
+
+.login-prompt-card a {
+  font-weight: bold;
+  color: #1a73e8; /* لون رابط واضح */
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.review-card {
+  border-left: 4px solid #fbc02d; /* خط جانبي بلون مميز */
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.review-card mat-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.user-info mat-icon {
+  font-size: 24px;
+}
+
+.review-rating-stars {
+  margin-bottom: 0.5rem;
+}
+
+.review-card mat-icon {
+  vertical-align: middle;
+  font-size: 20px;
+}

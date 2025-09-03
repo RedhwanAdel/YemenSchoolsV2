@@ -19,6 +19,8 @@ import { SchoolContactUsComponent } from "./school-contact-us/school-contact-us.
 import { SchoolService } from '../../../core/services/school.service';
 import { ActivatedRoute } from '@angular/router';
 import { SchoolDetails } from '../../../shared/models/school/schoolDetails';
+import { SchoolGalleryComponent } from "./school-gallery/school-gallery.component";
+import { SchoolReviewsComponent } from "../school-reviews/school-reviews.component";
 
 
 
@@ -38,7 +40,9 @@ import { SchoolDetails } from '../../../shared/models/school/schoolDetails';
     SchoolAdmissionsComponent,
     SchoolCampusFacilitiesComponent,
     SchoolNewsEventsComponent,
-    SchoolContactUsComponent
+    SchoolContactUsComponent,
+    SchoolGalleryComponent,
+    SchoolReviewsComponent
   ],
   templateUrl: './school-details.component.html',
   styleUrl: './school-details.component.scss'
@@ -47,15 +51,16 @@ export class SchoolDetailsComponent implements OnInit {
   schoolService = inject(SchoolService)
   activatedRoute = inject(ActivatedRoute)
   school?: SchoolDetails
-
+  schoolId: string = '';
 
   ngOnInit(): void {
+    this.schoolId = this.activatedRoute.snapshot.paramMap.get('id')!;
+    if (!this.schoolId) return;
     this.loadSchool();
   }
   loadSchool() {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (!id) return;
-    this.schoolService.getSchoolById(id).subscribe({
+    if (!this.schoolId) return;
+    this.schoolService.getSchoolById(this.schoolId).subscribe({
       next: school => {
         this.school = school.data
       },

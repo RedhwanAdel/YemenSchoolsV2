@@ -28,6 +28,8 @@ export interface AssessmentType {
     viewValue: string;
 }
 export interface SubjectReportDto {
+
+    studentId?: string;
     name: string;             // اسم المادة
     score: number;            // مجموع الدرجات
     grade: string;            // التقدير (ممتاز/جيد ...إلخ)

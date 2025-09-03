@@ -26,6 +26,22 @@
         ></div>
 
         <h5 class="card-title">{{ school().name }}</h5>
+        <div class="school-rating d-flex align-items-center mb-1">
+          <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+            <i
+              class="bi"
+              [ngClass]="
+                star <= roundRating(school().averageRating)
+                  ? 'bi-star-fill text-warning'
+                  : 'bi-star text-muted'
+              "
+            ></i>
+          </ng-container>
+          <span class="rating-number ms-2"
+            >({{ school().averageRating | number : "1.1-1" }})</span
+          >
+        </div>
+
         <p class="card-text mb-0">{{ schoolLevel[school().schoolLevel] }}</p>
         <p class="card-text mb-0">{{ genderLabels[school().genderType] }}</p>
       </div>

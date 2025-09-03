@@ -1,0 +1,101 @@
+<div class="report-container">
+  <mat-card class="elegant-report-card" *ngFor="let report of reports">
+    <div class="report-header">
+      <div class="header-info">
+        <h1 class="school-name">{{ report.student.school }}</h1>
+        <h2 class="report-title">تقرير درجات الطالب</h2>
+        <h3 class="report-period">للسنة الدراسية: 2025-2026 | الفصل: الأول</h3>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="student-info-section">
+      <div class="info-item">
+        <strong>الاسم:</strong> <span>{{ report.student.name }}</span>
+      </div>
+      <div class="info-item">
+        <strong>الصف:</strong>
+        <span>{{ report.student.grade }} - {{ report.student.section }}</span>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <table mat-table [dataSource]="report.subjects" class="subjects-table">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>المادة</th>
+        <td mat-cell *matCellDef="let element">
+          <strong>{{ element.name }}</strong>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef>الدرجة</th>
+        <td mat-cell *matCellDef="let element">{{ element.score }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="grade">
+        <th mat-header-cell *matHeaderCellDef>التقدير</th>
+        <td mat-cell *matCellDef="let element">
+          <span
+            class="grade-text"
+            [ngClass]="{
+              excellent: element.grade === 'ممتاز',
+              'very-good': element.grade === 'جيد جدًا',
+              good: element.grade === 'جيد',
+              pass: element.grade === 'مقبول',
+              fail: element.grade === 'ضعيف'
+            }"
+          >
+            {{ element.grade }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef>تفاصيل الدرجات</th>
+        <td mat-cell *matCellDef="let element">
+          <ul class="details-list">
+            <li *ngFor="let detail of element.details.grades">
+              {{ detail.type }}: {{ detail.score }} / {{ detail.total }} ({{
+                detail.percentage
+              }})
+            </li>
+          </ul>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-divider></mat-divider>
+
+    <div class="final-summary-section">
+      <div class="summary-item">
+        <strong>المجموع الكلي:</strong>
+        <span>{{ report.final?.total }} / {{ report.final?.maxTotal }}</span>
+      </div>
+      <div class="summary-item">
+        <strong>النسبة المئوية:</strong>
+        <span>{{ report.final?.percentage }}</span>
+      </div>
+      <div class="final-grade-item">
+        <strong>التقدير النهائي:</strong>
+        <span
+          class="final-grade-text"
+          [ngClass]="{
+            excellent: report.final?.grade === 'ممتاز',
+            'very-good': report.final?.grade === 'جيد جدًا',
+            good: report.final?.grade === 'جيد',
+            pass: report.final?.grade === 'مقبول',
+            fail: report.final?.grade === 'ضعيف'
+          }"
+        >
+          {{ report.final?.grade }}
+        </span>
+      </div>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,16 @@
+.profile-pic {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.profile-pic img {
+  border-radius: 50%;
+  border: 2px solid #ddd;
+}
+
+mat-form-field {
+  display: block;
+  margin-bottom: 12px;
+}

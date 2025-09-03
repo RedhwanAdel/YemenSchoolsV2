@@ -29,7 +29,7 @@
     <span matListItemTitle>الرئيسية</span>
   </a>
 
-  @if(accountService.currentUser()?.userType === userTypes.Admin || true){
+  @if(accountService.currentUser()?.userType === userTypes.Admin ){
   <a
     mat-list-item
     routerLink="/school-dash-board/school-grade"
@@ -106,7 +106,7 @@
     <span matListItemTitle>تقارير</span>
   </a>
 
-  } @if (accountService.currentUser()?.userType === userTypes.Teacher || true) {
+  } @if (accountService.currentUser()?.userType === userTypes.Teacher ) {
   <a
     mat-list-item
     routerLink="/school-dash-board/attendance"

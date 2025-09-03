@@ -1,0 +1,7 @@
+<div class="gallery-container">
+  <mat-grid-list cols="3" rowHeight="200px" gutterSize="10px">
+    <mat-grid-tile *ngFor="let img of galleryImages">
+      <img [src]="'assets/img/portfolio/' + img" alt="school photo" />
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

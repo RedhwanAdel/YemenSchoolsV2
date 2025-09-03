@@ -23,22 +23,23 @@
             >تفاصيل المدرسة</a
           >
         </li>
-        @if (accountService.currentUser()?.userType === userTypes.SuperAdmin ||
-        true) {
+        @if (accountService.currentUser()?.userType === userTypes.SuperAdmin ) {
 
         <li><a routerLink="/dash-board">لوحة التحكم</a></li>
         } @if (accountService.currentUser()?.userType === userTypes.Admin ||
-        accountService.currentUser()?.userType === userTypes.Teacher || true) {
+        accountService.currentUser()?.userType === userTypes.Teacher ) {
         <li><a routerLink="/school-dash-board">لوحة تحكم المدرسة</a></li>
 
-        } @if (accountService.currentUser()?.userType === userTypes.Parent||
-        true) {
+        } @if (accountService.currentUser()?.userType === userTypes.Parent ) {
         <li><a routerLink="/parent-dash-board">لوحة تحكم اولياء الأمور</a></li>
 
         }
 
         <li>
           <a routerLink="/test-error" routerLinkActive="active">اختبار الخطأ</a>
+        </li>
+        <li>
+          <a routerLink="/messages" routerLinkActive="active">رسائل</a>
         </li>
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -54,7 +55,7 @@
       >
         <mat-icon class="me-1">person</mat-icon>
         <span class="user-name me-1">{{
-          accountService.currentUser()?.firstName
+          accountService.currentUser()?.name
         }}</span>
         <mat-icon>arrow_drop_down</mat-icon>
       </button>

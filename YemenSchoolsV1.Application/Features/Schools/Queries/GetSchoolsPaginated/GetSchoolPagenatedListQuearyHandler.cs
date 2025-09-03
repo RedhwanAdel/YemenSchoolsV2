@@ -10,98 +10,124 @@ using YemenSchoolsV1.Domain.Enums;
 
 namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginated
 {
-	public class GetSchoolPagenatedListQuearyHandler : ResponseHandler, IRequestHandler<GetSchoolPagenatedListQueary, PaginatedResponse<GetSchoolPagenatedListResponse>>
-	{
-		#region faild
+    public class GetSchoolPagenatedListQuearyHandler : ResponseHandler, IRequestHandler<GetSchoolPagenatedListQueary, PaginatedResponse<GetSchoolPagenatedListResponse>>
+    {
+        #region faild
 
-		private readonly ISchoolService schoolService;
-		private readonly ISchoolRepositry schoolRepositry;
-		private readonly ICityService cityService;
-		private readonly IRegionService regionService;
-		private readonly IMapper mapper;
-		private readonly IStringLocalizer<SharedResources> stringLocalizer;
-		#endregion
+        private readonly ISchoolService schoolService;
+        private readonly ISchoolRepositry schoolRepositry;
+        private readonly ICityService cityService;
+        private readonly IRegionService regionService;
+        private readonly IMapper mapper;
+        private readonly IStringLocalizer<SharedResources> stringLocalizer;
+        #endregion
 
-		#region ctor
-		public GetSchoolPagenatedListQuearyHandler(ISchoolService schoolService, ISchoolRepositry schoolRepositry, ICityService cityService, IRegionService regionService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
-		{
-			this.schoolService = schoolService;
-			this.schoolRepositry = schoolRepositry;
-			this.cityService = cityService;
-			this.regionService = regionService;
-			this.mapper = mapper;
-			this.stringLocalizer = stringLocalizer;
+        #region ctor
+        public GetSchoolPagenatedListQuearyHandler(ISchoolService schoolService, ISchoolRepositry schoolRepositry, ICityService cityService, IRegionService regionService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        {
+            this.schoolService = schoolService;
+            this.schoolRepositry = schoolRepositry;
+            this.cityService = cityService;
+            this.regionService = regionService;
+            this.mapper = mapper;
+            this.stringLocalizer = stringLocalizer;
 
-		}
-
-
-
-		#endregion
-
-		public async Task<PaginatedResponse<GetSchoolPagenatedListResponse>> Handle(GetSchoolPagenatedListQueary request, CancellationToken cancellationToken)
-		{
-			var queryable = schoolRepositry.GetSchoolsWithCityAndRegionQueryable();
+        }
 
 
-			if (request.CityId != Guid.Empty && request.CityId != null)
-			{
-				queryable = queryable.Where(x => x.CityId == request.CityId);
-			}
-			if (request.RegionId != Guid.Empty && request.RegionId != null)
-			{
-				queryable = queryable.Where(x => x.RegionId == request.RegionId);
-			}
-			if (!string.IsNullOrEmpty(request.Search))
-			{
-				queryable = queryable.Where(x => x.NameEn.ToLower().Contains(request.Search.ToLower()));
-			}
-			if (request.Type.HasValue)
-			{
-				queryable = queryable.Where(x => x.SchoolType == request.Type.Value);
-			}
 
-			if (request.Levels.HasValue)
-			{
-				queryable = queryable.Where(x => (x.SchoolLevel & request.Levels.Value) != 0); // [Flags] filter
-			}
+        #endregion
 
-			if (request.Gender.HasValue)
-			{
-				queryable = queryable.Where(x => x.GenderType == request.Gender.Value);
-			}
+        public async Task<PaginatedResponse<GetSchoolPagenatedListResponse>> Handle(GetSchoolPagenatedListQueary request, CancellationToken cancellationToken)
+        {
+            var queryable = schoolRepositry.GetSchoolsWithCityAndRegionQueryable();
 
-			switch (request.SortDirection?.Trim().ToLower())
-			{
-				case "asc":
-					queryable = request.OrderBy switch
-					{
-						SchoolOrdering.Name => queryable.OrderBy(x => x.NameEn),
-						SchoolOrdering.city => queryable.OrderBy(x => x.City.NameEn),
-						SchoolOrdering.region => queryable.OrderBy(x => x.Region.NameEn),
-						_ => queryable.OrderBy(x => x.NameEn)
-					};
-					break;
+            // ------------------ الفلترة ------------------
+            if (request.CityId.HasValue && request.CityId != Guid.Empty)
+            {
+                queryable = queryable.Where(x => x.CityId == request.CityId);
+            }
 
-				case "desc":
-					queryable = request.OrderBy switch
-					{
-						SchoolOrdering.Name => queryable.OrderByDescending(x => x.NameEn),
-						SchoolOrdering.city => queryable.OrderByDescending(x => x.City.NameEn),
-						SchoolOrdering.region => queryable.OrderByDescending(x => x.Region.NameEn),
-						_ => queryable.OrderByDescending(x => x.NameEn)
-					};
-					break;
+            if (request.RegionId.HasValue && request.RegionId != Guid.Empty)
+            {
+                queryable = queryable.Where(x => x.RegionId == request.RegionId);
+            }
 
-				default:
-					queryable = queryable.OrderBy(x => x.NameEn);
-					break;
-			}
+            if (!string.IsNullOrEmpty(request.Search))
+            {
+                var searchLower = request.Search.ToLower();
+                queryable = queryable.Where(x => x.NameAr.ToLower().Contains(searchLower));
+            }
 
-			var PaginatedList = await mapper.ProjectTo<GetSchoolPagenatedListResponse>(queryable).ToPaginatedListAsync(request.PageNumber, request.PageSize);
-			PaginatedList.Meta = new { Count = PaginatedList.Data.Count() };
-			return PaginatedList;
+            if (request.Type.HasValue)
+            {
+                queryable = queryable.Where(x => x.SchoolType == request.Type.Value);
+            }
 
-		}
+            if (request.Levels.HasValue)
+            {
+                queryable = queryable.Where(x => (x.SchoolLevel & request.Levels.Value) != 0);
+            }
 
-	}
+            if (request.Gender.HasValue)
+            {
+                queryable = queryable.Where(x => x.GenderType == request.Gender.Value);
+            }
+
+            // ------------------ Select إلى DTO ------------------
+            var dtoQueryable = queryable
+                .Select(s => new GetSchoolPagenatedListResponse
+                {
+                    Id = s.Id,
+                    Name = s.NameAr,
+                    Logo = s.Logo,
+                    SchoolType = s.SchoolType.ToString(),
+                    GenderType = s.GenderType.ToString(),
+                    City = s.City.NameAr,
+                    Region = s.Region.NameAr,
+                    CoverImage = s.CoverImage,
+                    MainPhone = s.MainPhone,
+                    SchoolLevel = s.SchoolLevel.ToString(),
+                    AverageRating = s.Reviews.Any() ? s.Reviews.Average(r => r.Rating) : 0.0
+                });
+
+            // ------------------ الفرز ------------------
+            switch (request.SortDirection?.Trim().ToLower())
+            {
+                case "asc":
+                    dtoQueryable = request.OrderBy switch
+                    {
+                        SchoolOrdering.Rating => dtoQueryable.OrderBy(x => x.AverageRating),
+                        SchoolOrdering.Name => dtoQueryable.OrderBy(x => x.Name),
+                        SchoolOrdering.city => dtoQueryable.OrderBy(x => x.City),
+                        SchoolOrdering.region => dtoQueryable.OrderBy(x => x.Region),
+                        _ => dtoQueryable.OrderBy(x => x.Name)
+                    };
+                    break;
+
+                case "desc":
+                    dtoQueryable = request.OrderBy switch
+                    {
+                        SchoolOrdering.Rating => dtoQueryable.OrderByDescending(x => x.AverageRating),
+                        SchoolOrdering.Name => dtoQueryable.OrderByDescending(x => x.Name),
+                        SchoolOrdering.city => dtoQueryable.OrderByDescending(x => x.City),
+                        SchoolOrdering.region => dtoQueryable.OrderByDescending(x => x.Region),
+                        _ => dtoQueryable.OrderByDescending(x => x.Name)
+                    };
+                    break;
+
+                default:
+                    dtoQueryable = dtoQueryable.OrderBy(x => x.AverageRating);
+                    break;
+            }
+
+            // ------------------ Pagination ------------------
+            var paginatedList = await dtoQueryable
+                .ToPaginatedListAsync(request.PageNumber, request.PageSize);
+
+            paginatedList.Meta = new { Count = paginatedList.Data.Count() };
+            return paginatedList;
+        }
+
+    }
 }

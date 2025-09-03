@@ -3,11 +3,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatListModule, MatNavList } from '@angular/material/list';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-parent-sidebar-dashboard',
   standalone: true,
-  imports: [CommonModule, MatListModule, MatIconModule]
+  imports: [CommonModule, MatListModule, MatIconModule, RouterLink]
   ,
   templateUrl: './parent-sidebar-dashboard.component.html',
   styleUrl: './parent-sidebar-dashboard.component.scss'

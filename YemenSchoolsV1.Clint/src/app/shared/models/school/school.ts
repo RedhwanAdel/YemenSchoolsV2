@@ -11,6 +11,8 @@ export interface SchoolListItem {
     city: string;
     region: string;
     schoolLevel: string;
+    averageRating: number;
+
 }
 export interface SchoolForUpdate {
     id: string;
@@ -88,4 +90,14 @@ export interface SchoolReportData {
     photosCount: number;
     parentsCount: number;
     ratingsCount: number;
+}
+export interface SchoolReview {
+    id: string;
+    schoolId: string;
+    userId: string;
+    userName: string;
+    userImage: string;
+    rating: number;
+    comment?: string;
+    createdAt: string;
 }

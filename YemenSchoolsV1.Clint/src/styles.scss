@@ -437,4 +437,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 
   
+}/* Snackbar Success */
+.snack-success .mdc-snackbar__surface {
+  background-color: #4caf50 !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+}
+
+/* Snackbar Error */
+.snack-error .mdc-snackbar__surface {
+  background-color: #f44336 !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+}
+
+/* زر الإغلاق */
+.snack-success .mat-mdc-button,
+.snack-error .mat-mdc-button {
+  color: #fff !important;
+  font-weight: bold;
 }

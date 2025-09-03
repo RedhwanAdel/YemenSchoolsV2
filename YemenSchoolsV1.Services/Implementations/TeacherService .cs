@@ -27,7 +27,7 @@ namespace YemenSchoolsV1.Services.Implementations
                 UserName = teacher.Email,
                 Email = teacher.Email,
                 PhoneNumber = teacher.PhoneNumber,
-                FirstName = teacher.NameAr,
+                Name = teacher.NameAr,
                 UserType = "Teacher"
             };
             var userResult = await _userManager.CreateAsync(user, "Pa$$w0rd");
