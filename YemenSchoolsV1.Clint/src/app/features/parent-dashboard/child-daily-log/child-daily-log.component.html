@@ -1,0 +1,66 @@
+<div class="daily-log-container">
+  <header class="log-header">
+    <div class="date-navigator">
+      <button mat-flat-button class="nav-button" (click)="onPrevDay()">
+        <mat-icon>chevron_right</mat-icon> اليوم السابق
+      </button>
+
+      <mat-form-field appearance="outline" class="date-picker-field">
+        <mat-label>اختر التاريخ</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [(ngModel)]="selectedDate"
+          (dateChange)="onDateChange()"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-flat-button class="nav-button" (click)="onNextDay()">
+        اليوم التالي <mat-icon>chevron_left</mat-icon>
+      </button>
+    </div>
+  </header>
+
+  <main class="log-cards">
+    <ng-container *ngIf="filteredLogs.length > 0; else noData">
+      <mat-card
+        *ngFor="let log of filteredLogs"
+        class="log-card"
+        [ngClass]="getCardStatusClass(log.teacherNotes || '')"
+      >
+        <div class="log-card-header">
+          <div class="subject-info">
+            <span class="subject-name">📖 {{ log.subjectName }}</span>
+            <span class="status">{{
+              getCardStatusText(log.teacherNotes || "")
+            }}</span>
+          </div>
+        </div>
+
+        <mat-card-content class="log-card-body">
+          <div class="log-item">
+            <span class="label">الدرس:</span>
+            <span class="value">{{ log.lessonCovered }}</span>
+          </div>
+          <div class="log-item">
+            <span class="label">الواجب:</span>
+            <span class="value">{{ log.homeworkAssigned }}</span>
+          </div>
+          <div class="log-item notes-item">
+            <span class="label">ملاحظات المعلم:</span>
+            <span class="value teacher-notes">{{ log.teacherNotes }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+
+    <ng-template #noData>
+      <div class="no-data-message">
+        <p>لا توجد سجلات لهذا اليوم.</p>
+        <mat-icon class="no-data-icon">event_busy</mat-icon>
+      </div>
+    </ng-template>
+  </main>
+</div>

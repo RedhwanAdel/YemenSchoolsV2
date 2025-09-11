@@ -1,0 +1,61 @@
+.daily-log-container {
+  font-family: 'Cairo', sans-serif;
+  padding: 20px;
+  background: #f3f7f4;
+
+  .log-header { text-align: center; margin-bottom: 25px; }
+
+  .date-navigator { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+
+  .log-cards {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .log-card {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    transition: transform .22s, box-shadow .22s;
+
+    &:hover { transform: translateY(-6px); box-shadow: 0 14px 30px rgba(0,0,0,.14); }
+
+    .log-card-header {
+      background-color: #4f46e5;  // اللون الجديد
+      color: #fff;
+      padding: 16px;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 3px solid rgba(0,0,0,0.1);
+    }
+.subject-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;   /* سيظهر بشكل واضح على رأس الكارت */
+  margin-bottom: 4px;
+  display: block;
+}
+
+    .log-card-body {
+      padding: 16px;
+
+      .log-item {
+        margin-bottom: 12px;
+        .label { font-weight: bold; color: #666; }
+        .value { padding-right: 12px; font-size: 0.95rem; color: #263238; }
+      }
+
+      .teacher-notes { font-style: italic; color: #4a4a4a; }
+    }
+  }
+
+  .status-excellent { border-left: 5px solid #34d399; }
+  .status-good { border-left: 5px solid #facc15; }
+  .status-needs-attention { border-left: 5px solid #f87171; }
+
+  .no-data-message {
+    text-align: center; padding: 20px; background-color: #fff; border-radius: 12px; color: #888;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+}

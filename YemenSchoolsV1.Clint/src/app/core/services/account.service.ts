@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { User } from '../../shared/models/user';
-import { map } from 'rxjs';
+import { ChangePasswordDto, UpdateParentProfileDto, User } from '../../shared/models/user';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -35,8 +35,19 @@ export class AccountService {
       })
     )
   }
-
+  changePassword(model: ChangePasswordDto): Observable<any> {
+    return this.http.post(`${this.baseUrl}Account/change-password`, model);
+  }
   logout() {
     return this.http.post(this.baseUrl + 'account/logout', {})
   }
+
+  updateProfile(model: UpdateParentProfileDto): Observable<any> {
+    return this.http.put(`${this.baseUrl}account/update-profile`, model);
+  }
+  getProfile() {
+    return this.http.get<UpdateParentProfileDto>(`${this.baseUrl}account/profile`, { withCredentials: true });
+  }
+
+
 }

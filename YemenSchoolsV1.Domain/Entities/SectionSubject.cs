@@ -13,6 +13,8 @@
         public Term Term { get; set; } = null!;
         public Teacher Teacher { get; set; } = null!;
         public ICollection<Mark> Marks { get; set; } = [];
+        public ICollection<DailyLog> DailyLogs { get; set; } = [];
+
 
 
     }

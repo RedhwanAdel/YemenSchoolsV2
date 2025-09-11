@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>كروت الشعب والمواد</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --brand: #2e7d32; /* لون الرأس الموحّد */
+        --brand-ink: #ffffff; /* لون النص في الرأس */
+        --card-bg: #ffffff;
+        --bg: #f3f7f4;
+        --text: #263238;
+        --subtext: #607d8b;
+        --chip: #e8f5e9;
+        --radius: 16px;
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.14);
+        --gap: 22px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 32px;
+        background: var(--bg);
+        font-family: "Cairo", system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+        color: var(--text);
+      }
+      h1 {
+        margin: 0 0 18px;
+        text-align: center;
+        font-weight: 800;
+        font-size: clamp(20px, 3.5vw, 28px);
+        color: #1b5e20;
+      }
+      .hint {
+        text-align: center;
+        color: var(--subtext);
+        margin-bottom: 26px;
+        font-size: 14px;
+      }
+
+      /* شبكة الكروت */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: var(--gap);
+        align-items: stretch;
+      }
+
+      /* الكرت */
+      .card {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+        display: flex;
+        flex-direction: column;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      /* رأس الكرت (موحّد اللون) */
+      .card__header {
+        background: var(--brand);
+        color: var(--brand-ink);
+        padding: 16px 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .icon {
+        width: 28px;
+        height: 28px;
+        display: inline-grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 10px;
+        font-size: 16px;
+      }
+      .card__title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 800;
+        line-height: 1.3;
+      }
+
+      /* جسم الكرت */
+      .card__body {
+        padding: 16px 18px 4px;
+        flex: 1;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 10px 0;
+        color: var(--subtext);
+      }
+      .row b {
+        color: var(--text);
+        font-weight: 700;
+        margin-inline-start: 6px;
+      }
+
+      /* شارات صغيرة */
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .chip {
+        background: var(--chip);
+        color: #1b5e20;
+        border: 1px solid #c8e6c9;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      /* أزرار الإجراءات */
+      .card__actions {
+        padding: 14px 18px 18px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        border: none;
+        cursor: pointer;
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-weight: 800;
+        font-size: 14px;
+        transition: transform 0.15s ease, opacity 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .btn--primary {
+        background: var(--brand);
+        color: #fff;
+        box-shadow: 0 6px 14px rgba(46, 125, 50, 0.25);
+      }
+      .btn--ghost {
+        background: #f1f5f3;
+        color: #1b5e20;
+        border: 1px solid #dfe7e2;
+      }
+
+      /* شريط أدوات علوي (اختياري) */
+      .toolbar {
+        max-width: 1100px;
+        margin: 0 auto 20px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .toolbar .filter {
+        background: #fff;
+        border: 1px solid #e3ece6;
+        padding: 10px 12px;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        color: var(--subtext);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin-inline: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>الشعب والمواد التي تُدرّسها</h1>
+      <p class="hint">
+        اختر الشعبة/المادة لإضافة سجل يومي أو عرض السجلات السابقة
+      </p>
+
+      <!-- (اختياري) شريط أدوات: فصل دراسي / بحث -->
+      <div class="toolbar">
+        <div class="filter">
+          📚 الفصل الدراسي: <b style="margin-inline-start: 6px">الأول</b>
+        </div>
+        <div class="filter">
+          🔎 بحث سريع: <span style="opacity: 0.7">رياضيات، تاسع، أ…</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- كرت مثال 1 -->
+        <article class="card">
+          <header class="card__header">
+            <div class="icon">📐</div>
+            <h2 class="card__title">الرياضيات — الصف التاسع (شعبة أ)</h2>
+          </header>
+
+          <div class="card__body">
+            <div class="row">المعلم: <b>أ. أحمد</b></div>
+            <div class="row">عدد السجلات هذا الشهر: <b>12</b></div>
+            <div class="chips">
+              <span class="chip">مسائي</span>
+              <span class="chip">2024–2025</span>
+            </div>
+          </div>
+
+          <div class="card__actions">
+            <button class="btn btn--primary">➕ إضافة سجل يومي</button>
+            <button class="btn btn--ghost">📄 عرض السجلات</button>
+          </div>
+        </article>
+
+        <!-- كرت مثال 2 -->
+        <article class="card">
+          <header class="card__header">
+            <div class="icon">🔬</div>
+            <h2 class="card__title">العلوم — الصف التاسع (شعبة ب)</h2>
+          </header>
+
+          <div class="card__body">
+            <div class="row">المعلم: <b>أ. سلمى</b></div>
+            <div class="row">عدد السجلات هذا الشهر: <b>9</b></div>
+            <div class="chips">
+              <span class="chip">صباحي</span>
+              <span class="chip">2024–2025</span>
+            </div>
+          </div>
+
+          <div class="card__actions">
+            <button class="btn btn--primary">➕ إضافة سجل يومي</button>
+            <button class="btn btn--ghost">📄 عرض السجلات</button>
+          </div>
+        </article>
+
+        <!-- كرت مثال 3 -->
+        <article class="card">
+          <header class="card__header">
+            <div class="icon">📝</div>
+            <h2 class="card__title">اللغة العربية — الصف التاسع (شعبة ج)</h2>
+          </header>
+
+          <div class="card__body">
+            <div class="row">المعلم: <b>أ. محمد</b></div>
+            <div class="row">عدد السجلات هذا الشهر: <b>10</b></div>
+            <div class="chips">
+              <span class="chip">صباحي</span>
+              <span class="chip">2024–2025</span>
+            </div>
+          </div>
+
+          <div class="card__actions">
+            <button class="btn btn--primary">➕ إضافة سجل يومي</button>
+            <button class="btn btn--ghost">📄 عرض السجلات</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </body>
+</html>

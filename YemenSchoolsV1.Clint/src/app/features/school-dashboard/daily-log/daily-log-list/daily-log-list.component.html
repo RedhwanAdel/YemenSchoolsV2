@@ -1,0 +1,13 @@
+<div class="log-list-container">
+  <h2 class="title">الدفتر اليومي - شعب المعلم</h2>
+
+  <div class="cards-grid">
+    <app-daily-log-card
+      *ngFor="let item of sectionSubjects"
+      [sectionSubject]="item"
+      (addLog)="onAddLog($event)"
+      (viewLogs)="onViewLogs($event)"
+    >
+    </app-daily-log-card>
+  </div>
+</div>

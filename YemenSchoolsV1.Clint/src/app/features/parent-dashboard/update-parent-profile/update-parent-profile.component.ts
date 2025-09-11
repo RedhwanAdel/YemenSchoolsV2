@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +7,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AccountService } from '../../../core/services/account.service';
+import { ChangePasswordDto } from '../../../shared/models/user';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-update-parent-profile',
@@ -26,6 +29,8 @@ import { MatTabsModule } from '@angular/material/tabs';
   styleUrl: './update-parent-profile.component.scss'
 })
 export class UpdateParentProfileComponent {
+  accountService = inject(AccountService)
+  snackService = inject(SnackbarService)
   profileForm: FormGroup;
   passwordForm: FormGroup;
   profileImageUrl: string = 'assets/default-avatar.png'; // صورة افتراضية
@@ -33,11 +38,11 @@ export class UpdateParentProfileComponent {
   constructor(private fb: FormBuilder) {
     // النموذج الشامل للبيانات الشخصية
     this.profileForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['',],
       imageUrl: [''], // هذا الحقل سيتم تحديثه في منطق تحميل الصورة
-      phoneNumber: ['', Validators.required],
-      address: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['',],
+      address: ['',],
+      email: ['', [, Validators.email]],
       jobTitle: [''],
     });
 
@@ -50,33 +55,48 @@ export class UpdateParentProfileComponent {
   }
 
   ngOnInit(): void {
-    // TODO: في هذه النقطة، قم بتحميل بيانات ولي الأمر من API
-    // على سبيل المثال:
-    // this.apiService.getProfileData().subscribe(data => {
-    //   this.profileForm.patchValue(data.user);
-    //   this.profileForm.patchValue(data.parent);
-    // });
+    this.accountService.getProfile().subscribe({
+      next: (data) => {
+        this.profileForm.patchValue({
+          name: data.name,
+          phoneNumber: data.phoneNumber,
+          email: data.email,
+          address: data.address,
+          jobTitle: data.jobTitle,
+          imageUrl: data.imageUrl
+        });
+
+        // إذا فيه صورة محفوظة في البروفايل
+        if (data.imageUrl) {
+          this.profileImageUrl = data.imageUrl;
+        }
+      },
+      error: () => {
+        this.snackService.error('❌ فشل تحميل بيانات الملف الشخصي');
+      }
+    });
   }
 
   // حفظ بيانات الملف الشخصي
   onSaveProfile() {
     if (this.profileForm.valid) {
-      console.log('✅ بيانات محدثة:', this.profileForm.value);
-      // TODO: استدعاء API لتحديث البيانات
-      // يمكنك إرسال البيانات بشكل منفصل إلى endpoint لتحديث User و Parents
-      const userData = {
+      const profileData = {
         name: this.profileForm.value.name,
         imageUrl: this.profileForm.value.imageUrl,
-      };
-      const parentData = {
         phoneNumber: this.profileForm.value.phoneNumber,
         address: this.profileForm.value.address,
         email: this.profileForm.value.email,
         jobTitle: this.profileForm.value.jobTitle,
       };
-      // هنا يمكنك استدعاء خدمات منفصلة
-      // this.apiService.updateUser(userData);
-      // this.apiService.updateParent(parentData);
+
+      this.accountService.updateProfile(profileData).subscribe({
+        next: res => {
+          this.snackService.success(res.message);
+        },
+        error: err => {
+          this.snackService.error('❌ فشل تحديث البيانات');
+        }
+      });
     }
   }
 
@@ -84,10 +104,20 @@ export class UpdateParentProfileComponent {
   onChangePassword() {
     if (this.passwordForm.valid) {
       if (this.passwordForm.value.newPassword !== this.passwordForm.value.confirmPassword) {
-        alert('❌ كلمة المرور الجديدة غير متطابقة');
+        this.snackService.error('❌ كلمة المرور الجديدة غير متطابقة')
+
         return;
       }
       console.log('🔑 تغيير كلمة المرور:', this.passwordForm.value);
+      const passwordModel: ChangePasswordDto = {
+        newPassword: this.passwordForm.value.newPassword,
+        currentPassword: this.passwordForm.value.oldPassword
+      }
+      this.accountService.changePassword(passwordModel).subscribe({
+        next: res => {
+          this.snackService.success(res.message)
+        }
+      })
       // TODO: استدعاء API لتغيير كلمة المرور
     }
   }

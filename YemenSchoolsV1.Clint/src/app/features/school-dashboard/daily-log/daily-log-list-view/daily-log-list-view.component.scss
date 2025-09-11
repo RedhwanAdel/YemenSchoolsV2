@@ -1,0 +1,24 @@
+.daily-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.log-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.log-card {
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+}
+
+.no-logs {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}

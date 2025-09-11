@@ -8,13 +8,13 @@ namespace YemenSchoolsV1.Domain.Entities
     {
         public Guid Id { get; set; }
 
-        public string NameAr { get; set; }
-        public string NameEn { get; set; }
+        public string NameAr { get; set; } = string.Empty;
+        public string NameEn { get; set; } = string.Empty;
 
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string? PhoneNumber { get; set; }
 
-        public string Address { get; set; }
+        public string Address { get; set; } = string.Empty;
 
         public Gender Gender { get; set; }
 
@@ -24,7 +24,7 @@ namespace YemenSchoolsV1.Domain.Entities
         public School School { get; set; } = null!;
 
         // التخصص (مثال: رياضيات، فيزياء، إلخ)
-        public string Specialization { get; set; }
+        public string Specialization { get; set; } = string.Empty;
 
         // الحالة الوظيفية (مثال: نشط، إجازة، متقاعد)
         public string? EmploymentStatus { get; set; }
@@ -37,6 +37,8 @@ namespace YemenSchoolsV1.Domain.Entities
         // العلاقة مع المواد المخصصة له
         public ICollection<Section> Sections { get; set; } = [];
         public ICollection<Attendance> Attendances { get; set; } = [];
+        public ICollection<DailyLog> DailyLogs { get; set; } = [];
+
 
 
     }

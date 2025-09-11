@@ -22,6 +22,7 @@ namespace YemenSchoolsV1.Persistence.Data
         public DbSet<SchoolNews> SchoolNews { get; set; }
         public DbSet<SchoolGrade> SchoolGrade { get; set; }
         public DbSet<SchoolReview> schoolReviews { get; set; }
+        public DbSet<DailyLog> DailyLogs { get; set; }
         public DbSet<SchoolPhoto> SchoolPhotos { get; set; }
         public DbSet<SchoolPhone> SchoolPhones { get; set; }
         public DbSet<NewsPhoto> NewsPhotos { get; set; }
@@ -123,6 +124,7 @@ namespace YemenSchoolsV1.Persistence.Data
             modelBuilder.ApplyConfiguration(new AttendanceConfiguration());
             modelBuilder.ApplyConfiguration(new AttendanceDetailConfiguration());
             modelBuilder.ApplyConfiguration(new MessageConfiguration());
+            modelBuilder.ApplyConfiguration(new DailyLogConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

@@ -49,6 +49,8 @@ import { TeacherListForParentComponent } from './features/parent-dashboard/teach
 import { TeacherContactComponent } from './features/messages/teacher-contact/teacher-contact.component';
 import { StudentMarkReportComponent } from './features/reports/student-mark-report/student-mark-report.component';
 import { UpdateParentProfileComponent } from './features/parent-dashboard/update-parent-profile/update-parent-profile.component';
+import { ChildDailyLogComponent } from './features/parent-dashboard/child-daily-log/child-daily-log.component';
+import { DailyLogListComponent } from './features/school-dashboard/daily-log/daily-log-list/daily-log-list.component';
 
 export const routes: Routes = [
     {
@@ -62,6 +64,7 @@ export const routes: Routes = [
             { path: 'register', component: RegisterComponent },
             { path: 'test-error', component: TestErrorComponent },
             { path: 'messages', component: MessagesComponent },
+            { path: 'day', component: ChildDailyLogComponent },
         ]
     },
     {
@@ -105,7 +108,8 @@ export const routes: Routes = [
             { path: 'promote/:sectionId', component: PromoteStudentsComponent },
             { path: 'attendance', component: SectionListByTeacherIdComponent },
             { path: 'attendance/:teacherId', component: DailyAttendanceComponent },
-            { path: 'mark-entry', component: MarkEntryComponent }
+            { path: 'mark-entry', component: MarkEntryComponent },
+            { path: 'daily-log-list', component: DailyLogListComponent }
 
         ],
     },

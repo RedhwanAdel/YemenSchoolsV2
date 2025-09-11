@@ -3,8 +3,11 @@
     class="container position-relative d-flex align-items-center justify-content-between"
   >
     <a routerLink="/" class="logo d-flex align-items-center me-auto me-xl-0">
-      <h1 class="sitename">مدارس اليمن</h1>
-      <span>.</span>
+      <img
+        src="assets/images/logo/yemenlogo.png"
+        alt="مدارس اليمن"
+        class="logo-img"
+      />
     </a>
 
     <nav id="navmenu" class="navmenu">
@@ -30,8 +33,10 @@
         accountService.currentUser()?.userType === userTypes.Teacher ) {
         <li><a routerLink="/school-dash-board">لوحة تحكم المدرسة</a></li>
 
-        } @if (accountService.currentUser()?.userType === userTypes.Parent ) {
+        } @if (accountService.currentUser()?.userType === userTypes.Parent ||
+        true ) {
         <li><a routerLink="/parent-dash-board">لوحة تحكم اولياء الأمور</a></li>
+        <li><a routerLink="/day">المتابعة</a></li>
 
         }
 

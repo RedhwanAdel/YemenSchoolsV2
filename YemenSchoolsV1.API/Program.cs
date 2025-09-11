@@ -1,4 +1,5 @@
 using FinalProject.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -121,6 +122,10 @@ try
     await context.Database.MigrateAsync();
     //await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
     await DataSeeder.SeedAsync(context);
+    var hasher = services.GetRequiredService<IPasswordHasher<AppUser>>();
+
+    await DataSeeder.SeedTeacherAsync(context, hasher);
+
 }
 catch (Exception ex)
 {

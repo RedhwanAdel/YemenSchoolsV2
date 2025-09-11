@@ -109,5 +109,7 @@ namespace YemenSchoolsV1.API.Controllers
             return NewResult(new Response<SchoolReportDto>(report) { StatusCode = HttpStatusCode.OK, Succeeded = true });
         }
 
+
+
     }
 }

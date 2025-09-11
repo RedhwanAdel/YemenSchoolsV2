@@ -9,28 +9,18 @@
   transition: all 0.5s;
   z-index: 997;
 }
-
-.header .logo {
-  line-height: 1;
+/* حجم الشعار */
+.logo-img {
+  height: 50px; /* اضبط الحجم المناسب للهيدر */
+  width: auto;
 }
 
-.header .logo img {
-  max-height: 36px;
-  margin-right: 8px;
-}
 
-.header .logo h1 {
-  font-size: 24px;
-  margin: 0;
-  font-weight: 600;
-  color: var(--heading-color);
-}
-
-.header .logo span {
-  color: var(--accent-color);
-  font-size: 24px;
-  font-weight: 600;
-  padding-left: 3px;
+.logo-img {
+  height: auto;   /* يحدد الارتفاع */
+  width: 200px;        /* العرض يتناسب تلقائي */
+  aspect-ratio: 3 / 1; /* يجبر النسبة لتكون مستطيل (مثلاً 3:1) */
+  object-fit: contain; /* يحافظ على وضوح الشعار */
 }
 
 .header .btn-getstarted,

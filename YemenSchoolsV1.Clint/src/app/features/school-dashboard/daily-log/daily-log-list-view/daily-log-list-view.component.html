@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>
+  سجلات الدفتر اليومي — {{ data.sectionSubject.subjectName }} ({{
+    data.sectionSubject.gradeName
+  }}
+  شعبة {{ data.sectionSubject.sectionName }})
+</h2>
+
+<div mat-dialog-content class="daily-log-list">
+  <mat-form-field appearance="fill">
+    <mat-label>فلتر حسب التاريخ</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      [formControl]="dateFilter"
+      (dateChange)="applyDateFilter()"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <div *ngIf="filteredLogs.length > 0; else noLogs" class="log-cards-grid">
+    <mat-card class="log-card" *ngFor="let log of filteredLogs">
+      <mat-card-header>
+        <mat-card-title>{{ log.date }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><b>الدرس:</b> {{ log.lessonCovered }}</p>
+        <p><b>الواجب:</b> {{ log.homeworkAssigned }}</p>
+        <p *ngIf="log.teacherNotes">
+          <b>ملاحظات المعلم:</b> {{ log.teacherNotes }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <ng-template #noLogs>
+    <p class="no-logs">لا توجد سجلات لهذا التاريخ.</p>
+  </ng-template>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="closeDialog()">إغلاق</button>
+</div>

@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>
+  إضافة سجل يومي — {{ data.sectionSubject.subjectName }} ({{
+    data.sectionSubject.gradeName
+  }}
+  شعبة {{ data.sectionSubject.sectionName }})
+</h2>
+
+<form
+  [formGroup]="dailyLogForm"
+  (ngSubmit)="onSubmit()"
+  class="daily-log-form"
+  mat-dialog-content
+>
+  <mat-form-field appearance="fill">
+    <mat-label>الدرس المغطى</mat-label>
+    <input matInput formControlName="lessonCovered" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>الواجب المنزلي</mat-label>
+    <input matInput formControlName="homeworkAssigned" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>ملاحظات المعلم (اختياري)</mat-label>
+    <textarea matInput formControlName="teacherNotes" rows="3"></textarea>
+  </mat-form-field>
+
+  <div class="actions" mat-dialog-actions>
+    <button mat-flat-button color="primary" type="submit">💾 حفظ</button>
+    <button mat-flat-button type="button" (click)="onCancel()">❌ إلغاء</button>
+  </div>
+</form>

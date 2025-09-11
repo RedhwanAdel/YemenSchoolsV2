@@ -11,6 +11,7 @@ import { Student } from '../../../shared/models/student/student';
 import { ParentService } from '../../../core/services/parent.service';
 import { map } from 'rxjs';
 import { StudentWithSchoolInfoDto } from '../../../shared/models/parent';
+import { ChildDailyLogComponent } from "../child-daily-log/child-daily-log.component";
 
 @Component({
   selector: 'app-child-profile',
@@ -20,7 +21,8 @@ import { StudentWithSchoolInfoDto } from '../../../shared/models/parent';
     MatTabsModule,
     MatIcon,
     ChildGradesComponent,
-    ChildAttendanceComponent
+    ChildAttendanceComponent,
+    ChildDailyLogComponent
   ],
   templateUrl: './child-profile.component.html',
   styleUrl: './child-profile.component.scss'
