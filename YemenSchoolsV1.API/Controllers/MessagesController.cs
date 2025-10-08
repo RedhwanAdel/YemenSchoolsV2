@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto.Messages;
@@ -16,26 +17,10 @@ namespace YemenSchoolsV1.API.Controllers
         {
             var sender = await userRepository.GetByIdAsync(User.GetUserId());
 
-            AppUser recipient = null;
+            var recipient = await userRepository.GetByIdAsync(createMessageDto.RecipientId);
 
-            // Try to get teacher
-            var teacher = await teacherRepositry.GetByIdAsync(createMessageDto.RecipientId);
-            if (teacher != null && teacher.UserId != null)
-            {
-                recipient = await userRepository.GetByIdAsync(teacher.UserId.Value);
-            }
-            else
-            {
-                // Try to get parent
-                var parent = await parentRepositry.GetByIdAsync(createMessageDto.RecipientId);
-                if (parent != null && parent.UserId != null)
-                {
-                    recipient = await userRepository.GetByIdAsync(parent.UserId);
-                }
-            }
-
-            if (recipient == null || sender == null || sender.Id == recipient.Id)
-                return BadRequest("Cannot send this message");
+            if (recipient == null || sender == null || sender.Id == createMessageDto.RecipientId)
+                throw new HubException("Cannot send message");
 
             var message = new Message
             {
@@ -65,28 +50,12 @@ namespace YemenSchoolsV1.API.Controllers
 
             var currentUserId = User.GetUserId();
 
-            AppUser recipient = null;
 
-            // تحقق من المعلم أولًا
-            var teacher = await teacherRepositry.GetByIdAsync(recipientId);
-            if (teacher != null && teacher.UserId != null)
-            {
-                recipient = await userRepository.GetByIdAsync(teacher.UserId.Value);
-            }
-            else
-            {
-                // تحقق من ولي الأمر
-                var parent = await parentRepositry.GetByIdAsync(recipientId);
-                if (parent != null && parent.UserId != null)
-                {
-                    recipient = await userRepository.GetByIdAsync(parent.UserId);
-                }
-            }
 
-            if (recipient == null)
+            if (recipientId == Guid.Empty)
                 return BadRequest("Invalid recipient");
 
-            var messages = await messageRepository.GetMessageThread(currentUserId, recipient.Id);
+            var messages = await messageRepository.GetMessageThread(currentUserId, recipientId);
 
             return Ok(messages);
         }

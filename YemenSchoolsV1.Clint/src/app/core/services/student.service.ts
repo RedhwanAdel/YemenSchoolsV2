@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { CreateStudentDto, StudentList, StudentListDto } from '../../shared/models/student/student';
+import { CreateStudentDto, StudentById, StudentList, StudentListDto } from '../../shared/models/student/student';
 import { AccountService } from './account.service';
 import { AcadmicYearService } from './acadmic-year.service';
 import { ApiResponse } from '../../shared/models/ApiResponse';
@@ -45,7 +45,7 @@ export class StudentService {
   }
 
   getStudentProfile(id: string) {
-    return this.http.get(`${this.apiUrl}/Student/${id}`);
+    return this.http.get<ApiResponse<StudentById>>(`${this.apiUrl}Student/${id}`);
   }
 
 

@@ -17,6 +17,7 @@ export interface StudentWithSchoolInfoDto {
 
 export interface TeacherInfoForParentDto {
     teacherId: string;       // Guid من الـ backend راح يجي كـ string
+    userId: string;       // Guid من الـ backend راح يجي كـ string
     teacherName: string;
     teacherPhoto?: string;
     schoolName: string;

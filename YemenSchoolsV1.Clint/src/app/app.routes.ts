@@ -51,6 +51,10 @@ import { StudentMarkReportComponent } from './features/reports/student-mark-repo
 import { UpdateParentProfileComponent } from './features/parent-dashboard/update-parent-profile/update-parent-profile.component';
 import { ChildDailyLogComponent } from './features/parent-dashboard/child-daily-log/child-daily-log.component';
 import { DailyLogListComponent } from './features/school-dashboard/daily-log/daily-log-list/daily-log-list.component';
+import { SchoolPhotoUploadComponent } from './features/school-dashboard/school-photo-upload/school-photo-upload.component';
+import { CoursesPageComponent } from './features/courses-page/courses-page.component';
+import { ChildReportComponent } from './features/parent-dashboard/child-report/child-report.component';
+import { StudentDetailComponent } from './features/school-dashboard/student/student-detail/student-detail.component';
 
 export const routes: Routes = [
     {
@@ -60,6 +64,7 @@ export const routes: Routes = [
             { path: '', component: HomeComponent },
             { path: 'school/:id', component: SchoolDetailsComponent },
             { path: 'schools', component: SchoolsComponent },
+            { path: 'courses', component: CoursesPageComponent },
             { path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },
             { path: 'test-error', component: TestErrorComponent },
@@ -93,6 +98,7 @@ export const routes: Routes = [
             { path: 'school-term', component: TermListComponent },
             { path: 'school-student-list', component: StudnetListComponent },
             { path: 'school-student-add', component: StudentAddComponent },
+            { path: 'school-student-detail/:id', component: StudentDetailComponent },
 
             { path: 'school-teacher-list', component: TeacherListComponent },
             { path: 'school-teacher-add', component: TeacherAddComponent },
@@ -109,7 +115,9 @@ export const routes: Routes = [
             { path: 'attendance', component: SectionListByTeacherIdComponent },
             { path: 'attendance/:teacherId', component: DailyAttendanceComponent },
             { path: 'mark-entry', component: MarkEntryComponent },
-            { path: 'daily-log-list', component: DailyLogListComponent }
+            { path: 'daily-log-list', component: DailyLogListComponent },
+            { path: 'school-upload', component: SchoolPhotoUploadComponent },
+
 
         ],
     },
@@ -119,6 +127,7 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'overview', pathMatch: 'full' },
             { path: 'overview', component: ParentDashboardPageComponent },
+            { path: 'child-report/:studentId', component: ChildReportComponent },
             { path: 'teacher-list', component: TeacherListForParentComponent },
             { path: 'student-report', component: StudentMarkReportComponent },
             { path: 'update-parent-profile', component: UpdateParentProfileComponent },

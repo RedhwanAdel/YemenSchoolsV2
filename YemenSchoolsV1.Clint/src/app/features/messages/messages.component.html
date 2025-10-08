@@ -20,15 +20,7 @@
         <th mat-header-cell *matHeaderCellDef>Sender / Recipient</th>
         <td mat-cell *matCellDef="let message">
           <div class="flex items-center gap-3">
-            <img
-              class="rounded-full h-12 w-12"
-              [src]="
-                isInbox
-                  ? message.senderImageUrl || '/user.png'
-                  : message.recipientImageUrl || '/user.png'
-              "
-              alt="user image"
-            />
+            <img class="rounded-full h-12 w-12" src="" alt="user image" />
             <div>
               {{
                 isInbox
@@ -72,12 +64,13 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr
+        style="cursor: pointer"
         mat-row
         *matRowDef="let row; columns: displayedColumns"
         [class.font-bold]="isInbox && !row.dateRead"
-        [routerLink]="
-          '/members/' + (isInbox ? row.senderId : row.recipientId) + '/messages'
-        "
+        routerLink="/parent-dash-board/teacher-contact/ +{{
+          isInbox ? row.senderId : row.recipientId
+        }}"
       ></tr>
     </table>
   </div>

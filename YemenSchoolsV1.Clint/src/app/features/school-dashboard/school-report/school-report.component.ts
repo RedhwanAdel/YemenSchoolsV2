@@ -1,7 +1,7 @@
 import { Component, computed, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, map, catchError, of, tap, Subscription } from 'rxjs';
+import { Observable, map, catchError, of, tap, Subscription, lastValueFrom } from 'rxjs';
 import { SchoolReportData } from '../../../shared/models/school/school';
 import { SchoolService } from '../../../core/services/school.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -9,10 +9,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AccountService } from '../../../core/services/account.service';
 import { CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop'; // لإستخدام toSignal
+import { ReportsService } from '../../../core/services/reports.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-school-report',
@@ -23,7 +25,10 @@ import { toSignal } from '@angular/core/rxjs-interop'; // لإستخدام toSig
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    CommonModule
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './school-report.component.html',
   styleUrl: './school-report.component.scss'
@@ -32,7 +37,10 @@ export class SchoolReportComponent implements OnInit {
   private accountService = inject(AccountService);
   private schoolReportService = inject(SchoolService);
   private snackBar = inject(MatSnackBar);
-
+  reportService = inject(ReportsService)
+  loading = false;
+  pdfUrl: SafeResourceUrl | null = null;
+  sanitizer = inject(DomSanitizer);
   reportData: WritableSignal<SchoolReportData | null> = signal(null);
   isLoading: WritableSignal<boolean> = signal(true);
   errorMessage: WritableSignal<string | null> = signal(null);
@@ -120,5 +128,36 @@ export class SchoolReportComponent implements OnInit {
 
   getSchoolLevel(level: number): string {
     return this.schoolLevelMap()[level] || 'غير معروف';
+  }
+
+
+  async downloadReport() {
+    this.loading = true; // (اختياري، لإظهار حالة التحميل)
+
+    try {
+      // 1. تحويل الـ Observable إلى Promise وانتظار النتيجة (Blob)
+      const blob: Blob = await lastValueFrom(
+        this.reportService.downloadSchoolReport(this.accountService.currentUser()?.schoolId || '')
+      );
+
+      // 2. معالجة الـ Blob للتحميل
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+
+      a.href = objectUrl;
+      a.download = `SchoolReport_${this.reportData()?.nameEn}.pdf`;
+
+      // 3. محاكاة النقر للتحميل
+      a.click();
+
+      // 4. تحرير الذاكرة
+      URL.revokeObjectURL(objectUrl);
+
+    } catch (error) {
+      console.error('فشل في تحميل الملف:', error);
+      // يمكنك هنا إظهار رسالة خطأ للمستخدم
+    } finally {
+      this.loading = false; // إيقاف حالة التحميل
+    }
   }
 }

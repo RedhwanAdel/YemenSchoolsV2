@@ -37,48 +37,58 @@ export class TeacherContactComponent {
   recipientId: string = ''
   senderId?: string = ''
   protected messages = signal<Message[]>([]);
+  private route = inject(ActivatedRoute);
+  currentUserId: string = '';
 
 
   protected messageContent = '';
 
-  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 
+    const currentUser = this.accountService.currentUser();
+    this.currentUserId = currentUser?.id ?? '';
     this.recipientId = this.route.snapshot.paramMap.get('id')!;
-    this.senderId = this.accountService.currentUser()?.id
-    this.teacherService.getTeacherById(this.recipientId).subscribe({
-      next: res => this.teacher = res
+    // this.senderId = this.accountService.currentUser()?.id
+    // this.teacherService.getTeacherById(this.recipientId).subscribe({
+    //   next: res => this.teacher = res
+    // })
+    // this.loadMessages()
+    // // تقدر تجيب الرسائل من API هنا
+    // this.teacherService.getTeacherById(this.recipientId).subscribe({
+    //   next: res => {
+    //     this.teacher = res
+    //   }
+    // })
+
+    this.route.parent?.paramMap.subscribe({
+      next: params => {
+        const otherUserId = this.recipientId
+        console.log(otherUserId)
+        if (!otherUserId) throw new Error('Cannot connect to hub');
+        this.messageService.createHubConnection(otherUserId);
+      }
     })
-    this.loadMessages()
-    // تقدر تجيب الرسائل من API هنا
   }
 
-  loadMessages() {
+  // loadMessages() {
 
-    if (this.recipientId) {
-      this.messageService.getMessageThread(this.recipientId).subscribe({
-        next: messages => this.messages.set(messages.map(message => ({
-          ...message,
-          currentUserSender: message.senderId !== this.recipientId
-        })))
-      })
-    }
-  }
+  //   if (this.recipientId) {
+  //     this.messageService.getMessageThread(this.recipientId).subscribe({
+  //       next: messages => this.messages.set(messages.map(message => ({
+  //         ...message,
+  //         currentUserSender: message.senderId !== this.recipientId
+  //       })))
+  //     })
+  //   }
+  // }
 
 
 
   sendMessage() {
-
     if (!this.recipientId) return;
-    this.messageService.sendMessage(this.recipientId, this.messageContent).subscribe({
-      next: message => {
-        this.messages.update(messages => {
-          message.currentUserSender = true;
-          return [...messages, message]
-        });
-        this.messageContent = '';
-      }
+    this.messageService.sendMessage(this.recipientId, this.messageContent)?.then(() => {
+      this.messageContent = '';
     })
   }
 

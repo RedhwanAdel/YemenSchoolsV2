@@ -1,4 +1,16 @@
 // src/app/interfaces/student.ts
+export interface StudentById {
+    id: string;
+    registerNo: string;
+    nameAr: string;
+    nameEn: string;
+    nationality: string;
+    address: string;
+    gender: number; // ممكن enum (مثلاً 0 = Female, 1 = Male)
+    dateOfBirth: string; // أو Date لو هتتعامل مع تاريخ
+    phoneNumber: string;
+    email: string;
+}
 export interface Student {
     id: number;
     name: string;

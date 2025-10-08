@@ -1,13 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { SchoolParams } from '../../shared/models/school/schoolParams';
 import { Pagination } from '../../shared/models/Pagination';
-import { AssignSubjectsToSchoolGradeDto, CreateSchoolGradeDto, SchoolForUpdate, SchoolGradeSubject, SchoolGradeWithDetailsDto, SchoolListItem, SchoolReportData, StageGradeDto } from '../../shared/models/school/school';
+import { AssignSubjectsToSchoolGradeDto, CreateSchoolGradeDto, SchoolForUpdate, SchoolGradeSubject, SchoolGradeWithDetailsDto, SchoolListItem, SchoolPhoto, SchoolReportData, StageGradeDto } from '../../shared/models/school/school';
 import { SchoolDetails } from '../../shared/models/school/schoolDetails';
 import { ApiResponse } from '../../shared/models/ApiResponse';
 import { CreateSchoolDto } from '../../shared/models/school/schoolCommand';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Subject } from '../../shared/models/school/subject';
 import { AccountService } from './account.service';
 
@@ -113,4 +113,20 @@ export class SchoolService {
   getSchoolReport(schoolId: string) {
     return this.http.get<ApiResponse<SchoolReportData>>(this.baseUrl + 'School/' + schoolId + '/report');
   }
+
+
+  uploadSchoolPhoto(file: File, schoolId: string): Observable<HttpEvent<SchoolPhoto>> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<SchoolPhoto>(`${this.baseUrl}school/${schoolId}/upload`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
+
+  getSchoolPhotos(schoolId: string): Observable<SchoolPhoto[]> {
+    return this.http.get<SchoolPhoto[]>(`${this.baseUrl}school/${schoolId}/photos`);
+  }
+
 }

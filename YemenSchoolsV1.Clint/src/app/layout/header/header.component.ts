@@ -5,6 +5,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { UserType } from '../../shared/models/enum/userType';
+import { MessagesDropdownComponent } from "../../features/messages/messages-dropdown/messages-dropdown.component";
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-header',
@@ -12,9 +14,11 @@ import { UserType } from '../../shared/models/enum/userType';
   imports: [RouterLink,
     MatMenuModule,
     MatIcon,
-    RouterLinkActive
+    RouterLinkActive,
+    MatButtonModule,
+    MatMenuModule,
 
-  ],
+    MessagesDropdownComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -24,7 +28,11 @@ export class HeaderComponent {
 
   logout() {
     this.accountService.logout().subscribe({
-      next: () => this.accountService.currentUser.set(null)
+      next: () => {
+        this.accountService.currentUser.set(null)
+        window.location.reload()
+
+      }
     })
   }
 }

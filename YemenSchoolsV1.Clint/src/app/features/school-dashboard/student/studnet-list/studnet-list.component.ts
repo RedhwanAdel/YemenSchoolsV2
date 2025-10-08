@@ -47,7 +47,7 @@ export class StudnetListComponent {
     // Implement your logic here based on actionKey and rowData
     switch (event.actionKey) {
       case 'view':
-        this.router.navigate(['/school-dash-board/school-teacher-detail', event.rowData.id]);
+        this.router.navigate(['/school-dash-board/school-student-detail', event.rowData.id]);
         break;
       case 'edit':
         this.router.navigate(['/school-dash-board/school-teacher-edit', event.rowData.id]);

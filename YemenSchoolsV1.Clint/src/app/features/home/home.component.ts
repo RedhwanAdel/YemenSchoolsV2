@@ -15,11 +15,13 @@ import { SchoolService } from '../../core/services/school.service';
 import { Pagination } from '../../shared/models/Pagination';
 import { SchoolListItem } from '../../shared/models/school/school';
 import { SchoolParams } from '../../shared/models/school/schoolParams';
+import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeroSectionComponent, AboutSectionComponent, HowWeWorkSectionComponent, ServicesSectionComponent, ServicesAltSectionComponent, CallToActionSectionComponent, PricingSectionComponent, FaqSectionComponent, TestimonialsSectionComponent, ContactSectionComponent, SchoolItemComponent, TitelSectionComponent],
+  imports: [HeroSectionComponent, AboutSectionComponent, MatButtonModule, HowWeWorkSectionComponent, ServicesSectionComponent, ServicesAltSectionComponent, CallToActionSectionComponent, PricingSectionComponent, FaqSectionComponent, TestimonialsSectionComponent, ContactSectionComponent, SchoolItemComponent, TitelSectionComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -36,5 +38,10 @@ export class HomeComponent implements OnInit {
     this.schoolService.getSchools(this.schoolParams).subscribe({
       next: res => this.schools = res.data
     })
+  }
+  constructor(private router: Router) { }
+
+  goToSchools() {
+    this.router.navigate(['/schools']); // غير الرابط حسب مسار صفحة المدارس عندك
   }
 }

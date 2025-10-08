@@ -22,36 +22,41 @@
         </li>
         <li><a routerLink="/schools" routerLinkActive="active">المدارس</a></li>
         <li>
-          <a routerLink="/school-details" routerLinkActive="active"
-            >تفاصيل المدرسة</a
+          <a routerLink="/courses" routerLinkActive="active"
+            >مكتبة مدارس اليمن</a
           >
         </li>
-        @if (accountService.currentUser()?.userType === userTypes.SuperAdmin ) {
+
+        @if (accountService.currentUser()?.userType === userTypes.SuperAdmin ||
+        true ) {
 
         <li><a routerLink="/dash-board">لوحة التحكم</a></li>
         } @if (accountService.currentUser()?.userType === userTypes.Admin ||
         accountService.currentUser()?.userType === userTypes.Teacher ) {
         <li><a routerLink="/school-dash-board">لوحة تحكم المدرسة</a></li>
 
-        } @if (accountService.currentUser()?.userType === userTypes.Parent ||
-        true ) {
+        } @if (accountService.currentUser()?.userType === userTypes.Parent ) {
         <li><a routerLink="/parent-dash-board">لوحة تحكم اولياء الأمور</a></li>
-        <li><a routerLink="/day">المتابعة</a></li>
 
         }
-
-        <li>
+        <mat-menu #messagesMenu="matMenu">
+          <app-messages-dropdown></app-messages-dropdown>
+        </mat-menu>
+        <!-- <li>
           <a routerLink="/test-error" routerLinkActive="active">اختبار الخطأ</a>
-        </li>
-        <li>
-          <a routerLink="/messages" routerLinkActive="active">رسائل</a>
-        </li>
+        </li> -->
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
     </nav>
-    <div class="d-flex align-items-center gap-3">
+    <div class="d-flex align-items-center">
       @if (accountService.currentUser()) {
-
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="messagesMenu"
+        class="message-icon"
+      >
+        <mat-icon>mail</mat-icon>
+      </button>
       <!-- قائمة المستخدم -->
       <button
         mat-button
@@ -67,7 +72,7 @@
       } @else {
       <!-- روابط التسجيل وتسجيل الدخول -->
       <div class="gap-3 d-flex">
-        <a class="btn-getstarted me-2 p-2" routerLink="/register">تسجيل</a>
+        <!-- <a class="btn-getstarted me-2 p-2" routerLink="/register">تسجيل</a> -->
         <a class="btn-getstarted p-2" routerLink="/login">تسجيل الدخول</a>
       </div>
       }

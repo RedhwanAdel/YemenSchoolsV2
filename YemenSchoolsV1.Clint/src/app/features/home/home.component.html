@@ -1,15 +1,28 @@
 <app-hero-section />
 <div class="container py-5">
   <app-titel-section
-    titel="Our Schools"
-    description="Explore our diverse range of schools committed to excellence in education."
+    titel="مدارسنا"
+    description="استكشف مجموعتنا المتنوعة من المدارس الملتزمة بالتميز في التعليم."
   />
+
   <div class="row">
     @for (school of schools; track school.id) {
     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
       <app-school-item [school]="school" />
     </div>
     }
+  </div>
+
+  <!-- زر عرض جميع المدارس -->
+  <div class="text-center mt-4">
+    <button
+      mat-raised-button
+      color="primary"
+      class="px-4"
+      (click)="goToSchools()"
+    >
+      عرض جميع المدارس
+    </button>
   </div>
 </div>
 

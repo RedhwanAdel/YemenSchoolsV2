@@ -1,0 +1,66 @@
+.course-card-premium {
+  max-width: 340px;
+  margin: 20px auto;
+  border-radius: 16px; /* زوايا دائرية أكثر */
+  overflow: hidden;
+  /* ظل متعدد الطبقات لإعطاء عمق أكبر */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.course-card-premium:hover {
+  transform: scale(1.03); /* تكبير خفيف */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.course-card-premium img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.course-card-premium mat-card-header {
+  padding: 16px;
+  text-align: center;
+}
+
+.course-card-premium mat-card-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #212121;
+}
+
+.course-card-premium mat-card-subtitle {
+  font-size: 1.1rem;
+  color: #757575;
+}
+
+.course-card-premium mat-card-content {
+  padding: 0 24px;
+}
+
+.course-price-container {
+  display: flex;
+  justify-content: flex-end; /* وضع السعر على الجانب الأيمن */
+  margin-top: 12px;
+}
+
+.course-price-premium {
+  font-weight: 900; /* خط سميك جداً */
+  font-size: 1.5rem;
+  color: #2e7d32;
+  letter-spacing: -0.5px; /* مسافة أقل بين الحروف */
+  margin: 0;
+}
+
+.course-card-premium mat-card-actions {
+  display: flex;
+  justify-content: center; /* توسيط الزر */
+  padding: 16px 24px 24px;
+}
+
+.course-card-premium button {
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: bold;
+}

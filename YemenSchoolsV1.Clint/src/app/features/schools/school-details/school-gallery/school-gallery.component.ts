@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatGridList, MatGridListModule } from '@angular/material/grid-list';
+import { SchoolService } from '../../../../core/services/school.service';
+import { SchoolPhoto } from '../../../../shared/models/school/school';
 
 @Component({
   selector: 'app-school-gallery',
@@ -13,13 +15,19 @@ import { MatGridList, MatGridListModule } from '@angular/material/grid-list';
   styleUrl: './school-gallery.component.scss'
 })
 export class SchoolGalleryComponent {
-  galleryImages: string[] = [
-    'portfolio-1.webp',
-    'portfolio-2.webp',
-    'portfolio-10.webp',
-    'portfolio-11.webp',
-    'portfolio-4.webp',
-    'portfolio-7.webp',
+  @Input() schoolId!: string;
+  schoolPhotos: SchoolPhoto[] = [];
 
-  ];
+  constructor(private photoService: SchoolService) { }
+
+  ngOnInit() {
+    this.loadPhotos();
+  }
+
+  loadPhotos() {
+    this.photoService.getSchoolPhotos(this.schoolId).subscribe({
+      next: (photos) => this.schoolPhotos = photos,
+      error: (err) => console.error(err)
+    });
+  }
 }

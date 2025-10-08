@@ -1,0 +1,92 @@
+/* تنسيقات CSS - تصميم نظيف وعملي */
+.dashboard-container {
+    padding: 24px;
+    background-color: #f5f5f5;
+    direction: rtl;
+    font-family: 'Arial', sans-serif;
+}
+
+.stat-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.grades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+/* تنسيقات البطاقات العامة */
+mat-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background-color: #ffffff;
+}
+
+mat-card:hover {
+    transform: translateY(-5px);
+}
+
+mat-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 12px;
+}
+
+/* تنسيقات بطاقات الإحصائيات */
+.stat-card .mat-card-content {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #444;
+}
+
+/* تنسيقات بطاقات تفاصيل الصفوف */
+.grade-card .mat-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.grade-card .mat-card-title {
+    color: #007bff;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    color: #555;
+    padding: 8px 0;
+    border-bottom: 1px dashed #e0e0e0;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item .value {
+    font-weight: bold;
+    color: #222;
+}
+
+/* تنسيقات الشارتات لضمان عدم الضغط */
+@media (min-width: 992px) {
+    .charts-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}

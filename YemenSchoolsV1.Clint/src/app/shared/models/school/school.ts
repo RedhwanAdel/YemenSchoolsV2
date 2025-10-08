@@ -102,4 +102,9 @@ export interface SchoolReview {
     rating: number;
     comment?: string;
     createdAt: string;
+}export interface SchoolPhoto {
+    id: string;           // GUID
+    schoolId: string;     // GUID للمدرسة
+    photoUrl: string;     // رابط الصورة
+
 }

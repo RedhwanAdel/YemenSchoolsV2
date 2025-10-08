@@ -4,6 +4,8 @@
       <mat-icon matListItemIcon>dashboard</mat-icon>
       <span matListItemTitle>الرئيسية</span>
     </a>
+
+    @if(accountService.currentUser()?.userType === 'Parent'){
     <a
       mat-list-item
       [routerLink]="'/parent-dash-board'"
@@ -11,11 +13,6 @@
     >
       <mat-icon matListItemIcon>dashboard</mat-icon>
       <span matListItemTitle>لوحة التحكم</span>
-    </a>
-
-    <a mat-list-item [routerLink]="'/calendar'" routerLinkActive="active">
-      <mat-icon matListItemIcon>calendar_today</mat-icon>
-      <span matListItemTitle>التقويم</span>
     </a>
 
     <a
@@ -35,12 +32,6 @@
       <mat-icon matListItemIcon>assessment</mat-icon>
       <span matListItemTitle>التقارير</span>
     </a>
-
-    <a mat-list-item [routerLink]="'/payments'" routerLinkActive="active">
-      <mat-icon matListItemIcon>credit_card</mat-icon>
-      <span matListItemTitle>المصاريف</span>
-    </a>
-
     <a
       mat-list-item
       [routerLink]="'/parent-dash-board/update-parent-profile'"
@@ -49,5 +40,6 @@
       <mat-icon matListItemIcon>settings</mat-icon>
       <span matListItemTitle>الإعدادات</span>
     </a>
+    }
   </mat-nav-list>
 </div>

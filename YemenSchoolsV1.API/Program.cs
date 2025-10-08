@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System.Globalization;
+using YemenSchoolsV1.API.SignalR;
 using YemenSchoolsV1.Application;
 using YemenSchoolsV1.Application.MiddleWare;
 using YemenSchoolsV1.Domain.Entities;
@@ -24,6 +25,8 @@ builder.Services.AddConfigureServices()
 .AddConfigureApplicationServices()
 .AddConfigurePersistenceServices()
 .AddIdentityServices(builder.Configuration);
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<PresenceTracker>();
 
 // Add services to the container.
 builder.Services.AddCors();
@@ -110,8 +113,12 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
 
 app.MapControllers();
+app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/messages");
+
 app.MapGroup("api").MapIdentityApi<AppUser>();
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

@@ -136,5 +136,30 @@
         </div>
       </mat-card-content>
     </mat-card>
+    <div class="report-btn-container" style="text-align: end; margin: 1rem 0">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="downloadReport()"
+        [disabled]="loading"
+        style="min-width: 200px"
+      >
+        <ng-container *ngIf="!loading; else loadingTemplate">
+          <mat-icon>picture_as_pdf</mat-icon>
+          تحميل تقرير المدرسة
+        </ng-container>
+
+        <ng-template #loadingTemplate>
+          <mat-progress-spinner
+            diameter="20"
+            mode="indeterminate"
+            color="accent"
+            style="margin-right: 8px; vertical-align: middle"
+          >
+          </mat-progress-spinner>
+          جاري التحميل...
+        </ng-template>
+      </button>
+    </div>
   </div>
 </div>

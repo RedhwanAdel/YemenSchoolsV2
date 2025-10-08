@@ -14,6 +14,27 @@ namespace YemenSchoolsV1.Persistence.Repositories
         {
             this._context = _context;
         }
+
+        public async Task<Student?> GetStudentWithDetailsAsync(Guid studentId)
+        {
+            return await _context.Students
+                .Include(s => s.School)
+                .Include(s => s.CurrentSection)
+                    .ThenInclude(sec => sec.SchoolGrade)
+                        .ThenInclude(sg => sg.StageGrade)
+                            .ThenInclude(sg => sg.Grade)
+                .Include(s => s.CurrentSection)
+                    .ThenInclude(sec => sec.SchoolGrade)
+                        .ThenInclude(sg => sg.StageGrade)
+                            .ThenInclude(sg => sg.Stage)
+                .Include(s => s.Marks)
+                    .ThenInclude(m => m.SectionSubject)
+                        .ThenInclude(ss => ss.GradeSubject)
+                            .ThenInclude(gs => gs.Subject)
+                .Include(s => s.AttendanceDetails)
+                .FirstOrDefaultAsync(s => s.Id == studentId);
+        }
+
         public async Task PromoteStudentsAsync(List<Guid> studentIds, Guid newAcademicYearId, Guid newSectionId)
         {
             // 1. استلام الطلاب المحددين

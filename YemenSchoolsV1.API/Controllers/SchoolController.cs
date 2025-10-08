@@ -1,5 +1,6 @@
 ﻿using FinalProject.Application.Bases;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
@@ -10,11 +11,13 @@ using YemenSchoolsV1.Application.Features.Schools.Commands.DeleteSchool;
 using YemenSchoolsV1.Application.Features.Schools.Commands.UpdateSchool;
 using YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolDetails;
 using YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginated;
+using YemenSchoolsV1.Domain.Entities;
+using YemenSchoolsV1.Persistence.Data;
 
 namespace YemenSchoolsV1.API.Controllers
 {
 
-    public class SchoolController(ISchoolRepositry schoolRepositry) : AppControllerBase
+    public class SchoolController(ISchoolRepositry schoolRepositry, YemenShoolsDbContext _context) : AppControllerBase
     {
 
         [HttpGet]
@@ -107,6 +110,46 @@ namespace YemenSchoolsV1.API.Controllers
                 return NewResult(new Response<string>("School not found.", false) { StatusCode = HttpStatusCode.NotFound });
 
             return NewResult(new Response<SchoolReportDto>(report) { StatusCode = HttpStatusCode.OK, Succeeded = true });
+        }
+
+        [HttpPost("{schoolId}/upload")]
+        public async Task<IActionResult> UploadSchoolPhoto(IFormFile file, Guid schoolId)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            string folder = Path.Combine("wwwroot", "uploads", "schools");
+            Directory.CreateDirectory(folder);
+
+            string fileName = $"{Guid.NewGuid()}_{file.FileName}";
+            string filePath = Path.Combine(folder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            string fileUrl = $"https://localhost:5001/uploads/schools/{fileName}";
+
+            var schoolPhoto = new SchoolPhoto
+            {
+                SchoolId = schoolId,
+                PhotoUrl = fileUrl
+            };
+
+            _context.SchoolPhotos.Add(schoolPhoto);
+            await _context.SaveChangesAsync();
+
+            return Ok(schoolPhoto);
+        }
+        [HttpGet("{schoolId}/photos")]
+        public async Task<IActionResult> GetSchoolPhotos(Guid schoolId)
+        {
+            var photos = await _context.SchoolPhotos
+                .Where(p => p.SchoolId == schoolId)
+                .ToListAsync();
+
+            return Ok(photos);
         }
 
 

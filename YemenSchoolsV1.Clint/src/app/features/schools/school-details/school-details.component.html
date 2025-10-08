@@ -3,9 +3,7 @@
     <!-- رأس الصفحة -->
     <div
       class="school-header-hero position-relative text-white"
-      [style.background-image]="
-        'url(assets/images/schools/' + school?.coverImage + ')'
-      "
+      [style.background-image]="'url(' + school?.coverImage + ')'"
     >
       <div class="overlay"></div>
 
@@ -60,7 +58,7 @@
         <app-school-news-events></app-school-news-events>
       </mat-tab>
       <mat-tab label="المعرض">
-        <app-school-gallery></app-school-gallery>
+        <app-school-gallery [schoolId]="schoolId"></app-school-gallery>
       </mat-tab>
       <mat-tab label="التقييم">
         <app-school-reviews [schoolId]="schoolId"></app-school-reviews>

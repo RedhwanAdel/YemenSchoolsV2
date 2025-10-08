@@ -1,0 +1,219 @@
+   /* General Body and Container Styling */
+      body {
+        font-family: serif;
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .report-card-container {
+        width: 8in; /* Standard letter paper size */
+        height: 10in;
+        background-color: #ffffff;
+        // border: 1px solid #dcdcdc;
+        // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        // box-sizing: border-box;
+      }
+
+      /* Header Section */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 5px solid #dcdcdc;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .header::before {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background-color: #8c2a38;
+      }
+
+      .main-title {
+        font-size: 24px;
+        color: #8c2a38;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .school-logo {
+        display: flex;
+        align-items: center;
+        background-color: #1a3b5c;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+
+      .school-logo::before {
+        content: "🎓";
+        font-size: 24px;
+        margin-right: 10px;
+      }
+
+      .school-name-container {
+        line-height: 1.2;
+      }
+
+      .school-name {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .school-name-sub {
+        font-size: 12px;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      /* Shared Section Title Styling */
+      .section-title {
+        font-weight: bold;
+        font-size: 16px;
+        color: #333333;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #333333;
+        padding-bottom: 5px;
+      }
+
+      /* Student Information Section */
+      .student-info-section {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .info-group {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      .info-label {
+        font-weight: bold;
+        margin-right: 5px;
+      }
+
+      .info-value {
+        flex-grow: 1;
+        border-bottom: 1px solid #dcdcdc;
+        padding-bottom: 2px;
+      }
+
+      /* Grades Table */
+      .grades-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      .grades-table th,
+      .grades-table td {
+        border: 1px solid #dcdcdc;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .grades-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+
+      .grades-table td:first-child {
+        text-align: left;
+        font-weight: bold;
+      }
+
+      /* Grading Scale & Attendance */
+      .scale-attendance-section {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .grading-scale,
+      .attendance {
+        width: 48%;
+      }
+
+      .grading-scale ul,
+      .attendance ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+      }
+
+      .grading-scale li,
+      .attendance li {
+        padding: 5px 0;
+      }
+
+      .grade-range {
+        font-weight: bold;
+        width: 20px;
+        display: inline-block;
+      }
+
+      /* Comments Section */
+      .comments-section {
+        margin-bottom: 20px;
+        border: 1px solid #dcdcdc;
+        padding: 15px;
+        border-radius: 5px;
+      }
+
+      .comments-text {
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      /* Signatures Section */
+      .signatures-section {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 50px;
+      }
+
+      .signature-box {
+        text-align: center;
+        flex: 1;
+        margin: 0 10px;
+      }
+
+      .signature-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .signature-line {
+        border-bottom: 1px solid #000;
+        margin-bottom: 5px;
+      }
+
+      .signature-name {
+        font-family: "Times New Roman", Times, serif; /* Fallback for a cursive look */
+        font-size: 16px;
+        font-style: italic;
+        color: #444;
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        padding: 10px;
+        background-color: #1a3b5c;
+        color: #ffffff;
+        text-align: center;
+      }

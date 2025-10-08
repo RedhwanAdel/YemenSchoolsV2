@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatListModule, MatNavList } from '@angular/material/list';
 import { RouterLink } from '@angular/router';
+import { AccountService } from '../../../../core/services/account.service';
 
 @Component({
   selector: 'app-parent-sidebar-dashboard',
@@ -16,7 +17,7 @@ import { RouterLink } from '@angular/router';
 export class ParentSidebarDashboardComponent {
   @Output() selectSection = new EventEmitter<string>();
   activeSection = 'dashboard';
-
+  accountService = inject(AccountService)
   navItems = [
     { title: 'لوحة التحكم', section: 'dashboard', icon: 'dashboard' },
     { title: 'أبنائي', section: 'children', icon: 'group' },

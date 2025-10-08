@@ -3,7 +3,7 @@
     <!-- الهيدر -->
     <mat-card-header class="chat-header">
       <img
-        src="assets/img/person/person-m-5.webp"
+        src="assets/images/user/avatar-2.jpg"
         alt="Teacher"
         class="teacher-avatar"
       />
@@ -16,10 +16,10 @@
     <!-- الرسائل -->
     <mat-card-content class="chat-messages">
       <div
-        *ngFor="let msg of messages()"
+        *ngFor="let msg of messageService.messageThread()"
         [ngClass]="{
-          'msg-sent': msg.senderId === senderId,
-          'msg-received': msg.senderId !== senderId
+          'msg-sent': msg.senderId === currentUserId,
+          'msg-received': msg.senderId !== currentUserId
         }"
         class="chat-message"
       >

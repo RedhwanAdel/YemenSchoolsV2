@@ -11,6 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MarkService } from '../../../../core/services/mark.service';
 import { SectionSubject, AssessmentType, CreateMarksDto, Student } from '../../../../shared/models/mark/mark';
 import { StudentService } from '../../../../core/services/student.service';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-mark-entry',
@@ -30,6 +31,7 @@ import { StudentService } from '../../../../core/services/student.service';
   styleUrl: './mark-entry.component.scss'
 })
 export class MarkEntryComponent {
+  snakService = inject(SnackbarService)
   sectionSubjects: SectionSubject[] = [];
   selectedSectionSubjectId: string | null = null;
   selectedSectionId: string | null = null;
@@ -109,7 +111,7 @@ export class MarkEntryComponent {
     this.isLoading = true;
     this.markService.createMarks(marksDto).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.snakService.success(response.message)
         this.isLoading = false;
       },
       error: (err) => {

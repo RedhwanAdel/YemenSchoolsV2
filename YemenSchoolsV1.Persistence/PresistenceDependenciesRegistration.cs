@@ -1,6 +1,8 @@
 ﻿using FinalProject.Application.Contracts.Persistence;
 using Microsoft.Extensions.DependencyInjection;
+using YemenSchoolsV1.Application.Contracts;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Persistence.Reports;
 using YemenSchoolsV1.Persistence.Repositories;
 
 namespace YemenSchoolsV1.Persistence
@@ -35,6 +37,9 @@ namespace YemenSchoolsV1.Persistence
             services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<ISchoolReviewRepository, SchoolReviewRepository>();
             services.AddScoped<IDailyLogRepository, DailyLogRepository>();
+            services.AddScoped<IStudentReportService, StudentReportService>();
+            services.AddScoped<ISchoolReportService, SchoolReportService>();
+
 
             return services;
         }

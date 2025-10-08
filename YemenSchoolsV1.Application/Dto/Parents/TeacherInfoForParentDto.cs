@@ -3,6 +3,7 @@
     public class TeacherInfoForParentDto
     {
         public Guid TeacherId { get; set; }
+        public Guid? UserId { get; set; }
         public required string TeacherName { get; set; }
         public string? TeacherPhoto { get; set; }
         public required string SchoolName { get; set; }

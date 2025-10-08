@@ -1,0 +1,105 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Report Card</mat-card-title>
+    <mat-card-subtitle>Preview & Download</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div #reportContent class="report-card-container">
+      <!-- Header -->
+      <div class="header">
+        <h1 class="main-title">High School Report Card</h1>
+        <div class="school-logo">
+          <div class="school-name-container">
+            <p class="school-name">Alexander</p>
+            <p class="school-name-sub">High School</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Info -->
+      <div class="section-title">Student Information:</div>
+      <div class="student-info-section">
+        <div class="info-group">
+          <span class="info-label">Name:</span>
+          <span class="info-value">Stephen Winters</span>
+        </div>
+        <div class="info-group">
+          <span class="info-label">Grade:</span>
+          <span class="info-value">10th Grade</span>
+        </div>
+        <div class="info-group">
+          <span class="info-label">School Year:</span>
+          <span class="info-value">2030-2031</span>
+        </div>
+      </div>
+
+      <!-- Grades Table -->
+      <table class="grades-table">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>1st Semester</th>
+            <th>2nd Semester</th>
+            <th>Final Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr dir="rtl" *ngFor="let subj of subjects">
+            <td>{{ subj.subject }}</td>
+            <td>{{ subj.firstSemester }}</td>
+            <td>{{ subj.secondSemester }}</td>
+            <td>{{ subj.finalGrade }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Grading Scale & Attendance -->
+      <div class="scale-attendance-section">
+        <div class="grading-scale">
+          <div class="section-title">Grading Scale:</div>
+          <ul>
+            <li><span class="grade-range">A:</span> 90-100%</li>
+            <li><span class="grade-range">B:</span> 80-89%</li>
+            <li><span class="grade-range">C:</span> 70-79%</li>
+            <li><span class="grade-range">D:</span> 60-69%</li>
+            <li><span class="grade-range">F:</span> Below 60%</li>
+          </ul>
+        </div>
+        <div class="attendance">
+          <div class="section-title">Attendance:</div>
+          <ul>
+            <li>Days Present: 170</li>
+            <li>Days Absent: 10</li>
+            <li>Tardies: 3</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Signatures -->
+      <div class="signatures-section">
+        <div class="signature-box">
+          <p class="signature-label">Parent's Signature:</p>
+          <div class="signature-line"></div>
+          <p class="signature-name">Patricia H. Mize</p>
+        </div>
+        <div class="signature-box">
+          <p class="signature-label">Teacher Signature:</p>
+          <div class="signature-line"></div>
+          <p class="signature-name">David M. Dinkley</p>
+        </div>
+        <div class="signature-box">
+          <p class="signature-label">Principal Signature:</p>
+          <div class="signature-line"></div>
+          <p class="signature-name">Stephen Winters</p>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="downloadPDF()">
+      Download PDF
+    </button>
+  </mat-card-actions>
+</mat-card>

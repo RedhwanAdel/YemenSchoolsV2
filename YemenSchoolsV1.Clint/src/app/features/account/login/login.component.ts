@@ -45,6 +45,10 @@ export class LoginComponent {
       this.accountService.login(this.loginForm.value).subscribe({
         next: () => {
           this.accountService.getUserInfo().subscribe();
+          setTimeout(() => {
+            window.location.reload();
+
+          }, 500);
           this.router.navigateByUrl('/');
         }
       })

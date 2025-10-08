@@ -129,6 +129,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
                 .SelectMany(ps => ps.Student.CurrentSection.SectionSubjects
                     .Select(ss => new TeacherInfoForParentDto
                     {
+                        UserId = ss.Teacher.UserId,
                         TeacherId = ss.Teacher.Id,
                         TeacherName = ss.Teacher.NameAr,
                         TeacherPhoto = ss.Teacher.ProfilePictureUrl,
