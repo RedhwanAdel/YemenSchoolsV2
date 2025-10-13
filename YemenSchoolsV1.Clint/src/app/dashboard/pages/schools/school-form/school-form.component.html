@@ -1,9 +1,9 @@
 <app-page-wrapper
-  [headerTitle]="mode() === 'add' ? 'Add New School' : 'Edit School:'"
+  [headerTitle]="mode() === 'add' ? 'إضافة مدرسة جديدة' : 'تعديل المدرسة:'"
   [headerSubtitle]="
     mode() === 'add'
-      ? 'Enter details for the new school'
-      : 'Modify details for this school'
+      ? 'أدخل تفاصيل المدرسة الجديدة'
+      : 'قم بتعديل تفاصيل هذه المدرسة'
   "
   [headerIcon]="mode() === 'add' ? 'add_business' : 'edit'"
   [headerStyle]="mode() === 'add' ? 'add' : 'edit'"
@@ -11,7 +11,7 @@
   <form [formGroup]="schoolForm" (ngSubmit)="onSumit()" class="row g-3">
     <div class="col-md-6">
       <app-form-input
-        label="School Name (Arabic)"
+        label="اسم المدرسة (بالعربية)"
         icon="school"
         formControlName="nameAr"
       />
@@ -19,7 +19,7 @@
 
     <div class="col-md-6">
       <app-form-input
-        label="School Name (English)"
+        label="اسم المدرسة (بالإنجليزية)"
         icon="school"
         formControlName="nameEn"
       />
@@ -27,7 +27,7 @@
 
     <div class="col-12">
       <app-form-input
-        label="Address (Arabic)"
+        label="العنوان (بالعربية)"
         icon="location_on"
         formControlName="addressAr"
       />
@@ -35,7 +35,7 @@
 
     <div class="col-12">
       <app-form-input
-        label="Address (English)"
+        label="العنوان (بالإنجليزية)"
         icon="location_on"
         formControlName="addressEn"
       />
@@ -43,9 +43,9 @@
 
     <div class="col-md-4">
       <app-select-input
-        label="City Id"
+        label="المدينة"
         [options]="citeService.cities()"
-        labelKey="nameEn"
+        labelKey="nameAr"
         valueKey="id"
         formControlName="cityId"
         (ngModelChange)="onCitiesChange($event)"
@@ -54,44 +54,17 @@
 
     <div class="col-md-4">
       <app-select-input
-        label="Region Id"
+        label="المنطقة"
         [options]="regionService.regions()"
-        labelKey="name"
+        labelKey="nameAr"
         valueKey="id"
         formControlName="regionId"
       />
-      <!-- <app-form-input label="Region Id" formControlName="regionId" /> -->
     </div>
 
     <div class="col-md-4">
-      <app-form-input label="Postal Code" formControlName="postalCode" />
+      <app-form-input label="الرمز البريدي" formControlName="postalCode" />
     </div>
 
-    <div class="col-md-6">
-      <app-form-input label="Phone" icon="phone" formControlName="mainPhone" />
-    </div>
-
-    <div class="col-md-6">
-      <app-form-input
-        label="Email"
-        icon="email"
-        formControlName="email"
-        type="email"
-      />
-    </div>
-
-    <mat-card-actions class="d-flex justify-content-end p-4 gap-3">
-      <button mat-raised-button color="primary" type="submit">
-        <mat-icon>save</mat-icon> {{ mode() === "add" ? "Create" : "Save" }}
-      </button>
-      <button
-        mat-stroked-button
-        color="accent"
-        (click)="onCancel()"
-        type="button"
-      >
-        <mat-icon>cancel</mat-icon> Cancel
-      </button>
-    </mat-card-actions>
-  </form>
-</app-page-wrapper>
+    <div class="col-md-6"></div></form
+></app-page-wrapper>

@@ -30,13 +30,13 @@ export class RegionListComponent implements OnInit {
   regionService = inject(RegionsService)
   private snack = inject(SnackbarService)
 
-
   regionColumns: TableColumn[] = [
-    { key: 'nameEn', header: 'Product Name En', sortable: true },
-    { key: 'nameAr', header: 'Product Name Ar', sortable: true },
-    { key: 'cityName', header: 'City Name ', sortable: true },
-    { key: 'countSchools', header: 'Schools count', sortable: true },
+    { key: 'nameEn', header: 'الاسم بالإنجليزية', sortable: true },
+    { key: 'nameAr', header: 'الاسم بالعربية', sortable: true },
+    { key: 'cityName', header: 'اسم المدينة', sortable: true },
+    { key: 'countSchools', header: 'عدد المدارس', sortable: true },
   ];
+
 
   actions: TableAction[] = [
     { actionKey: 'edit', icon: 'edit', tooltip: 'Edit User', color: 'accent' },
@@ -64,7 +64,7 @@ export class RegionListComponent implements OnInit {
         this.openRegionDialog(event.rowData)
         break;
       case 'delete':
-        this.openConfirmDialog(event.rowData.id, event.rowData.nameEn)
+        this.openConfirmDialog(event.rowData.id, event.rowData.nameAr)
 
         break;
     }
@@ -72,18 +72,18 @@ export class RegionListComponent implements OnInit {
 
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
-      'Confirm Delete',
-      `Are you sure you want to delete the region: ${name}?`
+      'تأكيد الحذف',
+      `هل أنت متأكد أنك تريد حذف المنطقة: ${name}؟`
     );
 
     if (confirmed) {
       this.regionService.deleteRegion(id).subscribe({
         next: () => {
-          this.snack.success('region deleted successfully!');
+          this.snack.success('تم حذف المنطقة بنجاح!');
           this.loadRegions();
         },
         error: (err) => {
-          this.snack.error('Failed to delete region.');
+          this.snack.error('فشل في حذف المنطقة.');
           console.error(err);
         }
       });

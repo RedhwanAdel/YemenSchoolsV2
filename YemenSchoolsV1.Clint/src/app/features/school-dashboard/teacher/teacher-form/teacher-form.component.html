@@ -1,9 +1,9 @@
 <app-page-wrapper
-  [headerTitle]="mode() === 'add' ? 'Add New School' : 'Edit School:'"
+  [headerTitle]="mode() === 'add' ? 'إضافة معلم جديد' : 'تعديل المعلم:'"
   [headerSubtitle]="
     mode() === 'add'
-      ? 'Enter details for the new school'
-      : 'Modify details for this school'
+      ? 'أدخل تفاصيل المعلم الجديد'
+      : 'قم بتعديل تفاصيل هذا المعلم'
   "
   [headerIcon]="mode() === 'add' ? 'add_business' : 'edit'"
   [headerStyle]="mode() === 'add' ? 'add' : 'edit'"
@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-md-6">
         <app-form-input
-          label="Name (Arabic)"
+          label="الاسم (بالعربية)"
           icon="person"
           formControlName="nameAr"
         />
@@ -20,7 +20,7 @@
 
       <div class="col-md-6">
         <app-form-input
-          label="Name (English)"
+          label="الاسم (بالإنجليزية)"
           icon="person"
           formControlName="nameEn"
         />
@@ -28,7 +28,7 @@
 
       <div class="col-md-6">
         <app-form-input
-          label="Email"
+          label="البريد الإلكتروني"
           icon="email"
           formControlName="email"
           type="email"
@@ -37,7 +37,7 @@
 
       <div class="col-md-6">
         <app-form-input
-          label="Phone Number"
+          label="رقم الهاتف"
           icon="phone"
           formControlName="phoneNumber"
         />
@@ -45,7 +45,7 @@
 
       <div class="col-md-6">
         <app-form-input
-          label="Main Phone"
+          label="الهاتف الرئيسي"
           icon="call"
           formControlName="mainPhone"
         />
@@ -53,7 +53,7 @@
 
       <div class="col-md-6">
         <app-form-input
-          label="Postal Code"
+          label="الرمز البريدي"
           icon="location_on"
           formControlName="postalCode"
         />
@@ -61,7 +61,7 @@
 
       <div class="col-12">
         <app-form-input
-          label="Address"
+          label="العنوان"
           icon="location_on"
           formControlName="address"
         />
@@ -69,21 +69,21 @@
 
       <div class="col-md-6">
         <app-select-input
-          label="Gender"
+          label="الجنس"
           icon="wc"
           formControlName="gender"
           valueKey="value"
           labelKey="label"
           [options]="[
-            { value: 1, label: 'Male' },
-            { value: 2, label: 'Female' }
+            { value: 1, label: 'ذكر' },
+            { value: 2, label: 'أنثى' }
           ]"
         />
       </div>
 
       <div class="col-md-6">
         <app-form-input
-          label="Hire Date"
+          label="تاريخ التعيين"
           icon="event"
           type="date"
           formControlName="hireDate"
@@ -92,7 +92,7 @@
 
       <div class="col-md-6">
         <app-form-input
-          label="Specialization"
+          label="التخصص"
           icon="work"
           formControlName="specialization"
         />
@@ -100,21 +100,21 @@
 
       <div class="col-md-6">
         <app-select-input
-          label="Employment Status"
+          label="حالة التوظيف"
           icon="assignment_ind"
           formControlName="employmentStatus"
           valueKey="value"
           labelKey="label"
           [options]="[
-            { value: 'Permanent', label: 'Permanent' },
-            { value: 'Contract', label: 'Contract' }
+            { value: 'Permanent', label: 'دائم' },
+            { value: 'Contract', label: 'متعاقد' }
           ]"
         />
       </div>
 
       <div class="col-12">
         <app-form-input
-          label="Profile Picture URL"
+          label="رابط صورة الملف الشخصي"
           icon="image"
           formControlName="profilePictureUrl"
         />
@@ -123,7 +123,7 @@
 
     <mat-card-actions class="d-flex justify-content-end p-4 gap-3">
       <button mat-raised-button color="primary" type="submit">
-        <mat-icon>save</mat-icon> {{ mode() === "add" ? "Create" : "Save" }}
+        <mat-icon>save</mat-icon> {{ mode() === "add" ? "إنشاء" : "حفظ" }}
       </button>
       <button
         mat-stroked-button
@@ -131,7 +131,7 @@
         (click)="onCancel()"
         type="button"
       >
-        <mat-icon>cancel</mat-icon> Cancel
+        <mat-icon>cancel</mat-icon> إلغاء
       </button>
     </mat-card-actions>
   </form>

@@ -1,10 +1,14 @@
-<h2 mat-dialog-title>{{ isEdit ? "Edit City" : "Add City" }}</h2>
+<h2 mat-dialog-title>{{ isEdit ? "تعديل الصف" : "إضافة صف" }}</h2>
 
 <form [formGroup]="form" (ngSubmit)="submit()" mat-dialog-content class="pt-3">
-  <app-form-input label="Name " formControlName="name" />
-  <app-form-input label="capacity" type="number" formControlName="capacity" />
+  <app-form-input label="اسم الصف" formControlName="name" />
+  <app-form-input
+    label="العدد الأقصى للطلاب"
+    type="number"
+    formControlName="capacity"
+  />
   <app-select-input
-    label="teacer Id"
+    label="المعلم المسؤول"
     [options]="teachers"
     labelKey="name"
     valueKey="id"
@@ -13,7 +17,7 @@
 </form>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-button (click)="cancel()">إلغاء</button>
   <button
     mat-flat-button
     color="primary"
@@ -21,6 +25,6 @@
     type="submit"
     (click)="submit()"
   >
-    {{ isEdit ? "Update" : "Add" }}
+    {{ isEdit ? "تحديث" : "إضافة" }}
   </button>
 </mat-dialog-actions>

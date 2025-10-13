@@ -1,49 +1,51 @@
 <app-page-wrapper
   headerTitle="{{ teacher?.name }}"
-  headerSubtitle="{{ teacher?.id || 'N/A' }}"
+  headerSubtitle="{{ teacher?.id || 'غير متوفر' }}"
   headerIcon="person"
 >
   <div class="row g-4">
-    <!-- Contact Information -->
+    <!-- معلومات التواصل -->
     <div class="col-12 col-md-6">
-      <h4 class="section-title text-primary mb-3">Contact Information</h4>
+      <h4 class="section-title text-primary mb-3">معلومات التواصل</h4>
       <mat-list>
         <mat-list-item>
           <mat-icon matListItemIcon>location_on</mat-icon>
-          <div matListItemTitle>Address</div>
-          <div matListItemLine>{{ teacher?.address || "N/A" }}</div>
+          <div matListItemTitle>العنوان</div>
+          <div matListItemLine>{{ teacher?.address || "غير متوفر" }}</div>
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <mat-list-item>
           <mat-icon matListItemIcon>phone</mat-icon>
-          <div matListItemTitle>Phone</div>
-          <div matListItemLine>{{ teacher?.phoneNumber || "N/A" }}</div>
+          <div matListItemTitle>رقم الهاتف</div>
+          <div matListItemLine>{{ teacher?.phoneNumber || "غير متوفر" }}</div>
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <mat-list-item>
           <mat-icon matListItemIcon>email</mat-icon>
-          <div matListItemTitle>Email</div>
-          <div matListItemLine>{{ teacher?.email || "N/A" }}</div>
+          <div matListItemTitle>البريد الإلكتروني</div>
+          <div matListItemLine>{{ teacher?.email || "غير متوفر" }}</div>
         </mat-list-item>
       </mat-list>
     </div>
 
-    <!-- Employment & Profile -->
+    <!-- المعلومات الوظيفية والبروفايل -->
     <div class="col-12 col-md-6">
-      <h4 class="section-title text-primary mb-3">Employment Details</h4>
+      <h4 class="section-title text-primary mb-3">التفاصيل الوظيفية</h4>
       <mat-list>
         <mat-list-item>
           <mat-icon matListItemIcon>badge</mat-icon>
-          <div matListItemTitle>Specialization</div>
-          <div matListItemLine>{{ teacher?.specialization || "N/A" }}</div>
+          <div matListItemTitle>التخصص</div>
+          <div matListItemLine>
+            {{ teacher?.specialization || "غير متوفر" }}
+          </div>
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <mat-list-item>
           <mat-icon matListItemIcon>event</mat-icon>
-          <div matListItemTitle>Hire Date</div>
+          <div matListItemTitle>تاريخ التعيين</div>
           <div matListItemLine>
             {{ teacher?.hireDate | date : "mediumDate" }}
           </div>
@@ -52,21 +54,23 @@
 
         <mat-list-item>
           <mat-icon matListItemIcon>work_outline</mat-icon>
-          <div matListItemTitle>Employment Status</div>
-          <div matListItemLine>{{ teacher?.employmentStatus || "N/A" }}</div>
+          <div matListItemTitle>حالة التوظيف</div>
+          <div matListItemLine>
+            {{ teacher?.employmentStatus || "غير متوفر" }}
+          </div>
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <mat-list-item>
           <mat-icon matListItemIcon>transgender</mat-icon>
-          <div matListItemTitle>Gender</div>
+          <div matListItemTitle>الجنس</div>
           <div matListItemLine>
             {{
               teacher?.gender === 1
-                ? "Male"
+                ? "ذكر"
                 : teacher?.gender === 2
-                ? "Female"
-                : "N/A"
+                ? "أنثى"
+                : "غير متوفر"
             }}
           </div>
         </mat-list-item>
@@ -78,13 +82,13 @@
     class="card-actions-new d-flex justify-content-end p-4 gap-3"
   >
     <button mat-raised-button color="primary">
-      <mat-icon>edit</mat-icon> Edit Teacher
+      <mat-icon>edit</mat-icon> تعديل المعلم
     </button>
     <button mat-raised-button color="warn">
-      <mat-icon>delete</mat-icon> Delete Teacher
+      <mat-icon>delete</mat-icon> حذف المعلم
     </button>
     <button mat-stroked-button color="accent">
-      <mat-icon>send</mat-icon> Send Message
+      <mat-icon>send</mat-icon> إرسال رسالة
     </button>
   </mat-card-actions>
 </app-page-wrapper>

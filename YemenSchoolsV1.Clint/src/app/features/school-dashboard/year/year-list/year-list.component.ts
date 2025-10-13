@@ -26,11 +26,10 @@ export class YearListComponent implements OnInit {
   years = signal<YearDto[]>([])
 
   Columns: TableColumn[] = [
-    { key: 'name', header: ' Name ' },
-    { key: 'startDate', header: ' start Date ', type: 'date' },
-    { key: 'endDate', header: ' end Date ', type: 'date' },
-    { key: 'isCurrentYearDisplay', header: 'Status', sortable: false },
-
+    { key: 'name', header: 'الاسم' },
+    { key: 'startDate', header: 'تاريخ البداية', type: 'date' },
+    { key: 'endDate', header: 'تاريخ النهاية', type: 'date' },
+    { key: 'isCurrentYearDisplay', header: 'الحالة', sortable: false },
   ];
 
   actions: TableAction[] = [
@@ -67,17 +66,17 @@ export class YearListComponent implements OnInit {
   onSetCurrentYear(academicYearId: string): void {
     // يمكنك إضافة تأكيد هنا قبل استدعاء الخدمة
     this.dialogService.confirm(
-      'Set Current Year',
-      `Are you sure you want to set this year as the current academic year? This will affect all future operations.`
+      'تعيين السنة الحالية',
+      `هل أنت متأكد أنك تريد تعيين هذه السنة كسنة دراسية حالية؟ سيؤثر هذا على جميع العمليات المستقبلية.`
     ).then(confirmed => {
       if (confirmed) {
         this.yearService.SetCurrentYear(academicYearId).subscribe({
           next: () => {
-            this.snack.success('Academic year set as current successfully!');
+            this.snack.success('تم تعيين السنة الدراسية الحالية بنجاح!');
             this.loadYears(); // إعادة تحميل قائمة الأعوام لتحديث حالة "نشط حالياً"
           },
           error: (err) => {
-            this.snack.error('Failed to set academic year as current.');
+            this.snack.error('فشل في تعيين السنة الدراسية الحالية.');
             console.error(err);
           }
         });
@@ -101,21 +100,20 @@ export class YearListComponent implements OnInit {
     })
 
   }
-
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
-      'Confirm Delete',
-      `Are you sure you want to delete the city: ${name}?`
+      'تأكيد الحذف',
+      `هل أنت متأكد أنك تريد حذف السنة الدراسية: ${name}؟`
     );
 
     if (confirmed) {
       this.yearService.deleteAcademicYear(id).subscribe({
         next: () => {
-          this.snack.success('city deleted successfully!');
+          this.snack.success('تم حذف السنة الدراسية بنجاح!');
           this.loadYears();
         },
         error: (err) => {
-          this.snack.error('Failed to delete city.');
+          this.snack.error('فشل في حذف السنة الدراسية.');
           console.error(err);
         }
       });

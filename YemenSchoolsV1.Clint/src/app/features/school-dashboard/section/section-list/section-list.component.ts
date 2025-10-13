@@ -28,10 +28,11 @@ export class SectionListComponent implements OnInit {
 
   sections = signal<Section[]>([])
   Columns: TableColumn[] = [
-    { key: 'name', header: ' Name ', sortable: true },
-    { key: 'capacity', header: 'capacity ', sortable: true },
-    { key: 'classTeacherName', header: 'Teacher Name ', sortable: true },
+    { key: 'name', header: 'اسم الصف', sortable: true },
+    { key: 'capacity', header: 'العدد الأقصى للطلاب', sortable: true },
+    { key: 'classTeacherName', header: 'اسم المعلم', sortable: true },
   ];
+
   actions: TableAction[] = [
     { actionKey: 'edit', icon: 'edit', tooltip: 'Edit User', color: 'accent' },
     { actionKey: 'delete', icon: 'delete', tooltip: 'Delete User', color: 'warn' },

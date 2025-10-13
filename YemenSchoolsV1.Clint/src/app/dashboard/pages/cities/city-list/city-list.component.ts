@@ -57,7 +57,7 @@ export class CityListComponent implements OnInit {
         this.openCityDialog(event.rowData)
         break;
       case 'delete':
-        this.openConfirmDialog(event.rowData.id, event.rowData.nameEn)
+        this.openConfirmDialog(event.rowData.id, event.rowData.nameAr)
 
         break;
     }
@@ -67,26 +67,26 @@ export class CityListComponent implements OnInit {
     this.cityService.getCites()
 
   }
-
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
-      'Confirm Delete',
-      `Are you sure you want to delete the city: ${name}?`
+      'تأكيد الحذف',
+      `هل أنت متأكد أنك تريد حذف المدينة: ${name}؟`
     );
 
     if (confirmed) {
       this.cityService.deleteCity(id).subscribe({
         next: () => {
-          this.snack.success('city deleted successfully!');
+          this.snack.success('تم حذف المدينة بنجاح!');
           this.loadCities();
         },
         error: (err) => {
-          this.snack.error('Failed to delete city.');
+          this.snack.error('فشل في حذف المدينة.');
           console.error(err);
         }
       });
     }
   }
+
 
   openCityDialog(city?: any) {
     const dialogRef = this.dialog.open(CityFormComponent, {

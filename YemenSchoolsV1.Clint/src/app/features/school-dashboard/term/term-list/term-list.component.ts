@@ -30,10 +30,10 @@ export class TermListComponent implements OnInit {
   private accountService = inject(AccountService)
   terms = signal<Term[]>([])
   Columns: TableColumn[] = [
-    { key: 'name', header: ' Name ' },
-    { key: 'academicYearName', header: ' Year Name ' },
-    { key: 'startDate', header: ' start Date ', type: 'date' },
-    { key: 'endDate', header: ' end Date ', type: 'date' },
+    { key: 'name', header: 'الاسم' },
+    { key: 'academicYearName', header: 'اسم السنة' },
+    { key: 'startDate', header: 'تاريخ البداية', type: 'date' },
+    { key: 'endDate', header: 'تاريخ النهاية', type: 'date' },
   ];
 
   actions: TableAction[] = [
@@ -56,7 +56,7 @@ export class TermListComponent implements OnInit {
         this.opentermDialog(event.rowData)
         break;
       case 'delete':
-        this.openConfirmDialog(event.rowData.id, event.rowData.nameEn)
+        this.openConfirmDialog(event.rowData.id, event.rowData.nameAr)
 
         break;
     }
@@ -75,18 +75,18 @@ export class TermListComponent implements OnInit {
 
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
-      'Confirm Delete',
-      `Are you sure you want to delete the city: ${name}?`
+      'تأكيد الحذف',
+      `هل أنت متأكد أنك تريد حذف الفصل الدراسي: ${name}؟`
     );
 
     if (confirmed) {
       this.termService.deleteTerm(id).subscribe({
         next: () => {
-          this.snack.success('city deleted successfully!');
+          this.snack.success('تم حذف الفصل الدراسي بنجاح!');
           this.loadTerms();
         },
         error: (err) => {
-          this.snack.error('Failed to delete city.');
+          this.snack.error('فشل في حذف الفصل الدراسي.');
           console.error(err);
         }
       });

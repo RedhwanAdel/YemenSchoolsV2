@@ -1,56 +1,56 @@
 <app-page-wrapper
   headerTitle="{{ student?.nameAr }}"
-  headerSubtitle="Reg No: {{ student?.registerNo || 'N/A' }}"
+  headerSubtitle="رقم التسجيل: {{ student?.registerNo || 'غير متوفر' }}"
   headerIcon="person"
 >
   <div class="row g-4">
-    <!-- Contact Information -->
+    <!-- معلومات التواصل -->
     <div class="col-12 col-md-6">
-      <h4 class="section-title text-primary mb-3">Contact Information</h4>
+      <h4 class="section-title text-primary mb-3">معلومات التواصل</h4>
       <mat-list>
         <mat-list-item>
           <mat-icon matListItemIcon>location_on</mat-icon>
-          <div matListItemTitle>Address</div>
-          <div matListItemLine>{{ student?.address || "N/A" }}</div>
+          <div matListItemTitle>العنوان</div>
+          <div matListItemLine>{{ student?.address || "غير متوفر" }}</div>
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <mat-list-item>
           <mat-icon matListItemIcon>phone</mat-icon>
-          <div matListItemTitle>Phone</div>
-          <div matListItemLine>{{ student?.phoneNumber || "N/A" }}</div>
+          <div matListItemTitle>رقم الهاتف</div>
+          <div matListItemLine>{{ student?.phoneNumber || "غير متوفر" }}</div>
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <mat-list-item>
           <mat-icon matListItemIcon>email</mat-icon>
-          <div matListItemTitle>Email</div>
-          <div matListItemLine>{{ student?.email || "N/A" }}</div>
+          <div matListItemTitle>البريد الإلكتروني</div>
+          <div matListItemLine>{{ student?.email || "غير متوفر" }}</div>
         </mat-list-item>
       </mat-list>
     </div>
 
-    <!-- Student Details -->
+    <!-- تفاصيل الطالب -->
     <div class="col-12 col-md-6">
-      <h4 class="section-title text-primary mb-3">Student Details</h4>
+      <h4 class="section-title text-primary mb-3">تفاصيل الطالب</h4>
       <mat-list>
         <mat-list-item>
           <mat-icon matListItemIcon>confirmation_number</mat-icon>
-          <div matListItemTitle>Register No</div>
-          <div matListItemLine>{{ student?.registerNo || "N/A" }}</div>
+          <div matListItemTitle>رقم التسجيل</div>
+          <div matListItemLine>{{ student?.registerNo || "غير متوفر" }}</div>
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <mat-list-item>
           <mat-icon matListItemIcon>public</mat-icon>
-          <div matListItemTitle>Nationality</div>
-          <div matListItemLine>{{ student?.nationality || "N/A" }}</div>
+          <div matListItemTitle>الجنسية</div>
+          <div matListItemLine>{{ student?.nationality || "غير متوفر" }}</div>
         </mat-list-item>
         <mat-divider></mat-divider>
 
         <mat-list-item>
           <mat-icon matListItemIcon>cake</mat-icon>
-          <div matListItemTitle>Date of Birth</div>
+          <div matListItemTitle>تاريخ الميلاد</div>
           <div matListItemLine>
             {{ student?.dateOfBirth | date : "longDate" }}
           </div>
@@ -59,14 +59,14 @@
 
         <mat-list-item>
           <mat-icon matListItemIcon>transgender</mat-icon>
-          <div matListItemTitle>Gender</div>
+          <div matListItemTitle>الجنس</div>
           <div matListItemLine>
             {{
               student?.gender === 1
-                ? "Male"
+                ? "ذكر"
                 : student?.gender === 2
-                ? "Female"
-                : "N/A"
+                ? "أنثى"
+                : "غير متوفر"
             }}
           </div>
         </mat-list-item>
@@ -74,18 +74,18 @@
     </div>
   </div>
 
-  <!-- Actions -->
+  <!-- الإجراءات -->
   <mat-card-actions
     class="card-actions-new d-flex justify-content-end p-4 gap-3"
   >
     <button mat-raised-button color="primary">
-      <mat-icon>edit</mat-icon> Edit Student
+      <mat-icon>edit</mat-icon> تعديل الطالب
     </button>
     <button mat-raised-button color="warn">
-      <mat-icon>delete</mat-icon> Delete Student
+      <mat-icon>delete</mat-icon> حذف الطالب
     </button>
     <button mat-stroked-button color="accent">
-      <mat-icon>send</mat-icon> Send Message
+      <mat-icon>send</mat-icon> إرسال رسالة
     </button>
   </mat-card-actions>
 </app-page-wrapper>

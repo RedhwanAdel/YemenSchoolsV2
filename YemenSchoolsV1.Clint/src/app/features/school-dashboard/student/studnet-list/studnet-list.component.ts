@@ -29,10 +29,10 @@ export class StudnetListComponent {
   students = signal<StudentListDto[]>([])
 
   Columns: TableColumn[] = [
-    { key: 'name', header: ' Name ' },
-    { key: 'registerNo', header: ' Register No ' },
-    { key: 'gradeName', header: ' Class ' },
-    { key: 'sectionName', header: ' Section ' }
+    { key: 'name', header: 'الاسم' },
+    { key: 'registerNo', header: 'رقم التسجيل' },
+    { key: 'gradeName', header: 'الصف' },
+    { key: 'sectionName', header: 'الشعبة' }
   ];
 
   ngOnInit(): void {
@@ -70,10 +70,9 @@ export class StudnetListComponent {
 
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
-      'Confirm Delete',
-      `Are you sure you want to delete the city: ${name}?`
+      'تأكيد الحذف',
+      `هل أنت متأكد أنك تريد حذف الطالب: ${name}؟`
     );
-
 
   }
 

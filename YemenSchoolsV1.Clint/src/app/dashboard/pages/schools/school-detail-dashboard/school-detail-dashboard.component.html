@@ -1,72 +1,83 @@
 <app-page-wrapper
-  headerTitle="{{ school?.nameEn }}"
-  headerSubtitle="{{ school?.id || 'N/A' }}"
+  headerTitle="{{ school?.nameAr }}"
+  headerSubtitle="{{ school?.id || 'غير متوفر' }}"
   headerIcon="account_balance"
 >
   <div class="row g-4">
-    <!-- School Contact Information -->
+    <!-- معلومات التواصل الخاصة بالمدرسة -->
     <div class="col-12 col-md-6">
-      <h4 class="section-title text-primary mb-3">Contact Information</h4>
+      <h4 class="section-title text-primary mb-3">معلومات التواصل</h4>
       <mat-list>
         <mat-list-item>
           <mat-icon matListItemIcon>location_on</mat-icon>
-          <div matListItemTitle>Address</div>
+          <div matListItemTitle>العنوان</div>
           <div matListItemLine>
-            {{ school?.addressEn || "N/A" }}, {{ school?.cityName || "N/A" }},
-            {{ school?.email }} {{ school?.regionName || "N/A" }}
+            {{ school?.addressAr || "غير متوفر" }},
+            {{ school?.cityName || "غير متوفر" }},
+            {{ school?.regionName || "غير متوفر" }}
           </div>
         </mat-list-item>
+
         <mat-divider></mat-divider>
+
         <mat-list-item>
           <mat-icon matListItemIcon>phone</mat-icon>
-          <div matListItemTitle>Phone</div>
-          <div matListItemLine>{{ school?.mainPhone || "N/A" }}</div>
+          <div matListItemTitle>رقم الهاتف</div>
+          <div matListItemLine>{{ school?.mainPhone || "غير متوفر" }}</div>
         </mat-list-item>
+
         <mat-divider></mat-divider>
+
         <mat-list-item>
           <mat-icon matListItemIcon>email</mat-icon>
-          <div matListItemTitle>Email</div>
-          <div matListItemLine>{{ school?.email || "N/A" }}</div>
+          <div matListItemTitle>البريد الإلكتروني</div>
+          <div matListItemLine>{{ school?.email || "غير متوفر" }}</div>
         </mat-list-item>
+
         <mat-divider></mat-divider>
+
         <mat-list-item>
           <mat-icon matListItemIcon>public</mat-icon>
-          <div matListItemTitle>Website</div>
+          <div matListItemTitle>الموقع الإلكتروني</div>
         </mat-list-item>
       </mat-list>
     </div>
 
-    <!-- School Administrative & Statistics -->
+    <!-- المعلومات الإدارية والإحصائية -->
     <div class="col-12 col-md-6">
       <h4 class="section-title text-primary mb-3">
-        Administrative & Statistics
+        المعلومات الإدارية والإحصائية
       </h4>
       <mat-list>
         <mat-list-item>
           <mat-icon matListItemIcon>person_outline</mat-icon>
-          <div matListItemTitle>Principal</div>
-          <div matListItemLine>{{ school?.postalCode || "N/A" }}</div>
+          <div matListItemTitle>مدير المدرسة</div>
+          <div matListItemLine>{{ school?.postalCode || "غير متوفر" }}</div>
         </mat-list-item>
+
         <mat-divider></mat-divider>
+
         <mat-list-item>
           <mat-icon matListItemIcon>event_note</mat-icon>
-          <div matListItemTitle>Founded Year</div>
+          <div matListItemTitle>سنة التأسيس</div>
         </mat-list-item>
+
         <mat-divider></mat-divider>
       </mat-list>
     </div>
   </div>
+
   <mat-card-actions
     class="card-actions-new d-flex justify-content-end p-4 gap-3"
   >
     <button mat-raised-button color="primary">
-      <mat-icon>edit</mat-icon> Edit Details
+      <mat-icon>edit</mat-icon> تعديل التفاصيل
     </button>
     <button mat-raised-button color="warn">
-      <mat-icon>delete</mat-icon> Delete School
+      <mat-icon>delete</mat-icon> حذف المدرسة
     </button>
     <button mat-stroked-button color="accent">
-      <mat-icon>send</mat-icon> Send Message
+      <mat-icon>send</mat-icon> إرسال رسالة
     </button>
   </mat-card-actions>
 </app-page-wrapper>

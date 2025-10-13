@@ -41,14 +41,15 @@ export class SchoolListComponent implements OnInit {
   totalItems = 0;
 
   schoolColumns: TableColumn[] = [
-    { key: 'name', header: 'Name', sortable: true },
-    { key: 'city', header: 'City' },
-    { key: 'region', header: 'Region' },
-    { key: 'mainPhone', header: 'Phone ' },
-    { key: 'schoolType', header: 'SchoolType' },
-    { key: 'schoolLevel', header: 'SchoolLevel' },
-    { key: 'genderType', header: 'GenderType' },
+    { key: 'name', header: 'الاسم', sortable: true },
+    { key: 'city', header: 'المدينة' },
+    { key: 'region', header: 'المنطقة' },
+    { key: 'mainPhone', header: 'رقم الهاتف' },
+    { key: 'schoolType', header: 'نوع المدرسة' },
+    { key: 'schoolLevel', header: 'المرحلة الدراسية' },
+    { key: 'genderType', header: 'نوع الجنس' },
   ];
+
   schoolParams = new SchoolParams()
   ngOnInit(): void {
     this.loadSchools()
@@ -81,18 +82,18 @@ export class SchoolListComponent implements OnInit {
   }
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
-      'Confirm Delete',
-      `Are you sure you want to delete the school: ${name}?`
+      'تأكيد الحذف',
+      `هل أنت متأكد أنك تريد حذف المدرسة: ${name}؟`
     );
 
     if (confirmed) {
       this.schoolService.deleteSchool(id).subscribe({
         next: () => {
-          this.snack.success('School deleted successfully!');
+          this.snack.success('تم حذف المدرسة بنجاح!');
           this.loadSchools();
         },
         error: (err) => {
-          this.snack.error('Failed to delete school.');
+          this.snack.error('فشل في حذف المدرسة.');
           console.error(err);
         }
       });

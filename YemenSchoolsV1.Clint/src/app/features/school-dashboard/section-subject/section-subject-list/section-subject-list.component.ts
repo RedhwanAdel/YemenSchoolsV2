@@ -23,9 +23,9 @@ export class SectionSubjectListComponent implements OnInit {
   sectionsOfYear: SectionsOfYear[] = [];
 
   Columns: TableColumn[] = [
-    { key: 'sectionName', header: ' Name ' },
-    { key: 'gradeName', header: ' Grade Name ' },
-    { key: 'subjectCount', header: ' subject Count' },
+    { key: 'sectionName', header: 'اسم الشعبة' },
+    { key: 'gradeName', header: 'اسم الصف' },
+    { key: 'subjectCount', header: 'عدد المواد' },
   ];
 
   actions: TableAction[] = [

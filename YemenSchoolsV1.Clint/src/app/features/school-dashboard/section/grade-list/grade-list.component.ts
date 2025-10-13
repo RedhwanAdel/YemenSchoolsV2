@@ -27,8 +27,8 @@ export class GradeListComponent implements OnInit {
   gradesOfSchool: SchoolGradeWithDetailsDto[] = [];
 
   Columns: TableColumn[] = [
-    { key: 'gradeName', header: ' Name ' },
-    { key: 'stageName', header: ' Stage Name ' },
+    { key: 'gradeName', header: 'الصف' },
+    { key: 'stageName', header: 'المرحلة' },
   ];
 
   actions: TableAction[] = [

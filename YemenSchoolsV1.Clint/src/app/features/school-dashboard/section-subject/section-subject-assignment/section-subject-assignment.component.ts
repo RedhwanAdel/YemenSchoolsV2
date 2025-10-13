@@ -29,10 +29,11 @@ export class SectionSubjectAssignmentComponent implements OnInit {
   currentSection?: Section;
   sections = signal<SectionSubjectInfoDto[]>([])
   Columns: TableColumn[] = [
-    { key: 'subjectName', header: ' Name ', sortable: true },
-    { key: 'termName', header: 'termName ', sortable: true },
-    { key: 'teacherName', header: 'teacher Name ', sortable: true },
+    { key: 'subjectName', header: 'المادة', sortable: true },
+    { key: 'termName', header: 'الفصل الدراسي', sortable: true },
+    { key: 'teacherName', header: 'اسم المعلم', sortable: true },
   ];
+
   actions: TableAction[] = [
     { actionKey: 'edit', icon: 'edit', tooltip: 'Edit User', color: 'accent' },
     { actionKey: 'delete', icon: 'delete', tooltip: 'Delete User', color: 'warn' },
@@ -84,18 +85,18 @@ export class SectionSubjectAssignmentComponent implements OnInit {
 
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
-      'Confirm Delete',
-      `Are you sure you want to delete the section: ${name}?`
+      'تأكيد الحذف',
+      `هل أنت متأكد أنك تريد حذف الشعبة: ${name}؟`
     );
 
     if (confirmed) {
       this.sectionSubjectService.delete(id).subscribe({
         next: () => {
-          this.snack.success('section deleted successfully!');
-          this.loadSections()
+          this.snack.success('تم حذف الشعبة بنجاح!');
+          this.loadSections(); // إعادة تحميل قائمة الشعب لتحديث العرض
         },
         error: (err) => {
-          this.snack.error('Failed to delete section.');
+          this.snack.error('فشل في حذف الشعبة.');
           console.error(err);
         }
       });

@@ -30,11 +30,11 @@ export class TeacherListComponent implements OnInit {
   teachers = signal<Teacher[]>([])
 
   Columns: TableColumn[] = [
-    { key: 'name', header: ' Name ' },
-    { key: 'email', header: ' email ' },
-    { key: 'phoneNumber', header: ' phoneNumber ' },
-    { key: 'employmentStatus', header: ' employmentStatus ' },
-    { key: 'specialization', header: ' specialization ' },
+    { key: 'name', header: 'الاسم' },
+    { key: 'email', header: 'البريد الإلكتروني' },
+    { key: 'phoneNumber', header: 'رقم الهاتف' },
+    { key: 'employmentStatus', header: 'حالة التوظيف' },
+    { key: 'specialization', header: 'التخصص' },
   ];
 
   ngOnInit(): void {
@@ -72,24 +72,23 @@ export class TeacherListComponent implements OnInit {
 
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
-      'Confirm Delete',
-      `Are you sure you want to delete the city: ${name}?`
+      'تأكيد الحذف',
+      `هل أنت متأكد أنك تريد حذف المعلم: ${name}؟`
     );
 
     if (confirmed) {
       this.teacherService.deleteTeacher(id).subscribe({
         next: () => {
-          this.snack.success('city deleted successfully!');
+          this.snack.success('تم حذف المعلم بنجاح!');
           this.loadTeacher();
         },
         error: (err) => {
-          this.snack.error('Failed to delete city.');
+          this.snack.error('فشل في حذف المعلم.');
           console.error(err);
         }
       });
     }
   }
-
 
 
 }
