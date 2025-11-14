@@ -1,0 +1,41 @@
+<div class="job-listings-container py-5 mt-5" dir="rtl">
+  <mat-card class="job-card" *ngFor="let job of jobs">
+    <mat-card-header class="card-header">
+      <mat-card-title class="job-title">{{ job.title }}</mat-card-title>
+      <mat-chip-row
+        [color]="job.status === 'متاحة' ? 'primary' : 'accent'"
+        selected
+      >
+        {{ job.status }}
+      </mat-chip-row>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p class="job-description">{{ job.description }}</p>
+
+      <ul class="details-list">
+        <li class="detail-item" *ngFor="let detail of job.details">
+          <mat-icon>{{ detail.icon }}</mat-icon>
+          <span>{{ detail.text }}</span>
+        </li>
+        <li class="detail-item specialization-item">
+          <mat-icon>work</mat-icon>
+          <strong>التخصص:</strong> {{ job.specialization }}
+        </li>
+      </ul>
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-actions class="card-footer">
+      <div class="company-info">
+        <div class="company-logo">شعار</div>
+        <span class="company-name">{{ job.companyName }}</span>
+      </div>
+      <span class="post-time">
+        <mat-icon class="time-icon">schedule</mat-icon>
+        {{ job.postTime }}
+      </span>
+    </mat-card-actions>
+  </mat-card>
+</div>

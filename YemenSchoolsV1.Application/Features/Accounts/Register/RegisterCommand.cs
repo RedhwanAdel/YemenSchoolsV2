@@ -14,7 +14,6 @@ namespace YemenSchoolsV1.Application.Features.Accounts.Register
         [Required]
 
         public string Name { get; set; } = string.Empty;
-        [Required]
 
         public string UserType { get; set; } = string.Empty;
 

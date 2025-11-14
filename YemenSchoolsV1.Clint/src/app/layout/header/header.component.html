@@ -26,6 +26,12 @@
             >مكتبة مدارس اليمن</a
           >
         </li>
+        <li>
+          <a routerLink="/jops" routerLinkActive="active">وظائف</a>
+        </li>
+        <li>
+          <a routerLink="/teachers" routerLinkActive="active">معلمين</a>
+        </li>
 
         @if (accountService.currentUser()?.userType === userTypes.SuperAdmin ||
         true ) {

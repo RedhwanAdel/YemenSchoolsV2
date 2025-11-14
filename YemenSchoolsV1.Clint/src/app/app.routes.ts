@@ -55,6 +55,8 @@ import { SchoolPhotoUploadComponent } from './features/school-dashboard/school-p
 import { CoursesPageComponent } from './features/courses-page/courses-page.component';
 import { ChildReportComponent } from './features/parent-dashboard/child-report/child-report.component';
 import { StudentDetailComponent } from './features/school-dashboard/student/student-detail/student-detail.component';
+import { JopsListComponent } from './features/jops-list/jops-list.component';
+import { PrivteTeacherListComponent } from './features/privte-teacher-list/privte-teacher-list.component';
 
 export const routes: Routes = [
     {
@@ -70,6 +72,9 @@ export const routes: Routes = [
             { path: 'test-error', component: TestErrorComponent },
             { path: 'messages', component: MessagesComponent },
             { path: 'day', component: ChildDailyLogComponent },
+            { path: 'jops', component: JopsListComponent },
+            { path: 'teachers', component: PrivteTeacherListComponent },
+
         ]
     },
     {

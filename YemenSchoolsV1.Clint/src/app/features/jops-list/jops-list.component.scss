@@ -1,0 +1,134 @@
+$primary-color: #3f51b5; // لون Material Primary
+$accent-color: #4CAF50; // لون أخضر للحالة
+
+.job-listings-container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  // استخدام CSS Grid لتنظيم البطاقات بشكل متجاوب
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.job-card {
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 10px;
+    
+    // لإضافة خط مقطع تحت الرأس
+    border-bottom: 1px dashed #e0e0e0;
+
+    .job-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: $primary-color;
+    }
+
+    // تنسيق الـ Mat-chip للحالة
+    mat-chip-row {
+        height: 30px;
+        font-weight: 700;
+        border-radius: 15px;
+    }
+  }
+
+  mat-card-content {
+    flex-grow: 1; // لضمان أن جميع البطاقات بنفس الارتفاع تقريباً
+
+    .job-description {
+      color: #555;
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+    
+    .details-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+
+      .detail-item {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+        color: #444;
+
+        mat-icon {
+          color: $primary-color;
+          font-size: 18px;
+          height: 18px;
+          width: 18px;
+          margin-left: 8px; // للتباعد عن النص في اتجاه RTL
+        }
+      }
+      
+      .specialization-item {
+          font-weight: 500;
+          strong {
+              font-weight: 700;
+          }
+      }
+    }
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    
+    .company-info {
+      display: flex;
+      align-items: center;
+      
+      .company-logo {
+        width: 35px;
+        height: 35px;
+        background-color: #e8eaf6; // لون خلفية خفيف
+        border-radius: 50%;
+        margin-left: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.7rem;
+        color: $primary-color;
+        font-weight: 700;
+      }
+      
+      .company-name {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #333;
+      }
+    }
+    
+    .post-time {
+      display: flex;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #777;
+      
+      .time-icon {
+        font-size: 16px;
+        height: 16px;
+        width: 16px;
+        margin-left: 5px;
+      }
+    }
+  }
+}

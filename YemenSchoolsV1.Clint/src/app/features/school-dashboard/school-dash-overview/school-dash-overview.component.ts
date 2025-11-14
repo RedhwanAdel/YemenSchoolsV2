@@ -14,7 +14,7 @@ import { BaseChartDirective } from 'ng2-charts';
     BaseChartDirective
   ],
   templateUrl: './school-dash-overview.component.html',
-  styleUrl: './school-dash-overview.component.scss'
+  styleUrls: ['./school-dash-overview.component.scss']
 })
 export class SchoolDashOverviewComponent {
   // بيانات واقعية جديدة

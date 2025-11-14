@@ -3,7 +3,7 @@ import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 import { register as registerSwiperElements } from 'swiper/element/bundle';
 // في ملف main.ts أو app.module.ts
-import { Chart, ArcElement, BarElement, BarController, PieController, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
+import { Chart, ArcElement, BarElement, BarController, PieController, CategoryScale, LinearScale, Tooltip, Legend, LineController, LineElement, PointElement } from 'chart.js';
 
 // تسجيل العناصر المطلوبة
 Chart.register(
@@ -11,6 +11,9 @@ Chart.register(
   PieController,
   BarController, // ضروري للـ bar
   BarElement,
+  LineController, // ضروري للـ line
+  LineElement,
+  PointElement,
   CategoryScale, // ضروري للمحاور
   LinearScale,
   Tooltip,
