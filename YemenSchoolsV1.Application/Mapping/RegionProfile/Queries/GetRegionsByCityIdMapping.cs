@@ -1,4 +1,4 @@
-﻿using YemenSchoolsV1.Application.Features.Regions.Queries.GetRegionsByCityId;
+using YemenSchoolsV1.Application.Features.Regions.Queries.GetRegionsByCityId;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Mapping.RegionProfile

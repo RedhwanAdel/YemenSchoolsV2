@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using YemenSchoolsV1.Domain.Entities;
@@ -15,13 +15,13 @@ namespace YemenSchoolsV1.Persistence.Data
         {
 
         }
-        public DbSet<City> Citys { get; set; }
+        public DbSet<City> Cities { get; set; }
         public DbSet<Stage> Stages { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<School> Schools { get; set; }
         public DbSet<SchoolNews> SchoolNews { get; set; }
-        public DbSet<SchoolGrade> SchoolGrade { get; set; }
-        public DbSet<SchoolReview> schoolReviews { get; set; }
+        public DbSet<SchoolGrade> SchoolGrades { get; set; }
+        public DbSet<SchoolReview> SchoolReviews { get; set; }
         public DbSet<DailyLog> DailyLogs { get; set; }
         public DbSet<SchoolPhoto> SchoolPhotos { get; set; }
         public DbSet<SchoolPhone> SchoolPhones { get; set; }
@@ -30,9 +30,9 @@ namespace YemenSchoolsV1.Persistence.Data
         public DbSet<Term> Terms { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Grade> Grades { get; set; }
-        public DbSet<GradeSubject> GradeSubject { get; set; }
-        public DbSet<StageGrade> StageGrade { get; set; }
-        public DbSet<SectionSubject> SectionSubject { get; set; }
+        public DbSet<GradeSubject> GradeSubjects { get; set; }
+        public DbSet<StageGrade> StageGrades { get; set; }
+        public DbSet<SectionSubject> SectionSubjects { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
@@ -43,71 +43,11 @@ namespace YemenSchoolsV1.Persistence.Data
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<AttendanceDetail> AttendanceDetails { get; set; }
         public DbSet<Mark> Marks { get; set; }
-        public DbSet<AppUser> Users { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //stage
-            modelBuilder.Entity<Stage>()
-                .HasMany(s => s.StageGrades)
-                .WithOne(sg => sg.Stage)
-                .HasForeignKey(sg => sg.StageId)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Stage>().HasData(
-                   new Grade { Id = Guid.Parse("11111111-1111-1111-1111-111111111112"), Name = "المرحلة الإبتدائية" },
-                   new Grade { Id = Guid.Parse("22222222-2222-2222-2222-222222222223"), Name = "المرحلة الإعدادية" },
-                   new Grade { Id = Guid.Parse("22222222-2222-2222-2222-222222222783"), Name = "الروضة" },
-                   new Grade { Id = Guid.Parse("33333333-3333-3333-3333-333333333334"), Name = "المرحلة الثانوية" }
-);
-
-            //Stage grade 
-
-
-
-            //School grade 
-            modelBuilder.Entity<SchoolGrade>()
-                .HasMany(sg => sg.GradeSubjects)
-                .WithOne(gs => gs.SchoolGrade)
-                .HasForeignKey(gs => gs.SchoolGradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<SchoolGrade>()
-                .HasMany(sg => sg.Sections)
-                .WithOne(cs => cs.SchoolGrade)
-                .HasForeignKey(cs => cs.SchoolGradeId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            //Grade subject 
-            modelBuilder.Entity<GradeSubject>()
-                .HasMany(gs => gs.SectionSubjects)
-                .WithOne(ss => ss.GradeSubject)
-                .HasForeignKey(ss => ss.GradeSubjectId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
-
-            //acadmicyear
-            modelBuilder.Entity<AcademicYear>()
-                .HasMany(ay => ay.Sections)
-                .WithOne(cs => cs.AcademicYear)
-                .HasForeignKey(cs => cs.AcademicYearId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<AcademicYear>()
-              .HasMany(ay => ay.Terms)
-              .WithOne(s => s.AcademicYear)
-              .HasForeignKey(s => s.AcademicYearId)
-              .OnDelete(DeleteBehavior.Restrict);
-
-            //term
-            modelBuilder.Entity<Term>()
-                .HasMany(s => s.SectionSubjects)
-                .WithOne(ss => ss.Term)
-                .HasForeignKey(ss => ss.TermId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
-
             modelBuilder.ApplyConfiguration(new SchoolConfiguration());
             modelBuilder.ApplyConfiguration(new RegionConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
@@ -125,6 +65,12 @@ namespace YemenSchoolsV1.Persistence.Data
             modelBuilder.ApplyConfiguration(new AttendanceDetailConfiguration());
             modelBuilder.ApplyConfiguration(new MessageConfiguration());
             modelBuilder.ApplyConfiguration(new DailyLogConfiguration());
+            modelBuilder.ApplyConfiguration(new StageConfiguration());
+            modelBuilder.ApplyConfiguration(new AcademicYearConfiguration());
+            modelBuilder.ApplyConfiguration(new TermConfiguration());
+            modelBuilder.ApplyConfiguration(new SchoolGradeConfiguration());
+            modelBuilder.ApplyConfiguration(new GradeSubjectConfiguration());
+            modelBuilder.ApplyConfiguration(new SchoolReviewConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

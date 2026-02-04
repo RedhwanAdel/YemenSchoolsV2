@@ -1,17 +1,14 @@
-﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using YemenSchoolsV1.API.Bases;
-using YemenSchoolsV1.API.Dto;
-using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Features.Grades.Commands.Create;
 using YemenSchoolsV1.Application.Features.Grades.Commands.Delete;
 using YemenSchoolsV1.Application.Features.Grades.Commands.Update;
 using YemenSchoolsV1.Application.Features.Grades.Queries;
+using YemenSchoolsV1.Application.Features.Grades.Queries.GetStageGrades;
 
 namespace YemenSchoolsV1.API.Controllers
 {
-
-    public class GradesController(IStageGradeRepositry stageGradeRepositry, IMapper mapper) : AppControllerBase
+    public class GradesController : AppControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -24,9 +21,8 @@ namespace YemenSchoolsV1.API.Controllers
         [HttpGet("stageGrades")]
         public async Task<IActionResult> GetAllStageGrades()
         {
-            var response = await stageGradeRepositry.GetAllStageGradesAsync();
-            var stageGrad = mapper.Map<List<StageGradeDto>>(response);
-            return Ok(stageGrad);
+            var response = await Mediator.Send(new GetStageGradesQuery());
+            return NewResult(response);
         }
 
         [HttpPost]

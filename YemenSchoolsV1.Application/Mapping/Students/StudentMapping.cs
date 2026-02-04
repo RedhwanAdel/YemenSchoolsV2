@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using YemenSchoolsV1.Application.Features.Students.Commands.Create;
 using YemenSchoolsV1.Application.Features.Students.Queries.GetById;
 using YemenSchoolsV1.Application.Features.Students.Queries.GetStudentsPaged;

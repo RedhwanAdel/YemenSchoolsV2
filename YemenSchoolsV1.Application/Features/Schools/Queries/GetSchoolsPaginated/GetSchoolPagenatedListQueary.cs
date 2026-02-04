@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using YemenSchoolsV1.Application.Bases.Models;
 using YemenSchoolsV1.Application.Wrappers;
 using YemenSchoolsV1.Domain.Enums;

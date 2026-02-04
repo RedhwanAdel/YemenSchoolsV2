@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto;
 using YemenSchoolsV1.Domain.Entities;
@@ -18,7 +18,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
 
         public async Task<SchoolReview?> GetByIdAsync(Guid id)
         {
-            return await _context.schoolReviews
+            return await _context.SchoolReviews
                 .Include(r => r.User)
                 .Include(r => r.School)
                 .FirstOrDefaultAsync(r => r.Id == id);
@@ -26,7 +26,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
 
         public async Task<IEnumerable<SchoolReviewDto>> GetBySchoolIdAsync(Guid schoolId)
         {
-            return await _context.schoolReviews
+            return await _context.SchoolReviews
                 .Where(r => r.SchoolId == schoolId)
                 .Include(r => r.User)
                 .Select(d => new SchoolReviewDto
@@ -46,30 +46,30 @@ namespace YemenSchoolsV1.Persistence.Repositories
 
         public async Task<SchoolReview?> GetBySchoolAndUserAsync(Guid schoolId, Guid userId)
         {
-            return await _context.schoolReviews
+            return await _context.SchoolReviews
                 .FirstOrDefaultAsync(r => r.SchoolId == schoolId && r.UserId == userId);
         }
 
         public async Task AddAsync(SchoolReview review)
         {
-            await _context.schoolReviews.AddAsync(review);
+            await _context.SchoolReviews.AddAsync(review);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(SchoolReview review)
         {
-            _context.schoolReviews.Update(review);
+            _context.SchoolReviews.Update(review);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(SchoolReview review)
         {
-            _context.schoolReviews.Remove(review);
+            _context.SchoolReviews.Remove(review);
             await _context.SaveChangesAsync();
         }
         public async Task<double> GetAverageRatingAsync(Guid schoolId)
         {
-            return await _context.schoolReviews
+            return await _context.SchoolReviews
                 .Where(r => r.SchoolId == schoolId)
                 .AverageAsync(r => (double?)r.Rating) ?? 0.0;
         }

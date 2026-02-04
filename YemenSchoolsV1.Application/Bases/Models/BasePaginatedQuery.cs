@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Bases.Models
+namespace YemenSchoolsV1.Application.Bases.Models
 {
 	public class BasePaginatedQuery
 	{

@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Localization;
 using System.Net;
 using YemenSchoolsV1.Application.Resources;
 
-namespace FinalProject.Application.Bases
+namespace YemenSchoolsV1.Application.Bases
 {
 	public class ResponseHandler
 	{
@@ -21,7 +21,7 @@ namespace FinalProject.Application.Bases
 				Message = _stringLocalizer[SharedResourcesKeys.Delete]
 			};
 		}
-		public Response<T> Success<T>(T entity, object Meta = null)
+		public Response<T> Success<T>(T entity, object? Meta = null)
 		{
 			return new Response<T>()
 			{
@@ -41,7 +41,7 @@ namespace FinalProject.Application.Bases
 				Message = _stringLocalizer[SharedResourcesKeys.Unauthorized]
 			};
 		}
-		public Response<T> BadRequest<T>(string Message = null)
+		public Response<T> BadRequest<T>(string? Message = null)
 		{
 			return new Response<T>()
 			{
@@ -50,7 +50,7 @@ namespace FinalProject.Application.Bases
 				Message = Message == null ? _stringLocalizer[SharedResourcesKeys.BadRequest] : Message
 			};
 		}
-		public Response<T> BadRequest<T>(List<string> errors, string message = null)
+		public Response<T> BadRequest<T>(List<string> errors, string? message = null)
 		{
 			return new Response<T>()
 			{
@@ -60,7 +60,7 @@ namespace FinalProject.Application.Bases
 				Errors = errors
 			};
 		}
-		public Response<T> UnprocessableEntity<T>(string Message = null)
+		public Response<T> UnprocessableEntity<T>(string? Message = null)
 		{
 			return new Response<T>()
 			{
@@ -69,7 +69,7 @@ namespace FinalProject.Application.Bases
 				Message = Message == null ? _stringLocalizer[SharedResourcesKeys.UnprocessableEntity] : Message
 			};
 		}
-		public Response<T> NotFound<T>(string message = null)
+		public Response<T> NotFound<T>(string? message = null)
 		{
 			return new Response<T>()
 			{
@@ -79,7 +79,7 @@ namespace FinalProject.Application.Bases
 			};
 		}
 
-		public Response<T> Created<T>(T entity, object Meta = null)
+		public Response<T> Created<T>(T entity, object? Meta = null)
 		{
 			return new Response<T>()
 			{

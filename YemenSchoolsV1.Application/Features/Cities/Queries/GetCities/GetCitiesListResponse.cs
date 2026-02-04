@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Features.Cities.Queries.GetCities
+namespace YemenSchoolsV1.Application.Features.Cities.Queries.GetCities
 {
     public class GetCitiesListResponse
     {

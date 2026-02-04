@@ -1,22 +1,22 @@
-﻿using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Domain.Entities;
 using YemenSchoolsV1.Persistence.Repositories;
 
-namespace FinalProject.Services
+namespace YemenSchoolsV1.Services
 {
     public class CityService : ICityService
     {
 
         #region filed
-        private readonly ICityRepositry _cityRepository;
+        private readonly ICityRepository _cityRepository;
 
         #endregion
 
         #region constractor
-        public CityService(ICityRepositry cityRepositry)
+        public CityService(ICityRepository cityRepository)
         {
-            _cityRepository = cityRepositry;
+            _cityRepository = cityRepository;
         }
         #endregion
 

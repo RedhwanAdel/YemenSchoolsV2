@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,7 @@ using YemenSchoolsV1.Persistence.Data;
 
 namespace YemenSchoolsV1.API.Controllers
 {
-    public class AccountController(SignInManager<AppUser> signInManager, ITeacherRepositry teacherRepositry, UserManager<AppUser> _userManager, YemenShoolsDbContext context) : AppControllerBase
+    public class AccountController(SignInManager<AppUser> signInManager, ITeacherRepository teacherRepository, UserManager<AppUser> _userManager, YemenShoolsDbContext context) : AppControllerBase
     {
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto request)
@@ -66,7 +66,7 @@ namespace YemenSchoolsV1.API.Controllers
             if (user == null) return Unauthorized();
             if (user.UserType == "Teacher")
             {
-                var teacher = await teacherRepositry.GetByIdAsync(user.EntityId);
+                var teacher = await teacherRepository.GetByIdAsync(user.EntityId);
                 if (teacher == null) return NotFound();
                 return Ok(new
                 {

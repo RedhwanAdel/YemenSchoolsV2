@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using YemenSchoolsV1.Application.Features.Terms.Queries.GetByYearId;
 using YemenSchoolsV1.Domain.Entities;
 

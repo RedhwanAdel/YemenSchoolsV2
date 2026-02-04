@@ -127,7 +127,8 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("SchoolId")
                         .HasColumnType("uniqueidentifier");
@@ -368,7 +369,7 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Citys");
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.DailyLog", b =>
@@ -493,7 +494,7 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("GradeSubject");
+                    b.ToTable("GradeSubjects");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Mark", b =>
@@ -825,7 +826,7 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.HasIndex("StageGradeId");
 
-                    b.ToTable("SchoolGrade");
+                    b.ToTable("SchoolGrades");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.SchoolNews", b =>
@@ -905,10 +906,13 @@ namespace YemenSchoolsV1.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -924,11 +928,12 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SchoolId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("schoolReviews");
+                    b.HasIndex("SchoolId", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("SchoolReviews", (string)null);
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Section", b =>
@@ -993,7 +998,7 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.HasIndex("TermId");
 
-                    b.ToTable("SectionSubject");
+                    b.ToTable("SectionSubjects");
                 });
 
             modelBuilder.Entity("YemenSchoolsV1.Domain.Entities.Stage", b =>
@@ -1004,7 +1009,8 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -1051,7 +1057,7 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.HasIndex("StageId");
 
-                    b.ToTable("StageGrade");
+                    b.ToTable("StageGrades");
 
                     b.HasData(
                         new
@@ -1384,7 +1390,8 @@ namespace YemenSchoolsV1.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -1730,7 +1737,7 @@ namespace YemenSchoolsV1.Persistence.Migrations
                     b.HasOne("YemenSchoolsV1.Domain.Entities.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("School");

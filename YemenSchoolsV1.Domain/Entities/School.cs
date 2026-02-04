@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 using YemenSchoolsV1.Domain.Commons;
 using YemenSchoolsV1.Domain.Enums;
 

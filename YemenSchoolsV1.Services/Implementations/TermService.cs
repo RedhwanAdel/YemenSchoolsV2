@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +12,11 @@ namespace YemenSchoolsV1.Services.Implementations
 {
     public class TermService : ITermService
     {
-        private readonly ITermRepositry termRepositry;
+        private readonly ITermRepository termRepository;
 
-        public TermService(ITermRepositry termRepositry)
+        public TermService(ITermRepository termRepository)
         {
-            this.termRepositry = termRepositry;
+            this.termRepository = termRepository;
         }
         public async Task<Term?> CreateTermAsync(Term term)
         {
@@ -24,15 +24,15 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(term));
             }
-            return await termRepositry.AddAsync(term);
+            return await termRepository.AddAsync(term);
         }
 
         public async Task<bool> DeleteTermAsync(Guid id)
         {
-            var term = await termRepositry.GetByIdAsync(id);
+            var term = await termRepository.GetByIdAsync(id);
             if (term == null)
                 return false;
-            return await termRepositry.DeleteAsync(id);
+            return await termRepository.DeleteAsync(id);
         }
 
         public async Task<Term?> EditTermAsync(Guid id, Term term)
@@ -41,19 +41,19 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(term));
             }
-            var existingTerm = await termRepositry.GetByIdAsync(id);
+            var existingTerm = await termRepository.GetByIdAsync(id);
             if (existingTerm == null) { return null; }
-            return await termRepositry.UpdateAsync(id, term);
+            return await termRepository.UpdateAsync(id, term);
         }
 
         public async Task<List<Term>> GetAllTermsAsync()
         {
-            return await termRepositry.GetAllAsync();
+            return await termRepository.GetAllAsync();
         }
 
         public async Task<Term?> GetTermDetailsAsync(Guid id)
         {
-            return await termRepositry.GetByIdAsync(id);
+            return await termRepository.GetByIdAsync(id);
         }
     }
 }

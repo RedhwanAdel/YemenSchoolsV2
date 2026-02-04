@@ -1,4 +1,4 @@
-﻿using YemenSchoolsV1.Domain.Entities;
+using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Contracts.Services
 {

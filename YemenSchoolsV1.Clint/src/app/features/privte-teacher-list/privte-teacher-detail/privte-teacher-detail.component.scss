@@ -1,0 +1,138 @@
+.teacher-details-page {
+  max-width: 1000px; /* تحديد عرض أقصى لتركيز المحتوى */
+  margin: 30px auto;
+}
+
+/* 1. تنسيق القسم العلوي (Header Card) */
+.profile-header-card {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.header-content {
+  display: flex;
+  gap: 30px; /* مسافة بين العناصر */
+  align-items: flex-start; /* محاذاة من الأعلى */
+}
+
+.profile-avatar-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #f0f0f0;
+}
+
+.basic-info {
+  flex-grow: 1; /* للسماح لها بأخذ المساحة المتاحة */
+}
+
+.teacher-name-title {
+  font-size: 2em;
+  margin: 0 0 5px 0;
+  color: #3f51b5; /* لون أساسي لافت */
+}
+
+.teacher-specialty-title {
+  font-size: 1.1em;
+  color: #555;
+  margin: 0 0 15px 0;
+}
+
+/* تنسيق التقييم الكبير */
+.rating-box-large {
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+
+.rating-box-large .star-icon {
+  color: gold;
+  margin-left: 5px;
+}
+
+.reviews-count-large {
+  font-size: 0.8em;
+  color: #888;
+  margin-right: 10px;
+}
+
+/* قائمة المميزات المختصرة */
+.mini-features {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* أزرار الإجراءات */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 180px; /* عرض ثابت للأزرار */
+}
+
+.book-session-button {
+  height: 50px; /* إبراز زر الحجز */
+  font-size: 1.1em;
+}
+
+/* 2. تنسيق قسم التنقل (Tabs) */
+.profile-tabs {
+  background-color: white;
+  border-radius: 4px;
+}
+
+.tab-content {
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 1.5em;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.bio-text {
+  line-height: 1.8;
+  color: #333;
+}
+
+/* 3. تنسيق قائمة التقييمات */
+.review-item {
+  padding: 10px 0;
+}
+
+.review-user-name {
+  font-size: 1em;
+  margin: 0 0 5px 0;
+  color: #3f51b5;
+}
+
+.review-rating mat-icon {
+  font-size: 16px;
+  color: gold;
+}
+
+.review-date {
+  font-size: 0.8em;
+  color: #999;
+  margin-right: 10px;
+}
+
+/* تعديل للتجاوب مع الشاشات الصغيرة */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .action-buttons {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    min-width: initial;
+  }
+}

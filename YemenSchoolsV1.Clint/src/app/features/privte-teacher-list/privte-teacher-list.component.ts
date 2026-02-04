@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 interface Teacher {
   name: string;
   specialty: string;
@@ -21,6 +22,7 @@ interface Teacher {
     MatIconModule,
     MatButtonModule,
     MatChipsModule,
+    RouterLink
   ],
   templateUrl: './privte-teacher-list.component.html',
   styleUrl: './privte-teacher-list.component.scss'
@@ -71,6 +73,46 @@ export class PrivteTeacherListComponent {
       name: 'خالد الحربي',
       specialty: 'مدرس كيمياء وأحياء (جامعي)',
       avatarUrl: 'assets/img/person/person-m-6.webp',
+      rating: 5.0,
+      reviewsCount: 210,
+      features: ['15 سنة خبرة', 'مستويات متقدمة', 'تحضير للاختبارات'],
+    },
+    {
+      name: 'خالد الحربي',
+      specialty: 'مدرس كيمياء وأحياء (جامعي)',
+      avatarUrl: 'assets/img/person/person-m-1.webp',
+      rating: 5.0,
+      reviewsCount: 210,
+      features: ['15 سنة خبرة', 'مستويات متقدمة', 'تحضير للاختبارات'],
+    },
+    {
+      name: 'خالد الحربي',
+      specialty: 'مدرس كيمياء وأحياء (جامعي)',
+      avatarUrl: 'assets/img/person/person-m-2.webp',
+      rating: 5.0,
+      reviewsCount: 210,
+      features: ['15 سنة خبرة', 'مستويات متقدمة', 'تحضير للاختبارات'],
+    },
+    {
+      name: 'خالد الحربي',
+      specialty: 'مدرس كيمياء وأحياء (جامعي)',
+      avatarUrl: 'assets/img/person/person-m-5.webp',
+      rating: 5.0,
+      reviewsCount: 210,
+      features: ['15 سنة خبرة', 'مستويات متقدمة', 'تحضير للاختبارات'],
+    },
+    {
+      name: 'خالد الحربي',
+      specialty: 'مدرس كيمياء وأحياء (جامعي)',
+      avatarUrl: 'assets/img/person/person-m-6.webp',
+      rating: 5.0,
+      reviewsCount: 210,
+      features: ['15 سنة خبرة', 'مستويات متقدمة', 'تحضير للاختبارات'],
+    },
+    {
+      name: 'خالد الحربي',
+      specialty: 'مدرس كيمياء وأحياء (جامعي)',
+      avatarUrl: 'assets/img/person/person-m-8.webp',
       rating: 5.0,
       reviewsCount: 210,
       features: ['15 سنة خبرة', 'مستويات متقدمة', 'تحضير للاختبارات'],

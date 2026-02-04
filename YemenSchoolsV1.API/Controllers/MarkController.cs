@@ -1,28 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using YemenSchoolsV1.API.Bases;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Dto.Marks;
 using YemenSchoolsV1.Application.Extensions;
+using YemenSchoolsV1.Application.Features.Marks.Commands.CreateMarks;
+using YemenSchoolsV1.Application.Features.Marks.Commands.UpdateMarks;
+using YemenSchoolsV1.Application.Features.Marks.Queries.GetSectionMarkReport;
+using YemenSchoolsV1.Application.Features.Marks.Queries.GetStudentSubjectsReport;
+using YemenSchoolsV1.Application.Features.Marks.Queries.GetStudentTranscript;
+using YemenSchoolsV1.Application.Features.Marks.Queries.GetTeacherSectionSubjects;
 
 namespace YemenSchoolsV1.API.Controllers
 {
     public class MarkController : AppControllerBase
     {
-        private readonly IMarkService _markService;
+        private readonly IMediator _mediator;
 
-        public MarkController(IMarkService markService)
+        public MarkController(IMediator mediator)
         {
-            _markService = markService;
+            _mediator = mediator;
         }
 
         // GET: api/Marks/StudentSubjectsReport/{studentId}
         [HttpGet("StudentSubjectsReport/{studentId}")]
         public async Task<ActionResult<IEnumerable<StudentSubjectReportDto>>> GetStudentSubjectsReport(Guid studentId)
         {
-            var report = await _markService.GetStudentSubjectsReportAsync(studentId);
+            var query = new GetStudentSubjectsReportQuery { StudentId = studentId };
+            var report = await _mediator.Send(query);
 
             return Ok(report);
         }
+
         /// <summary>
         /// لجلب جميع الشعب والمواد التي يدرسها المعلم الحالي
         /// </summary>
@@ -33,7 +40,8 @@ namespace YemenSchoolsV1.API.Controllers
             {
                 // استخراج معرف المعلم من المصادقة
                 var teacherId = User.GetEntityId();
-                var sectionSubjects = await _markService.GetTeacherSectionSubjectsAsync(teacherId);
+                var query = new GetTeacherSectionSubjectsQuery { TeacherId = teacherId };
+                var sectionSubjects = await _mediator.Send(query);
                 return Ok(sectionSubjects);
             }
             catch (InvalidOperationException ex)
@@ -55,14 +63,23 @@ namespace YemenSchoolsV1.API.Controllers
             try
             {
                 var teacherId = User.GetEntityId(); // استخراج معرف المعلم من المصادقة
-                await _markService.CreateMarksAsync(
-                    teacherId,
-                    dto.SectionSubjectId,
-                    dto.AssessmentType,
-                    dto.StudentScores,
-                    dto.MaxScore
-                );
-                return StatusCode(201, new { message = "Marks created successfully." });
+                var command = new CreateMarksCommand
+                {
+                    TeacherId = teacherId,
+                    SectionSubjectId = dto.SectionSubjectId,
+                    AssessmentType = dto.AssessmentType,
+                    StudentScores = dto.StudentScores,
+                    MaxScore = dto.MaxScore
+                };
+
+                var result = await _mediator.Send(command);
+
+                if (!result.Succeeded)
+                {
+                    return BadRequest(new { message = result.Message });
+                }
+
+                return StatusCode(201, new { message = result.Message });
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -87,13 +104,22 @@ namespace YemenSchoolsV1.API.Controllers
             try
             {
                 var teacherId = User.GetEntityId();
-                await _markService.UpdateMarksAsync(
-                    teacherId,
-                    dto.SectionSubjectId,
-                    dto.AssessmentType,
-                    dto.StudentScores
-                );
-                return Ok(new { message = "Marks updated successfully." });
+                var command = new UpdateMarksCommand
+                {
+                    TeacherId = teacherId,
+                    SectionSubjectId = dto.SectionSubjectId,
+                    AssessmentType = dto.AssessmentType,
+                    StudentScores = dto.StudentScores
+                };
+
+                var result = await _mediator.Send(command);
+
+                if (!result.Succeeded)
+                {
+                    return BadRequest(new { message = result.Message });
+                }
+
+                return Ok(new { message = result.Message });
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -113,7 +139,8 @@ namespace YemenSchoolsV1.API.Controllers
         {
             try
             {
-                var transcript = await _markService.GetStudentTranscriptAsync(studentId);
+                var query = new GetStudentTranscriptQuery { StudentId = studentId };
+                var transcript = await _mediator.Send(query);
                 return Ok(transcript);
             }
             catch (KeyNotFoundException)
@@ -134,7 +161,8 @@ namespace YemenSchoolsV1.API.Controllers
         {
             try
             {
-                var report = await _markService.GetSectionMarkReportAsync(sectionSubjectId);
+                var query = new GetSectionMarkReportQuery { SectionSubjectId = sectionSubjectId };
+                var report = await _mediator.Send(query);
                 return Ok(report);
             }
             catch (KeyNotFoundException)

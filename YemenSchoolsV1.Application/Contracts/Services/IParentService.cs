@@ -1,5 +1,5 @@
-﻿using YemenSchoolsV1.Application.Dto.Parents;
-using YemenSchoolsV1.Application.Dto.Students;
+using YemenSchoolsV1.Application.Dto.Parents;
+using YemenSchoolsV1.Application.Features.Parents;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Contracts.Services

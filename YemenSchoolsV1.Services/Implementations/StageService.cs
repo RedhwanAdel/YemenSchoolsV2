@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +12,11 @@ namespace YemenSchoolsV1.Services.Implementations
 {
     public class StageService : IStageService
     {
-        private readonly IStageRepositry stageRepositry;
+        private readonly IStageRepository stageRepository;
 
-        public StageService(IStageRepositry stageRepositry)
+        public StageService(IStageRepository stageRepository)
         {
-            this.stageRepositry = stageRepositry;
+            this.stageRepository = stageRepository;
         }
         public async Task<Stage?> CreateStageAsync(Stage stage)
         {
@@ -24,15 +24,15 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(stage));
             }
-            return await stageRepositry.AddAsync(stage);
+            return await stageRepository.AddAsync(stage);
         }
 
         public async Task<bool> DeleteStageAsync(Guid id)
         {
-            var stage = await stageRepositry.GetByIdAsync(id);
+            var stage = await stageRepository.GetByIdAsync(id);
             if (stage == null)
                 return false;
-            return await stageRepositry.DeleteAsync(id);
+            return await stageRepository.DeleteAsync(id);
         }
 
         public async Task<Stage?> EditStageAsync(Guid id, Stage stage)
@@ -41,19 +41,19 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(stage));
             }
-            var existingStage = await stageRepositry.GetByIdAsync(id);
+            var existingStage = await stageRepository.GetByIdAsync(id);
             if (existingStage == null) { return null; }
-            return await stageRepositry.UpdateAsync(id, stage);
+            return await stageRepository.UpdateAsync(id, stage);
         }
 
         public async Task<List<Stage>> GetAllStagesAsync()
         {
-            return await stageRepositry.GetAllAsync();
+            return await stageRepository.GetAllAsync();
         }
 
         public async Task<Stage?> GetStageDetailsAsync(Guid id)
         {
-            return await stageRepositry.GetByIdAsync(id);
+            return await stageRepository.GetByIdAsync(id);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using YemenSchoolsV1.Domain.Commons;
+using YemenSchoolsV1.Domain.Commons;
 
 namespace YemenSchoolsV1.Domain.Entities
 {

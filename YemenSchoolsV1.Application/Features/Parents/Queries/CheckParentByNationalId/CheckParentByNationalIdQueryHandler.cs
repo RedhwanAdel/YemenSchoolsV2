@@ -1,0 +1,40 @@
+using MediatR;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Dto.Parents;
+
+namespace YemenSchoolsV1.Application.Features.Parents.Queries.CheckParentByNationalId
+{
+    public class CheckParentByNationalIdQueryHandler : IRequestHandler<CheckParentByNationalIdQuery, Response<ParentCheckDto>>
+    {
+        private readonly IParentRepository _parentRepository;
+
+        public CheckParentByNationalIdQueryHandler(IParentRepository parentRepository)
+        {
+            _parentRepository = parentRepository;
+        }
+
+        public async Task<Response<ParentCheckDto>> Handle(CheckParentByNationalIdQuery request, CancellationToken cancellationToken)
+        {
+            var parent = await _parentRepository.GetParentByNationalIdAsync(request.NationalId);
+
+            var result = parent == null 
+                ? new ParentCheckDto { Exists = false }
+                : new ParentCheckDto
+                {
+                    Id = parent.Id,
+                    NameAr = parent.NameAr,
+                    Exists = true
+                };
+
+            return new Response<ParentCheckDto>(
+                result,
+                result.Exists ? "ولي الأمر موجود." : "ولي الأمر غير موجود."
+            )
+            {
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Succeeded = true
+            };
+        }
+    }
+}

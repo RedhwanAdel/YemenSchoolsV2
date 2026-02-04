@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Features.Accounts
+namespace YemenSchoolsV1.Application.Features.Accounts
 {
 	public class AuthResultDto
 	{

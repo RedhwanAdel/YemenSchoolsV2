@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Wrappers
+namespace YemenSchoolsV1.Application.Wrappers
 {
 	public class PaginatedResult<T>
 	{

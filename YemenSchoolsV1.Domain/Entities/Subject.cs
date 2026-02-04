@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Domain.Entities
+namespace YemenSchoolsV1.Domain.Entities
 {
     public class Subject
     {

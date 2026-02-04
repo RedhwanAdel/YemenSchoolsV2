@@ -1,164 +1,84 @@
 <div class="container py-4" dir="rtl">
-  <mat-card class="mb-4 shadow-sm">
-    <mat-card-content class="p-4">
-      <h2
-        class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
-      >
-        عن أكاديمية الشروق
-      </h2>
-      <p class="lead text-secondary-emphasis mb-3">
-        أكاديمية الشروق هي منارة للتميّز التعليمي، تسعى جاهدة لخلق بيئة تعليمية
-        نابضة بالحياة تمكّن الطلاب من تحقيق أقصى إمكاناتهم. منذ تأسيسها في عام
-        1995، حرصت الأكاديمية على تنمية التفكير النقدي، والإبداع، والشغف بالتعلم
-        مدى الحياة.
-      </p>
-      <p class="text-secondary-emphasis">
-        نحن نؤمن بنهج تعليمي شامل لا يركّز فقط على التميز الأكاديمي، بل يشمل
-        أيضًا تطوير الشخصية، ومهارات القيادة، والمسؤولية الاجتماعية. ويحتفل
-        مجتمعنا المتنوع بالتفرد ويشجع التعاون، مما يُعد الطلاب للنجاح في عالم
-        دائم التغير.
-      </p>
-    </mat-card-content>
-  </mat-card>
+  <h1 class="page-title text-primary-emphasis fw-bold mb-4">
+    أخبار وفعاليات أكاديمية الشروق
+  </h1>
 
-  <mat-card class="mb-4 shadow-sm">
+  <hr />
+
+  <mat-card class="mb-5 shadow-sm">
     <mat-card-content class="p-4">
-      <h2
-        class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
-      >
-        أبرز المميزات
-      </h2>
-      <div class="row g-3">
-        <div class="col-md-6 col-lg-4">
-          <div class="d-flex align-items-start p-3 bg-light rounded-3 h-100">
-            <mat-icon color="primary" class="me-3 fs-2">school</mat-icon>
-            <div>
-              <h5 class="fw-semibold text-dark">منهج مبتكر</h5>
-              <p class="text-secondary-emphasis mb-0">
-                منهجنا مصمم ليكون جذابًا وتحديًا، يمزج بين أساليب التعليم
-                الحديثة والأساس القوي في المواد الأساسية.
+      <h2 class="section-header">آخر الأخبار والقصص الناجحة 🌟</h2>
+
+      <div class="row g-4">
+        <div class="col-sm-6 col-md-4" *ngFor="let newsItem of news">
+          <mat-card class="news-card h-100">
+            <img
+              [src]="newsItem.imageUrl"
+              class="news-image"
+              [alt]="newsItem.title"
+            />
+
+            <mat-card-content class="p-3">
+              <span class="news-date mb-1 d-block">{{ newsItem.date }}</span>
+              <h3 class="news-title fw-semibold">{{ newsItem.title }}</h3>
+              <p class="text-secondary-emphasis mb-3 small-excerpt">
+                {{ newsItem.excerpt }}
               </p>
-            </div>
-          </div>
+
+              <mat-card-actions class="p-0">
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  class="read-more-btn"
+                >
+                  قراءة المزيد
+                  <mat-icon>chevron_left</mat-icon>
+                </button>
+              </mat-card-actions>
+            </mat-card-content>
+          </mat-card>
         </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="d-flex align-items-start p-3 bg-light rounded-3 h-100">
-            <mat-icon color="primary" class="me-3 fs-2">person</mat-icon>
-            <div>
-              <h5 class="fw-semibold text-dark">هيئة تدريس مخلصة</h5>
-              <p class="text-secondary-emphasis mb-0">
-                فريقنا من المعلمين المؤهلين بشغف يقدّم الإرشاد والدعم الفردي لكل
-                طالب.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="d-flex align-items-start p-3 bg-light rounded-3 h-100">
-            <mat-icon color="primary" class="me-3 fs-2">emoji_events</mat-icon>
-            <div>
-              <h5 class="fw-semibold text-dark">نتائج أكاديمية قوية</h5>
-              <p class="text-secondary-emphasis mb-0">
-                سجل مثبت لنجاح الطلاب في الامتحانات الوطنية والقبول في أفضل
-                الجامعات.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="d-flex align-items-start p-3 bg-light rounded-3 h-100">
-            <mat-icon color="primary" class="me-3 fs-2">lightbulb</mat-icon>
-            <div>
-              <h5 class="fw-semibold text-dark">أنشطة لا منهجية متنوعة</h5>
-              <p class="text-secondary-emphasis mb-0">
-                مجموعة واسعة من الأندية، الرياضات، والفنون لتعزيز المواهب والعمل
-                الجماعي.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="d-flex align-items-start p-3 bg-light rounded-3 h-100">
-            <mat-icon color="primary" class="me-3 fs-2">apartment</mat-icon>
-            <div>
-              <h5 class="fw-semibold text-dark">مرافق حديثة</h5>
-              <p class="text-secondary-emphasis mb-0">
-                فصول دراسية متطورة، مختبرات، مكتبة، ومجمعات رياضية تدعم التعلم
-                الديناميكي.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="d-flex align-items-start p-3 bg-light rounded-3 h-100">
-            <mat-icon color="primary" class="me-3 fs-2">groups</mat-icon>
-            <div>
-              <h5 class="fw-semibold text-dark">المشاركة المجتمعية</h5>
-              <p class="text-secondary-emphasis mb-0">
-                مشاركة فعالة في المبادرات المحلية والعالمية لتعزيز قيم التعاطف
-                والعطاء.
-              </p>
-            </div>
-          </div>
-        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button mat-flat-button color="accent">
+          تصفح أرشيف الأخبار بالكامل
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
       </div>
     </mat-card-content>
   </mat-card>
 
   <mat-card class="shadow-sm">
     <mat-card-content class="p-4">
-      <h2
-        class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
-      >
-        فلسفتنا التعليمية
-      </h2>
-      <p class="text-secondary-emphasis lead mb-3">
-        في أكاديمية الشروق، نؤمن بأن كل طفل يمتلك مواهب وقدرات فريدة. نحن
-        ملتزمون بتوفير بيئة شاملة وآمنة تمكّن الطلاب من الاستكشاف وطرح الأسئلة
-        والابتكار. ويرتكز نهجنا على:
-      </p>
-      <ul class="list-unstyled">
-        <li class="d-flex align-items-start mb-2">
-          <mat-icon color="accent" class="me-2 fs-5 mt-1"
-            >check_circle</mat-icon
-          >
-          <div>
-            <span class="fw-semibold text-primary"
-              >تعلم متمركز حول الطالب:</span
-            >
-            تصميم التعليم ليتناسب مع الاحتياجات الفردية وأنماط التعلم المختلفة.
+      <h2 class="section-header">الفعاليات القادمة ومواعيد مهمة 📅</h2>
+
+      <mat-list>
+        <mat-list-item class="event-item" *ngFor="let event of events">
+          <div class="event-date-box me-3">
+            <div class="month">{{ event.month }}</div>
+            <div class="day fw-bold">{{ event.day }}</div>
           </div>
-        </li>
-        <li class="d-flex align-items-start mb-2">
-          <mat-icon color="accent" class="me-2 fs-5 mt-1"
-            >check_circle</mat-icon
-          >
-          <div>
-            <span class="fw-semibold text-primary"
-              >التعليم القائم على الاستقصاء:</span
-            >
-            تشجيع الفضول والتفكير النقدي من خلال الاستكشاف النشط.
+          <div class="event-details">
+            <h3 matListItemTitle class="fw-semibold">{{ event.title }}</h3>
+            <p matListItemLine class="text-secondary-emphasis mb-0">
+              <mat-icon class="icon-small me-1">schedule</mat-icon>
+              {{ event.time }} -
+              <mat-icon class="icon-small me-1">location_on</mat-icon>
+              {{ event.location }}
+            </p>
           </div>
-        </li>
-        <li class="d-flex align-items-start mb-2">
-          <mat-icon color="accent" class="me-2 fs-5 mt-1"
-            >check_circle</mat-icon
-          >
-          <div>
-            <span class="fw-semibold text-primary">تطوير الشخصية:</span>
-            تعزيز النزاهة، والمرونة، والاحترام للآخرين.
-          </div>
-        </li>
-        <li class="d-flex align-items-start">
-          <mat-icon color="accent" class="me-2 fs-5 mt-1"
-            >check_circle</mat-icon
-          >
-          <div>
-            <span class="fw-semibold text-primary">المواطنة العالمية:</span>
-            إعداد الطلاب ليكونوا أعضاء مسؤولين وفاعلين في المجتمع العالمي.
-          </div>
-        </li>
-      </ul>
+          <button mat-button color="accent" matListItemMeta>تفاصيل</button>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+
+      <div class="text-center mt-4">
+        <button mat-stroked-button color="primary">
+          عرض التقويم الكامل
+          <mat-icon>calendar_today</mat-icon>
+        </button>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

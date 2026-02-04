@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using FinalProject.Application.Bases;
+using AutoMapper;
+using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Contracts.Persistence;
@@ -11,12 +11,12 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.UpdateSchool
     public class EditSchoolForAdminCommandHandler : ResponseHandler, IRequestHandler<EditSchoolForAdminCommand, Response<string>>
     {
 
-        public ISchoolRepositry SchoolRepositry { get; }
+        public ISchoolRepository SchoolRepository { get; }
         public IMapper mapper { get; }
         private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        public EditSchoolForAdminCommandHandler(ISchoolRepositry schoolRepositry, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public EditSchoolForAdminCommandHandler(ISchoolRepository schoolRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            SchoolRepositry = schoolRepositry;
+            SchoolRepository = schoolRepository;
             this.stringLocalizer = stringLocalizer;
 
             this.mapper = mapper;
@@ -30,7 +30,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.UpdateSchool
             }
 
             var schoolDomain = mapper.Map<School>(request);
-            schoolDomain = await SchoolRepositry.UpdateAsync(request.Id, schoolDomain);
+            schoolDomain = await SchoolRepository.UpdateAsync(request.Id, schoolDomain);
             if (schoolDomain == null)
             {
                 return UnprocessableEntity<string>();

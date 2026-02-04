@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using YemenSchoolsV1.Domain.Enums;
 
 namespace YemenSchoolsV1.Application.Dto.Parents

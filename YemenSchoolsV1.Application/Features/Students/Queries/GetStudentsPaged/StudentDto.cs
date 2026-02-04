@@ -1,4 +1,4 @@
-﻿using YemenSchoolsV1.Domain.Enums;
+using YemenSchoolsV1.Domain.Enums;
 
 namespace YemenSchoolsV1.Application.Features.Students.Queries.GetStudentsPaged
 {

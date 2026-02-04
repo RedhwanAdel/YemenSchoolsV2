@@ -1,15 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Features.Accounts;
 using YemenSchoolsV1.Application.Features.AttendanceStudents;
-using YemenSchoolsV1.Application.Features.Marks;
 using YemenSchoolsV1.Application.Features.Parents;
 using YemenSchoolsV1.Application.Features.Schools;
-using YemenSchoolsV1.Application.Features.Students;
+
 using YemenSchoolsV1.Services.Implementations;
 
 
-namespace FinalProject.Services
+namespace YemenSchoolsV1.Services
 {
     public static class ServicesRegistration
     {
@@ -32,9 +31,8 @@ namespace FinalProject.Services
             services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IParentService, ParentService>();
-            services.AddScoped<IStudentService, StudentService>();
+
             services.AddScoped<IAttendanceService, AttendanceService>();
-            services.AddScoped<IMarkService, MarkService>();
             services.AddScoped<ISchoolReviewService, SchoolReviewService>();
 
 

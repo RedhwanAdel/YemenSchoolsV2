@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Dto.Parents;
-using YemenSchoolsV1.Application.Dto.Students;
+using YemenSchoolsV1.Application.Features.Parents;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.Parents
@@ -11,9 +11,9 @@ namespace YemenSchoolsV1.Application.Features.Parents
     {
 
 
-        private readonly IParentRepositry _parentRepository;
+        private readonly IParentRepository _parentRepository;
         private readonly UserManager<AppUser> _userManager;
-        public ParentService(IParentRepositry parentRepository, UserManager<AppUser> userManager)
+        public ParentService(IParentRepository parentRepository, UserManager<AppUser> userManager)
         {
             _parentRepository = parentRepository;
             _userManager = userManager;

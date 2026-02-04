@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using YemenSchoolsV1.API.Dto;
+using AutoMapper;
+using YemenSchoolsV1.Application.Dto;
 using YemenSchoolsV1.Application.Features.Grades.Queries;
 using YemenSchoolsV1.Domain.Entities;
 

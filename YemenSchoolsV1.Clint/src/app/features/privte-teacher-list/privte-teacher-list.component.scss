@@ -1,128 +1,79 @@
-$primary-color: #5d57f4;
-$accent-color: #ffc107;
-$success-color: #28a745;
-
+.compact-card {
+  max-width: 350px; /* تحديد عرض مناسب */
+  padding: 10px;
+  /* إزالة أي ظل صندوقي (box-shadow) مبالغ فيه */
+}
 .teachers-grid-container {
-  padding: 40px 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  // استخدام CSS Grid
-  display: grid;
+  display: grid; /* تفعيل خاصية الـ Grid */
+margin-top: 100px;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
+  gap: 20px; /* المسافة بين البطاقات عموديًا وأفقيًا */
+  justify-content: center; /* توسيط محتوى الشبكة إذا كانت لا تملأ العرض */
 }
 
+/* يمكنك إضافة هذا التنسيق لضمان أن البطاقة لا تتجاوز عرض العمود المخصص لها */
 .teacher-card {
-  border-radius: 10px !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  overflow: visible; // مهم للسماح ببروز الصورة
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
-
-  &:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
-  }
+  width: 100%;
+}
+.profile-summary {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* مسافة بين الصورة والنص */
+  margin-bottom: 10px;
 }
 
-.profile-header {
-  background: linear-gradient(135deg, $primary-color, #5d57f4);
-  padding: 30px 20px 70px 20px;
-  position: relative;
-  border-radius: 10px 10px 0 0;
-}
-
-.teacher-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+.small-avatar {
+  width: 80px; /* حجم أصغر للصورة */
+  height: 80px;
+  border-radius: 50%; /* شكل دائري احترافي */
   object-fit: cover;
-  border: 5px solid white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  position: absolute;
-  bottom: -60px;
-  right: 50%;
-  transform: translateX(50%);
 }
 
-.card-body {
-  padding: 80px 20px 20px 20px !important; // لتعويض مسافة الـ Avatar
-
-  .teacher-name {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin-bottom: 5px;
-    color: $primary-color;
-  }
-
-  .teacher-specialty {
-    font-size: 1rem;
-    color: #6c757d;
-    margin-bottom: 15px;
-    font-weight: 600;
-  }
-
-  .rating-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-
-    .rating-number {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #343a40;
-      margin-left: 5px;
-    }
-
-    .stars {
-      display: flex;
-      margin: 0 10px;
-    }
-
-    .star-icon {
-      font-size: 1.2rem;
-      color: $accent-color;
-      height: 1.2rem;
-      width: 1.2rem;
-    }
-
-    .reviews-count {
-      font-size: 0.9rem;
-      color: #6c757d;
-    }
-  }
-
-  .features-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 10px;
-
-    mat-chip-row {
-      background-color: #e9ecef; // لون فاتح للخلفية
-      color: #6c757d;
-      font-size: 0.85rem;
-      font-weight: 600;
-      height: 32px;
-    }
-  }
+.teacher-info {
+  /* لضمان تجميع الاسم والتخصص والتقييم */
+  display: flex;
+  flex-direction: column;
 }
 
-.card-footer {
-  border-top: 1px solid #e0e0e0;
-  padding: 15px 20px !important;
-  justify-content: center;
+.teacher-name {
+  font-size: 1.1em;
+  margin: 0;
+}
 
-  .contact-btn {
-    width: 100%;
-    height: 45px;
-    background-color: $success-color !important;
-    color: white !important;
-    font-size: 1rem;
-    font-weight: 700;
-  }
+.teacher-specialty {
+  font-size: 0.9em;
+  color: #666;
+  margin: 0;
+}
+
+.compact-rating {
+  margin-top: 5px;
+  font-size: 0.85em;
+  display: flex;
+  align-items: center;
+}
+
+.reviews-count {
+  margin-right: 5px;
+  font-size: 0.8em;
+  color: #888;
+}
+
+.single-row-features {
+  display: flex;
+  flex-wrap: wrap; /* تسمح بالانتقال إلى سطر جديد عند الضرورة */
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.compact-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.compact-footer button {
+  font-size: 0.9em;
+  padding: 0 10px;
+  height: 36px; /* ارتفاع قياسي للأزرار */
 }

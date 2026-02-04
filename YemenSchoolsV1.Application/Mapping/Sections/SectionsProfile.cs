@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+using AutoMapper;
 using YemenSchoolsV1.Application.Dto;
-using YemenSchoolsV1.Application.Dto.Students;
+using YemenSchoolsV1.Application.Features.Sections;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Mapping.Sections

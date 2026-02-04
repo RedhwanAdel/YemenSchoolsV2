@@ -1,4 +1,4 @@
-﻿using FinalProject.Application.Bases;
+using YemenSchoolsV1.Application.Bases;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -59,20 +59,21 @@ namespace YemenSchoolsV1.Application.MiddleWare
 						response.StatusCode = (int)HttpStatusCode.BadRequest;
 						break;
 					case Exception e:
-
-
-						if (e.GetType().ToString() == "ApiException")
+						if (e.GetType().Name == "ApiException")
 						{
-							responseModel.Message += e.Message;
+							responseModel.Message = e.Message;
 							responseModel.Message += e.InnerException == null ? "" : "\n" + e.InnerException.Message;
 							responseModel.StatusCode = HttpStatusCode.BadRequest;
 							response.StatusCode = (int)HttpStatusCode.BadRequest;
 						}
-						responseModel.Message = e.Message;
-						responseModel.Message += e.InnerException == null ? "" : "\n" + e.InnerException.Message;
-						responseModel.Meta = "\n" + e.StackTrace;
-						responseModel.StatusCode = HttpStatusCode.InternalServerError;
-						response.StatusCode = (int)HttpStatusCode.InternalServerError;
+						else
+						{
+							responseModel.Message = e.Message;
+							responseModel.Message += e.InnerException == null ? "" : "\n" + e.InnerException.Message;
+							responseModel.Meta = "\n" + e.StackTrace;
+							responseModel.StatusCode = HttpStatusCode.InternalServerError;
+							response.StatusCode = (int)HttpStatusCode.InternalServerError;
+						}
 						break;
 
 					default:

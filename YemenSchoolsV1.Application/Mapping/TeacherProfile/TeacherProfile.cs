@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 
 namespace YemenSchoolsV1.Application.Mapping.TeacherProfile
 {

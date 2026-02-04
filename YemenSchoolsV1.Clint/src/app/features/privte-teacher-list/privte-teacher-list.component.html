@@ -1,47 +1,50 @@
-<div class="teachers-grid-container pt-5 mt-5" dir="rtl">
-  <mat-card class="teacher-card" *ngFor="let teacher of teachers">
-    <div class="profile-header">
+<div class="teachers-grid-container container pt-5" dir="rtl">
+  <mat-card class="teacher-card compact-card" *ngFor="let teacher of teachers">
+    <div class="profile-summary">
       <img
         [src]="teacher.avatarUrl"
         [alt]="'صورة المعلم ' + teacher.name"
-        class="teacher-avatar"
+        class="teacher-avatar small-avatar"
       />
-    </div>
 
-    <mat-card-content class="card-body">
-      <h2 class="teacher-name">{{ teacher.name }}</h2>
-      <p class="teacher-specialty">{{ teacher.specialty }}</p>
+      <div class="teacher-info">
+        <h2 class="teacher-name">{{ teacher.name }}</h2>
+        <p class="teacher-specialty">{{ teacher.specialty }}</p>
 
-      <div class="rating-box">
-        <span class="rating-number">{{
-          teacher.rating | number : "1.1-1"
-        }}</span>
-        <div class="stars">
-          <mat-icon
-            *ngFor="let i of [].constructor(getStars(teacher.rating).full)"
-            class="star-icon full"
-            >star</mat-icon
-          >
-          <mat-icon
-            *ngFor="let i of [].constructor(getStars(teacher.rating).empty)"
-            class="star-icon empty"
-            >star_border</mat-icon
+        <div class="rating-box compact-rating">
+          <span class="rating-number">{{
+            teacher.rating | number : "1.1-1"
+          }}</span>
+          <div class="stars">
+            <mat-icon
+              *ngFor="let i of [].constructor(getStars(teacher.rating).full)"
+              class="star-icon full"
+              >star</mat-icon
+            >
+            <mat-icon
+              *ngFor="let i of [].constructor(getStars(teacher.rating).empty)"
+              class="star-icon empty"
+              >star_border</mat-icon
+            >
+          </div>
+          <span class="reviews-count small-text"
+            >({{ teacher.reviewsCount }} تقييم)</span
           >
         </div>
-        <span class="reviews-count">({{ teacher.reviewsCount }} تقييم)</span>
       </div>
+    </div>
 
-      <div class="features-list">
-        <mat-chip-row *ngFor="let feature of teacher.features">
-          {{ feature }}
-        </mat-chip-row>
-      </div>
-    </mat-card-content>
+    <div class="features-list single-row-features">
+      <mat-chip-row *ngFor="let feature of teacher.features; let i = index">
+        {{ feature }}
+      </mat-chip-row>
+    </div>
 
-    <mat-card-actions class="card-footer">
-      <button mat-flat-button color="primary" class="">حجز حصة تجريبية</button>
-
-      <button mat-stroked-button color="primary" class="p-2">التفاصيل</button>
+    <mat-card-actions class="card-footer compact-footer">
+      <button mat-flat-button color="primary" class="flex-grow">حجز حصة</button>
+      <button mat-stroked-button color="primary" routerLink="/teachers/detail">
+        التفاصيل
+      </button>
     </mat-card-actions>
   </mat-card>
 </div>

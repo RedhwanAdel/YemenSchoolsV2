@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Domain.Enums
+namespace YemenSchoolsV1.Domain.Enums
 {
     public enum CurriculumType
     {

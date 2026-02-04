@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using FinalProject.Application.Bases;
+using AutoMapper;
+using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Contracts.Persistence;
@@ -9,7 +9,7 @@ namespace YemenSchoolsV1.Application.Features.Terms.Queries.GetByYearId
 {
     public class GetTermByYearIdQueryHandler : ResponseHandler, IRequestHandler<GetTermByYearIdQuery, Response<List<GetTermByYearIdResponse>>>
     {
-        private readonly ITermRepositry termRepositry;
+        private readonly ITermRepository termRepository;
         #region faild
         private readonly IMapper mapper;
         private readonly IStringLocalizer<SharedResources> stringLocalizer;
@@ -17,9 +17,9 @@ namespace YemenSchoolsV1.Application.Features.Terms.Queries.GetByYearId
         #endregion
 
         #region ctor
-        public GetTermByYearIdQueryHandler(ITermRepositry termRepositry, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public GetTermByYearIdQueryHandler(ITermRepository termRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.termRepositry = termRepositry;
+            this.termRepository = termRepository;
             this.mapper = mapper;
             this.stringLocalizer = stringLocalizer;
         }
@@ -27,7 +27,7 @@ namespace YemenSchoolsV1.Application.Features.Terms.Queries.GetByYearId
 
         public async Task<Response<List<GetTermByYearIdResponse>>> Handle(GetTermByYearIdQuery request, CancellationToken cancellationToken)
         {
-            var resultDomain = await termRepositry.GetTermByYearIdAsync(request.Id);
+            var resultDomain = await termRepository.GetTermByYearIdAsync(request.Id);
 
             var result = mapper.Map<List<GetTermByYearIdResponse>>(resultDomain);
 

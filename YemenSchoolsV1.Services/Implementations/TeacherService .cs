@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Domain.Entities;
@@ -7,10 +7,10 @@ namespace YemenSchoolsV1.Services.Implementations
 {
     public class TeacherService : ITeacherService
     {
-        private readonly ITeacherRepositry teacherRepository;
+        private readonly ITeacherRepository teacherRepository;
         private readonly UserManager<AppUser> _userManager;
 
-        public TeacherService(ITeacherRepositry teacherRepository, UserManager<AppUser> userManager)
+        public TeacherService(ITeacherRepository teacherRepository, UserManager<AppUser> userManager)
         {
             this.teacherRepository = teacherRepository;
             _userManager = userManager;

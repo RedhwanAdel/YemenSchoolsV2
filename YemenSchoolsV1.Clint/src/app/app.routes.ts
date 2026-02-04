@@ -57,6 +57,7 @@ import { ChildReportComponent } from './features/parent-dashboard/child-report/c
 import { StudentDetailComponent } from './features/school-dashboard/student/student-detail/student-detail.component';
 import { JopsListComponent } from './features/jops-list/jops-list.component';
 import { PrivteTeacherListComponent } from './features/privte-teacher-list/privte-teacher-list.component';
+import { PrivteTeacherDetailComponent } from './features/privte-teacher-list/privte-teacher-detail/privte-teacher-detail.component';
 
 export const routes: Routes = [
     {
@@ -74,6 +75,7 @@ export const routes: Routes = [
             { path: 'day', component: ChildDailyLogComponent },
             { path: 'jops', component: JopsListComponent },
             { path: 'teachers', component: PrivteTeacherListComponent },
+            { path: 'teachers/detail', component: PrivteTeacherDetailComponent },
 
         ]
     },

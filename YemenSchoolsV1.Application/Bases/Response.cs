@@ -1,6 +1,6 @@
-﻿using System.Net;
+using System.Net;
 
-namespace FinalProject.Application.Bases
+namespace YemenSchoolsV1.Application.Bases
 {
 	public class Response<T>
 	{
@@ -8,7 +8,7 @@ namespace FinalProject.Application.Bases
 		{
 
 		}
-		public Response(T data, string message = null)
+		public Response(T data, string? message = null)
 		{
 			Succeeded = true;
 			Message = message;
@@ -26,12 +26,12 @@ namespace FinalProject.Application.Bases
 		}
 
 		public HttpStatusCode StatusCode { get; set; }
-		public object Meta { get; set; }
+		public object? Meta { get; set; }
 
 		public bool Succeeded { get; set; }
-		public string Message { get; set; }
-		public List<string> Errors { get; set; }
-		public Dictionary<string, List<string>> ErrorsBag { get; set; }
-		public T Data { get; set; }
+		public string? Message { get; set; }
+		public List<string>? Errors { get; set; }
+		public Dictionary<string, List<string>>? ErrorsBag { get; set; }
+		public T? Data { get; set; }
 	}
 }

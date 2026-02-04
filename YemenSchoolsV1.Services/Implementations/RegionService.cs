@@ -1,4 +1,4 @@
-﻿using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Domain.Entities;
 
@@ -8,14 +8,14 @@ namespace YemenSchoolsV1.Services.Implementations
     {
 
         #region filed
-        private readonly IRegionRepositry regionRepositry;
+        private readonly IRegionRepository regionRepository;
 
         #endregion
 
         #region constractor
-        public RegionService(IRegionRepositry regionRepositry)
+        public RegionService(IRegionRepository regionRepository)
         {
-            this.regionRepositry = regionRepositry;
+            this.regionRepository = regionRepository;
         }
         #endregion
 
@@ -24,11 +24,11 @@ namespace YemenSchoolsV1.Services.Implementations
 
         public async Task<List<Region>> GetAllRegionsAsync()
         {
-            return await regionRepositry.getAllRegionIncludeAsync();
+            return await regionRepository.getAllRegionIncludeAsync();
         }
         public async Task<Region?> GetRegionDetailsAsync(Guid id)
         {
-            return await regionRepositry.GetByIdAsync(id);
+            return await regionRepository.GetByIdAsync(id);
         }
         public async Task<Region?> CreateRegionAsync(Region region)
         {
@@ -36,7 +36,7 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(region));
             }
-            return await regionRepositry.AddAsync(region);
+            return await regionRepository.AddAsync(region);
         }
         public async Task<Region?> EditRegionAsync(Guid id, Region region)
         {
@@ -44,29 +44,29 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(region));
             }
-            var existingregion = await regionRepositry.GetByIdAsync(id);
+            var existingregion = await regionRepository.GetByIdAsync(id);
             if (existingregion == null) { return null; }
-            return await regionRepositry.UpdateAsync(id, region);
+            return await regionRepository.UpdateAsync(id, region);
         }
         public async Task<bool> DeleteRegionAsync(Guid id)
         {
-            var region = await regionRepositry.GetByIdAsync(id);
+            var region = await regionRepository.GetByIdAsync(id);
             if (region == null)
                 return false;
-            return await regionRepositry.DeleteAsync(id);
+            return await regionRepository.DeleteAsync(id);
         }
 
         public async Task<List<Region>> GetAllRegionsByCityIdAsync(Guid cityId)
         {
 
-            return await regionRepositry.GetRegionByCityIdIncludeAsync(cityId);
+            return await regionRepository.GetRegionByCityIdIncludeAsync(cityId);
 
         }
 
         public async Task<int?> GetAllSchoolCountAsync(Guid regionId)
         {
 
-            return await regionRepositry.GetSchoolCount(regionId);
+            return await regionRepository.GetSchoolCount(regionId);
 
         }
 

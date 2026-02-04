@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Dto.Parents
+namespace YemenSchoolsV1.Application.Dto.Parents
 {
     public class ParentWithStudentsDto
     {

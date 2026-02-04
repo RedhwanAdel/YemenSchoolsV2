@@ -1,3 +1,4 @@
+/* الألوان الأساسية التي تم تعريفها مسبقاً */
 .fw-bold { font-weight: 700 !important; }
 .text-primary-emphasis { color: #3f51b5 !important; }
 .border-primary-subtle { border-color: #c5cae9 !important; }
@@ -7,3 +8,90 @@
 .h-100 { height: 100% !important; }
 .bg-light { background-color: #f8f9fa !important; }
 .bg-light-subtle { background-color: #f0f4fd !important; }
+.shadow-lg { box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important; }
+
+
+/* 1. تصميم قسم العرض الرئيسي (Hero Section) */
+.hero-campus-card {
+  height: 350px; /* ارتفاع ثابت للقسم */
+  overflow: hidden;
+  position: relative;
+  background: url('/assets/images/pngtree-courtyard-of-a-school-building-picture-from-yumi-gyodo-picture-image_2467184.jpg') center center no-repeat; /* 👈 هنا ضع رابط الصورة */
+  background-size: cover;
+}
+
+.hero-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* طبقة سوداء شفافة لتحسين قراءة النص */
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  align-items: center; /* توسيط عمودي للنص */
+  padding: 0 40px;
+}
+
+.text-overlay {
+  max-width: 700px;
+  color: white;
+}
+
+.text-overlay .display-5 {
+  color: white; /* تأكيد لون العنوان باللون الأبيض */
+}
+
+/* 2. تصميم بطاقات الميزات الأكاديمية (Feature Cards) */
+.feature-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 5px solid #3f51b5; /* شريط جانبي بلون أساسي */
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.feature-card .mat-card-header {
+  padding-bottom: 0;
+}
+
+.feature-card .feature-icon {
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
+}
+
+/* 3. تصميم الأزرار كبديل مرئي للمرافق (الرياضة والفنون) */
+.full-width-feature-button {
+  width: 100%;
+  padding: 15px;
+  text-align: right;
+  justify-content: flex-start;
+  font-size: 1.1em;
+  border: 1px solid #3f51b5;
+  color: #3f51b5;
+  background-color: white;
+  transition: background-color 0.2s;
+  border-radius: 8px;
+}
+
+.full-width-feature-button:hover {
+  background-color: #e8eaf6; /* لون خفيف عند التحويم */
+}
+
+/* 4. تصميم أيقونات المرافق الإضافية */
+.icon-circle {
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-circle mat-icon {
+  font-size: 24px;
+}

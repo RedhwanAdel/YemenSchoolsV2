@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginated
+namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginated
 {
     public class GetSchoolPagenatedListResponse
     {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +12,11 @@ namespace YemenSchoolsV1.Services.Implementations
 {
     public class GradeService : IGradeService
     {
-        private readonly IGradeRepositry gradeRepositry;
+        private readonly IGradeRepository gradeRepository;
 
-        public GradeService(IGradeRepositry gradeRepositry)
+        public GradeService(IGradeRepository gradeRepository)
         {
-            this.gradeRepositry = gradeRepositry;
+            this.gradeRepository = gradeRepository;
         }
         public async Task<Grade?> CreateGradeAsync(Grade grade)
         {
@@ -24,15 +24,15 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(grade));
             }
-            return await gradeRepositry.AddAsync(grade);
+            return await gradeRepository.AddAsync(grade);
         }
 
         public async Task<bool> DeleteGradeAsync(Guid id)
         {
-            var grade = await gradeRepositry.GetByIdAsync(id);
+            var grade = await gradeRepository.GetByIdAsync(id);
             if (grade == null)
                 return false;
-            return await gradeRepositry.DeleteAsync(id);
+            return await gradeRepository.DeleteAsync(id);
         }
 
         public async Task<Grade?> EditGradeAsync(Guid id, Grade grade)
@@ -41,19 +41,19 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(grade));
             }
-            var existingGrade = await gradeRepositry.GetByIdAsync(id);
+            var existingGrade = await gradeRepository.GetByIdAsync(id);
             if (existingGrade == null) { return null; }
-            return await gradeRepositry.UpdateAsync(id, grade);
+            return await gradeRepository.UpdateAsync(id, grade);
         }
 
         public async Task<List<Grade>> GetAllGradesAsync()
         {
-            return await gradeRepositry.GetAllAsync();
+            return await gradeRepository.GetAllAsync();
         }
 
         public async Task<Grade?> GetGradeDetailsAsync(Guid id)
         {
-            return await gradeRepositry.GetByIdAsync(id);
+            return await gradeRepository.GetByIdAsync(id);
         }
     }
 }

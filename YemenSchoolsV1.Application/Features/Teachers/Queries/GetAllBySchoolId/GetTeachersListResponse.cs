@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Features.Teachers.Queries.GetAllBySchoolId
+namespace YemenSchoolsV1.Application.Features.Teachers.Queries.GetAllBySchoolId
 {
 	public class GetTeachersListResponse
 	{

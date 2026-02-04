@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
@@ -7,82 +7,47 @@ using YemenSchoolsV1.Application.Extensions;
 using YemenSchoolsV1.Application.Wrappers;
 using YemenSchoolsV1.Domain.Entities;
 
+using YemenSchoolsV1.Application.Features.Messages.Commands.Create;
+using YemenSchoolsV1.Application.Features.Messages.Commands.Delete;
+using YemenSchoolsV1.Application.Features.Messages.Queries.GetList;
+using YemenSchoolsV1.Application.Features.Messages.Queries.GetThread;
+
 namespace YemenSchoolsV1.API.Controllers
 {
 
-    public class MessagesController(IMessageRepository messageRepository, IUserRepository userRepository, ITeacherRepositry teacherRepositry, IParentRepositry parentRepositry) : AppControllerBase
+    public class MessagesController : AppControllerBase
     {
+
         [HttpPost]
         public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
         {
-            var sender = await userRepository.GetByIdAsync(User.GetUserId());
-
-            var recipient = await userRepository.GetByIdAsync(createMessageDto.RecipientId);
-
-            if (recipient == null || sender == null || sender.Id == createMessageDto.RecipientId)
-                throw new HubException("Cannot send message");
-
-            var message = new Message
-            {
-                SenderId = sender.Id,
-                RecipientId = recipient.Id,
-                Content = createMessageDto.Content
-            };
-
-            var result = await messageRepository.AddAsync(message);
-
-            if (result != null) return message.ToDto();
-
-            return BadRequest("Failed to send message");
+            var response = await Mediator.Send(new CreateMessageCommand(createMessageDto, User.GetUserId()));
+            if (response.Succeeded) return Ok(response.Data);
+            return BadRequest(response.Message);
         }
+
         [HttpGet]
-        public async Task<ActionResult<PaginatedResponse<MessageDto>>> GetMessagesByContainer(
-            [FromQuery] MessageParams messageParams)
+        public async Task<ActionResult<PaginatedResponse<MessageDto>>> GetMessagesByContainer([FromQuery] MessageParams messageParams)
         {
             messageParams.MemberId = User.GetUserId();
-
-            return await messageRepository.GetMessagesForMember(messageParams);
+            var response = await Mediator.Send(new GetMessagesQuery(messageParams));
+            return Ok(response);
         }
 
         [HttpGet("thread/{recipientId}")]
         public async Task<ActionResult<IReadOnlyList<MessageDto>>> GetMessageThread(Guid recipientId)
         {
-
-            var currentUserId = User.GetUserId();
-
-
-
-            if (recipientId == Guid.Empty)
-                return BadRequest("Invalid recipient");
-
-            var messages = await messageRepository.GetMessageThread(currentUserId, recipientId);
-
-            return Ok(messages);
+            if (recipientId == Guid.Empty) return BadRequest("Invalid recipient");
+            var response = await Mediator.Send(new GetMessageThreadQuery(User.GetUserId(), recipientId));
+            return Ok(response.Data);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteMessage(string id)
         {
-            var memberId = User.GetUserId();
-
-            var message = await messageRepository.GetMessage(id);
-
-            if (message == null) return BadRequest("Cannot delete this message");
-
-            if (message.SenderId != memberId && message.RecipientId != memberId)
-                return BadRequest("You cannot delete this message");
-
-            if (message.SenderId == memberId) message.SenderDeleted = true;
-            if (message.RecipientId == memberId) message.RecipientDeleted = true;
-
-            if (message is { SenderDeleted: true, RecipientDeleted: true })
-            {
-                messageRepository.DeleteMessage(message);
-            }
-
-            if (await messageRepository.Complete()) return Ok();
-
-            return BadRequest("Problem deleting the message");
+            var response = await Mediator.Send(new DeleteMessageCommand(id, User.GetUserId()));
+            if (response.Succeeded) return Ok();
+            return BadRequest(response.Message);
         }
     }
 }

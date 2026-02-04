@@ -1,4 +1,4 @@
-﻿using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Domain.Commons;
 using YemenSchoolsV1.Domain.Enums;
 

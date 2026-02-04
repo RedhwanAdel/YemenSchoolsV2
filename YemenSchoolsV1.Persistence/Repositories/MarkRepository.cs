@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using YemenSchoolsV1.Application.Contracts.Persistence;
-using YemenSchoolsV1.Application.Dto.Marks;
+using YemenSchoolsV1.Application.Features.Marks.Queries.GetStudentSubjectsReport;
 using YemenSchoolsV1.Domain.Entities;
 using YemenSchoolsV1.Persistence.Data;
 

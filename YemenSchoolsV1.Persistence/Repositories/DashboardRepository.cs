@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Persistence.Repositories
+namespace YemenSchoolsV1.Persistence.Repositories
 {
     using Microsoft.EntityFrameworkCore;
     using YemenSchoolsV1.Application.Contracts.Persistence;
@@ -19,7 +19,7 @@
             // 1️⃣ Summary
             var summary = new DashboardSummaryDto
             {
-                TotalCities = await _context.Citys.CountAsync(),
+                TotalCities = await _context.Cities.CountAsync(),
                 TotalRegions = await _context.Regions.CountAsync(),
                 TotalSchools = await _context.Schools.CountAsync(),
                 ActiveSchools = await _context.Schools.CountAsync(s => s.IsActive),

@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using YemenSchoolsV1.API.Dto;
-using YemenSchoolsV1.Application.Contracts.Persistence;
+using Microsoft.EntityFrameworkCore;
 using YemenSchoolsV1.Application.Dto;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Domain.Entities;
 using YemenSchoolsV1.Persistence.Data;
 
@@ -21,7 +20,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
             if (stageGradeIds == null || stageGradeIds.Count == 0)
                 return;
 
-            var existingGrades = await dbContext.SchoolGrade
+            var existingGrades = await dbContext.SchoolGrades
                 .AsNoTracking()
                 .Where(sg => sg.SchoolId == schoolId)
                 .ToListAsync();
@@ -45,12 +44,12 @@ namespace YemenSchoolsV1.Persistence.Repositories
 
             if (toRemove.Count > 0)
             {
-                dbContext.SchoolGrade.RemoveRange(toRemove);
+                dbContext.SchoolGrades.RemoveRange(toRemove);
                 hasChanges = true;
             }
             if (toAdd.Count > 0)
             {
-                await dbContext.SchoolGrade.AddRangeAsync(toAdd);
+                await dbContext.SchoolGrades.AddRangeAsync(toAdd);
                 hasChanges = true;
             }
             if (hasChanges)
@@ -61,13 +60,13 @@ namespace YemenSchoolsV1.Persistence.Repositories
 
         public async Task<List<StageGradeDto>> GetStageGradesAsync(Guid schoolId)
         {
-            var result = await dbContext.StageGrade
+            var result = await dbContext.StageGrades
                 .Select(sg => new StageGradeDto
                 {
                     StageGradeId = sg.Id,
                     StageName = sg.Stage != null ? sg.Stage.Name : string.Empty,
                     GradeName = sg.Grade != null ? sg.Grade.Name : string.Empty,
-                    IsSelected = dbContext.SchoolGrade
+                    IsSelected = dbContext.SchoolGrades
                         .Any(schoolGrade => schoolGrade.SchoolId == schoolId && schoolGrade.StageGradeId == sg.Id)
                 })
                 .ToListAsync();
@@ -78,7 +77,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
 
         public async Task<List<SchoolGradeDto>> GetSchoolGradesBySchoolIdAsync(Guid schoolId)
         {
-            var result = await dbContext.SchoolGrade
+            var result = await dbContext.SchoolGrades
                 .Include(x => x.StageGrade)
                 .Select(sg => new SchoolGradeDto
                 {

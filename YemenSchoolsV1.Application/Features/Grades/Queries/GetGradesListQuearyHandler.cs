@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using FinalProject.Application.Bases;
+using AutoMapper;
+using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Contracts.Persistence;
@@ -9,7 +9,7 @@ namespace YemenSchoolsV1.Application.Features.Grades.Queries
 {
     public class GetGradesListQuearyHandler : ResponseHandler, IRequestHandler<GetGradesListQueary, Response<List<GetGradesListResponse>>>
     {
-        private readonly IGradeRepositry gradeRepositry;
+        private readonly IGradeRepository gradeRepository;
         #region faild
 
         private readonly IMapper mapper;
@@ -17,9 +17,9 @@ namespace YemenSchoolsV1.Application.Features.Grades.Queries
         #endregion
 
         #region ctor
-        public GetGradesListQuearyHandler(IGradeRepositry gradeRepositry, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public GetGradesListQuearyHandler(IGradeRepository gradeRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.gradeRepositry = gradeRepositry;
+            this.gradeRepository = gradeRepository;
             this.mapper = mapper;
             this.stringLocalizer = stringLocalizer;
 
@@ -28,7 +28,7 @@ namespace YemenSchoolsV1.Application.Features.Grades.Queries
         #endregion
         public async Task<Response<List<GetGradesListResponse>>> Handle(GetGradesListQueary request, CancellationToken cancellationToken)
         {
-            var resultDomain = await gradeRepositry.GetAllAsync();
+            var resultDomain = await gradeRepository.GetAllAsync();
             var result = mapper.Map<List<GetGradesListResponse>>(resultDomain);
 
             if (result == null)

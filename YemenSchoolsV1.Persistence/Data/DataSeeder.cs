@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using YemenSchoolsV1.Domain.Entities;
@@ -61,7 +61,7 @@ namespace YemenSchoolsV1.Persistence.Data
         public static async Task SeedAsync(YemenShoolsDbContext _context)
         {
 
-            if (await _context.Citys.AnyAsync()) return;
+            if (await _context.Cities.AnyAsync()) return;
             var path = Path.Combine(AppContext.BaseDirectory, "Data", "schools_data.json");
 
             if (!File.Exists(path))
@@ -76,7 +76,7 @@ namespace YemenSchoolsV1.Persistence.Data
             var data = JsonSerializer.Deserialize<SeedModel>(jsonData, options);
 
             // إضافة البيانات إلى قاعدة البيانات
-            await _context.Citys.AddRangeAsync(data.Cities);
+            await _context.Cities.AddRangeAsync(data.Cities);
             await _context.Regions.AddRangeAsync(data.Regions);
             await _context.Schools.AddRangeAsync(data.Schools);
 

@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Helpers
+namespace YemenSchoolsV1.Application.Helpers
 {
 	public class PaginationQuery
 	{

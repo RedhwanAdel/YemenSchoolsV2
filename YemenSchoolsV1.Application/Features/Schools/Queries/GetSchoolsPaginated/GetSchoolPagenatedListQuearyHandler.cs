@@ -1,5 +1,6 @@
-﻿using AutoMapper;
-using FinalProject.Application.Bases;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Contracts.Persistence;
@@ -15,7 +16,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
         #region faild
 
         private readonly ISchoolService schoolService;
-        private readonly ISchoolRepositry schoolRepositry;
+        private readonly ISchoolRepository schoolRepository;
         private readonly ICityService cityService;
         private readonly IRegionService regionService;
         private readonly IMapper mapper;
@@ -23,10 +24,10 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
         #endregion
 
         #region ctor
-        public GetSchoolPagenatedListQuearyHandler(ISchoolService schoolService, ISchoolRepositry schoolRepositry, ICityService cityService, IRegionService regionService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public GetSchoolPagenatedListQuearyHandler(ISchoolService schoolService, ISchoolRepository schoolRepository, ICityService cityService, IRegionService regionService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             this.schoolService = schoolService;
-            this.schoolRepositry = schoolRepositry;
+            this.schoolRepository = schoolRepository;
             this.cityService = cityService;
             this.regionService = regionService;
             this.mapper = mapper;
@@ -40,7 +41,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
 
         public async Task<PaginatedResponse<GetSchoolPagenatedListResponse>> Handle(GetSchoolPagenatedListQueary request, CancellationToken cancellationToken)
         {
-            var queryable = schoolRepositry.GetSchoolsWithCityAndRegionQueryable();
+            var queryable = schoolRepository.GetSchoolsWithCityAndRegionQueryable();
 
             // ------------------ الفلترة ------------------
             if (request.CityId.HasValue && request.CityId != Guid.Empty)
@@ -63,6 +64,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
             {
                 queryable = queryable.Where(x => x.SchoolType == request.Type.Value);
             }
+
             if (request.CurriculumType.HasValue)
             {
                 queryable = queryable.Where(x => x.CurriculumType == request.CurriculumType.Value);
@@ -73,14 +75,52 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
                 queryable = queryable.Where(x => (x.SchoolLevel & request.Levels.Value) != 0);
             }
 
-
             if (request.Gender.HasValue)
             {
                 queryable = queryable.Where(x => x.GenderType == request.Gender.Value);
             }
 
-            // ------------------ Select إلى DTO ------------------
-            var dtoQueryable = queryable
+            // ------------------ الفرز (على مستوى الكيان) ------------------
+            var sortDir = request.SortDirection?.Trim().ToLower() ?? "asc";
+            
+            switch (request.OrderBy)
+            {
+                case SchoolOrdering.Rating:
+                    queryable = sortDir == "desc" 
+                        ? queryable.OrderByDescending(x => x.Reviews.Average(r => (double?)r.Rating) ?? 0.0)
+                        : queryable.OrderBy(x => x.Reviews.Average(r => (double?)r.Rating) ?? 0.0);
+                    break;
+                case SchoolOrdering.Name:
+                    queryable = sortDir == "desc" 
+                        ? queryable.OrderByDescending(x => x.NameAr)
+                        : queryable.OrderBy(x => x.NameAr);
+                    break;
+                case SchoolOrdering.city:
+                    queryable = sortDir == "desc" 
+                        ? queryable.OrderByDescending(x => x.City.NameAr)
+                        : queryable.OrderBy(x => x.City.NameAr);
+                    break;
+                case SchoolOrdering.region:
+                    queryable = sortDir == "desc" 
+                        ? queryable.OrderByDescending(x => x.Region.NameAr)
+                        : queryable.OrderBy(x => x.Region.NameAr);
+                    break;
+                default:
+                    queryable = queryable.OrderByDescending(x => x.Reviews.Average(r => (double?)r.Rating) ?? 0.0);
+                    break;
+            }
+
+            // ------------------ Pagination & Projection ------------------
+            // نقوم بالعد أولاً
+            int count = await queryable.CountAsync();
+            
+            // ثم جلب الصفحة المطلوبة مع الـ Select
+            var pageNumber = request.PageNumber <= 0 ? 1 : request.PageNumber;
+            var pageSize = request.PageSize <= 0 ? 10 : request.PageSize;
+
+            var items = await queryable
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .Select(s => new GetSchoolPagenatedListResponse
                 {
                     Id = s.Id,
@@ -94,45 +134,14 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
                     MainPhone = s.MainPhone,
                     SchoolLevel = s.SchoolLevel.ToString(),
                     CurriculumType = s.CurriculumType.ToString(),
-                    AverageRating = s.Reviews.Any() ? s.Reviews.Average(r => r.Rating) : 0.0
-                });
+                    AverageRating = s.Reviews.Average(r => (double?)r.Rating) ?? 0.0
+                })
+                .ToListAsync();
 
-            // ------------------ الفرز ------------------
-            switch (request.SortDirection?.Trim().ToLower())
-            {
-                case "asc":
-                    dtoQueryable = request.OrderBy switch
-                    {
-                        SchoolOrdering.Rating => dtoQueryable.OrderBy(x => x.AverageRating),
-                        SchoolOrdering.Name => dtoQueryable.OrderBy(x => x.Name),
-                        SchoolOrdering.city => dtoQueryable.OrderBy(x => x.City),
-                        SchoolOrdering.region => dtoQueryable.OrderBy(x => x.Region),
-                        _ => dtoQueryable.OrderBy(x => x.Name)
-                    };
-                    break;
-
-                case "desc":
-                    dtoQueryable = request.OrderBy switch
-                    {
-                        SchoolOrdering.Rating => dtoQueryable.OrderByDescending(x => x.AverageRating),
-                        SchoolOrdering.Name => dtoQueryable.OrderByDescending(x => x.Name),
-                        SchoolOrdering.city => dtoQueryable.OrderByDescending(x => x.City),
-                        SchoolOrdering.region => dtoQueryable.OrderByDescending(x => x.Region),
-                        _ => dtoQueryable.OrderByDescending(x => x.Name)
-                    };
-                    break;
-
-                default:
-                    dtoQueryable = dtoQueryable.OrderBy(x => x.AverageRating);
-                    break;
-            }
-
-            // ------------------ Pagination ------------------
-            var paginatedList = await dtoQueryable
-                .ToPaginatedListAsync(request.PageNumber, request.PageSize);
-
-            paginatedList.Meta = new { Count = paginatedList.Data.Count() };
-            return paginatedList;
+            var response = PaginatedResponse<GetSchoolPagenatedListResponse>.Success(items, count, pageNumber, pageSize);
+            response.Meta = new { Count = items.Count };
+            
+            return response;
         }
 
     }

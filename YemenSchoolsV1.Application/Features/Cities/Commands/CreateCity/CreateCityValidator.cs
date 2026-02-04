@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Resources;

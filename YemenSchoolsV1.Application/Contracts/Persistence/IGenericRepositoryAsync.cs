@@ -1,8 +1,8 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using YemenSchoolsV1.Application.Helpers;
 using YemenSchoolsV1.Application.Wrappers;
 
-namespace FinalProject.Application.Contracts.Persistence
+namespace YemenSchoolsV1.Application.Contracts.Persistence
 {
 	public interface IGenericRepositoryAsync<T> where T : class
 	{

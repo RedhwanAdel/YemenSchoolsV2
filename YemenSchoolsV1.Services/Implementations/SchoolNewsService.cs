@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,15 +14,15 @@ namespace YemenSchoolsV1.Services.Implementations
     {
 
         #region filed
-        private readonly ISchoolNewsRepositry schoolNewsRepositry;
+        private readonly ISchoolNewsRepository schoolNewsRepository;
 
         #endregion
 
         #region constractor
      
-        public SchoolNewsService(ISchoolNewsRepositry schoolNewsRepositry)
+        public SchoolNewsService(ISchoolNewsRepository schoolNewsRepository)
         {
-            this.schoolNewsRepositry = schoolNewsRepositry;
+            this.schoolNewsRepository = schoolNewsRepository;
         }
         #endregion
         public async Task<SchoolNews?> CreateSchoolNewsAsync(SchoolNews news)
@@ -31,15 +31,15 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(news));
             }
-            return await schoolNewsRepositry.AddAsync(news);
+            return await schoolNewsRepository.AddAsync(news);
         }
 
         public async Task<bool> DeleteSchoolNewsAsync(Guid id)
         {
-            var news = await schoolNewsRepositry.GetByIdAsync(id);
+            var news = await schoolNewsRepository.GetByIdAsync(id);
             if (news == null)
                 return false;
-            return await schoolNewsRepositry.DeleteAsync(id);
+            return await schoolNewsRepository.DeleteAsync(id);
         }
 
         public async Task<SchoolNews?> EditSchoolNewsAsync(Guid id, SchoolNews news)
@@ -48,24 +48,24 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(news));
             }
-            var existingNews = await schoolNewsRepositry.GetByIdAsync(id);
+            var existingNews = await schoolNewsRepository.GetByIdAsync(id);
             if (existingNews == null) { return null; }
-            return await schoolNewsRepositry.UpdateAsync(id, news);
+            return await schoolNewsRepository.UpdateAsync(id, news);
         }
 
         public async Task<List<SchoolNews>> GetAllSchoolNewsAsync()
         {
-            return await schoolNewsRepositry.GetAllAsync();
+            return await schoolNewsRepository.GetAllAsync();
         }
 
         public async Task<SchoolNews?> GetSchoolNewsDetailsAsync(Guid id)
         {
-            return await schoolNewsRepositry.GetByIdAsync(id);
+            return await schoolNewsRepository.GetByIdAsync(id);
         }
 
         public async Task<List<SchoolNews>?> GetSchoolNewsDetailsBySchoolIdAsync(Guid id)
         {
-            return await schoolNewsRepositry.GetSchoolNewsBySchoolIdAsync(id);
+            return await schoolNewsRepository.GetSchoolNewsBySchoolIdAsync(id);
         }
     }
 }

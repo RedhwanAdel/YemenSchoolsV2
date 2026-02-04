@@ -1,25 +1,35 @@
-﻿using FinalProject.Application.Bases;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using YemenSchoolsV1.API.Bases;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Dto.Students;
+using YemenSchoolsV1.Application.Bases;
+
+using YemenSchoolsV1.Application.Features.Students.Commands.AddParentToStudent;
+using YemenSchoolsV1.Application.Features.Students.Commands.CreateStudent;
+using YemenSchoolsV1.Application.Features.Students.Commands.PromoteStudents;
+using YemenSchoolsV1.Application.Features.Students.Commands.RemoveParentFromStudent;
+using YemenSchoolsV1.Application.Features.Students.Commands.UpdateStudentProfile;
+using YemenSchoolsV1.Application.Features.Students.Queries.GetStudentProfileWithParents;
+using YemenSchoolsV1.Application.Features.Students.Queries.GetStudentsByAcademicYearAndSection;
+using YemenSchoolsV1.Application.Features.Students.Queries.GetStudentsBySchoolId;
+using YemenSchoolsV1.Application.Features.Students.Queries.GetStudentsBySection;
 
 namespace YemenSchoolsV1.API.Controllers
 {
     public class StudentController : AppControllerBase
     {
-        private readonly IStudentService _studentService;
-        private readonly ILogger<StudentController> _logger;
-
-        public StudentController(IStudentService studentService, ILogger<StudentController> logger)
+        public StudentController()
         {
-            _studentService = studentService;
-            _logger = logger;
         }
+
         [HttpPost("promote")]
         public async Task<IActionResult> PromoteStudents([FromBody] PromotionDto dto)
         {
-            var (succeeded, message) = await _studentService.PromoteStudentsToNewSectionAsync(dto.StudentIds, dto.NewSectionId);
+            var command = new PromoteStudentsCommand
+            {
+                StudentIds = dto.StudentIds,
+                NewSectionId = dto.NewSectionId
+            };
+            var (succeeded, message) = await Mediator.Send(command);
 
             var response = new Response<string>(message, succeeded);
 
@@ -62,16 +72,10 @@ namespace YemenSchoolsV1.API.Controllers
                 return NewResult(response);
             }
 
-            var students = await _studentService.GetStudentsByAcademicYearAndSectionAsync(academicYearId, sectionId);
+            var query = new GetStudentsByAcademicYearAndSectionQuery { AcademicYearId = academicYearId, SectionId = sectionId };
+            var students = await Mediator.Send(query);
 
-            var result = students.Select(s => new StudentListDto
-            {
-                Id = s.Id,
-                Name = s.NameAr,
-
-                RegisterNo = s.RegisterNo,
-
-            }).ToList();
+            var result = students.ToList(); // Transformation logic moved to Handler/Mapper
 
             var successResponse = new Response<List<StudentListDto>>(result, "تم جلب الطلاب بنجاح")
             {
@@ -81,6 +85,7 @@ namespace YemenSchoolsV1.API.Controllers
 
             return NewResult(successResponse);
         }
+
         /// <summary>
         /// Gets students by academic year and section.
         /// </summary>
@@ -89,23 +94,17 @@ namespace YemenSchoolsV1.API.Controllers
         {
             if (sectionId == Guid.Empty)
             {
-                var response = new Response<List<StudentListDto>>("AcademicYearId and SectionId are required.", false)
+                var response = new Response<List<StudentListDto>>("SectionId is required.", false)
                 {
                     StatusCode = System.Net.HttpStatusCode.BadRequest
                 };
                 return NewResult(response);
             }
 
-            var students = await _studentService.GetStudentsBySectionAsync(sectionId);
+            var query = new GetStudentsBySectionQuery { SectionId = sectionId };
+            var students = await Mediator.Send(query);
 
-            var result = students.Select(s => new StudentListDto
-            {
-                Id = s.Id,
-                Name = s.NameAr,
-                SectionId = s.CurrentSectionId,
-                RegisterNo = s.RegisterNo,
-
-            }).ToList();
+            var result = students.ToList();
 
             var successResponse = new Response<List<StudentListDto>>(result, "تم جلب الطلاب بنجاح")
             {
@@ -120,10 +119,8 @@ namespace YemenSchoolsV1.API.Controllers
         [HttpGet("student-by-school/{schoolId}")]
         public async Task<IActionResult> GetStudentsBySchool(Guid schoolId)
         {
-
-
-            var students = await _studentService.GetStudentsBySchoolIdAsync(schoolId);
-
+            var query = new GetStudentsBySchoolIdQuery { SchoolId = schoolId };
+            var students = await Mediator.Send(query);
 
             var successResponse = new Response<IEnumerable<StudentListDto>>(students, "تم جلب الطلاب بنجاح")
             {
@@ -133,6 +130,7 @@ namespace YemenSchoolsV1.API.Controllers
 
             return NewResult(successResponse);
         }
+
         /// <summary>
         /// ينشئ سجلًا جديدًا لطالب في النظام.
         /// </summary>
@@ -143,13 +141,32 @@ namespace YemenSchoolsV1.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("Invalid model state for CreateStudent request. DTO: {@Dto}", dto);
                 return BadRequest(ModelState);
             }
 
-            var (succeeded, message) = await _studentService.CreateStudentAsync(dto);
+            var command = new CreateStudentCommand
+            {
+                 NameAr = dto.NameAr,
+                 NameEn = dto.NameEn,
+                 Nationality = dto.Nationality,
+                 Address = dto.Address,
+                 Gender = dto.Gender,
+                 DateOfBirth = dto.DateOfBirth,
+                 PhoneNumber = dto.PhoneNumber,
+                 Email = dto.Email,
+                 RegisterNo = dto.RegisterNo,
+                 SchoolId = dto.SchoolId,
+                 CurrentAcademicYearId = dto.CurrentAcademicYearId,
+                 CurrentSectionId = dto.CurrentSectionId,
+                 Parents = dto.Parents
+            };
 
-            _logger.LogInformation("CreateStudent result: {Succeeded}, Message: {Message}", succeeded, message);
+            var (succeeded, message) = await Mediator.Send(command);
+
+            if (succeeded)
+            {
+                return NewResult(new Response<string>(message, true) { StatusCode = System.Net.HttpStatusCode.Created, Succeeded = true });
+            };
 
             var response = new Response<string>(message, succeeded)
             {
@@ -167,19 +184,21 @@ namespace YemenSchoolsV1.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetStudentProfile(Guid id)
         {
-            var student = await _studentService.GetStudentProfileWithParentsAsync(id);
-
-            if (student == null)
+            try
             {
-                _logger.LogWarning("Student with ID {StudentId} not found.", id);
-                var response = new Response<StudentWithParentsDto>("الطالب غير موجود", false)
+                var query = new GetStudentProfileWithParentsQuery { StudentId = id };
+                var student = await Mediator.Send(query);
+                
+                return NewResult(new Response<StudentWithParentsDto>(student, "تم جلب بيانات الطالب بنجاح") { StatusCode = System.Net.HttpStatusCode.OK, Succeeded = true });
+            }
+            catch (KeyNotFoundException)
+            {
+                 var response = new Response<StudentWithParentsDto>("الطالب غير موجود", false)
                 {
                     StatusCode = System.Net.HttpStatusCode.NotFound
                 };
                 return NewResult(response);
             }
-
-            return NewResult(new Response<StudentWithParentsDto>(student, "تم جلب بيانات الطالب بنجاح") { StatusCode = System.Net.HttpStatusCode.OK, Succeeded = true });
         }
 
         /// <summary>
@@ -193,13 +212,27 @@ namespace YemenSchoolsV1.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("Invalid model state for UpdateStudentProfile request. DTO: {@Dto}", dto);
                 return BadRequest(ModelState);
             }
 
-            var (succeeded, message) = await _studentService.UpdateStudentProfileAsync(id, dto);
+            var command = new UpdateStudentProfileCommand
+            {
+                StudentId = id,
+                NameAr = dto.NameAr,
+                NameEn = dto.NameEn,
+                Nationality = dto.Nationality,
+                Address = dto.Address,
+                Gender = dto.Gender,
+                DateOfBirth = dto.DateOfBirth,
+                Email = dto.Email
+            };
 
-            _logger.LogInformation("UpdateStudentProfile result for ID {StudentId}: {Succeeded}, Message: {Message}", id, succeeded, message);
+            var (succeeded, message) = await Mediator.Send(command);
+
+            if (succeeded)
+            {
+                return NewResult(new Response<string>(message, true) { StatusCode = System.Net.HttpStatusCode.OK, Succeeded = true });
+            }
 
             if (message.Contains("الطالب غير موجود"))
             {
@@ -224,10 +257,10 @@ namespace YemenSchoolsV1.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddParentToStudent(Guid studentId, Guid parentId, [FromQuery] string relationType)
         {
-            var (succeeded, message) = await _studentService.AddParentToStudentAsync(studentId, parentId, relationType);
+            var command = new AddParentToStudentCommand { StudentId = studentId, ParentId = parentId, RelationType = relationType };
+            var (succeeded, message) = await Mediator.Send(command);
 
-            _logger.LogInformation("AddParentToStudent: Parent {ParentId} to Student {StudentId} with Relation {RelationType}. Result: {Succeeded}, Message: {Message}", parentId, studentId, relationType, succeeded, message);
-
+            if (succeeded) return NewResult(new Response<string>("تم إضافة ولي الأمر بنجاح", true) { StatusCode = System.Net.HttpStatusCode.OK });
             var statusCode = succeeded ? System.Net.HttpStatusCode.OK : System.Net.HttpStatusCode.BadRequest;
             return NewResult(new Response<string>(message, succeeded) { StatusCode = statusCode });
         }
@@ -240,10 +273,10 @@ namespace YemenSchoolsV1.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RemoveParentFromStudent(Guid studentId, Guid parentId)
         {
-            var (succeeded, message) = await _studentService.RemoveParentFromStudentAsync(studentId, parentId);
+            var command = new RemoveParentFromStudentCommand { StudentId = studentId, ParentId = parentId };
+            var (succeeded, message) = await Mediator.Send(command);
 
-            _logger.LogInformation("RemoveParentFromStudent: Parent {ParentId} from Student {StudentId}. Result: {Succeeded}, Message: {Message}", parentId, studentId, succeeded, message);
-
+            if (succeeded) return NewResult(new Response<string>("تم إزالة ولي الأمر بنجاح", true) { StatusCode = System.Net.HttpStatusCode.OK });
             var statusCode = succeeded ? System.Net.HttpStatusCode.OK : System.Net.HttpStatusCode.BadRequest;
             return NewResult(new Response<string>(message, succeeded) { StatusCode = statusCode });
 

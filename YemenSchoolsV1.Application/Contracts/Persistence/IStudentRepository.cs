@@ -1,5 +1,5 @@
-﻿using FinalProject.Application.Contracts.Persistence;
-using YemenSchoolsV1.Application.Dto.Students;
+using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Features.Students.Queries.GetStudentsBySchoolId;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Contracts.Persistence

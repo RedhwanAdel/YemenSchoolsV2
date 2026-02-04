@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Contracts.Persistence
+namespace YemenSchoolsV1.Application.Contracts.Persistence
 {
     public interface IDashboardRepository
     {

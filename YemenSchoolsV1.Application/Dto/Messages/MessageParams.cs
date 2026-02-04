@@ -1,4 +1,4 @@
-﻿using YemenSchoolsV1.Application.Helpers;
+using YemenSchoolsV1.Application.Helpers;
 
 namespace YemenSchoolsV1.Application.Dto.Messages
 {

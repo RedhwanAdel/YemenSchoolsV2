@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Features.Regions.Queries.GetRegions
+namespace YemenSchoolsV1.Application.Features.Regions.Queries.GetRegions
 {
     public class GetRegionsListResponse
     {

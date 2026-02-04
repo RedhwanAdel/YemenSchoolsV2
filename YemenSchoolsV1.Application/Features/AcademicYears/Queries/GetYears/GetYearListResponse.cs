@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYears
+namespace YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYears
 {
     public class GetYearListResponse
     {

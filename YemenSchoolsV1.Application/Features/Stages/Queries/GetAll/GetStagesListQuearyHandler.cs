@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using FinalProject.Application.Bases;
+using AutoMapper;
+using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Contracts.Persistence;
@@ -10,16 +10,16 @@ namespace YemenSchoolsV1.Application.Features.Stages.Queries.GetAll
     public class GetStagesListQuearyHandler : ResponseHandler, IRequestHandler<GetStagesListQueary, Response<List<GetStagesListResponse>>>
     {
         #region Fields
-        private readonly IStageRepositry stageRepositry;
+        private readonly IStageRepository stageRepository;
         private readonly IStringLocalizer<SharedResources> _localizer;
         private readonly IMapper mapper;
         #endregion
 
         #region Constructors
-        public GetStagesListQuearyHandler(IStageRepositry stageRepositry,
+        public GetStagesListQuearyHandler(IStageRepository stageRepository,
                                    IStringLocalizer<SharedResources> localizer, IMapper mapper) : base(localizer)
         {
-            this.stageRepositry = stageRepositry;
+            this.stageRepository = stageRepository;
             _localizer = localizer;
             this.mapper = mapper;
         }
@@ -27,7 +27,7 @@ namespace YemenSchoolsV1.Application.Features.Stages.Queries.GetAll
         #endregion
         public async Task<Response<List<GetStagesListResponse>>> Handle(GetStagesListQueary request, CancellationToken cancellationToken)
         {
-            var stagesDomain = await stageRepositry.GetAllAsync();
+            var stagesDomain = await stageRepository.GetAllAsync();
             var stages = mapper.Map<List<GetStagesListResponse>>(stagesDomain);
 
             if (stages == null)

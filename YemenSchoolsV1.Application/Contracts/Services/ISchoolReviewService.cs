@@ -1,4 +1,4 @@
-﻿using YemenSchoolsV1.Application.Dto;
+using YemenSchoolsV1.Application.Dto;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Contracts.Services

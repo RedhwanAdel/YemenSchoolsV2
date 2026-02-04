@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using System.ComponentModel.DataAnnotations;
 using YemenSchoolsV1.Application.Helpers;
 using YemenSchoolsV1.Application.Wrappers;

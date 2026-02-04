@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Features.Cities.Commands.CreateCity;
 using YemenSchoolsV1.Application.Features.Cities.Commands.DeleteCity;

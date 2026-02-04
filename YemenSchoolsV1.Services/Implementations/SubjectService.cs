@@ -1,4 +1,4 @@
-﻿using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Domain.Entities;
 
@@ -6,9 +6,9 @@ namespace YemenSchoolsV1.Services.Implementations
 {
 	internal class SubjectService : ISubjectService
 	{
-		private readonly ISubjectRepositry subjectRepository;
+		private readonly ISubjectRepository subjectRepository;
 
-		public SubjectService(ISubjectRepositry subjectRepository)
+		public SubjectService(ISubjectRepository subjectRepository)
 		{
 			this.subjectRepository = subjectRepository;
 		}

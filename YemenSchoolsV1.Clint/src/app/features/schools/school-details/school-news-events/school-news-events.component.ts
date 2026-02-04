@@ -1,10 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+interface NewsItem {
+  title: string;
+  excerpt: string;
+  date: string;
+  imageUrl: string;
+}
 
+interface EventItem {
+  title: string;
+  day: number;
+  month: string;
+  time: string;
+  location: string;
+}
 @Component({
   selector: 'app-school-news-events',
   standalone: true,
@@ -12,55 +26,63 @@ import { MatListModule } from '@angular/material/list';
     CommonModule,
     MatCardModule,
     MatIconModule,
+    MatButtonModule,
+    MatListModule,
     MatDividerModule,
-    MatListModule
   ],
   templateUrl: './school-news-events.component.html',
   styleUrl: './school-news-events.component.scss'
 })
 export class SchoolNewsEventsComponent {
-  newsArticles = [
-    {
-      title: 'Sunrise Academy Wins National Robotics Competition',
-      date: 'June 25, 2025',
-      summary: 'Our robotics team secured first place in the annual National Robotics Challenge, showcasing exceptional innovation and teamwork. Congratulations to all participants!',
-      image: 'https://via.placeholder.com/400x250/3f51b5/ffffff?text=Robotics+Win'
-    },
-    {
-      title: 'Annual Arts Festival Showcases Student Talent',
-      date: 'May 18, 2025',
-      summary: 'The campus came alive with creativity during our Annual Arts Festival, featuring captivating performances and stunning artworks by students from all grades.',
-      image: 'https://via.placeholder.com/400x250/FFC107/000000?text=Arts+Festival'
-    },
-    {
-      title: 'Community Service Day: Making a Difference',
-      date: 'April 10, 2025',
-      summary: 'Students and faculty dedicated a day to various community service projects, reinforcing our commitment to social responsibility and empathy.',
-      image: 'https://via.placeholder.com/400x250/28A745/ffffff?text=Community+Service'
-    }
-  ];
+  news: NewsItem[] = [];
+  events: EventItem[] = [];
 
-  upcomingEvents = [
-    {
-      name: 'Parent-Teacher Conferences',
-      date: 'July 15-16, 2025',
-      time: '9:00 AM - 4:00 PM',
-      location: 'School Auditorium',
-      icon: 'event'
-    },
-    {
-      name: 'Summer Enrichment Program Begins',
-      date: 'August 1, 2025',
-      time: '8:30 AM',
-      location: 'Various Classrooms',
-      icon: 'summer_temp'
-    },
-    {
-      name: 'New Student Orientation',
-      date: 'August 28, 2025',
-      time: '10:00 AM',
-      location: 'School Gymnasium',
-      icon: 'group_add'
-    }
-  ];
+  ngOnInit(): void {
+    // بيانات الأخبار الوهمية
+    this.news = [
+      {
+        title: 'طلابنا يتألقون في مسابقة الروبوت الإقليمية',
+        excerpt: 'فريقنا للروبوت يفوز بالمركز الأول بعد تصميم روبوت مبتكر لحل مشكلات بيئية.',
+        date: '2025/11/15',
+        imageUrl: 'assets/images/first-lego-league-junior.jpg',
+      },
+      {
+        title: 'يوم مفتوح للتسجيل في المرحلة الثانوية',
+        excerpt: 'ندعو أولياء الأمور لزيارة الأكاديمية والتعرف على المناهج الجديدة والمنح المتاحة.',
+        date: '2025/11/10',
+        imageUrl: 'assets/images/pngtree-courtyard-of-a-school-building-picture-from-yumi-gyodo-picture-image_2467184.jpg',
+      },
+      {
+        title: 'تخريج دفعة 2025: حفل مهيب وذكريات لا تُنسى',
+        excerpt: 'احتفال ضخم لتخريج طلابنا والاحتفاء بإنجازاتهم الأكاديمية والشخصية.',
+        date: '2025/11/01',
+        imageUrl: 'assets/images/32d9acc6232613053.jpg',
+      },
+    ];
+
+    // بيانات الفعاليات الوهمية
+    this.events = [
+      {
+        title: 'اجتماع أولياء الأمور الفصلي',
+        day: 25,
+        month: 'نوفمبر',
+        time: '10:00 صباحًا',
+        location: 'قاعة المؤتمرات الرئيسية',
+      },
+      {
+        title: 'بطولة الشروق السنوية لكرة القدم',
+        day: 5,
+        month: 'ديسمبر',
+        time: '4:00 مساءً',
+        location: 'الملعب الرياضي',
+      },
+      {
+        title: 'معرض الفنون والإبداع الطلابي',
+        day: 12,
+        month: 'ديسمبر',
+        time: '1:00 ظهرًا',
+        location: 'استوديو الفنون',
+      },
+    ];
+  }
 }

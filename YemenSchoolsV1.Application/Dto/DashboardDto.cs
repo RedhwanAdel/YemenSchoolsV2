@@ -1,4 +1,4 @@
-﻿public class DashboardDto
+public class DashboardDto
 {
     public DashboardSummaryDto Summary { get; set; }
     public List<TopSchoolDto> TopSchoolsByStudents { get; set; }

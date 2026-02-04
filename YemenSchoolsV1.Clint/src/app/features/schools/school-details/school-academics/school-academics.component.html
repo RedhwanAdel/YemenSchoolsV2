@@ -1,196 +1,163 @@
 <div class="container py-4 text-end" dir="rtl">
-  <mat-card class="mb-4 shadow-sm">
+  <mat-card class="mb-4 shadow-lg hero-academic-card">
+    <mat-card-content class="p-4">
+      <h1 class="display-6 fw-bold mb-3 text-white">
+        البرامج الأكاديمية: إعداد للمستقبل 🚀
+      </h1>
+      <p class="lead text-white-75 mb-3">
+        تقدم أكاديمية الشروق منهجًا صارمًا وشاملاً مصممًا لتعزيز التفكير النقدي
+        والإبداع، لإعداد طلابنا للنجاح في التعليم العالي وما بعده.
+      </p>
+      <button mat-flat-button color="accent" class="mt-3">
+        <mat-icon>menu_book</mat-icon>
+        اطلب دليل المناهج الآن
+      </button>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="mb-4 shadow-sm programs-section">
     <mat-card-content class="p-4">
       <h2
-        class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
+        class="text-primary-emphasis fw-bold mb-4 border-bottom border-primary-subtle pb-2"
       >
-        البرامج الأكاديمية
+        المراحل التعليمية الأساسية 📚
       </h2>
-      <p class="lead text-secondary-emphasis mb-3">
-        تقدم أكاديمية صن رايز منهجًا صارمًا وشاملاً مصممًا لإعداد الطلاب للنجاح
-        في التعليم العالي وما بعده. تم تصميم برامجنا لتعزيز التفكير النقدي
-        والإبداع وفهم عميق لمجالات متعددة.
-      </p>
 
-      <div class="row g-3 mb-4">
+      <div class="row g-4">
         <div class="col-md-6">
-          <mat-card class="h-100 bg-light-subtle">
-            <mat-card-content class="p-3">
-              <h5 class="fw-semibold text-dark d-flex align-items-center mb-2">
-                <mat-icon color="primary" class="ms-2">school</mat-icon>
+          <mat-card class="h-100 program-card primary-card">
+            <div class="program-image-header primary-bg">
+              <mat-icon class="header-icon">school</mat-icon>
+            </div>
+            <mat-card-content class="p-4">
+              <h4 class="fw-bold text-dark mb-2">
                 التعليم الأساسي (الصفوف 1–5)
-              </h5>
+              </h4>
               <p class="text-secondary-emphasis">
-                يركّز على مهارات القراءة والكتابة الأساسية، والحساب، والمهارات
+                يركّز على تأسيس مهارات القراءة والكتابة والحساب والمهارات
                 الحياتية الضرورية من خلال نهج تفاعلي قائم على الأنشطة.
               </p>
-              <div class="d-flex flex-wrap gap-2 justify-content-end">
+              <div class="d-flex flex-wrap gap-2 justify-content-end mt-3">
                 <mat-chip-row
-                  color="accent"
-                  selected
-                  class="bg-primary-subtle text-primary-emphasis"
-                  >القراءة</mat-chip-row
+                  *ngFor="
+                    let subject of ['القراءة', 'الرياضيات', 'العلوم', 'الفنون']
+                  "
+                  class="chip-primary"
                 >
-                <mat-chip-row
-                  color="accent"
-                  selected
-                  class="bg-primary-subtle text-primary-emphasis"
-                  >الرياضيات</mat-chip-row
-                >
-                <mat-chip-row
-                  color="accent"
-                  selected
-                  class="bg-primary-subtle text-primary-emphasis"
-                  >العلوم</mat-chip-row
-                >
-                <mat-chip-row
-                  color="accent"
-                  selected
-                  class="bg-primary-subtle text-primary-emphasis"
-                  >الفنون</mat-chip-row
-                >
+                  {{ subject }}
+                </mat-chip-row>
               </div>
             </mat-card-content>
           </mat-card>
         </div>
+
         <div class="col-md-6">
-          <mat-card class="h-100 bg-light-subtle">
-            <mat-card-content class="p-3">
-              <h5 class="fw-semibold text-dark d-flex align-items-center mb-2">
-                <mat-icon color="primary" class="ms-2">junior_senior</mat-icon>
+          <mat-card class="h-100 program-card secondary-card">
+            <div class="program-image-header secondary-bg">
+              <mat-icon class="header-icon">junior_senior</mat-icon>
+            </div>
+            <mat-card-content class="p-4">
+              <h4 class="fw-bold text-dark mb-2">
                 التعليم الثانوي (الصفوف 6–12)
-              </h5>
+              </h4>
               <p class="text-secondary-emphasis">
-                يقدم مجموعة واسعة من المواد بما في ذلك مواد المستوى المتقدم
-                (AP)، لإعداد الطلاب لاختبارات القبول الجامعي.
+                يقدم مواد المستوى المتقدم (AP)، والمسارات المتخصصة، لإعداد
+                الطلاب لاختبارات القبول الجامعي والمهن المستقبلية.
               </p>
-              <div class="d-flex flex-wrap gap-2 justify-content-end">
+              <div class="d-flex flex-wrap gap-2 justify-content-end mt-3">
                 <mat-chip-row
-                  color="accent"
-                  selected
-                  class="bg-primary-subtle text-primary-emphasis"
-                  >الفيزياء</mat-chip-row
+                  *ngFor="
+                    let subject of [
+                      'الفيزياء',
+                      'الكيمياء',
+                      'الأحياء',
+                      'التفاضل'
+                    ]
+                  "
+                  class="chip-secondary"
                 >
-                <mat-chip-row
-                  color="accent"
-                  selected
-                  class="bg-primary-subtle text-primary-emphasis"
-                  >الكيمياء</mat-chip-row
-                >
-                <mat-chip-row
-                  color="accent"
-                  selected
-                  class="bg-primary-subtle text-primary-emphasis"
-                  >الأحياء</mat-chip-row
-                >
-                <mat-chip-row
-                  color="accent"
-                  selected
-                  class="bg-primary-subtle text-primary-emphasis"
-                  >الأدب</mat-chip-row
-                >
-                <mat-chip-row
-                  color="accent"
-                  selected
-                  class="bg-primary-subtle text-primary-emphasis"
-                  >التفاضل والتكامل</mat-chip-row
-                >
+                  {{ subject }}
+                </mat-chip-row>
               </div>
             </mat-card-content>
           </mat-card>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card class="mb-4 shadow-sm">
-    <mat-card-content class="p-4">
-      <h2
-        class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
-      >
-        منهجية التعليم لدينا
-      </h2>
-      <p class="text-secondary-emphasis mb-3">
-        نعتمد منهجية تعليمية ديناميكية تتمحور حول الطالب، وتشجع على المشاركة
-        الفعالة والفهم العميق. وتشمل أساليبنا الرئيسية:
-      </p>
-      <ul class="list-unstyled">
-        <li class="d-flex align-items-start mb-2">
-          <mat-icon color="accent" class="ms-2 fs-5 mt-1">lightbulb</mat-icon>
-          <div>
-            <span class="fw-semibold text-primary"
-              >التعلم القائم على الاستقصاء:</span
-            >
-            يتم تشجيع الطلاب على طرح الأسئلة، والبحث، واكتساب المعرفة بأنفسهم.
-          </div>
-        </li>
-        <li class="d-flex align-items-start mb-2">
-          <mat-icon color="accent" class="ms-2 fs-5 mt-1">groups</mat-icon>
-          <div>
-            <span class="fw-semibold text-primary">المشاريع التعاونية:</span>
-            تعزز المهام الجماعية مهارات التواصل، وحل المشكلات، والقيادة.
-          </div>
-        </li>
-        <li class="d-flex align-items-start mb-2">
-          <mat-icon color="accent" class="ms-2 fs-5 mt-1">laptop_mac</mat-icon>
-          <div>
-            <span class="fw-semibold text-primary">دمج التكنولوجيا:</span>
-            استخدام الأدوات والموارد الرقمية لتعزيز التعلم والتفاعل.
-          </div>
-        </li>
-        <li class="d-flex align-items-start">
-          <mat-icon color="accent" class="ms-2 fs-5 mt-1">psychology</mat-icon>
-          <div>
-            <span class="fw-semibold text-primary">التعليم المتمايز:</span>
-            تكييف أساليب التدريس لتناسب أنماط واحتياجات التعلم المتنوعة.
-          </div>
-        </li>
-      </ul>
     </mat-card-content>
   </mat-card>
 
   <mat-card class="shadow-sm">
     <mat-card-content class="p-4">
-      <h2
-        class="text-primary-emphasis fw-bold mb-3 border-bottom border-primary-subtle pb-2"
-      >
-        التقييم ودعم الطلاب
-      </h2>
-      <p class="text-secondary-emphasis mb-3">
-        في أكاديمية صن رايز، نؤمن بأهمية التقييم المستمر لمتابعة تقدم الطلاب
-        وتقديم التغذية الراجعة في الوقت المناسب. كما نقدم أنظمة دعم قوية لضمان
-        تفوق كل طالب.
-      </p>
-      <div class="row g-3">
-        <div class="col-md-6">
-          <div
-            class="d-flex align-items-start p-3 bg-info-subtle rounded-3 h-100"
-          >
-            <mat-icon color="primary" class="ms-3 fs-2">assessment</mat-icon>
-            <div>
-              <h5 class="fw-semibold text-dark">تقييم شامل</h5>
-              <p class="text-secondary-emphasis mb-0">
-                مزيج من التقييمات التكوينية والختامية، بما في ذلك المشاريع
-                والعروض التقديمية والاختبارات الموحدة لقياس الفهم.
-              </p>
+      <h2 class="text-primary-emphasis fw-bold mb-3">منهجيتنا ونظام الدعم</h2>
+
+      <mat-accordion class="methodology-accordion">
+        <mat-expansion-panel expanded>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="fw-bold">
+              <mat-icon color="primary" class="ms-2">psychology</mat-icon>
+              منهجية التعليم المتمحورة حول الطالب
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <ul class="list-unstyled">
+            <li
+              class="d-flex align-items-start mb-2"
+              *ngFor="let item of methodologyItems"
+            >
+              <mat-icon color="accent" class="ms-2 fs-5 mt-1"
+                >check_circle</mat-icon
+              >
+              <div>
+                <span class="fw-semibold text-primary">{{ item.title }}:</span>
+                {{ item.description }}
+              </div>
+            </li>
+          </ul>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="fw-bold">
+              <mat-icon color="primary" class="ms-2">support</mat-icon>
+              نظام التقييم والدعم المخصص
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div
+                class="d-flex align-items-start p-3 bg-info-subtle rounded-3 h-100"
+              >
+                <mat-icon color="primary" class="ms-3 fs-2"
+                  >assessment</mat-icon
+                >
+                <div>
+                  <h5 class="fw-semibold text-dark">تقييم شامل</h5>
+                  <p class="text-secondary-emphasis mb-0 small">
+                    مزج بين التقييمات التكوينية والختامية، بما في ذلك المشاريع
+                    والعروض التقديمية لقياس الفهم العميق.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div
+                class="d-flex align-items-start p-3 bg-success-subtle rounded-3 h-100"
+              >
+                <mat-icon color="primary" class="ms-3 fs-2"
+                  >counseling</mat-icon
+                >
+                <div>
+                  <h5 class="fw-semibold text-dark">دعم مخصص للطلاب</h5>
+                  <p class="text-secondary-emphasis mb-0 small">
+                    إرشاد أكاديمي ونفسي شامل لمساعدة الطلاب في التغلب على
+                    التحديات وتحقيق أهدافهم.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <div
-            class="d-flex align-items-start p-3 bg-success-subtle rounded-3 h-100"
-          >
-            <mat-icon color="primary" class="ms-3 fs-2">support</mat-icon>
-            <div>
-              <h5 class="fw-semibold text-dark">دعم مخصص للطلاب</h5>
-              <p class="text-secondary-emphasis mb-0">
-                إرشاد أكاديمي، وخدمات تعليمية مساندة، ودعم نفسي لمساعدة الطلاب
-                في التغلب على التحديات وتحقيق أهدافهم.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+        </mat-expansion-panel>
+      </mat-accordion>
     </mat-card-content>
   </mat-card>
 </div>

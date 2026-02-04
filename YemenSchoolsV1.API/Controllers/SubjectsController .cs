@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using YemenSchoolsV1.API.Bases;
 using YemenSchoolsV1.Application.Features.Subjects.Commands.Create;
 using YemenSchoolsV1.Application.Features.Subjects.Commands.Delete;

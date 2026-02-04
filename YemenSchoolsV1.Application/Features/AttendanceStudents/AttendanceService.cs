@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Domain.Entities;
@@ -9,16 +9,16 @@ namespace YemenSchoolsV1.Application.Features.AttendanceStudents
     public class AttendanceService : IAttendanceService
     {
         private readonly IAttendanceRepository _attendanceRepository;
-        private readonly ISectionRepositry _sectionRepository; // افتراض وجود مستودع للشعبة
+        private readonly ISectionRepository _sectionRepository; // افتراض وجود مستودع للشعبة
 
-        public AttendanceService(IAttendanceRepository attendanceRepository, ISectionRepositry sectionRepository)
+        public AttendanceService(IAttendanceRepository attendanceRepository, ISectionRepository sectionRepository)
         {
             _attendanceRepository = attendanceRepository;
             _sectionRepository = sectionRepository;
         }
 
         // الدالة الأولى: لإنشاء سجل حضور يومي
-        public async Task<Attendance> CreateDailyAttendanceAsync(Guid classTeacherId, Guid sectionId, DateTime date, Dictionary<Guid, AttendanceStatus> studentStatuses)
+        public async Task<YemenSchoolsV1.Domain.Entities.Attendance> CreateDailyAttendanceAsync(Guid classTeacherId, Guid sectionId, DateTime date, Dictionary<Guid, AttendanceStatus> studentStatuses)
         {
             // 1. التحقق من وجود سجل حضور مسبقًا لهذا اليوم وللشعبة
             var existingAttendance = await _attendanceRepository.GetAttendanceByDateAndSectionAsync(date, sectionId);
@@ -35,7 +35,7 @@ namespace YemenSchoolsV1.Application.Features.AttendanceStudents
             }
 
             // 3. إنشاء سجل الحضور الرئيسي
-            var attendance = new Attendance
+            var attendance = new YemenSchoolsV1.Domain.Entities.Attendance
             {
                 Date = date,
                 SectionId = sectionId,

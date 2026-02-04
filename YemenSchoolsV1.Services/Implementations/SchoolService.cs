@@ -1,4 +1,4 @@
-﻿using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Domain.Entities;
 
@@ -7,14 +7,14 @@ namespace YemenSchoolsV1.Services.Implementations
 	public class SchoolService : ISchoolService
 	{
 		#region filed
-		private readonly ISchoolRepositry schoolRepositry;
+		private readonly ISchoolRepository schoolRepository;
 
 		#endregion
 
 		#region constractor
-		public SchoolService(ISchoolRepositry schoolRepositry)
+		public SchoolService(ISchoolRepository schoolRepository)
 		{
-			this.schoolRepositry = schoolRepositry;
+			this.schoolRepository = schoolRepository;
 		}
 		#endregion
 
@@ -24,16 +24,16 @@ namespace YemenSchoolsV1.Services.Implementations
 
 		public async Task<List<School>> GetAllSchoolsAsync()
 		{
-			return await schoolRepositry.GetAllAsync();
+			return await schoolRepository.GetAllAsync();
 		}
 
 		public async Task<School?> GetSchoolDetailsAsync(Guid id)
 		{
-			return await schoolRepositry.GetByIdAsync(id);
+			return await schoolRepository.GetByIdAsync(id);
 		}
 		public async Task<School?> GetSchoolDetailsIncludeAsync(Guid id)
 		{
-			return await schoolRepositry.GetSchoolDetailsInculdeAsync(id);
+			return await schoolRepository.GetSchoolDetailsInculdeAsync(id);
 		}
 		public async Task<School?> CreateSchoolAsync(School school)
 		{
@@ -41,7 +41,7 @@ namespace YemenSchoolsV1.Services.Implementations
 			{
 				throw new ArgumentNullException(nameof(school));
 			}
-			return await schoolRepositry.AddAsync(school);
+			return await schoolRepository.AddAsync(school);
 		}
 
 		public async Task<School?> EditSchoolAsync(Guid id, School school)
@@ -50,22 +50,22 @@ namespace YemenSchoolsV1.Services.Implementations
 			{
 				throw new ArgumentNullException(nameof(school));
 			}
-			var existingSchool = await schoolRepositry.GetByIdAsync(id);
+			var existingSchool = await schoolRepository.GetByIdAsync(id);
 			if (existingSchool == null) { return null; }
-			return await schoolRepositry.UpdateAsync(id, school);
+			return await schoolRepository.UpdateAsync(id, school);
 		}
 
 		public async Task<bool> DeleteSchoolAsync(Guid id)
 		{
-			var school = await schoolRepositry.GetByIdAsync(id);
+			var school = await schoolRepository.GetByIdAsync(id);
 			if (school == null)
 				return false;
-			return await schoolRepositry.DeleteAsync(id);
+			return await schoolRepository.DeleteAsync(id);
 		}
 
 		//public IQueryable<School> FilterSchoolPaginatedQuerable(SchoolOrdering orderingEnum, string sortDirection, string search, Guid? cityId, Guid? regionId)
 		//{
-		//	var queryable = schoolRepositry.GetSchoolsWithCityAndRegionQueryable();
+		//	var queryable = schoolRepository.GetSchoolsWithCityAndRegionQueryable();
 
 
 
@@ -131,7 +131,7 @@ namespace YemenSchoolsV1.Services.Implementations
 
 		public async Task CreateSchoolPhonsRangAsync(List<SchoolPhone> schoolPhones)
 		{
-			await schoolRepositry.CreateSchoolPhonesRangAsync(schoolPhones);
+			await schoolRepository.CreateSchoolPhonesRangAsync(schoolPhones);
 		}
 
 

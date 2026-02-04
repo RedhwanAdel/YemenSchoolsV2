@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto;
 using YemenSchoolsV1.Domain.Entities;
@@ -16,7 +16,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
         }
         public async Task<SectionSubject?> GetSectionSubjectsInfoAsync(Guid Id)
         {
-            return await dbContext.SectionSubject
+            return await dbContext.SectionSubjects
                 .Include(ss => ss.Section)
                 .Include(ss => ss.GradeSubject)
                     .ThenInclude(gs => gs.Subject)
@@ -27,7 +27,7 @@ namespace YemenSchoolsV1.Persistence.Repositories
 
         public async Task<List<SectionSubjectInfoDto>> GetSectionSubjectsInfoBySectionIdAsync(Guid sectionId)
         {
-            return await dbContext.SectionSubject
+            return await dbContext.SectionSubjects
                 .Where(ss => ss.SectionId == sectionId)
                 .Include(ss => ss.GradeSubject)
                     .ThenInclude(gs => gs.Subject)

@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Features.Grades.Queries
+namespace YemenSchoolsV1.Application.Features.Grades.Queries
 {
     public class GetGradesListResponse
     {

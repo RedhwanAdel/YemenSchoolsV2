@@ -1,22 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using YemenSchoolsV1.API.Bases;
-using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Features.Dashboard.Queries;
 
 namespace YemenSchoolsV1.API.Controllers
 {
     public class DashboardController : AppControllerBase
     {
-        private readonly IDashboardRepository _dashboardRepo;
-
-        public DashboardController(IDashboardRepository dashboardRepo)
-        {
-            _dashboardRepo = dashboardRepo;
-        }
         [HttpGet]
         public async Task<IActionResult> GetDashboard()
         {
-            var result = await _dashboardRepo.GetDashboardAsync();
-            return Ok(result);
+            var response = await Mediator.Send(new GetDashboardQuery());
+            return Ok(response.Data); 
         }
     }
 }

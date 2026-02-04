@@ -1,4 +1,4 @@
-using FinalProject.Services;
+using YemenSchoolsV1.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;

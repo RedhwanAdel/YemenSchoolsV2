@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using YemenSchoolsV1.Application.Features.Accounts.Login;
 using YemenSchoolsV1.Application.Features.Accounts.Register;
 using YemenSchoolsV1.Domain.Entities;

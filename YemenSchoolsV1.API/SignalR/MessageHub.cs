@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto.Messages;
@@ -10,7 +10,7 @@ namespace YemenSchoolsV1.API.SignalR
 
     [Authorize]
     public class MessageHub(IMessageRepository messageRepository
-         , IHubContext<PresenceHub> presenceHub, IUserRepository userRepository, ITeacherRepositry teacherRepositry, IParentRepositry parentRepositry) : Hub
+         , IHubContext<PresenceHub> presenceHub, IUserRepository userRepository, ITeacherRepository teacherRepository, IParentRepository parentRepository) : Hub
     {
         public override async Task OnConnectedAsync()
         {

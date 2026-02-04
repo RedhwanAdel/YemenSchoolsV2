@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Dto
+namespace YemenSchoolsV1.Application.Dto
 {
     public class StudentSubjectReportDto
     {

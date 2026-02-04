@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Features.Stages.Queries.GetAll
+namespace YemenSchoolsV1.Application.Features.Stages.Queries.GetAll
 {
     public class GetStagesListResponse
     {

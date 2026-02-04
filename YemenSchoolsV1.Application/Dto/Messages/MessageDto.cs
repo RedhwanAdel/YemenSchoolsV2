@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Dto.Messages
+namespace YemenSchoolsV1.Application.Dto.Messages
 {
 
     public class MessageDto

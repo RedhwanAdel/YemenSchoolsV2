@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +12,11 @@ namespace YemenSchoolsV1.Services.Implementations
 {
     public class SectionService : ISectionService
     {
-        private readonly ISectionRepositry sectionRepositry;
+        private readonly ISectionRepository sectionRepository;
 
-        public SectionService(ISectionRepositry sectionRepositry)
+        public SectionService(ISectionRepository sectionRepository)
         {
-            this.sectionRepositry = sectionRepositry;
+            this.sectionRepository = sectionRepository;
         }
         public async Task<Section?> CreateSectionAsync(Section section)
         {
@@ -24,15 +24,15 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(section));
             }
-            return await sectionRepositry.AddAsync(section);
+            return await sectionRepository.AddAsync(section);
         }
 
         public async Task<bool> DeleteSectionAsync(Guid id)
         {
-            var section = await sectionRepositry.GetByIdAsync(id);
+            var section = await sectionRepository.GetByIdAsync(id);
             if (section == null)
                 return false;
-            return await sectionRepositry.DeleteAsync(id);
+            return await sectionRepository.DeleteAsync(id);
         }
 
         public async Task<Section?> EditSectionAsync(Guid id, Section section)
@@ -41,19 +41,19 @@ namespace YemenSchoolsV1.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(section));
             }
-            var existingSection = await sectionRepositry.GetByIdAsync(id);
+            var existingSection = await sectionRepository.GetByIdAsync(id);
             if (existingSection == null) { return null; }
-            return await sectionRepositry.UpdateAsync(id, section);
+            return await sectionRepository.UpdateAsync(id, section);
         }
 
         public async Task<List<Section>> GetAllSectionsAsync()
         {
-            return await sectionRepositry.GetAllAsync();
+            return await sectionRepository.GetAllAsync();
         }
 
         public async Task<Section?> GetSectionDetailsAsync(Guid id)
         {
-            return await sectionRepositry.GetByIdAsync(id);
+            return await sectionRepository.GetByIdAsync(id);
         }
     }
 }

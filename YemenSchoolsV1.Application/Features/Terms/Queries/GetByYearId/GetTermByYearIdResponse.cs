@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Features.Terms.Queries.GetByYearId
+namespace YemenSchoolsV1.Application.Features.Terms.Queries.GetByYearId
 {
     public class GetTermByYearIdResponse
     {

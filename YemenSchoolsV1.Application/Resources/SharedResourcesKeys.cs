@@ -1,4 +1,4 @@
-﻿namespace YemenSchoolsV1.Application.Resources
+namespace YemenSchoolsV1.Application.Resources
 {
 	public class SharedResourcesKeys
 	{
