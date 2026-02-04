@@ -7,7 +7,7 @@ using System.Text;
 using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Domain.Entities;
 
-namespace YemenSchoolsV1.Application.Features.Accounts
+namespace YemenSchoolsV1.Application.Services.Implementations
 {
 	public class TokenService(IConfiguration config, UserManager<AppUser> userManager) : ITokenService
 	{

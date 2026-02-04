@@ -1,4 +1,3 @@
-using YemenSchoolsV1.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +20,7 @@ builder.Services.AddDbContext<YemenShoolsDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("dbcontext"));
 });
 
-builder.Services.AddConfigureServices()
-.AddConfigureApplicationServices()
+builder.Services.AddConfigureApplicationServices()
 .AddConfigurePersistenceServices()
 .AddIdentityServices(builder.Configuration);
 builder.Services.AddSignalR();

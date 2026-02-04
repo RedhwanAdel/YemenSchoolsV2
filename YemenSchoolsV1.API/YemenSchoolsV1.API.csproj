@@ -17,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\YemenSchoolsV1.Application\YemenSchoolsV1.Application.csproj" />
     <ProjectReference Include="..\YemenSchoolsV1.Persistence\YemenSchoolsV1.Persistence.csproj" />
-    <ProjectReference Include="..\YemenSchoolsV1.Services\YemenSchoolsV1.Services.csproj" />
   </ItemGroup>
 
 </Project>
