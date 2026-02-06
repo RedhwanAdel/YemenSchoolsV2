@@ -92,11 +92,6 @@ namespace YemenSchoolsV1.API.Controllers
             return NewResult(response);
         }
 
-        /// <summary>
-        /// Updates the authenticated parent's profile.
-        /// </summary>
-        /// <param name="dto">Updated parent profile data.</param>
-        /// <returns>A status result indicating success or failure.</returns>
         [HttpPut("profile")]
         public async Task<IActionResult> UpdateParentProfile([FromBody] ParentUpdateDto dto)
         {
@@ -113,10 +108,6 @@ namespace YemenSchoolsV1.API.Controllers
             return NewResult(response);
         }
 
-        /// <summary>
-        /// Retrieves the profile of the authenticated parent.
-        /// </summary>
-        /// <returns>The parent's profile data with students.</returns>
         [HttpGet("profile")]
         public async Task<IActionResult> GetParentProfile()
         {

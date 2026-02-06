@@ -20,159 +20,62 @@ namespace YemenSchoolsV1.API.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/Marks/StudentSubjectsReport/{studentId}
-        [HttpGet("StudentSubjectsReport/{studentId}")]
-        public async Task<ActionResult<IEnumerable<StudentSubjectReportDto>>> GetStudentSubjectsReport(Guid studentId)
+        [HttpGet("StudentSubjectsReport/{studentId:guid}")]
+        public async Task<IActionResult> GetStudentSubjectsReport(Guid studentId)
         {
-            var query = new GetStudentSubjectsReportQuery { StudentId = studentId };
-            var report = await _mediator.Send(query);
-
-            return Ok(report);
+            var response = await Mediator.Send(new GetStudentSubjectsReportQuery { StudentId = studentId });
+            return NewResult(response);
         }
 
-        /// <summary>
-        /// لجلب جميع الشعب والمواد التي يدرسها المعلم الحالي
-        /// </summary>
         [HttpGet("section-subjects")]
         public async Task<IActionResult> GetTeacherSectionSubjects()
         {
-            try
-            {
-                // استخراج معرف المعلم من المصادقة
-                var teacherId = User.GetEntityId();
-                var query = new GetTeacherSectionSubjectsQuery { TeacherId = teacherId };
-                var sectionSubjects = await _mediator.Send(query);
-                return Ok(sectionSubjects);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while retrieving teacher's subjects and sections.");
-            }
+            var teacherId = User.GetEntityId();
+            var response = await Mediator.Send(new GetTeacherSectionSubjectsQuery { TeacherId = teacherId });
+            return NewResult(response);
         }
 
-        /// <summary>
-        /// لإنشاء درجات جديدة لمجموعة من الطلاب
-        /// </summary>
         [HttpPost("create")]
         public async Task<IActionResult> CreateMarks([FromBody] CreateMarksDto dto)
         {
-            try
+            var teacherId = User.GetEntityId();
+            var response = await Mediator.Send(new CreateMarksCommand
             {
-                var teacherId = User.GetEntityId(); // استخراج معرف المعلم من المصادقة
-                var command = new CreateMarksCommand
-                {
-                    TeacherId = teacherId,
-                    SectionSubjectId = dto.SectionSubjectId,
-                    AssessmentType = dto.AssessmentType,
-                    StudentScores = dto.StudentScores,
-                    MaxScore = dto.MaxScore
-                };
-
-                var result = await _mediator.Send(command);
-
-                if (!result.Succeeded)
-                {
-                    return BadRequest(new { message = result.Message });
-                }
-
-                return StatusCode(201, new { message = result.Message });
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Forbid(ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while creating the marks.");
-            }
+                TeacherId = teacherId,
+                SectionSubjectId = dto.SectionSubjectId,
+                AssessmentType = dto.AssessmentType,
+                StudentScores = dto.StudentScores,
+                MaxScore = dto.MaxScore
+            });
+            return NewResult(response);
         }
 
-        /// <summary>
-        /// لتحديث درجات موجودة لمجموعة من الطلاب
-        /// </summary>
         [HttpPut("update")]
         public async Task<IActionResult> UpdateMarks([FromBody] UpdateMarksDto dto)
         {
-            try
+            var teacherId = User.GetEntityId();
+            var response = await Mediator.Send(new UpdateMarksCommand
             {
-                var teacherId = User.GetEntityId();
-                var command = new UpdateMarksCommand
-                {
-                    TeacherId = teacherId,
-                    SectionSubjectId = dto.SectionSubjectId,
-                    AssessmentType = dto.AssessmentType,
-                    StudentScores = dto.StudentScores
-                };
-
-                var result = await _mediator.Send(command);
-
-                if (!result.Succeeded)
-                {
-                    return BadRequest(new { message = result.Message });
-                }
-
-                return Ok(new { message = result.Message });
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Forbid(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while updating the marks.");
-            }
+                TeacherId = teacherId,
+                SectionSubjectId = dto.SectionSubjectId,
+                AssessmentType = dto.AssessmentType,
+                StudentScores = dto.StudentScores
+            });
+            return NewResult(response);
         }
 
-        /// <summary>
-        /// لجلب كشف درجات طالب واحد
-        /// </summary>
-        [HttpGet("student-transcript/{studentId}")]
+        [HttpGet("student-transcript/{studentId:guid}")]
         public async Task<IActionResult> GetStudentTranscript(Guid studentId)
         {
-            try
-            {
-                var query = new GetStudentTranscriptQuery { StudentId = studentId };
-                var transcript = await _mediator.Send(query);
-                return Ok(transcript);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound(new { message = "Student not found." });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while retrieving student transcript.");
-            }
+            var response = await Mediator.Send(new GetStudentTranscriptQuery { StudentId = studentId });
+            return NewResult(response);
         }
 
-        /// <summary>
-        /// لجلب تقرير شامل لدرجات شعبة في مادة معينة
-        /// </summary>
-        [HttpGet("section-report/{sectionSubjectId}")]
+        [HttpGet("section-report/{sectionSubjectId:guid}")]
         public async Task<IActionResult> GetSectionMarkReport(Guid sectionSubjectId)
         {
-            try
-            {
-                var query = new GetSectionMarkReportQuery { SectionSubjectId = sectionSubjectId };
-                var report = await _mediator.Send(query);
-                return Ok(report);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound(new { message = "Section or Subject not found." });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while retrieving the section report.");
-            }
+            var response = await Mediator.Send(new GetSectionMarkReportQuery { SectionSubjectId = sectionSubjectId });
+            return NewResult(response);
         }
     }
 }

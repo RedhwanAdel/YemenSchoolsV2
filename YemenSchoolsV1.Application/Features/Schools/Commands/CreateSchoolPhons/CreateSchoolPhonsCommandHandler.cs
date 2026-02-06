@@ -1,15 +1,8 @@
 using AutoMapper;
-using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Features.Cities.Commands.CreateCity;
-using YemenSchoolsV1.Application.Features.Schools.Commands.DeleteSchool;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
@@ -17,27 +10,20 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchoolPhons
 {
     public class CreateSchoolPhonsCommandHandler : ResponseHandler, IRequestHandler<CreateSchoolPhonsCommand, Response<string>>
     {
-        #region faild
+        private readonly ISchoolRepository _schoolRepository;
+        private readonly IMapper _mapper;
 
-        private readonly ISchoolService schoolService;
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        #endregion
-
-        #region ctor
-        public CreateSchoolPhonsCommandHandler(ISchoolService schoolService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public CreateSchoolPhonsCommandHandler(ISchoolRepository schoolRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.schoolService = schoolService;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
-
+            _schoolRepository = schoolRepository;
+            _mapper = mapper;
         }
 
         public async Task<Response<string>> Handle(CreateSchoolPhonsCommand request, CancellationToken cancellationToken)
         {
-           
-            var school = await schoolService.GetSchoolDetailsAsync(request.SchoolId);
+            var school = await _schoolRepository.GetByIdAsync(request.SchoolId);
             if (school == null) return BadRequest<string>();
+
             List<SchoolPhone> phones = new List<SchoolPhone>();
             foreach (var phone in request.PhoneNumber)
             {
@@ -48,11 +34,9 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchoolPhons
                 });
             }
 
-            await schoolService.CreateSchoolPhonsRangAsync(phones);
+            await _schoolRepository.CreateSchoolPhonesRangAsync(phones);
            
             return Created(SharedResourcesKeys.Created);
         }
-        #endregion
-
     }
 }

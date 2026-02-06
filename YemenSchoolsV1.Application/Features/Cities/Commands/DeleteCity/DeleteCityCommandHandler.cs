@@ -1,29 +1,29 @@
-using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Cities.Commands.DeleteCity
 {
     public class DeleteCityCommandHandler : ResponseHandler, IRequestHandler<DeleteCityCommand, Response<bool>>
     {
-        private readonly ICityService cityService;
+        private readonly ICityRepository _cityRepository;
 
-        public DeleteCityCommandHandler(IStringLocalizer<SharedResources> stringLocalizer,ICityService cityService) : base(stringLocalizer)
+        public DeleteCityCommandHandler(IStringLocalizer<SharedResources> stringLocalizer, ICityRepository cityRepository) : base(stringLocalizer)
         {
-            this.cityService = cityService;
+            _cityRepository = cityRepository;
         }
 
         public async Task<Response<bool>> Handle(DeleteCityCommand request, CancellationToken cancellationToken)
         {
-            var city =await cityService.DeleteCityAsync(request.Id);
-            if (city is false)
+            var city = await _cityRepository.GetByIdAsync(request.Id);
+            if (city == null)
+            {
+                return NotFound<bool>();
+            }
+            var deleted = await _cityRepository.DeleteAsync(request.Id);
+            if (!deleted)
             {
                 return UnprocessableEntity<bool>();
             }

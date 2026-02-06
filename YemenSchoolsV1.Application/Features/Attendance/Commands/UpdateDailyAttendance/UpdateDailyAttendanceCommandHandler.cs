@@ -1,16 +1,20 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Attendance.Commands.UpdateDailyAttendance
 {
-    public class UpdateDailyAttendanceCommandHandler : IRequestHandler<UpdateDailyAttendanceCommand, Response<string>>
+    public class UpdateDailyAttendanceCommandHandler : ResponseHandler, IRequestHandler<UpdateDailyAttendanceCommand, Response<string>>
     {
         private readonly IAttendanceRepository _attendanceRepository;
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
-        public UpdateDailyAttendanceCommandHandler(IAttendanceRepository attendanceRepository)
+        public UpdateDailyAttendanceCommandHandler(IAttendanceRepository attendanceRepository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _attendanceRepository = attendanceRepository;
+            _stringLocalizer = stringLocalizer;
         }
 
         public async Task<Response<string>> Handle(UpdateDailyAttendanceCommand request, CancellationToken cancellationToken)
@@ -18,10 +22,7 @@ namespace YemenSchoolsV1.Application.Features.Attendance.Commands.UpdateDailyAtt
             var attendance = await _attendanceRepository.GetAttendanceByIdAsync(request.AttendanceId);
             if (attendance == null)
             {
-                return new Response<string>("Attendance record not found.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.NotFound
-                };
+                return NotFound<string>("Attendance record not found.");
             }
 
             foreach (var detail in attendance.AttendanceDetails)
@@ -34,10 +35,7 @@ namespace YemenSchoolsV1.Application.Features.Attendance.Commands.UpdateDailyAtt
 
             await _attendanceRepository.UpdateAttendanceDetailsAsync(attendance.AttendanceDetails.ToList());
 
-            return new Response<string>("Attendance updated successfully.", true)
-            {
-                StatusCode = System.Net.HttpStatusCode.OK
-            };
+            return Success("Attendance updated successfully.");
         }
     }
 }

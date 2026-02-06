@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Features.Cities.Commands.CreateCity;
 using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 
 namespace YemenSchoolsV1.Application.Features.Cities.Commands.UpdateCity
 {
@@ -18,17 +18,15 @@ namespace YemenSchoolsV1.Application.Features.Cities.Commands.UpdateCity
     {
         #region faild
 
-        private readonly ICityService cityService;
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
+        private readonly ICityRepository _cityRepository;
+        private readonly IMapper _mapper;
         #endregion
 
         #region ctor
-        public EditCityCommandHandler(ICityService cityService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public EditCityCommandHandler(ICityRepository cityRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.cityService = cityService;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
+            _cityRepository = cityRepository;
+            _mapper = mapper;
         }
 
        
@@ -39,15 +37,15 @@ namespace YemenSchoolsV1.Application.Features.Cities.Commands.UpdateCity
             {
                 return BadRequest<EditCityResponse>();
             }
-            var cityDomain = mapper.Map<City>(request);
-            cityDomain = await cityService.EditCityAsync(request.Id,cityDomain);
+            var cityDomain = _mapper.Map<City>(request);
+            cityDomain = await _cityRepository.UpdateAsync(request.Id, cityDomain);
             if (cityDomain == null)
             {
                 return UnprocessableEntity<EditCityResponse>();
             }
 
-            var cityResponse = mapper.Map<EditCityResponse>(cityDomain);
-            return Success<EditCityResponse>(cityResponse);
+            var cityResponse = _mapper.Map<EditCityResponse>(cityDomain);
+            return Success(cityResponse);
         }
         #endregion
     }

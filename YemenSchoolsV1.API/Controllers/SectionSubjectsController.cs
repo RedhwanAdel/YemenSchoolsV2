@@ -29,7 +29,6 @@ namespace YemenSchoolsV1.API.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             var response = await Mediator.Send(new GetSectionSubjectByIdQuery(id));
-            if (!response.Succeeded) return NewResult(response);
             return NewResult(response);
         }
 

@@ -7,42 +7,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolDetails;
 using YemenSchoolsV1.Application.Resources;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 
 namespace YemenSchoolsV1.Application.Features.SchoolsNews.Queries.GetSchoolNewsDetails
 {
     public class GetSchoolNewsDetailsQuearyHandler : ResponseHandler, IRequestHandler<GetSchoolNewsDetailsQueary, Response<GetSchoolNewsDetailsRseponse>>
     {
-        #region faild
+        private readonly ISchoolNewsRepository _schoolNewsRepository;
+        private readonly IMapper _mapper;
 
-        private readonly ISchoolService schoolService;
-        private readonly ISchoolNewsService schoolNewsService;
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        #endregion
-
-        #region ctor
-        public GetSchoolNewsDetailsQuearyHandler(ISchoolService schoolService, ICityService cityService, ISchoolNewsService schoolNewsService, IRegionService regionService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public GetSchoolNewsDetailsQuearyHandler(ISchoolNewsRepository schoolNewsRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.schoolService = schoolService;
-            this.schoolNewsService = schoolNewsService;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
-
+            _schoolNewsRepository = schoolNewsRepository;
+            _mapper = mapper;
         }
-        #endregion
+
         public async Task<Response<GetSchoolNewsDetailsRseponse>> Handle(GetSchoolNewsDetailsQueary request, CancellationToken cancellationToken)
         {
-            var news = await schoolNewsService.GetSchoolNewsDetailsAsync(request.Id);
+            var news = await _schoolNewsRepository.GetByIdAsync(request.Id);
             if (news == null)
             {
                 return NotFound<GetSchoolNewsDetailsRseponse>();
             }
-            var result = mapper.Map<GetSchoolNewsDetailsRseponse>(news);
+            var result = _mapper.Map<GetSchoolNewsDetailsRseponse>(news);
             return Success(result);
         }
     }
 }
-

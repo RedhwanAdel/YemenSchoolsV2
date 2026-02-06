@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Features.AcademicYears.Commands.CreateYear;
 using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
@@ -17,19 +17,13 @@ namespace YemenSchoolsV1.Application.Features.Grades.Commands.Create
     public class CreateGradeCommandHandler : ResponseHandler, IRequestHandler<CreateGradeCommand, Response<string>>
     {
         #region faild
-        private readonly IGradeService gradeService;
+        private readonly IGradeRepository _gradeRepository;
+        private readonly IMapper _mapper;
 
-
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        #endregion
-
-        #region ctor
-        public CreateGradeCommandHandler(IGradeService gradeService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public CreateGradeCommandHandler(IGradeRepository gradeRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.gradeService = gradeService;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
+            _gradeRepository = gradeRepository;
+            _mapper = mapper;
 
         }
 
@@ -37,8 +31,8 @@ namespace YemenSchoolsV1.Application.Features.Grades.Commands.Create
 
         public async Task<Response<string>> Handle(CreateGradeCommand request, CancellationToken cancellationToken)
         {
-            var gradeDomain = mapper.Map<Grade>(request);
-            gradeDomain = await gradeService.CreateGradeAsync(gradeDomain);
+            var gradeDomain = _mapper.Map<Grade>(request);
+            gradeDomain = await _gradeRepository.AddAsync(gradeDomain);
             if (gradeDomain == null)
             {
                 return UnprocessableEntity<string>();

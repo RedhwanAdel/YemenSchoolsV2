@@ -1,14 +1,16 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.AcademicYears.Commands.SetCurrentYear
 {
-    public class SetCurrentYearCommandHandler : IRequestHandler<SetCurrentYearCommand, Response<Guid>>
+    public class SetCurrentYearCommandHandler : ResponseHandler, IRequestHandler<SetCurrentYearCommand, Response<Guid>>
     {
         private readonly IAcademicYearRepository _academicYearRepository;
 
-        public SetCurrentYearCommandHandler(IAcademicYearRepository academicYearRepository)
+        public SetCurrentYearCommandHandler(IAcademicYearRepository academicYearRepository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _academicYearRepository = academicYearRepository;
         }
@@ -19,10 +21,10 @@ namespace YemenSchoolsV1.Application.Features.AcademicYears.Commands.SetCurrentY
             
             if (result == null)
             {
-                return new Response<Guid>("Academic year not found or school has no years.") { StatusCode = System.Net.HttpStatusCode.NotFound, Succeeded = false };
+                return NotFound<Guid>();
             }
 
-            return new Response<Guid>(result.Value, "Current academic year set successfully.") { StatusCode = System.Net.HttpStatusCode.OK, Succeeded = true };
+            return Success(result.Value, SharedResourcesKeys.Update);
         }
     }
 }

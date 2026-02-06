@@ -9,27 +9,21 @@ namespace YemenSchoolsV1.Application.Features.Terms.Queries.GetByYearId
 {
     public class GetTermByYearIdQueryHandler : ResponseHandler, IRequestHandler<GetTermByYearIdQuery, Response<List<GetTermByYearIdResponse>>>
     {
-        private readonly ITermRepository termRepository;
-        #region faild
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
+        private readonly ITermRepository _termRepository;
+        private readonly IMapper _mapper;
 
-        #endregion
-
-        #region ctor
         public GetTermByYearIdQueryHandler(ITermRepository termRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.termRepository = termRepository;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
+            _termRepository = termRepository;
+            _mapper = mapper;
         }
-        #endregion
+
 
         public async Task<Response<List<GetTermByYearIdResponse>>> Handle(GetTermByYearIdQuery request, CancellationToken cancellationToken)
         {
-            var resultDomain = await termRepository.GetTermByYearIdAsync(request.Id);
+            var resultDomain = await _termRepository.GetTermByYearIdAsync(request.Id);
 
-            var result = mapper.Map<List<GetTermByYearIdResponse>>(resultDomain);
+            var result = _mapper.Map<List<GetTermByYearIdResponse>>(resultDomain);
 
             if (result == null)
             {

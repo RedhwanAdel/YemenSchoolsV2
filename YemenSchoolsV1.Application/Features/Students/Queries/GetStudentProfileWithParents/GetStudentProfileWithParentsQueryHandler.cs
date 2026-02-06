@@ -1,27 +1,32 @@
+using System.Linq;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Students.Queries.GetStudentProfileWithParents
 {
-    public class GetStudentProfileWithParentsQueryHandler : IRequestHandler<GetStudentProfileWithParentsQuery, StudentWithParentsDto>
+    public class GetStudentProfileWithParentsQueryHandler : ResponseHandler, IRequestHandler<GetStudentProfileWithParentsQuery, Response<StudentWithParentsDto>>
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
-        public GetStudentProfileWithParentsQueryHandler(IStudentRepository studentRepository)
+        public GetStudentProfileWithParentsQueryHandler(IStudentRepository studentRepository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _studentRepository = studentRepository;
+            _stringLocalizer = stringLocalizer;
         }
 
-        public async Task<StudentWithParentsDto> Handle(GetStudentProfileWithParentsQuery request, CancellationToken cancellationToken)
+        public async Task<Response<StudentWithParentsDto>> Handle(GetStudentProfileWithParentsQuery request, CancellationToken cancellationToken)
         {
             var student = await _studentRepository.GetStudentByIdWithParentsAsync(request.StudentId);
             if (student == null)
             {
-               throw new KeyNotFoundException($"Student with Id {request.StudentId} not found.");
+               return NotFound<StudentWithParentsDto>("Student not found.");
             }
 
-            return new StudentWithParentsDto
+            var result = new StudentWithParentsDto
             {
                 Id = student.Id,
                 RegisterNo = student.RegisterNo,
@@ -41,6 +46,8 @@ namespace YemenSchoolsV1.Application.Features.Students.Queries.GetStudentProfile
                     RelationType = ps.RelationType
                 }).ToList()
             };
+
+            return Success(result);
         }
     }
 }

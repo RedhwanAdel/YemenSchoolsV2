@@ -14,7 +14,7 @@ namespace YemenSchoolsV1.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var response = await Mediator.Send(new GetGradesListQueary());
-            return Ok(response);
+            return NewResult(response);
         }
 
 

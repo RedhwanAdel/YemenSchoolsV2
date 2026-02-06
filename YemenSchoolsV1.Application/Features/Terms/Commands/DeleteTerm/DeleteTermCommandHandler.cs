@@ -1,38 +1,30 @@
-using AutoMapper;
-using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Features.AcademicYears.Commands.DeleteYear;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Terms.Commands.DeleteTerm
 {
     public class DeleteTermCommandHandler : ResponseHandler, IRequestHandler<DeleteTermCommand, Response<bool>>
     {
-        #region faild
-     
-        private readonly ITermService termService;
+        private readonly ITermRepository _termRepository;
 
-        #endregion
-
-        #region ctor
-        public DeleteTermCommandHandler(ITermService termService, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public DeleteTermCommandHandler(ITermRepository termRepository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.termService = termService;
-            
+            _termRepository = termRepository;
         }
 
-        #endregion
         public async Task<Response<bool>> Handle(DeleteTermCommand request, CancellationToken cancellationToken)
         {
-            var term = await termService.DeleteTermAsync(request.Id);
-            if (term is false)
+            var termEntity = await _termRepository.GetByIdAsync(request.Id);
+            if (termEntity == null)
+            {
+                return NotFound<bool>();
+            }
+
+            var deleted = await _termRepository.DeleteAsync(request.Id);
+            if (!deleted)
             {
                 return UnprocessableEntity<bool>();
             }

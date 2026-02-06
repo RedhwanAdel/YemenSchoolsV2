@@ -1,9 +1,10 @@
 using MediatR;
+using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Domain.Enums;
 
 namespace YemenSchoolsV1.Application.Features.Students.Commands.UpdateStudentProfile
 {
-    public class UpdateStudentProfileCommand : IRequest<(bool Succeeded, string Message)>
+    public class UpdateStudentProfileCommand : IRequest<Response<string>>
     {
         public Guid StudentId { get; set; }
         public required string NameAr { get; set; }

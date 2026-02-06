@@ -32,13 +32,13 @@ namespace YemenSchoolsV1.Application.Bases
 				Meta = Meta
 			};
 		}
-		public Response<T> Unauthorized<T>()
+		public Response<T> Unauthorized<T>(string? message = null)
 		{
 			return new Response<T>()
 			{
 				StatusCode = System.Net.HttpStatusCode.Unauthorized,
-				Succeeded = true,
-				Message = _stringLocalizer[SharedResourcesKeys.Unauthorized]
+				Succeeded = false,
+				Message = message ?? _stringLocalizer[SharedResourcesKeys.Unauthorized]
 			};
 		}
 		public Response<T> BadRequest<T>(string? Message = null)

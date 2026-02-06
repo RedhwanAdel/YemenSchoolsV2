@@ -1,8 +1,8 @@
 using AutoMapper;
-using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using YemenSchoolsV1.Application.Contracts.Services;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
@@ -10,40 +10,25 @@ namespace YemenSchoolsV1.Application.Features.AcademicYears.Commands.CreateYear
 {
     public class CreateYearCommandHandler : ResponseHandler, IRequestHandler<CreateYearCommand, Response<string>>
     {
-        #region faild
+        private readonly IAcademicYearRepository _academicYearRepository;
+        private readonly IMapper _mapper;
 
-        private readonly ISchoolService schoolService;
-        private readonly IAcademicYearService academicYearService;
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        #endregion
-
-        #region ctor
-        public CreateYearCommandHandler(ISchoolService schoolService, IAcademicYearService academicYearService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public CreateYearCommandHandler(IAcademicYearRepository academicYearRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.schoolService = schoolService;
-            this.academicYearService = academicYearService;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
-
+            _academicYearRepository = academicYearRepository;
+            _mapper = mapper;
         }
 
         public async Task<Response<string>> Handle(CreateYearCommand request, CancellationToken cancellationToken)
         {
-
-
-            var yearDomain = mapper.Map<AcademicYear>(request);
-            yearDomain = await academicYearService.CreateYearAsync(yearDomain);
+            var yearDomain = _mapper.Map<AcademicYear>(request);
+            yearDomain = await _academicYearRepository.AddAsync(yearDomain);
             if (yearDomain == null)
             {
                 return UnprocessableEntity<string>();
             }
 
             return Created(SharedResourcesKeys.Created);
-
         }
-
-
-        #endregion
     }
 }

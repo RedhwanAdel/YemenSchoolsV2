@@ -1,14 +1,16 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Schools.Commands.AssignSubjects
 {
-    public class AssignSubjectsToSchoolGradeCommandHandler : IRequestHandler<AssignSubjectsToSchoolGradeCommand, Response<string>>
+    public class AssignSubjectsToSchoolGradeCommandHandler : ResponseHandler, IRequestHandler<AssignSubjectsToSchoolGradeCommand, Response<string>>
     {
         private readonly ISchoolRepository _repository;
 
-        public AssignSubjectsToSchoolGradeCommandHandler(ISchoolRepository repository)
+        public AssignSubjectsToSchoolGradeCommandHandler(ISchoolRepository repository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
         }
@@ -16,7 +18,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.AssignSubjects
         public async Task<Response<string>> Handle(AssignSubjectsToSchoolGradeCommand request, CancellationToken cancellationToken)
         {
             await _repository.AssignSubjectsToSchoolGradeAsync(request.Dto.SchoolGradeId, request.Dto.SubjectIds);
-            return new Response<string>("تم حفظ إعدادات المواد بنجاح.") { Succeeded = true, StatusCode = System.Net.HttpStatusCode.OK };
+            return Success<string>(SharedResourcesKeys.Update);
         }
     }
 }

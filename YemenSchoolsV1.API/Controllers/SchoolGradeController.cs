@@ -16,12 +16,6 @@ namespace YemenSchoolsV1.API.Controllers
         [HttpPost("sync-stage-grades")]
         public async Task<IActionResult> SyncStageGrades(CreateSchoolGradeDto request)
         {
-            if (request.SchoolId == Guid.Empty)
-                return NewResult(new Response<string>("معرف المدرسة غير صالح.", false) { StatusCode = HttpStatusCode.BadRequest });
-
-            if (request.StageGradeIds == null || request.StageGradeIds.Count == 0)
-                return NewResult(new Response<string>("يجب اختيار صفوف ومراحل على الأقل.", false) { StatusCode = HttpStatusCode.BadRequest });
-
             var response = await Mediator.Send(new SyncSchoolStageGradesCommand(request));
             return NewResult(response);
         }
@@ -29,9 +23,6 @@ namespace YemenSchoolsV1.API.Controllers
         [HttpGet("{schoolId}")]
         public async Task<IActionResult> GetStageGradesForSchool(Guid schoolId)
         {
-            if (schoolId == Guid.Empty)
-                return NewResult(new Response<List<StageGradeDto>>("معرف المدرسة غير صالح.", false) { StatusCode = HttpStatusCode.BadRequest });
-            
             var response = await Mediator.Send(new GetStageGradesForSchoolQuery(schoolId));
             return NewResult(response);
         }
@@ -39,9 +30,6 @@ namespace YemenSchoolsV1.API.Controllers
         [HttpGet("grade/{schoolId}")]
         public async Task<IActionResult> GetGradesForSchool(Guid schoolId)
         {
-            if (schoolId == Guid.Empty)
-                return NewResult(new Response<List<SchoolGradeDto>>("معرف المدرسة غير صالح.", false) { StatusCode = HttpStatusCode.BadRequest });
-            
             var response = await Mediator.Send(new GetGradesForSchoolQuery(schoolId));
             return NewResult(response);
         }

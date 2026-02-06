@@ -4,7 +4,6 @@ using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Contracts.Persistence;
-using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Application.Wrappers;
 using YemenSchoolsV1.Domain.Enums;
@@ -13,35 +12,18 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
 {
     public class GetSchoolPagenatedListQuearyHandler : ResponseHandler, IRequestHandler<GetSchoolPagenatedListQueary, PaginatedResponse<GetSchoolPagenatedListResponse>>
     {
-        #region faild
+        private readonly ISchoolRepository _schoolRepository;
+        private readonly IMapper _mapper;
 
-        private readonly ISchoolService schoolService;
-        private readonly ISchoolRepository schoolRepository;
-        private readonly ICityService cityService;
-        private readonly IRegionService regionService;
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        #endregion
-
-        #region ctor
-        public GetSchoolPagenatedListQuearyHandler(ISchoolService schoolService, ISchoolRepository schoolRepository, ICityService cityService, IRegionService regionService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public GetSchoolPagenatedListQuearyHandler(ISchoolRepository schoolRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.schoolService = schoolService;
-            this.schoolRepository = schoolRepository;
-            this.cityService = cityService;
-            this.regionService = regionService;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
-
+            _schoolRepository = schoolRepository;
+            _mapper = mapper;
         }
-
-
-
-        #endregion
 
         public async Task<PaginatedResponse<GetSchoolPagenatedListResponse>> Handle(GetSchoolPagenatedListQueary request, CancellationToken cancellationToken)
         {
-            var queryable = schoolRepository.GetSchoolsWithCityAndRegionQueryable();
+            var queryable = _schoolRepository.GetSchoolsWithCityAndRegionQueryable();
 
             // ------------------ الفلترة ------------------
             if (request.CityId.HasValue && request.CityId != Guid.Empty)
@@ -111,10 +93,8 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
             }
 
             // ------------------ Pagination & Projection ------------------
-            // نقوم بالعد أولاً
             int count = await queryable.CountAsync();
             
-            // ثم جلب الصفحة المطلوبة مع الـ Select
             var pageNumber = request.PageNumber <= 0 ? 1 : request.PageNumber;
             var pageSize = request.PageSize <= 0 ? 10 : request.PageSize;
 
@@ -143,6 +123,5 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolsPaginate
             
             return response;
         }
-
     }
 }

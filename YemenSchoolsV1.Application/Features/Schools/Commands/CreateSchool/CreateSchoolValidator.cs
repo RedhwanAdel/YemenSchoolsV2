@@ -1,6 +1,5 @@
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchool
@@ -8,15 +7,13 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchool
     public class CreateSchoolValidator : AbstractValidator<CreateSchoolCommand>
     {
         #region Fields
-        private readonly ISchoolService schoolService;
         private readonly IStringLocalizer<SharedResources> _localizer;
         #endregion
 
         #region Constructors
-        public CreateSchoolValidator(ISchoolService schoolService,
+        public CreateSchoolValidator(
                                    IStringLocalizer<SharedResources> localizer)
         {
-            this.schoolService = schoolService;
             _localizer = localizer;
             ApplyValidationsRules();
 

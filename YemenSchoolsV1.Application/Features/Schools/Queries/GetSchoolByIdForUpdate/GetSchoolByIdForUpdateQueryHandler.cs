@@ -1,15 +1,17 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolByIdForUpdate
 {
-    public class GetSchoolByIdForUpdateQueryHandler : IRequestHandler<GetSchoolByIdForUpdateQuery, Response<SchoolForUpdate>>
+    public class GetSchoolByIdForUpdateQueryHandler : ResponseHandler, IRequestHandler<GetSchoolByIdForUpdateQuery, Response<SchoolForUpdate>>
     {
         private readonly ISchoolRepository _repository;
 
-        public GetSchoolByIdForUpdateQueryHandler(ISchoolRepository repository)
+        public GetSchoolByIdForUpdateQueryHandler(ISchoolRepository repository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
         }
@@ -17,8 +19,8 @@ namespace YemenSchoolsV1.Application.Features.Schools.Queries.GetSchoolByIdForUp
         public async Task<Response<SchoolForUpdate>> Handle(GetSchoolByIdForUpdateQuery request, CancellationToken cancellationToken)
         {
             var school = await _repository.GetSchoolByIdForUpdateAsync(request.Id);
-            if (school == null) return new Response<SchoolForUpdate>("School not found") { Succeeded = false, StatusCode = System.Net.HttpStatusCode.NotFound };
-            return new Response<SchoolForUpdate>(school);
+            if (school == null) return NotFound<SchoolForUpdate>();
+            return Success(school);
         }
     }
 }

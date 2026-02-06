@@ -10,7 +10,7 @@ namespace YemenSchoolsV1.API.Controllers
         public async Task<IActionResult> GetDashboard()
         {
             var response = await Mediator.Send(new GetDashboardQuery());
-            return Ok(response.Data); 
+            return NewResult(response);
         }
     }
 }

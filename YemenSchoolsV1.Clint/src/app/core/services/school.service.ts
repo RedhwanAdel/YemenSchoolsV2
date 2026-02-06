@@ -126,7 +126,9 @@ export class SchoolService {
   }
 
   getSchoolPhotos(schoolId: string): Observable<SchoolPhoto[]> {
-    return this.http.get<SchoolPhoto[]>(`${this.baseUrl}school/${schoolId}/photos`);
+    return this.http.get<ApiResponse<SchoolPhoto[]>>(`${this.baseUrl}school/${schoolId}/photos`).pipe(
+      map(response => response.data)
+    );
   }
 
 }

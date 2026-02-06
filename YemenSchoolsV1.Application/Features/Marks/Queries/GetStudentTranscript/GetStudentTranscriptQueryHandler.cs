@@ -1,27 +1,33 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
+using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Marks.Queries.GetStudentTranscript
 {
-    public class GetStudentTranscriptQueryHandler : IRequestHandler<GetStudentTranscriptQuery, StudentTranscriptDto>
+    public class GetStudentTranscriptQueryHandler : ResponseHandler, IRequestHandler<GetStudentTranscriptQuery, Response<StudentTranscriptDto>>
     {
         private readonly IMarkRepository _markRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
         public GetStudentTranscriptQueryHandler(
             IMarkRepository markRepository,
-            IStudentRepository studentRepository)
+            IStudentRepository studentRepository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _markRepository = markRepository;
             _studentRepository = studentRepository;
+            _stringLocalizer = stringLocalizer;
         }
 
-        public async Task<StudentTranscriptDto> Handle(GetStudentTranscriptQuery request, CancellationToken cancellationToken)
+        public async Task<Response<StudentTranscriptDto>> Handle(GetStudentTranscriptQuery request, CancellationToken cancellationToken)
         {
             var student = await _studentRepository.GetByIdAsync(request.StudentId);
             if (student == null)
             {
-                throw new KeyNotFoundException("Student not found.");
+                return NotFound<StudentTranscriptDto>("Student not found.");
             }
 
             var marks = await _markRepository.GetMarksByStudentIdAsync(request.StudentId);
@@ -44,7 +50,7 @@ namespace YemenSchoolsV1.Application.Features.Marks.Queries.GetStudentTranscript
             transcriptDto.OverallAverage = transcriptDto.Marks.Any() ?
                                            transcriptDto.Marks.Average(m => (m.Score / m.MaxScore) * 100) : 0;
 
-            return transcriptDto;
+            return Success(transcriptDto);
         }
     }
 }

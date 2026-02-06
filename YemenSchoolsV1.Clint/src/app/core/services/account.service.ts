@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { ChangePasswordDto, UpdateParentProfileDto, User } from '../../shared/models/user';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { ApiResponse } from '../../shared/models/ApiResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +29,9 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'Account/register', value)
   }
   getUserInfo() {
-    return this.http.get<User>(this.baseUrl + 'Account/user-info').pipe(
+    return this.http.get<ApiResponse<User>>(this.baseUrl + 'Account/user-info').pipe(
       map(user => {
-        this.currentUser.set(user)
+        this.currentUser.set(user.data)
         return user
       })
     )

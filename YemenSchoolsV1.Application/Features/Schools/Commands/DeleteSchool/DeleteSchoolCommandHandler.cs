@@ -1,52 +1,34 @@
-using AutoMapper;
-using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Features.Cities.Commands.DeleteCity;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Schools.Commands.DeleteSchool
 {
-    internal class DeleteSchoolCommandHandler : ResponseHandler, IRequestHandler<DeleteSchoolCommand, Response<bool>>
+    public class DeleteSchoolCommandHandler : ResponseHandler, IRequestHandler<DeleteSchoolCommand, Response<bool>>
     {
-        #region faild
+        private readonly ISchoolRepository _schoolRepository;
 
-        private readonly ISchoolService schoolService;
-        private readonly ICityService cityService;
-        private readonly IRegionService regionService;
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        #endregion
-
-        #region ctor
-        public DeleteSchoolCommandHandler(ISchoolService schoolService, ICityService cityService, IRegionService regionService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public DeleteSchoolCommandHandler(ISchoolRepository schoolRepository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.schoolService = schoolService;
-            this.cityService = cityService;
-            this.regionService = regionService;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
-
+            _schoolRepository = schoolRepository;
         }
 
         public async Task<Response<bool>> Handle(DeleteSchoolCommand request, CancellationToken cancellationToken)
         {
-            var school = await schoolService.DeleteSchoolAsync(request.Id);
-            if (school is false)
+            var schoolEntity = await _schoolRepository.GetByIdAsync(request.Id);
+            if (schoolEntity == null)
+            {
+                return NotFound<bool>();
+            }
+
+            var deleted = await _schoolRepository.DeleteAsync(request.Id);
+            if (!deleted)
             {
                 return UnprocessableEntity<bool>();
             }
             return Deleted<bool>();
         }
-
-
-        #endregion
-
     }
 }

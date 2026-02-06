@@ -29,7 +29,7 @@ namespace YemenSchoolsV1.API.Controllers
         public async Task<IActionResult> Paginated([FromQuery] GetSchoolPagenatedListQueary query)
         {
             var response = await Mediator.Send(query);
-            return Ok(response);
+            return NewResult(response);
         }
 
         [HttpGet]

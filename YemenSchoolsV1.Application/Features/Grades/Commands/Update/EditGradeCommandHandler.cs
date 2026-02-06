@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Features.AcademicYears.Commands.UpdateYear;
 using YemenSchoolsV1.Application.Features.Grades.Commands.Create;
 using YemenSchoolsV1.Application.Resources;
@@ -19,18 +19,13 @@ namespace YemenSchoolsV1.Application.Features.Grades.Commands.Update
     {
 
         #region faild
-        private readonly IGradeService gradeService;
+        private readonly IGradeRepository _gradeRepository;
+        private readonly IMapper _mapper;
 
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        #endregion
-
-        #region ctor
-        public EditGradeCommandHandler(IGradeService gradeService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public EditGradeCommandHandler(IGradeRepository gradeRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.gradeService = gradeService;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
+            _gradeRepository = gradeRepository;
+            _mapper = mapper;
 
         }
 
@@ -42,8 +37,8 @@ namespace YemenSchoolsV1.Application.Features.Grades.Commands.Update
                 return BadRequest<string>();
             }
 
-            var gradeDomain = mapper.Map<Grade>(request);
-            gradeDomain = await gradeService.EditGradeAsync(request.Id, gradeDomain);
+            var gradeDomain = _mapper.Map<Grade>(request);
+            gradeDomain = await _gradeRepository.UpdateAsync(request.Id, gradeDomain);
             if (gradeDomain == null)
             {
                 return UnprocessableEntity<string>();

@@ -1,18 +1,22 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto.Attendance;
-using Microsoft.EntityFrameworkCore;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Attendance.Queries.GetStudentAttendanceReport
 {
-    public class GetStudentAttendanceReportQueryHandler : IRequestHandler<GetStudentAttendanceReportQuery, Response<List<AttendanceDetailDto>>>
+    public class GetStudentAttendanceReportQueryHandler : ResponseHandler, IRequestHandler<GetStudentAttendanceReportQuery, Response<List<AttendanceDetailDto>>>
     {
         private readonly IAttendanceRepository _attendanceRepository;
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
-        public GetStudentAttendanceReportQueryHandler(IAttendanceRepository attendanceRepository)
+        public GetStudentAttendanceReportQueryHandler(IAttendanceRepository attendanceRepository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _attendanceRepository = attendanceRepository;
+            _stringLocalizer = stringLocalizer;
         }
 
         public async Task<Response<List<AttendanceDetailDto>>> Handle(GetStudentAttendanceReportQuery request, CancellationToken cancellationToken)
@@ -34,11 +38,7 @@ namespace YemenSchoolsV1.Application.Features.Attendance.Queries.GetStudentAtten
                 CreatedAt = d.CreatedAt
             }).ToList();
 
-            return new Response<List<AttendanceDetailDto>>(result, "Attendance report retrieved successfully")
-            {
-                StatusCode = System.Net.HttpStatusCode.OK,
-                Succeeded = true
-            };
+            return Success(result);
         }
     }
 }

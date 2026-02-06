@@ -1,14 +1,8 @@
 using AutoMapper;
-using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Features.Schools.Commands.CreateSchool;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
@@ -16,39 +10,25 @@ namespace YemenSchoolsV1.Application.Features.SchoolsNews.Commands.CreateSchoolN
 {
     public class CreateSchoolNewsCommandHandler : ResponseHandler, IRequestHandler<CreateSchoolNewsCommand, Response<CreateSchoolNewsResponse>>
     {
-        #region faild
+        private readonly ISchoolNewsRepository _schoolNewsRepository;
+        private readonly IMapper _mapper;
 
-        private readonly ISchoolService schoolService;
-        private readonly ISchoolNewsService schoolNewsService;
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        #endregion
-
-        #region ctor
-        public CreateSchoolNewsCommandHandler(ISchoolService schoolService, ICityService cityService,ISchoolNewsService schoolNewsService, IRegionService regionService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public CreateSchoolNewsCommandHandler(ISchoolNewsRepository schoolNewsRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.schoolService = schoolService;
-            this.schoolNewsService = schoolNewsService;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
-
+            _schoolNewsRepository = schoolNewsRepository;
+            _mapper = mapper;
         }
-
-
-
-
-        #endregion
 
         public async Task<Response<CreateSchoolNewsResponse>> Handle(CreateSchoolNewsCommand request, CancellationToken cancellationToken)
         {
-            var newsDomain = mapper.Map<SchoolNews>(request);
-            newsDomain = await schoolNewsService.CreateSchoolNewsAsync(newsDomain);
+            var newsDomain = _mapper.Map<SchoolNews>(request);
+            newsDomain = await _schoolNewsRepository.AddAsync(newsDomain);
             if (newsDomain == null)
             {
                 return UnprocessableEntity<CreateSchoolNewsResponse>();
             }
 
-            var newsResponse = mapper.Map<CreateSchoolNewsResponse>(newsDomain);
+            var newsResponse = _mapper.Map<CreateSchoolNewsResponse>(newsDomain);
             return Created(newsResponse);
         }
     }

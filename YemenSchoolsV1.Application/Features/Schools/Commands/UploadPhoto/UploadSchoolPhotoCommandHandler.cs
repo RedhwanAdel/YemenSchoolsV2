@@ -1,15 +1,17 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.Schools.Commands.UploadPhoto
 {
-    public class UploadSchoolPhotoCommandHandler : IRequestHandler<UploadSchoolPhotoCommand, Response<SchoolPhoto>>
+    public class UploadSchoolPhotoCommandHandler : ResponseHandler, IRequestHandler<UploadSchoolPhotoCommand, Response<SchoolPhoto>>
     {
         private readonly ISchoolRepository _repository;
 
-        public UploadSchoolPhotoCommandHandler(ISchoolRepository repository)
+        public UploadSchoolPhotoCommandHandler(ISchoolRepository repository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
         }
@@ -18,7 +20,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.UploadPhoto
         {
             var file = request.File;
             if (file == null || file.Length == 0)
-                return new Response<SchoolPhoto>("No file uploaded") { Succeeded = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
+                return BadRequest<SchoolPhoto>("No file uploaded");
 
             string folder = Path.Combine("wwwroot", "uploads", "schools");
             Directory.CreateDirectory(folder);
@@ -31,7 +33,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.UploadPhoto
                 await file.CopyToAsync(stream);
             }
 
-            string fileUrl = $"https://localhost:5001/uploads/schools/{fileName}"; // Hardcoded URL in original controller, replicating here. ideally should be config.
+            string fileUrl = $"https://localhost:5001/uploads/schools/{fileName}"; 
 
             var schoolPhoto = new SchoolPhoto
             {
@@ -41,7 +43,7 @@ namespace YemenSchoolsV1.Application.Features.Schools.Commands.UploadPhoto
 
             await _repository.AddSchoolPhotoAsync(schoolPhoto);
 
-            return new Response<SchoolPhoto>(schoolPhoto);
+            return Success(schoolPhoto);
         }
     }
 }

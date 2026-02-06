@@ -7,37 +7,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Features.AcademicYears.Commands.DeleteYear;
-using YemenSchoolsV1.Application.Features.Grades.Commands.Create;
-using YemenSchoolsV1.Application.Features.Grades.Commands.Update;
-using YemenSchoolsV1.Application.Features.Terms.Commands.DeleteTerm;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.Grades.Commands.Delete
 {
-    public class DeleteGradeCommandHandler : ResponseHandler, IRequestHandler<DeleteTermCommand, Response<bool>>
+    public class DeleteGradeCommandHandler : ResponseHandler, IRequestHandler<DeleteGradeCommand, Response<bool>>
     {
-        #region faild
-        private readonly IGradeService gradeService;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        #endregion
+        private readonly IGradeRepository _gradeRepository;
 
-        #region ctor
-        public DeleteGradeCommandHandler(IGradeService gradeService, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public DeleteGradeCommandHandler(IGradeRepository gradeRepository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.gradeService = gradeService;
-            this.stringLocalizer = stringLocalizer;
+            _gradeRepository = gradeRepository;
 
         }
 
 
-        #endregion
-        public async Task<Response<bool>> Handle(DeleteTermCommand request, CancellationToken cancellationToken)
+
+        public async Task<Response<bool>> Handle(DeleteGradeCommand request, CancellationToken cancellationToken)
         {
-            var grade = await gradeService.DeleteGradeAsync(request.Id);
-            if (grade is false)
+            var grade = await _gradeRepository.GetByIdAsync(request.Id);
+            if (grade == null)
+            {
+                return NotFound<bool>();
+            }
+
+            var deleted = await _gradeRepository.DeleteAsync(request.Id);
+            if (!deleted)
             {
                 return UnprocessableEntity<bool>();
             }

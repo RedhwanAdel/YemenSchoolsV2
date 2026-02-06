@@ -1,38 +1,31 @@
 using AutoMapper;
-using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Cities.Queries.GetCityDetails
 {
     public class GetCityDetailsQuearyHandler : ResponseHandler, IRequestHandler<GetCityDetailsQueary, Response<GetCityDetailsResponse>>
     {
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        private readonly ICityService cityService;
-        private readonly IMapper mapper;
+        private readonly ICityRepository _cityRepository;
+        private readonly IMapper _mapper;
 
-        public GetCityDetailsQuearyHandler(IStringLocalizer<SharedResources> stringLocalizer,ICityService cityService,IMapper mapper) : base(stringLocalizer)
+        public GetCityDetailsQuearyHandler(IStringLocalizer<SharedResources> stringLocalizer, ICityRepository cityRepository, IMapper mapper) : base(stringLocalizer)
         {
-            this.stringLocalizer = stringLocalizer;
-            this.cityService = cityService;
-            this.mapper = mapper;
+            _cityRepository = cityRepository;
+            _mapper = mapper;
         }
 
         public async Task<Response<GetCityDetailsResponse>> Handle(GetCityDetailsQueary request, CancellationToken cancellationToken)
         {
-            var city = await cityService.GetCityDetailsAsync(request.Id);
+            var city = await _cityRepository.GetByIdAsync(request.Id);
             if (city == null)
             {
                 return NotFound<GetCityDetailsResponse>();
             }
-            var result = mapper.Map<GetCityDetailsResponse>(city);
+            var result = _mapper.Map<GetCityDetailsResponse>(city);
             return Success(result);
         }
     }

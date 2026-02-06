@@ -14,8 +14,8 @@ export class InitService {
     return forkJoin({
       user: this.accountService.getUserInfo().pipe(
         tap(user => {
-          if (user && user.schoolId) { // افترض أن UserInfoDto يحتوي على schoolId
-            this.academicYearService.setSchoolId(user.schoolId);
+          if (user && user.data.schoolId) { // افترض أن UserInfoDto يحتوي على schoolId
+            this.academicYearService.setSchoolId(user.data.schoolId);
           }
         }),
         catchError(error => {

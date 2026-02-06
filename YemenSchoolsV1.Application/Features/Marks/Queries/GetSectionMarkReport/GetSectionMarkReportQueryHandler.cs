@@ -1,30 +1,36 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
+using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Marks.Queries.GetSectionMarkReport
 {
-    public class GetSectionMarkReportQueryHandler : IRequestHandler<GetSectionMarkReportQuery, SectionMarkReportDto>
+    public class GetSectionMarkReportQueryHandler : ResponseHandler, IRequestHandler<GetSectionMarkReportQuery, Response<SectionMarkReportDto>>
     {
         private readonly IMarkRepository _markRepository;
         private readonly ISectionSubjectRepository _sectionSubjectRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
         public GetSectionMarkReportQueryHandler(
             IMarkRepository markRepository,
             ISectionSubjectRepository sectionSubjectRepository,
-            IStudentRepository studentRepository)
+            IStudentRepository studentRepository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _markRepository = markRepository;
             _sectionSubjectRepository = sectionSubjectRepository;
             _studentRepository = studentRepository;
+            _stringLocalizer = stringLocalizer;
         }
 
-        public async Task<SectionMarkReportDto> Handle(GetSectionMarkReportQuery request, CancellationToken cancellationToken)
+        public async Task<Response<SectionMarkReportDto>> Handle(GetSectionMarkReportQuery request, CancellationToken cancellationToken)
         {
             var sectionSubject = await _sectionSubjectRepository.GetSectionSubjectsInfoAsync(request.SectionSubjectId);
             if (sectionSubject == null)
             {
-                throw new KeyNotFoundException("SectionSubject not found.");
+                return NotFound<SectionMarkReportDto>("SectionSubject not found.");
             }
 
             var marks = await _markRepository.GetMarksBySectionSubjectAsync(request.SectionSubjectId);
@@ -54,7 +60,7 @@ namespace YemenSchoolsV1.Application.Features.Marks.Queries.GetSectionMarkReport
                 });
             }
 
-            return reportDto;
+            return Success(reportDto);
         }
     }
 }

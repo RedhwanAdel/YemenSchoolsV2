@@ -37,6 +37,11 @@ namespace YemenSchoolsV1.API.Bases
                     return new BadRequestObjectResult(response);
             }
         }
+
+        public ObjectResult NewResult<T>(YemenSchoolsV1.Application.Wrappers.PaginatedResponse<T> response)
+        {
+            return new OkObjectResult(response);
+        }
         #endregion
     }
 }

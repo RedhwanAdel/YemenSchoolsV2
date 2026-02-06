@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Features.Cities.Commands.CreateCity;
 using YemenSchoolsV1.Application.Resources;
 
@@ -13,16 +12,12 @@ namespace YemenSchoolsV1.Application.Features.Regions.Commands.CreateRegion
 {
     public class CreateRegionValidator : AbstractValidator<CreateRegionCommand>
     {
-        #region Fields
-        private readonly IRegionService regionService;
         private readonly IStringLocalizer<SharedResources> _localizer;
-        #endregion
 
-        #region Constructors
-        public CreateRegionValidator(IRegionService regionService,
+        #region Fields
+        public CreateRegionValidator(
                                    IStringLocalizer<SharedResources> localizer)
         {
-            this.regionService = regionService;
             _localizer = localizer;
             ApplyValidationsRules();
 

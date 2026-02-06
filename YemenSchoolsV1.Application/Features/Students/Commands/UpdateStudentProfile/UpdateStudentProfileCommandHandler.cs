@@ -1,30 +1,36 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Students.Commands.UpdateStudentProfile
 {
-    public class UpdateStudentProfileCommandHandler : IRequestHandler<UpdateStudentProfileCommand, (bool Succeeded, string Message)>
+    public class UpdateStudentProfileCommandHandler : ResponseHandler, IRequestHandler<UpdateStudentProfileCommand, Response<string>>
     {
         private readonly IStudentRepository _studentRepository;
         private readonly ILogger<UpdateStudentProfileCommandHandler> _logger;
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
         public UpdateStudentProfileCommandHandler(
             IStudentRepository studentRepository,
-            ILogger<UpdateStudentProfileCommandHandler> logger)
+            ILogger<UpdateStudentProfileCommandHandler> logger,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _studentRepository = studentRepository;
             _logger = logger;
+            _stringLocalizer = stringLocalizer;
         }
 
-        public async Task<(bool Succeeded, string Message)> Handle(UpdateStudentProfileCommand request, CancellationToken cancellationToken)
+        public async Task<Response<string>> Handle(UpdateStudentProfileCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var student = await _studentRepository.GetByIdAsync(request.StudentId);
                 if (student == null)
                 {
-                    return (false, "الطالب غير موجود.");
+                    return NotFound<string>("الطالب غير موجود.");
                 }
 
                 // تحديث الحقول
@@ -38,12 +44,12 @@ namespace YemenSchoolsV1.Application.Features.Students.Commands.UpdateStudentPro
                 student.Email = request.Email;
 
                 await _studentRepository.UpdateAsync(request.StudentId, student);
-                return (true, "تم تحديث بيانات الطالب بنجاح.");
+                return Success("تم تحديث بيانات الطالب بنجاح.");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to update student profile for StudentId {StudentId}", request.StudentId);
-                return (false, "حدث خطأ غير متوقع أثناء تحديث البيانات.");
+                return BadRequest<string>("حدث خطأ غير متوقع أثناء تحديث البيانات.");
             }
         }
     }

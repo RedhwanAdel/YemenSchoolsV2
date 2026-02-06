@@ -1,48 +1,32 @@
 using AutoMapper;
-using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Features.Cities.Queries.GetCities;
-using YemenSchoolsV1.Application.Features.Regions.Commands.CreateRegion;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Regions.Queries.GetRegions
 {
     public class GetRegionsListQuearyHandler : ResponseHandler, IRequestHandler<GetRegionsListQueary, Response<List<GetRegionsListResponse>>>
     {
-        #region Fields
-        private readonly IRegionService regionService;
-        private readonly IStringLocalizer<SharedResources> _localizer;
-        private readonly IMapper mapper;
-        #endregion
+        private readonly IRegionRepository _regionRepository;
+        private readonly IMapper _mapper;
 
-        #region Constructors
-        public GetRegionsListQuearyHandler(IRegionService regionService,
-                                   IStringLocalizer<SharedResources> localizer, IMapper mapper) : base(localizer)
+        public GetRegionsListQuearyHandler(IRegionRepository regionRepository, IStringLocalizer<SharedResources> localizer, IMapper mapper) : base(localizer)
         {
-            this.regionService = regionService;
-            _localizer = localizer;
-            this.mapper = mapper;
+            _regionRepository = regionRepository;
+            _mapper = mapper;
         }
-        #endregion
 
         public async Task<Response<List<GetRegionsListResponse>>> Handle(GetRegionsListQueary request, CancellationToken cancellationToken)
         {
-            var regions = await regionService.GetAllRegionsAsync();
-            var response = mapper.Map<List<GetRegionsListResponse>>(regions);
-            foreach (var region in response) {
-                region.countSchools = await regionService.GetAllSchoolCountAsync(region.Id);
+            var regions = await _regionRepository.getAllRegionIncludeAsync();
+            var response = _mapper.Map<List<GetRegionsListResponse>>(regions);
+            foreach (var region in response)
+            {
+                region.countSchools = await _regionRepository.GetSchoolCount(region.Id);
             }
             return Success(response);
         }
-
-
-
     }
 }

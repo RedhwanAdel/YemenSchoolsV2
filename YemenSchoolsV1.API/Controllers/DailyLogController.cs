@@ -16,7 +16,7 @@ namespace YemenSchoolsV1.API.Controllers
         public async Task<IActionResult> GetStudentDailyLogsForDay(Guid studentId, [FromQuery] DateTime date)
         {
             var response = await Mediator.Send(new GetStudentDailyLogsForDayQuery(studentId, date));
-            return Ok(response);
+            return NewResult(response);
         }
 
         // ------------------- إضافة سجل يومي (للمعلم) -------------------

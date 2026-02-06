@@ -1,19 +1,23 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.Attendance.Commands.CreateDailyAttendance
 {
-    public class CreateDailyAttendanceCommandHandler : IRequestHandler<CreateDailyAttendanceCommand, Response<Guid>>
+    public class CreateDailyAttendanceCommandHandler : ResponseHandler, IRequestHandler<CreateDailyAttendanceCommand, Response<Guid>>
     {
         private readonly IAttendanceRepository _attendanceRepository;
         private readonly ISectionRepository _sectionRepository;
+        private readonly IStringLocalizer<SharedResources> _stringLocalizer;
 
-        public CreateDailyAttendanceCommandHandler(IAttendanceRepository attendanceRepository, ISectionRepository sectionRepository)
+        public CreateDailyAttendanceCommandHandler(IAttendanceRepository attendanceRepository, ISectionRepository sectionRepository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _attendanceRepository = attendanceRepository;
             _sectionRepository = sectionRepository;
+            _stringLocalizer = stringLocalizer;
         }
 
         public async Task<Response<Guid>> Handle(CreateDailyAttendanceCommand request, CancellationToken cancellationToken)
@@ -21,19 +25,13 @@ namespace YemenSchoolsV1.Application.Features.Attendance.Commands.CreateDailyAtt
             var existingAttendance = await _attendanceRepository.GetAttendanceByDateAndSectionAsync(request.Date, request.SectionId);
             if (existingAttendance != null)
             {
-                return new Response<Guid>("Attendance record for this section and date already exists.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
+                return BadRequest<Guid>("Attendance record for this section and date already exists.");
             }
 
             var section = await _sectionRepository.GetSectionByIdAsync(request.SectionId);
             if (section == null || section.ClassTeacherId != request.ClassTeacherId)
             {
-                return new Response<Guid>("Teacher is not authorized to take attendance for this section.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.Unauthorized
-                };
+                return Unauthorized<Guid>("Teacher is not authorized to take attendance for this section.");
             }
 
             var attendance = new YemenSchoolsV1.Domain.Entities.Attendance
@@ -54,11 +52,7 @@ namespace YemenSchoolsV1.Application.Features.Attendance.Commands.CreateDailyAtt
 
             var result = await _attendanceRepository.CreateAttendanceAsync(attendance);
 
-            return new Response<Guid>(result.Id, "Attendance created successfully")
-            {
-                StatusCode = System.Net.HttpStatusCode.Created,
-                Succeeded = true
-            };
+            return Created(result.Id);
         }
     }
 }

@@ -9,27 +9,20 @@ namespace YemenSchoolsV1.Application.Features.AcademicYears.Queries.GetYears
 {
     public class GetYearListQuearyHandler : ResponseHandler, IRequestHandler<GetYearListQueary, Response<List<GetYearListResponse>>>
     {
-        private readonly IAcademicYearRepository academicYearRepository;
-        #region faild
+        private readonly IAcademicYearRepository _academicYearRepository;
+        private readonly IMapper _mapper;
 
-        private readonly IMapper mapper;
-        private readonly IStringLocalizer<SharedResources> stringLocalizer;
-        #endregion
-
-        #region ctor
         public GetYearListQuearyHandler(IAcademicYearRepository academicYearRepository, IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.academicYearRepository = academicYearRepository;
-            this.mapper = mapper;
-            this.stringLocalizer = stringLocalizer;
+            _academicYearRepository = academicYearRepository;
+            _mapper = mapper;
         }
 
-        #endregion
         public async Task<Response<List<GetYearListResponse>>> Handle(GetYearListQueary request, CancellationToken cancellationToken)
         {
-            var resultDomain = await academicYearRepository.GetYearsBySchoolIdAsync(request.Id);
+            var resultDomain = await _academicYearRepository.GetYearsBySchoolIdAsync(request.Id);
 
-            var result = mapper.Map<List<GetYearListResponse>>(resultDomain);
+            var result = _mapper.Map<List<GetYearListResponse>>(resultDomain);
 
             if (result == null)
             {

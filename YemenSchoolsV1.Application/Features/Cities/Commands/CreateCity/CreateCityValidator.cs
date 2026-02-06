@@ -1,6 +1,5 @@
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using YemenSchoolsV1.Application.Contracts.Services;
 using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Cities.Commands.CreateCity
@@ -11,15 +10,12 @@ namespace YemenSchoolsV1.Application.Features.Cities.Commands.CreateCity
 
 
         #region Fields
-        private readonly ICityService _cityService;
         private readonly IStringLocalizer<SharedResources> _localizer;
         #endregion
 
         #region Constructors
-        public CreateCityValidator(ICityService cityService,
-                                   IStringLocalizer<SharedResources> localizer)
+        public CreateCityValidator(IStringLocalizer<SharedResources> localizer)
         {
-            _cityService = cityService;
             _localizer = localizer;
             ApplyValidationsRules();
            

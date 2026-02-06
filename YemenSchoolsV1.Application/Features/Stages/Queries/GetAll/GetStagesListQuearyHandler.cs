@@ -9,26 +9,20 @@ namespace YemenSchoolsV1.Application.Features.Stages.Queries.GetAll
 {
     public class GetStagesListQuearyHandler : ResponseHandler, IRequestHandler<GetStagesListQueary, Response<List<GetStagesListResponse>>>
     {
-        #region Fields
-        private readonly IStageRepository stageRepository;
-        private readonly IStringLocalizer<SharedResources> _localizer;
-        private readonly IMapper mapper;
-        #endregion
+        private readonly IStageRepository _stageRepository;
+        private readonly IMapper _mapper;
 
-        #region Constructors
         public GetStagesListQuearyHandler(IStageRepository stageRepository,
                                    IStringLocalizer<SharedResources> localizer, IMapper mapper) : base(localizer)
         {
-            this.stageRepository = stageRepository;
-            _localizer = localizer;
-            this.mapper = mapper;
+            _stageRepository = stageRepository;
+            _mapper = mapper;
         }
 
-        #endregion
         public async Task<Response<List<GetStagesListResponse>>> Handle(GetStagesListQueary request, CancellationToken cancellationToken)
         {
-            var stagesDomain = await stageRepository.GetAllAsync();
-            var stages = mapper.Map<List<GetStagesListResponse>>(stagesDomain);
+            var stagesDomain = await _stageRepository.GetAllAsync();
+            var stages = _mapper.Map<List<GetStagesListResponse>>(stagesDomain);
 
             if (stages == null)
             {

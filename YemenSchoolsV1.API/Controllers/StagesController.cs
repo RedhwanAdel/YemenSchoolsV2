@@ -13,7 +13,7 @@ namespace YemenSchoolsV1.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var response = await Mediator.Send(new GetStagesListQueary());
-            return Ok(response);
+            return NewResult(response);
         }
 
         [HttpPost]

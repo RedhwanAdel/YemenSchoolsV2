@@ -1,32 +1,30 @@
-using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Features.Cities.Commands.DeleteCity;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.AcademicYears.Commands.DeleteYear
 {
     public class DeleteYearCommandHandler : ResponseHandler, IRequestHandler<DeleteYearCommand, Response<bool>>
     {
-        private readonly IAcademicYearService academicYearService;
+        private readonly IAcademicYearRepository _academicYearRepository;
 
-        public DeleteYearCommandHandler(IStringLocalizer<SharedResources> stringLocalizer, IAcademicYearService academicYearService) : base(stringLocalizer)
+        public DeleteYearCommandHandler(IStringLocalizer<SharedResources> stringLocalizer, IAcademicYearRepository academicYearRepository) : base(stringLocalizer)
         {
-            this.academicYearService = academicYearService;
+            _academicYearRepository = academicYearRepository;
         }
-
-       
 
         public async Task<Response<bool>> Handle(DeleteYearCommand request, CancellationToken cancellationToken)
         {
-            var year = await academicYearService.DeleteYearAsync(request.Id);
-            if (year is false)
+            var yearEntity = await _academicYearRepository.GetByIdAsync(request.Id);
+            if (yearEntity == null)
+            {
+                return NotFound<bool>();
+            }
+
+            var deleted = await _academicYearRepository.DeleteAsync(request.Id);
+            if (!deleted)
             {
                 return UnprocessableEntity<bool>();
             }

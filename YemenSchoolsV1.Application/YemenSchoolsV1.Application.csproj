@@ -46,5 +46,7 @@
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.15" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
   </ItemGroup>
-
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 </Project>

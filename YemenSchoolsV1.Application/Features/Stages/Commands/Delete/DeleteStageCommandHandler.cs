@@ -1,41 +1,34 @@
-using YemenSchoolsV1.Application.Bases;
 using MediatR;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YemenSchoolsV1.Application.Contracts.Services;
-using YemenSchoolsV1.Application.Features.Terms.Commands.DeleteTerm;
+using YemenSchoolsV1.Application.Bases;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Stages.Commands.Delete
 {
     public class DeleteStageCommandHandler : ResponseHandler, IRequestHandler<DeleteStageCommand, Response<bool>>
     {
-        #region faild
-        private readonly IStageService stageService;
+        private readonly IStageRepository _stageRepository;
 
-
-        #endregion
-
-        #region ctor
-        public DeleteStageCommandHandler(IStageService stageService, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
+        public DeleteStageCommandHandler(IStageRepository stageRepository, IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
-            this.stageService = stageService;
+            _stageRepository = stageRepository;
         }
 
-        #endregion
         public async Task<Response<bool>> Handle(DeleteStageCommand request, CancellationToken cancellationToken)
         {
-            var stage = await stageService.DeleteStageAsync(request.Id);
-            if (stage is false)
+            var stageEntity = await _stageRepository.GetByIdAsync(request.Id);
+            if (stageEntity == null)
+            {
+                return NotFound<bool>();
+            }
+
+            var deleted = await _stageRepository.DeleteAsync(request.Id);
+            if (!deleted)
             {
                 return UnprocessableEntity<bool>();
             }
             return Deleted<bool>();
         }
-
     }
 }

@@ -1,8 +1,9 @@
 using MediatR;
+using YemenSchoolsV1.Application.Bases;
 
 namespace YemenSchoolsV1.Application.Features.Marks.Commands.UpdateMarks
 {
-    public class UpdateMarksCommand : IRequest<(bool Succeeded, string Message)>
+    public class UpdateMarksCommand : IRequest<Response<string>>
     {
         public Guid TeacherId { get; set; }
         public Guid SectionSubjectId { get; set; }
