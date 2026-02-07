@@ -1,9 +1,10 @@
-import { Component, computed, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map, catchError, of, tap, Subscription, lastValueFrom } from 'rxjs';
-import { SchoolReportData } from '../../../shared/models/school/school';
-import { SchoolService } from '../../../core/services/school.service';
+import { SchoolReportData } from '@features/schools/models/school';
+import { SchoolService } from '@features/schools/services/school.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,8 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule, DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AccountService } from '../../../core/services/account.service';
 import { CommonModule } from '@angular/common';
-import { toSignal } from '@angular/core/rxjs-interop'; // لإستخدام toSignal
-import { ReportsService } from '../../../core/services/reports.service';
+import { ReportsService } from '@features/reports/services/reports.service';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -34,6 +34,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './school-report.component.scss'
 })
 export class SchoolReportComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   private accountService = inject(AccountService);
   private schoolReportService = inject(SchoolService);
   private snackBar = inject(MatSnackBar);
@@ -80,42 +81,40 @@ export class SchoolReportComponent implements OnInit {
     this.isLoading.set(true); // ابدأ التحميل
     this.errorMessage.set(null); // مسح أي رسائل خطأ سابقة
 
-    this.dataSubscription = this.schoolReportService.getSchoolReport(schoolId).subscribe({
-      next: (res) => {
-        if (res.succeeded) {
-          this.reportData.set(res.data); // تحديث الـ Signal مباشرة بالبيانات
-          this.errorMessage.set(null); // مسح أي خطأ سابق إذا نجح الطلب
-        } else {
-          // إذا لم تنجح الـ response
-          const msg = res.message || 'فشل جلب بيانات التقرير.';
-          this.errorMessage.set(msg);
-          this.reportData.set(null); // مسح البيانات إذا فشلت
-          this.snackBar.open(msg, 'إغلاق', { duration: 5000 });
-        }
-        this.isLoading.set(false); // توقف التحميل في كلتا الحالتين (نجاح أو فشل ضمن الـ response)
-      },
-      error: (err) => {
-        // التعامل مع أخطاء الشبكة أو الأخطاء غير المتوقعة
-        console.error('Error fetching school report:', err);
-        const msg = 'حدث خطأ أثناء الاتصال بالخادم. يرجى المحاولة مرة أخرى.';
-        this.errorMessage.set(msg);
-        this.reportData.set(null); // مسح البيانات إذا حدث خطأ
-        this.snackBar.open(msg, 'إغلاق', { duration: 5000 });
-        this.isLoading.set(false); // توقف التحميل عند الخطأ
-      },
-      complete: () => {
-        // هذا الجزء سينفذ بعد next أو error، ويمكن أن يكون فارغًا إذا تم التعامل مع كل شيء
-        // في next و error، أو للتأكد من توقف التحميل إذا لم يتم ذلك في next/error
-        if (this.isLoading()) { // للتأكد فقط إذا لم يتم ضبطه بالفعل
+    this.schoolReportService.getSchoolReport(schoolId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            this.reportData.set(res); // تحديث الـ Signal مباشرة بالبيانات
+            this.errorMessage.set(null); // مسح أي خطأ سابق إذا نجح الطلب
+          } else {
+            // Fallback if data is null/undefined
+            const msg = 'فشل جلب بيانات التقرير.';
+            this.errorMessage.set(msg);
+            this.reportData.set(null);
+            this.snackBar.open(msg, 'إغلاق', { duration: 5000 });
+          }
           this.isLoading.set(false);
+        },
+        error: (err) => {
+          // التعامل مع أخطاء الشبكة أو الأخطاء غير المتوقعة
+          console.error('Error fetching school report:', err);
+          const msg = 'حدث خطأ أثناء الاتصال بالخادم. يرجى المحاولة مرة أخرى.';
+          this.errorMessage.set(msg);
+          this.reportData.set(null); // مسح البيانات إذا حدث خطأ
+          this.snackBar.open(msg, 'إغلاق', { duration: 5000 });
+          this.isLoading.set(false); // توقف التحميل عند الخطأ
+        },
+        complete: () => {
+          // هذا الجزء سينفذ بعد next أو error، ويمكن أن يكون فارغًا إذا تم التعامل مع كل شيء
+          // في next و error، أو للتأكد من توقف التحميل إذا لم يتم ذلك في next/error
+          if (this.isLoading()) { // للتأكد فقط إذا لم يتم ضبطه بالفعل
+            this.isLoading.set(false);
+          }
         }
-      }
-    });
+      });
     // --- نهاية الجزء المبسّط للغاية ---
-  }
-
-  ngOnDestroy(): void {
-    this.dataSubscription?.unsubscribe(); // مهم جداً لإدارة الذاكرة
   }
 
   getSchoolType(type: number): string {

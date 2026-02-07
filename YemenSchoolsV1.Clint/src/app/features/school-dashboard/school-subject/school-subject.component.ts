@@ -1,8 +1,9 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { SubjectService } from '../../../core/services/subject.service';
-import { SchoolService } from '../../../core/services/school.service';
-import { Grade } from '../../../shared/models/grade/grade';
-import { AssignSubjectsToSchoolGradeDto, SchoolGradeSubject, SchoolGradeSubjectsInit, SchoolGradeWithDetailsDto, StageGradeDto } from '../../../shared/models/school/school';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SubjectService } from '@features/school-dashboard/school-subject/services/subject.service';
+import { SchoolService } from '@features/schools/services/school.service';
+import { Grade } from '@features/school-dashboard/school-grade/models/grade';
+import { AssignSubjectsToSchoolGradeDto, SchoolGradeSubject, SchoolGradeSubjectsInit, SchoolGradeWithDetailsDto, StageGradeDto } from '@features/schools/models/school';
 import { AccountService } from '../../../core/services/account.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule, MatSelectionList } from '@angular/material/list';
@@ -12,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import { Subject } from '../../../shared/models/school/subject';
+import { Subject } from '@features/schools/models/school';
 
 @Component({
   selector: 'app-school-subject',
@@ -36,6 +37,7 @@ export class SchoolSubjectComponent implements OnInit {
   subjectService = inject(SubjectService);
   schoolService = inject(SchoolService);
   acoountService = inject(AccountService);
+  private destroyRef = inject(DestroyRef);
   private snackBar = inject(MatSnackBar);
 
   // gradesOfSchool ستكون من نوع SchoolGradeWithDetailsDto[]
@@ -43,51 +45,60 @@ export class SchoolSubjectComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.subjectService.getSubjects().subscribe({
-      next: (subjects) => {
-        this.subjectOfGrade.set(subjects.data);
-      },
-      error: (err) => {
-        console.error('Error loading all available subjects:', err);
-        this.snackBar.open('فشل تحميل قائمة المواد المتاحة.', 'إغلاق', { duration: 3000 });
-      }
-    });
+    const schoolId = this.acoountService.currentUser()?.schoolId;
+    if (schoolId) {
+      this.subjectService.getSubjects(schoolId)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (subjects) => {
+            this.subjectOfGrade.set(subjects);
+          },
+          error: (err) => {
+            console.error('Error loading all available subjects:', err);
+            this.snackBar.open('فشل تحميل قائمة المواد المتاحة.', 'إغلاق', { duration: 3000 });
+          }
+        });
+    }
 
-    this.schoolService.getSchoolGrade().subscribe({
-      next: (grades: SchoolGradeWithDetailsDto[]) => {
-        this.gradesOfSchool = grades;
-        this.gradesOfSchool.forEach((schoolGrade) => {
-          this.schoolService.getSubjectsForSchoolGrade(schoolGrade.id).subscribe({
-            next: (assignedSubjects: Subject[]) => {
-              const subjectIds = assignedSubjects.map((sub) => sub.id);
-              this.selectedSubjects[schoolGrade.id] = subjectIds;
-              this.originalAssignedSubjects[schoolGrade.id] = [...subjectIds];
-              // عند التحميل الأولي، لا توجد تغييرات
-              this.hasChangesMap[schoolGrade.id] = false;
-            },
-            error: (err) => {
-              console.error(
-                `Error loading subjects for schoolGradeId ${schoolGrade.id}:`,
-                err
-              );
-              this.snackBar.open(
-                `فشل تحميل المواد للصف ${schoolGrade.gradeName}.`,
-                'إغلاق',
-                {
-                  duration: 3000,
-                }
-              );
-            },
+    this.schoolService.getSchoolGrade()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (grades: SchoolGradeWithDetailsDto[]) => {
+          this.gradesOfSchool = grades;
+          this.gradesOfSchool.forEach((schoolGrade) => {
+            this.schoolService.getSubjectsForSchoolGrade(schoolGrade.id)
+              .pipe(takeUntilDestroyed(this.destroyRef))
+              .subscribe({
+                next: (assignedSubjects: Subject[]) => {
+                  const subjectIds = assignedSubjects.map((sub) => sub.id);
+                  this.selectedSubjects[schoolGrade.id] = subjectIds;
+                  this.originalAssignedSubjects[schoolGrade.id] = [...subjectIds];
+                  // عند التحميل الأولي، لا توجد تغييرات
+                  this.hasChangesMap[schoolGrade.id] = false;
+                },
+                error: (err) => {
+                  console.error(
+                    `Error loading subjects for schoolGradeId ${schoolGrade.id}:`,
+                    err
+                  );
+                  this.snackBar.open(
+                    `فشل تحميل المواد للصف ${schoolGrade.gradeName}.`,
+                    'إغلاق',
+                    {
+                      duration: 3000,
+                    }
+                  );
+                },
+              });
           });
-        });
-      },
-      error: (err) => {
-        console.error('Error loading grades for school:', err);
-        this.snackBar.open('فشل تحميل صفوف المدرسة.', 'إغلاق', {
-          duration: 3000,
-        });
-      },
-    });
+        },
+        error: (err) => {
+          console.error('Error loading grades for school:', err);
+          this.snackBar.open('فشل تحميل صفوف المدرسة.', 'إغلاق', {
+            duration: 3000,
+          });
+        },
+      });
   }
 
   // ... (بقية الدالة getSelectedSubjectNames) ...
@@ -125,22 +136,24 @@ export class SchoolSubjectComponent implements OnInit {
       subjectIds: currentSelectedSubjectIds,
     };
 
-    this.schoolService.assignSubjectsToStageGrade(dataToSave).subscribe({
-      next: (res) => {
-        console.log(`المواد للصف ${schoolGradeId} تم حفظها بنجاح!`, res);
-        this.snackBar.open('تم حفظ المواد بنجاح. ✅', 'إغلاق', {
-          duration: 3000,
-        });
-        // تحديث الحالة الأصلية بعد الحفظ الناجح
-        this.originalAssignedSubjects[schoolGradeId] = [...currentSelectedSubjectIds];
-        // تحديث hasChangesMap بحيث يصبح الزر معطلًا مرة أخرى
-        this.hasChangesMap[schoolGradeId] = false;
-      },
-      error: (err) => {
-        console.error(`خطأ أثناء حفظ المواد للصف ${schoolGradeId}:`, err);
-        this.snackBar.open('فشل حفظ المواد. ❌', 'إغلاق', { duration: 3000 });
-      },
-    });
+    this.schoolService.assignSubjectsToStageGrade(dataToSave)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          console.log(`المواد للصف ${schoolGradeId} تم حفظها بنجاح!`, res);
+          this.snackBar.open('تم حفظ المواد بنجاح. ✅', 'إغلاق', {
+            duration: 3000,
+          });
+          // تحديث الحالة الأصلية بعد الحفظ الناجح
+          this.originalAssignedSubjects[schoolGradeId] = [...currentSelectedSubjectIds];
+          // تحديث hasChangesMap بحيث يصبح الزر معطلًا مرة أخرى
+          this.hasChangesMap[schoolGradeId] = false;
+        },
+        error: (err) => {
+          console.error(`خطأ أثناء حفظ المواد للصف ${schoolGradeId}:`, err);
+          this.snackBar.open('فشل حفظ المواد. ❌', 'إغلاق', { duration: 3000 });
+        },
+      });
   }
   getSelectedSubjectNames(schoolGradeId: string): string {
     const selectedIds = this.selectedSubjects[schoolGradeId];

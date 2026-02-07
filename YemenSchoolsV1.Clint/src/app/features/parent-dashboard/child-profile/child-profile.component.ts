@@ -4,13 +4,13 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ChildGradesComponent } from "../child-grades/child-grades.component";
 import { ChildAttendanceComponent } from "../child-attendance/child-attendance.component";
-import { StudentService } from '../../../core/services/student.service';
+import { StudentService } from '@features/school-dashboard/student/services/student.service';
 import { ActivatedRoute } from '@angular/router';
 import { SnackbarService } from '../../../core/services/snackbar.service';
-import { Student } from '../../../shared/models/student/student';
-import { ParentService } from '../../../core/services/parent.service';
+import { Student } from '@features/school-dashboard/student/models/student';
+import { ParentService } from '@features/parent-dashboard/services/parent.service';
 import { map } from 'rxjs';
-import { StudentWithSchoolInfoDto } from '../../../shared/models/parent';
+import { StudentWithSchoolInfoDto } from '@features/parent-dashboard/models/parent';
 import { ChildDailyLogComponent } from "../child-daily-log/child-daily-log.component";
 
 @Component({

@@ -1,14 +1,18 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.SectionSubjects.Commands.Delete
 {
-    public class DeleteSectionSubjectCommandHandler : IRequestHandler<DeleteSectionSubjectCommand, Response<bool>>
+    public class DeleteSectionSubjectCommandHandler : ResponseHandler, IRequestHandler<DeleteSectionSubjectCommand, Response<bool>>
     {
         private readonly ISectionSubjectRepository _repository;
 
-        public DeleteSectionSubjectCommandHandler(ISectionSubjectRepository repository)
+        public DeleteSectionSubjectCommandHandler(
+            ISectionSubjectRepository repository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
         }
@@ -17,9 +21,9 @@ namespace YemenSchoolsV1.Application.Features.SectionSubjects.Commands.Delete
         {
             var deleted = await _repository.DeleteAsync(request.Id);
             if (!deleted)
-                return new Response<bool>("SectionSubject not found.", false) { StatusCode = System.Net.HttpStatusCode.NotFound };
+                return NotFound<bool>("SectionSubject not found.");
 
-            return new Response<bool>(true, "SectionSubject deleted successfully.");
+            return Deleted<bool>();
         }
     }
 }

@@ -29,7 +29,7 @@
           (ngModelChange)="checkForChanges(grade.id)"
           class="subject-selection-list"
         >
-          @for (subject of subjectService.subjects(); track subject.id) {
+          @for (subject of subjectOfGrade(); track subject.id) {
           <mat-list-option [value]="subject.id">
             {{ subject.name }}
           </mat-list-option>

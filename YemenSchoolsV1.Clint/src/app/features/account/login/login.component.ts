@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -30,6 +31,7 @@ import { AccountService } from '../../../core/services/account.service';
 })
 export class LoginComponent {
   hidePassword = true; // For toggling password visibility
+  private destroyRef = inject(DestroyRef);
   private fb = inject(FormBuilder)
   private accountService = inject(AccountService)
   private router = inject(Router)
@@ -42,16 +44,20 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.accountService.login(this.loginForm.value).subscribe({
-        next: () => {
-          this.accountService.getUserInfo().subscribe();
-          setTimeout(() => {
-            window.location.reload();
+      this.accountService.login(this.loginForm.value)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.accountService.getUserInfo()
+              .pipe(takeUntilDestroyed(this.destroyRef))
+              .subscribe();
+            setTimeout(() => {
+              window.location.reload();
 
-          }, 500);
-          this.router.navigateByUrl('/');
-        }
-      })
+            }, 500);
+            this.router.navigateByUrl('/');
+          }
+        })
     } else {
       console.log('Login form is invalid.');
       this.loginForm.markAllAsTouched();

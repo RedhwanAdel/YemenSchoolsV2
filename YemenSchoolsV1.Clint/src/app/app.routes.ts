@@ -150,5 +150,5 @@ export const routes: Routes = [
     { path: 'server-error', component: ServerErrorComponent },
 
 
-    { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
+    { path: '**', redirectTo: 'not-found' },
 ];

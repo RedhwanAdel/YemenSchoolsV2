@@ -1,11 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
-import { SectionsOfYear } from '../../../../shared/models/section/section';
+import { SectionsOfYear } from '@features/school-dashboard/section/models/section';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { SectionService } from '../../../../core/services/section.service';
-import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
+import { SectionService } from '@features/school-dashboard/section/services/section.service';
+import { AcadmicYearService } from '@features/school-dashboard/year/services/acadmic-year.service';
 
 @Component({
   selector: 'app-section-subject-list',
@@ -16,10 +17,11 @@ import { AcadmicYearService } from '../../../../core/services/acadmic-year.servi
 })
 export class SectionSubjectListComponent implements OnInit {
 
-  private router = inject(Router)
-  private snack = inject(SnackbarService)
-  sectionService = inject(SectionService)
-  yearService = inject(AcadmicYearService)
+  private router = inject(Router);
+  private snack = inject(SnackbarService);
+  private destroyRef = inject(DestroyRef);
+  sectionService = inject(SectionService);
+  yearService = inject(AcadmicYearService);
   sectionsOfYear: SectionsOfYear[] = [];
 
   Columns: TableColumn[] = [
@@ -33,32 +35,25 @@ export class SectionSubjectListComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-
-    this.loadSections()
+    this.loadSections();
   }
-
-
 
   handleUserAction(event: { actionKey: string; rowData: any }): void {
     console.log(`Action: ${event.actionKey} on User:`, event.rowData);
     // Implement your logic here based on actionKey and rowData
     switch (event.actionKey) {
-
       case 'manage':
         this.router.navigate(['/school-dash-board/section-subject-assignment', event.rowData.sectionId]);
-
         break;
-
     }
   }
 
   loadSections() {
-    const yearId = this.yearService.currentAcademicYearId()!
-
-    this.sectionService.getSectionsForSpcificYear(yearId).subscribe({
-      next: res => this.sectionsOfYear = res.data
-    })
-
+    this.sectionService.getSectionsByAcademicYear()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: SectionsOfYear[]) => this.sectionsOfYear = res
+      });
   }
 
 

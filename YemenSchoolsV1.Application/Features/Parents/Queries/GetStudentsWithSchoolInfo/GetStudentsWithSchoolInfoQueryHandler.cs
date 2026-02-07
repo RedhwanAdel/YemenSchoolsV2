@@ -1,15 +1,19 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto.Parents;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Parents.Queries.GetStudentsWithSchoolInfo
 {
-    public class GetStudentsWithSchoolInfoQueryHandler : IRequestHandler<GetStudentsWithSchoolInfoQuery, Response<List<StudentWithSchoolInfoDto>>>
+    public class GetStudentsWithSchoolInfoQueryHandler : ResponseHandler, IRequestHandler<GetStudentsWithSchoolInfoQuery, Response<List<StudentWithSchoolInfoDto>>>
     {
         private readonly IParentRepository _parentRepository;
 
-        public GetStudentsWithSchoolInfoQueryHandler(IParentRepository parentRepository)
+        public GetStudentsWithSchoolInfoQueryHandler(
+            IParentRepository parentRepository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _parentRepository = parentRepository;
         }
@@ -28,11 +32,8 @@ namespace YemenSchoolsV1.Application.Features.Parents.Queries.GetStudentsWithSch
                 SectionName = s.CurrentSection?.Name ?? ""
             }).ToList();
 
-            return new Response<List<StudentWithSchoolInfoDto>>(result, "تم جلب بيانات الطلاب بنجاح")
-            {
-                StatusCode = System.Net.HttpStatusCode.OK,
-                Succeeded = true
-            };
+            return Success(result, "تم جلب بيانات الطلاب بنجاح");
         }
     }
 }
+

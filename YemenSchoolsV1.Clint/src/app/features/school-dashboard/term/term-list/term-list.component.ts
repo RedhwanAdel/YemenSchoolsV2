@@ -1,15 +1,16 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
-import { TermService } from '../../../../core/services/term.service';
+import { TermService } from '@features/school-dashboard/term/services/term.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogService } from '../../../../core/services/dialog.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MatButton } from '@angular/material/button';
-import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
-import { Term } from '../../../../shared/models/term/term';
+import { AcadmicYearService } from '@features/school-dashboard/year/services/acadmic-year.service';
+import { Term } from '@features/school-dashboard/term/models/term';
 import { AccountService } from '../../../../core/services/account.service';
-import { YearDto } from '../../../../shared/models/AcademicYear/AcademicYear';
+import { YearDto } from '@features/school-dashboard/year/models/AcademicYear';
 import { MatFormField, MatLabel, MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { TermFormComponent } from '../term-form/term-form.component';
@@ -22,13 +23,14 @@ import { TermFormComponent } from '../term-form/term-form.component';
   styleUrl: './term-list.component.scss'
 })
 export class TermListComponent implements OnInit {
-  termService = inject(TermService)
+  private destroyRef = inject(DestroyRef);
+  termService = inject(TermService);
   private dialogService = inject(DialogService);
   private dialog = inject(MatDialog);
-  yearService = inject(AcadmicYearService)
-  private snack = inject(SnackbarService)
-  private accountService = inject(AccountService)
-  terms = signal<Term[]>([])
+  yearService = inject(AcadmicYearService);
+  private snack = inject(SnackbarService);
+  private accountService = inject(AccountService);
+  terms = signal<Term[]>([]);
   Columns: TableColumn[] = [
     { key: 'name', header: 'الاسم' },
     { key: 'academicYearName', header: 'اسم السنة' },
@@ -42,7 +44,7 @@ export class TermListComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.loadTerms()
+    this.loadTerms();
   }
 
 
@@ -64,13 +66,14 @@ export class TermListComponent implements OnInit {
 
 
   loadTerms() {
-    const yearId = this.yearService.currentAcademicYearId()!
-    console.log(yearId)
+    const yearId = this.yearService.currentAcademicYearId()!;
+    console.log(yearId);
 
-    this.termService.getTerms(yearId).subscribe({
-      next: res => this.terms.set(res.data)
-    })
-
+    this.termService.getTerms(yearId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => this.terms.set(res)
+      });
   }
 
   async openConfirmDialog(id: string, name: string) {
@@ -80,16 +83,18 @@ export class TermListComponent implements OnInit {
     );
 
     if (confirmed) {
-      this.termService.deleteTerm(id).subscribe({
-        next: () => {
-          this.snack.success('تم حذف الفصل الدراسي بنجاح!');
-          this.loadTerms();
-        },
-        error: (err) => {
-          this.snack.error('فشل في حذف الفصل الدراسي.');
-          console.error(err);
-        }
-      });
+      this.termService.deleteTerm(id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.snack.success('تم حذف الفصل الدراسي بنجاح!');
+            this.loadTerms();
+          },
+          error: (err) => {
+            this.snack.error('فشل في حذف الفصل الدراسي.');
+            console.error(err);
+          }
+        });
     }
   }
 
@@ -101,11 +106,13 @@ export class TermListComponent implements OnInit {
     });
 
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadTerms()
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(result => {
+        if (result) {
+          this.loadTerms();
+        }
+      });
   }
 
 }

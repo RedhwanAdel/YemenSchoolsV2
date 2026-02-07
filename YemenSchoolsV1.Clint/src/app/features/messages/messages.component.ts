@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { MessageService } from '../../core/services/message.service';
-import { Message } from '../../shared/models/messages/message';
+import { MessageService } from '@features/messages/services/message.service';
+import { Message } from '@features/messages/models/messages';
 import { Pagination } from '../../shared/models/Pagination';
 import { DialogService } from '../../core/services/dialog.service';
 import { MatButtonModule } from '@angular/material/button';

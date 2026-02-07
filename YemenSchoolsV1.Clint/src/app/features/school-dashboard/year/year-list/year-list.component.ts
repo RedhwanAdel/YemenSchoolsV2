@@ -1,11 +1,12 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
-import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
+import { AcadmicYearService } from '@features/school-dashboard/year/services/acadmic-year.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogService } from '../../../../core/services/dialog.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { YearDto } from '../../../../shared/models/AcademicYear/AcademicYear';
+import { CreateYearDto, YearDto } from '@features/school-dashboard/year/models/AcademicYear';
 import { AccountService } from '../../../../core/services/account.service';
 import { MatButton } from '@angular/material/button';
 import { YearFormComponent } from '../year-form/year-form.component';
@@ -18,12 +19,13 @@ import { YearFormComponent } from '../year-form/year-form.component';
   styleUrl: './year-list.component.scss'
 })
 export class YearListComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   private dialogService = inject(DialogService);
   private dialog = inject(MatDialog);
-  yearService = inject(AcadmicYearService)
-  private accountService = inject(AccountService)
-  private snack = inject(SnackbarService)
-  years = signal<YearDto[]>([])
+  yearService = inject(AcadmicYearService);
+  private accountService = inject(AccountService);
+  private snack = inject(SnackbarService);
+  years = signal<YearDto[]>([]);
 
   Columns: TableColumn[] = [
     { key: 'name', header: 'الاسم' },
@@ -40,8 +42,7 @@ export class YearListComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-
-    this.loadYears()
+    this.loadYears();
   }
 
 
@@ -64,41 +65,43 @@ export class YearListComponent implements OnInit {
     }
   }
   onSetCurrentYear(academicYearId: string): void {
-    // يمكنك إضافة تأكيد هنا قبل استدعاء الخدمة
     this.dialogService.confirm(
       'تعيين السنة الحالية',
       `هل أنت متأكد أنك تريد تعيين هذه السنة كسنة دراسية حالية؟ سيؤثر هذا على جميع العمليات المستقبلية.`
     ).then(confirmed => {
       if (confirmed) {
-        this.yearService.SetCurrentYear(academicYearId).subscribe({
-          next: () => {
-            this.snack.success('تم تعيين السنة الدراسية الحالية بنجاح!');
-            this.loadYears(); // إعادة تحميل قائمة الأعوام لتحديث حالة "نشط حالياً"
-          },
-          error: (err) => {
-            this.snack.error('فشل في تعيين السنة الدراسية الحالية.');
-            console.error(err);
-          }
-        });
+        this.yearService.SetCurrentYear(academicYearId)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe({
+            next: () => {
+              this.snack.success('تم تعيين السنة الدراسية الحالية بنجاح!');
+              this.loadYears();
+            },
+            error: (err) => {
+              this.snack.error('فشل في تعيين السنة الدراسية الحالية.');
+              console.error(err);
+            }
+          });
       }
     });
   }
 
   loadYears() {
-    this.yearService.getAcademicYears().subscribe({
-      next: (res) => {
-        const yearsWithStatus = res.data?.map(year => ({
-          ...year,
-          isCurrentYearDisplay: year.isCurrentYear ? 'Current' : 'Not Current'
-        })) || [];
-        this.years.set(yearsWithStatus); // تحديث Signal الأعوام
-      },
-      error: (err) => {
-        this.snack.error('Failed to load academic years.');
-        console.error(err);
-      }
-    })
-
+    this.yearService.getAcademicYears()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          const yearsWithStatus = res.data?.map((year: YearDto) => ({
+            ...year,
+            isCurrentYearDisplay: year.isCurrentYear ? 'Current' : 'Not Current'
+          })) || [];
+          this.years.set(yearsWithStatus);
+        },
+        error: (err) => {
+          this.snack.error('Failed to load academic years.');
+          console.error(err);
+        }
+      });
   }
   async openConfirmDialog(id: string, name: string) {
     const confirmed = await this.dialogService.confirm(
@@ -107,16 +110,18 @@ export class YearListComponent implements OnInit {
     );
 
     if (confirmed) {
-      this.yearService.deleteAcademicYear(id).subscribe({
-        next: () => {
-          this.snack.success('تم حذف السنة الدراسية بنجاح!');
-          this.loadYears();
-        },
-        error: (err) => {
-          this.snack.error('فشل في حذف السنة الدراسية.');
-          console.error(err);
-        }
-      });
+      this.yearService.deleteAcademicYear(id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.snack.success('تم حذف السنة الدراسية بنجاح!');
+            this.loadYears();
+          },
+          error: (err) => {
+            this.snack.error('فشل في حذف السنة الدراسية.');
+            console.error(err);
+          }
+        });
     }
   }
 
@@ -127,11 +132,13 @@ export class YearListComponent implements OnInit {
     });
 
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadYears()
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(result => {
+        if (result) {
+          this.loadYears();
+        }
+      });
   }
 
 

@@ -1,11 +1,12 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { ParentService } from '../../../core/services/parent.service';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ParentService } from '@features/parent-dashboard/services/parent.service';
 import { PageWrapperComponent } from "../../../shared/components/page-wrapper/page-wrapper.component";
 import { TableColumn, TableComponent } from "../../../shared/components/table/table.component";
 import { Router, RouterLink } from '@angular/router';
 import { SnackbarService } from '../../../core/services/snackbar.service';
-import { Teacher } from '../../../shared/models/teachers/teacher';
-import { TeacherInfoForParentDto } from '../../../shared/models/parent';
+import { Teacher } from '@features/school-dashboard/teacher/models/teachers';
+import { TeacherInfoForParentDto } from '@features/parent-dashboard/models/parent';
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
@@ -19,6 +20,7 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './teacher-list-for-parent.component.scss'
 })
 export class TeacherListForParentComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   parentService = inject(ParentService);
   teachers = signal<TeacherInfoForParentDto[]>([]);
 
@@ -27,9 +29,11 @@ export class TeacherListForParentComponent implements OnInit {
   }
 
   loadTeachers() {
-    this.parentService.GetTeachersForParent().subscribe({
-      next: res => this.teachers.set(res.data)
-    });
+    this.parentService.GetTeachersForParent()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: any) => this.teachers.set(res.data)
+      });
   }
 
   contactTeacher(teacher: TeacherInfoForParentDto) {

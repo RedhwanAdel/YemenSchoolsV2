@@ -1,15 +1,16 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, Inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormInputComponent } from "../../../../shared/components/form-input/form-input.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { SectionService } from '../../../../core/services/section.service';
-import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
-import { TeacherService } from '../../../../core/services/teacher.service';
+import { SectionService } from '@features/school-dashboard/section/services/section.service';
+import { AcadmicYearService } from '@features/school-dashboard/year/services/acadmic-year.service';
+import { TeacherService } from '@features/school-dashboard/teacher/services/teacher.service';
 import { AccountService } from '../../../../core/services/account.service';
-import { Teacher } from '../../../../shared/models/teachers/teacher';
+import { Teacher } from '@features/school-dashboard/teacher/models/teachers';
 import { SelectInputComponent } from '../../../../shared/components/select-input/select-input.component';
 
 @Component({
@@ -27,6 +28,7 @@ import { SelectInputComponent } from '../../../../shared/components/select-input
   styleUrl: './section-form.component.scss'
 })
 export class SectionFormComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   form!: FormGroup;
   isEdit = false;
   sctionService = inject(SectionService)
@@ -60,13 +62,15 @@ export class SectionFormComponent implements OnInit {
 
 
   loadTeachers() {
-    const schoolId = this.accountService.currentUser()?.schoolId
-    if (!schoolId) return
-    this.teacherService.getTeachers(schoolId).subscribe({
-      next: res => {
-        this.teachers = res.data
-      }
-    })
+    const schoolId = this.accountService.currentUser()?.schoolId;
+    if (!schoolId) return;
+    this.teacherService.getTeachers(schoolId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          this.teachers = res;
+        }
+      });
   }
   submit() {
     if (this.form.invalid) return;
@@ -79,20 +83,24 @@ export class SectionFormComponent implements OnInit {
 
     if (this.isEdit) {
       const id = this.data.model.id;
-      this.sctionService.updateSection(id, year).subscribe({
-        next: (res) => {
-          this.dialogRef.close(res)
-        },
-        error: (err) => console.error('Update failed', err)
-      });
+      this.sctionService.updateSection(id, year)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (res) => {
+            this.dialogRef.close(res);
+          },
+          error: (err) => console.error('Update failed', err)
+        });
     } else {
       // إضافة
-      this.sctionService.createSection(year).subscribe({
-        next: (res) => {
-          this.dialogRef.close(res)
-        },
-        error: (err) => console.error('Add failed', err)
-      });
+      this.sctionService.createSection(year)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (res) => {
+            this.dialogRef.close(res);
+          },
+          error: (err) => console.error('Add failed', err)
+        });
     }
   }
 

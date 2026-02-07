@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Student } from '../../../shared/models/student/student';
+import { Student } from '@features/school-dashboard/student/models/student';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { StudentWithSchoolInfoDto } from '../../../shared/models/parent';
+import { StudentWithSchoolInfoDto } from '@features/parent-dashboard/models/parent';
 import { RouterLink } from "@angular/router";
-import { ReportsService } from '../../../core/services/reports.service';
+import { ReportsService } from '@features/reports/services/reports.service';
 import { lastValueFrom } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 

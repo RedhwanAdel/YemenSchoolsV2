@@ -1,15 +1,19 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.SchoolReviews.Commands.AddOrUpdateReview
 {
-    public class AddOrUpdateReviewCommandHandler : IRequestHandler<AddOrUpdateReviewCommand, Response<SchoolReview>>
+    public class AddOrUpdateReviewCommandHandler : ResponseHandler, IRequestHandler<AddOrUpdateReviewCommand, Response<SchoolReview>>
     {
         private readonly ISchoolReviewRepository _repository;
 
-        public AddOrUpdateReviewCommandHandler(ISchoolReviewRepository repository)
+        public AddOrUpdateReviewCommandHandler(
+            ISchoolReviewRepository repository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
         }
@@ -25,11 +29,7 @@ namespace YemenSchoolsV1.Application.Features.SchoolReviews.Commands.AddOrUpdate
                 existing.UpdatedAt = DateTime.UtcNow;
 
                 await _repository.UpdateAsync(existing);
-                return new Response<SchoolReview>(existing, "Review updated successfully")
-                {
-                    StatusCode = System.Net.HttpStatusCode.OK,
-                    Succeeded = true
-                };
+                return Success(existing, "Review updated successfully");
             }
 
             var review = new SchoolReview
@@ -43,11 +43,7 @@ namespace YemenSchoolsV1.Application.Features.SchoolReviews.Commands.AddOrUpdate
             };
 
             await _repository.AddAsync(review);
-            return new Response<SchoolReview>(review, "Review added successfully")
-            {
-                StatusCode = System.Net.HttpStatusCode.OK,
-                Succeeded = true
-            };
+            return Created(review, "Review added successfully");
         }
     }
 }

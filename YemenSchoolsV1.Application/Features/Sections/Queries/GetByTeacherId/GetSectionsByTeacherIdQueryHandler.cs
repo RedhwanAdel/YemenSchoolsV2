@@ -1,17 +1,22 @@
-using MediatR;
-using YemenSchoolsV1.Application.Bases;
 using AutoMapper;
+using MediatR;
+using Microsoft.Extensions.Localization;
+using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Sections.Queries.GetByTeacherId
 {
-    public class GetSectionsByTeacherIdQueryHandler : IRequestHandler<GetSectionsByTeacherIdQuery, Response<IEnumerable<SectionByGradeAndYearDto>>>
+    public class GetSectionsByTeacherIdQueryHandler : ResponseHandler, IRequestHandler<GetSectionsByTeacherIdQuery, Response<IEnumerable<SectionByGradeAndYearDto>>>
     {
         private readonly ISectionRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetSectionsByTeacherIdQueryHandler(ISectionRepository repository, IMapper mapper)
+        public GetSectionsByTeacherIdQueryHandler(
+            ISectionRepository repository,
+            IMapper mapper,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
             _mapper = mapper;
@@ -20,11 +25,11 @@ namespace YemenSchoolsV1.Application.Features.Sections.Queries.GetByTeacherId
         public async Task<Response<IEnumerable<SectionByGradeAndYearDto>>> Handle(GetSectionsByTeacherIdQuery request, CancellationToken cancellationToken)
         {
              if (request.TeacherId == Guid.Empty)
-                return new Response<IEnumerable<SectionByGradeAndYearDto>>("Invalid teacher ID.", false) { StatusCode = System.Net.HttpStatusCode.BadRequest };
+                return BadRequest<IEnumerable<SectionByGradeAndYearDto>>("Invalid teacher ID.");
 
             var sections = await _repository.GetSectionsByTeacherIdAsync(request.TeacherId);
             var sectionDtos = _mapper.Map<IEnumerable<SectionByGradeAndYearDto>>(sections);
-            return new Response<IEnumerable<SectionByGradeAndYearDto>>(sectionDtos);
+            return Success(sectionDtos);
         }
     }
 }

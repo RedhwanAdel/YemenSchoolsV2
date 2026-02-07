@@ -3,11 +3,11 @@ import { PageWrapperComponent } from "../../../../shared/components/page-wrapper
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
 import { Router } from '@angular/router';
 import { AccountService } from '../../../../core/services/account.service';
-import { SchoolService } from '../../../../core/services/school.service';
+import { SchoolService } from '@features/schools/services/school.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { SchoolGradeWithDetailsDto } from '../../../../shared/models/school/school';
-import { SectionService } from '../../../../core/services/section.service';
-import { Section } from '../../../../shared/models/section/section';
+import { SchoolGradeWithDetailsDto } from '@features/schools/models/school';
+import { SectionService } from '@features/school-dashboard/section/services/section.service';
+import { Section } from '@features/school-dashboard/section/models/section';
 
 @Component({
   selector: 'app-section-list-by-teacher-id',
@@ -58,7 +58,7 @@ export class SectionListByTeacherIdComponent {
       const teacherId = this.accountService.currentUser()?.entityId
       if (!teacherId) return;
       this.sectionService.getSectionsByTeacherId(teacherId).subscribe({
-        next: res => this.sections = res.data
+        next: res => this.sections = res
       })
     }
 

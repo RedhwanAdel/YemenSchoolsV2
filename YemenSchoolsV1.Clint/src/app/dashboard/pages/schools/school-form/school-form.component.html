@@ -8,7 +8,7 @@
   [headerIcon]="mode() === 'add' ? 'add_business' : 'edit'"
   [headerStyle]="mode() === 'add' ? 'add' : 'edit'"
 >
-  <form [formGroup]="schoolForm" (ngSubmit)="onSumit()" class="row g-3">
+  <form [formGroup]="schoolForm" (ngSubmit)="onSubmit()" class="row g-3">
     <div class="col-md-6">
       <app-form-input
         label="اسم المدرسة (بالعربية)"

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,9 +17,9 @@ import { SchoolAdmissionsComponent } from "./school-admissions/school-admissions
 import { SchoolCampusFacilitiesComponent } from "./school-campus-facilities/school-campus-facilities.component";
 import { SchoolNewsEventsComponent } from "./school-news-events/school-news-events.component";
 import { SchoolContactUsComponent } from "./school-contact-us/school-contact-us.component"; // <--- NEW!
-import { SchoolService } from '../../../core/services/school.service';
+import { SchoolService } from '@features/schools/services/school.service';
 import { ActivatedRoute } from '@angular/router';
-import { SchoolDetails } from '../../../shared/models/school/schoolDetails';
+import { SchoolDetails } from '@features/schools/models/schoolDetails';
 import { SchoolGalleryComponent } from "./school-gallery/school-gallery.component";
 import { SchoolReviewsComponent } from "../school-reviews/school-reviews.component";
 
@@ -48,6 +49,7 @@ import { SchoolReviewsComponent } from "../school-reviews/school-reviews.compone
   styleUrl: './school-details.component.scss'
 })
 export class SchoolDetailsComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   schoolService = inject(SchoolService)
   activatedRoute = inject(ActivatedRoute)
   school?: SchoolDetails
@@ -60,12 +62,14 @@ export class SchoolDetailsComponent implements OnInit {
   }
   loadSchool() {
     if (!this.schoolId) return;
-    this.schoolService.getSchoolById(this.schoolId).subscribe({
-      next: school => {
-        this.school = school.data
-      },
-      error: error => console.log(error)
-    })
+    this.schoolService.getSchoolById(this.schoolId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: school => {
+          this.school = school
+        },
+        error: error => console.log(error)
+      })
 
   }
 }

@@ -5,6 +5,8 @@ using YemenSchoolsV1.Application.Wrappers;
 
 namespace YemenSchoolsV1.Application.Features.Messages.Queries.GetList
 {
+    // NOTE: This handler returns PaginatedResponse<T> directly from repository
+    // No ResponseHandler inheritance needed as it doesn't create Response<T> objects
     public class GetMessagesQueryHandler : IRequestHandler<GetMessagesQuery, PaginatedResponse<MessageDto>>
     {
         private readonly IMessageRepository _messageRepository;
@@ -20,3 +22,4 @@ namespace YemenSchoolsV1.Application.Features.Messages.Queries.GetList
         }
     }
 }
+

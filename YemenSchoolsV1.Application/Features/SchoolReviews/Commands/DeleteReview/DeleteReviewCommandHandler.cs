@@ -1,14 +1,18 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.SchoolReviews.Commands.DeleteReview
 {
-    public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, Response<string>>
+    public class DeleteReviewCommandHandler : ResponseHandler, IRequestHandler<DeleteReviewCommand, Response<string>>
     {
         private readonly ISchoolReviewRepository _repository;
 
-        public DeleteReviewCommandHandler(ISchoolReviewRepository repository)
+        public DeleteReviewCommandHandler(
+            ISchoolReviewRepository repository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
         }
@@ -18,10 +22,7 @@ namespace YemenSchoolsV1.Application.Features.SchoolReviews.Commands.DeleteRevie
             var review = await _repository.GetByIdAsync(request.ReviewId);
             if (review == null)
             {
-                return new Response<string>("Review not found.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.NotFound
-                };
+                return NotFound<string>("Review not found.");
             }
 
             if (review.UserId != request.UserId)
@@ -33,10 +34,7 @@ namespace YemenSchoolsV1.Application.Features.SchoolReviews.Commands.DeleteRevie
             }
 
             await _repository.DeleteAsync(review);
-            return new Response<string>("Review deleted successfully.", true)
-            {
-                StatusCode = System.Net.HttpStatusCode.NoContent
-            };
+            return Success("Review deleted successfully.");
         }
     }
 }

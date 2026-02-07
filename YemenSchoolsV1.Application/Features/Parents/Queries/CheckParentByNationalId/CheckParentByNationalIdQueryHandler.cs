@@ -1,15 +1,19 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto.Parents;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Parents.Queries.CheckParentByNationalId
 {
-    public class CheckParentByNationalIdQueryHandler : IRequestHandler<CheckParentByNationalIdQuery, Response<ParentCheckDto>>
+    public class CheckParentByNationalIdQueryHandler : ResponseHandler, IRequestHandler<CheckParentByNationalIdQuery, Response<ParentCheckDto>>
     {
         private readonly IParentRepository _parentRepository;
 
-        public CheckParentByNationalIdQueryHandler(IParentRepository parentRepository)
+        public CheckParentByNationalIdQueryHandler(
+            IParentRepository parentRepository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _parentRepository = parentRepository;
         }
@@ -27,14 +31,8 @@ namespace YemenSchoolsV1.Application.Features.Parents.Queries.CheckParentByNatio
                     Exists = true
                 };
 
-            return new Response<ParentCheckDto>(
-                result,
-                result.Exists ? "ولي الأمر موجود." : "ولي الأمر غير موجود."
-            )
-            {
-                StatusCode = System.Net.HttpStatusCode.OK,
-                Succeeded = true
-            };
+            return Success(result, result.Exists ? "ولي الأمر موجود." : "ولي الأمر غير موجود.");
         }
     }
 }
+

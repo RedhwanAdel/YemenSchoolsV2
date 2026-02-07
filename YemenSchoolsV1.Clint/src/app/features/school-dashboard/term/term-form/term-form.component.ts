@@ -1,15 +1,16 @@
-import { Component, inject, Inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, Inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormInputComponent } from '../../../../shared/components/form-input/form-input.component';
-import { TermService } from '../../../../core/services/term.service';
-import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
+import { TermService } from '@features/school-dashboard/term/services/term.service';
+import { AcadmicYearService } from '@features/school-dashboard/year/services/acadmic-year.service';
 import { CityFormComponent } from '../../../../dashboard/pages/cities/city-form/city-form.component';
 import { AccountService } from '../../../../core/services/account.service';
-import { YearDto } from '../../../../shared/models/AcademicYear/AcademicYear';
+import { YearDto } from '@features/school-dashboard/year/models/AcademicYear';
 import { SelectInputComponent } from '../../../../shared/components/select-input/select-input.component';
 
 @Component({
@@ -28,6 +29,7 @@ import { SelectInputComponent } from '../../../../shared/components/select-input
   styleUrl: './term-form.component.scss'
 })
 export class TermFormComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   form!: FormGroup;
   isEdit = false;
   yearService = inject(AcadmicYearService)
@@ -96,20 +98,24 @@ export class TermFormComponent implements OnInit {
 
     if (this.isEdit) {
       const id = this.data.model.id;
-      this.termService.updateTerm(id, term).subscribe({
-        next: (res) => {
-          this.dialogRef.close(res)
-        },
-        error: (err) => console.error('Update failed', err)
-      });
+      this.termService.updateTerm(id, term)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (res) => {
+            this.dialogRef.close(res);
+          },
+          error: (err) => console.error('Update failed', err)
+        });
     } else {
       // إضافة
-      this.termService.createTerm(term).subscribe({
-        next: (res) => {
-          this.dialogRef.close(res)
-        },
-        error: (err) => console.error('Add failed', err)
-      });
+      this.termService.createTerm(term)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (res) => {
+            this.dialogRef.close(res);
+          },
+          error: (err) => console.error('Add failed', err)
+        });
     }
   }
 

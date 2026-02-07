@@ -1,15 +1,19 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto.Parents;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Parents.Queries.GetParentWithStudents
 {
-    public class GetParentWithStudentsQueryHandler : IRequestHandler<GetParentWithStudentsQuery, Response<ParentWithStudentsDto>>
+    public class GetParentWithStudentsQueryHandler : ResponseHandler, IRequestHandler<GetParentWithStudentsQuery, Response<ParentWithStudentsDto>>
     {
         private readonly IParentRepository _parentRepository;
 
-        public GetParentWithStudentsQueryHandler(IParentRepository parentRepository)
+        public GetParentWithStudentsQueryHandler(
+            IParentRepository parentRepository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _parentRepository = parentRepository;
         }
@@ -19,10 +23,7 @@ namespace YemenSchoolsV1.Application.Features.Parents.Queries.GetParentWithStude
             var parent = await _parentRepository.GetParentByIdWithStudentsAsync(request.ParentId);
             if (parent == null)
             {
-                return new Response<ParentWithStudentsDto>("ولي الأمر غير موجود.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.NotFound
-                };
+                return NotFound<ParentWithStudentsDto>("ولي الأمر غير موجود.");
             }
 
             var studentDtos = parent.Students
@@ -48,11 +49,8 @@ namespace YemenSchoolsV1.Application.Features.Parents.Queries.GetParentWithStude
                 Students = studentDtos
             };
 
-            return new Response<ParentWithStudentsDto>(result, "تم جلب بيانات ولي الأمر بنجاح")
-            {
-                StatusCode = System.Net.HttpStatusCode.OK,
-                Succeeded = true
-            };
+            return Success(result, "تم جلب بيانات ولي الأمر بنجاح");
         }
     }
 }
+

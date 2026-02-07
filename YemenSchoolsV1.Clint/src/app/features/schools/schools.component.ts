@@ -1,9 +1,10 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TitelSectionComponent } from "../../shared/components/titel-section/titel-section.component";
 import { SchoolItemComponent } from "./school-item/school-item.component";
-import { SchoolService } from '../../core/services/school.service';
-import { SchoolListItem } from '../../shared/models/school/school';
-import { SchoolOrdering, SchoolParams } from '../../shared/models/school/schoolParams';
+import { SchoolService } from '@features/schools/services/school.service';
+import { SchoolListItem } from '@features/schools/models/school';
+import { SchoolOrdering, SchoolParams } from '@features/schools/models/schoolParams';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -37,7 +38,8 @@ import { MatOption, MatSelect, MatSelectChange } from '@angular/material/select'
   styleUrl: './schools.component.scss'
 })
 export class SchoolsComponent implements OnInit {
-  private schoolService = inject(SchoolService)
+  private destroyRef = inject(DestroyRef);
+  private schoolService: SchoolService = inject(SchoolService)
   citiesService = inject(CitiesService)
   regionService = inject(RegionsService)
   schools?: Pagination<SchoolListItem>
@@ -96,10 +98,12 @@ export class SchoolsComponent implements OnInit {
     this.citiesService.getCites();
   }
   getSchools() {
-    this.schoolService.getSchools(this.schoolParams).subscribe({
-      next: res => this.schools = res,
-      error: error => console.log(error)
-    })
+    this.schoolService.getSchools(this.schoolParams)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => this.schools = res,
+        error: error => console.log(error)
+      })
   }
 
   onCityChange(event: MatSelectChange) {
@@ -110,10 +114,12 @@ export class SchoolsComponent implements OnInit {
     this.schoolParams.cityId = cityId;
     this.schoolParams.regionId = '';
 
-    this.regionService.getRegionsByCity(cityId).subscribe({
-      next: (res) => this.regions.set(res.data),
-      error: (err) => console.error(err)
-    });
+    this.regionService.getRegionsByCity(cityId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => this.regions.set(res.data),
+        error: (err) => console.error(err)
+      });
   }
 
 

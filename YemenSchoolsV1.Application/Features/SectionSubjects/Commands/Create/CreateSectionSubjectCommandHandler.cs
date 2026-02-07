@@ -1,17 +1,22 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.SectionSubjects.Commands.Create
 {
-    public class CreateSectionSubjectCommandHandler : IRequestHandler<CreateSectionSubjectCommand, Response<string>>
+    public class CreateSectionSubjectCommandHandler : ResponseHandler, IRequestHandler<CreateSectionSubjectCommand, Response<string>>
     {
         private readonly ISectionSubjectRepository _repository;
         private readonly IMapper _mapper;
 
-        public CreateSectionSubjectCommandHandler(ISectionSubjectRepository repository, IMapper mapper)
+        public CreateSectionSubjectCommandHandler(
+            ISectionSubjectRepository repository,
+            IMapper mapper,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
             _mapper = mapper;
@@ -22,9 +27,9 @@ namespace YemenSchoolsV1.Application.Features.SectionSubjects.Commands.Create
             var entity = _mapper.Map<SectionSubject>(request.Dto);
             var created = await _repository.AddAsync(entity);
             if (created == null)
-                return new Response<string>("Failed to create SectionSubject.") { Succeeded = false, StatusCode = System.Net.HttpStatusCode.InternalServerError };
+                return UnprocessableEntity<string>("Failed to create SectionSubject.");
 
-            return new Response<string>("SectionSubject created successfully.") { StatusCode = System.Net.HttpStatusCode.Created, Succeeded = true };
+            return Created("SectionSubject created successfully.");
         }
     }
 }

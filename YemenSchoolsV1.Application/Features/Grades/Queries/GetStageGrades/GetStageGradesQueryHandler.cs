@@ -1,17 +1,22 @@
+using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto;
-using AutoMapper;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Grades.Queries.GetStageGrades
 {
-    public class GetStageGradesQueryHandler : IRequestHandler<GetStageGradesQuery, Response<List<StageGradeDto>>>
+    public class GetStageGradesQueryHandler : ResponseHandler, IRequestHandler<GetStageGradesQuery, Response<List<StageGradeDto>>>
     {
         private readonly IStageGradeRepository _stageGradeRepository;
         private readonly IMapper _mapper;
 
-        public GetStageGradesQueryHandler(IStageGradeRepository stageGradeRepository, IMapper mapper)
+        public GetStageGradesQueryHandler(
+            IStageGradeRepository stageGradeRepository,
+            IMapper mapper,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _stageGradeRepository = stageGradeRepository;
             _mapper = mapper;
@@ -22,11 +27,7 @@ namespace YemenSchoolsV1.Application.Features.Grades.Queries.GetStageGrades
             var stageGrades = await _stageGradeRepository.GetAllStageGradesAsync();
             var result = _mapper.Map<List<StageGradeDto>>(stageGrades);
 
-            return new Response<List<StageGradeDto>>(result, "Success")
-            {
-                StatusCode = System.Net.HttpStatusCode.OK,
-                Succeeded = true
-            };
+            return Success(result);
         }
     }
 }

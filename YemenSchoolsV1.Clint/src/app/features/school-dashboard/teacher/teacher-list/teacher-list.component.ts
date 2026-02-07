@@ -1,16 +1,19 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
-import { TeacherService } from '../../../../core/services/teacher.service';
+import { TeacherService } from '@features/school-dashboard/teacher/services/teacher.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AccountService } from '../../../../core/services/account.service';
 import { DialogService } from '../../../../core/services/dialog.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { YearDto } from '../../../../shared/models/AcademicYear/AcademicYear';
-import { YearFormComponent } from '../../year/year-form/year-form.component';
+import { YearDto } from '@features/school-dashboard/year/models/AcademicYear';
+import { MatFormField, MatLabel, MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { TeacherFormComponent } from '../teacher-form/teacher-form.component';
 import { MatButton } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
-import { Teacher } from '../../../../shared/models/teachers/teacher';
+import { Teacher } from '../models/teachers';
 
 @Component({
   selector: 'app-teacher-list',
@@ -20,14 +23,14 @@ import { Teacher } from '../../../../shared/models/teachers/teacher';
   styleUrl: './teacher-list.component.scss'
 })
 export class TeacherListComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   private dialogService = inject(DialogService);
   router = inject(Router);
-
   private dialog = inject(MatDialog);
-  teacherService = inject(TeacherService)
-  private accountService = inject(AccountService)
-  private snack = inject(SnackbarService)
-  teachers = signal<Teacher[]>([])
+  teacherService = inject(TeacherService);
+  private accountService = inject(AccountService);
+  private snack = inject(SnackbarService);
+  teachers = signal<Teacher[]>([]);
 
   Columns: TableColumn[] = [
     { key: 'name', header: 'الاسم' },
@@ -62,11 +65,13 @@ export class TeacherListComponent implements OnInit {
   }
 
   loadTeacher() {
-    const schoolId = this.accountService.currentUser()?.schoolId
+    const schoolId = this.accountService.currentUser()?.schoolId;
     if (schoolId) {
-      this.teacherService.getTeachers(schoolId).subscribe({
-        next: res => this.teachers.set(res.data)
-      })
+      this.teacherService.getTeachers(schoolId)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: res => this.teachers.set(res)
+        });
     }
   }
 
@@ -77,16 +82,18 @@ export class TeacherListComponent implements OnInit {
     );
 
     if (confirmed) {
-      this.teacherService.deleteTeacher(id).subscribe({
-        next: () => {
-          this.snack.success('تم حذف المعلم بنجاح!');
-          this.loadTeacher();
-        },
-        error: (err) => {
-          this.snack.error('فشل في حذف المعلم.');
-          console.error(err);
-        }
-      });
+      this.teacherService.deleteTeacher(id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.snack.success('تم حذف المعلم بنجاح!');
+            this.loadTeacher();
+          },
+          error: (err) => {
+            this.snack.error('فشل في حذف المعلم.');
+            console.error(err);
+          }
+        });
     }
   }
 

@@ -7,11 +7,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute } from '@angular/router';
-import { MessageService } from '../../../core/services/message.service';
-import { Message } from '../../../shared/models/messages/message';
+import { MessageService } from '@features/messages/services/message.service';
+import { Message } from '@features/messages/models/messages';
 import { AccountService } from '../../../core/services/account.service';
-import { TeacherService } from '../../../core/services/teacher.service';
-import { Teacher } from '../../../shared/models/teachers/teacher';
+import { TeacherService } from '@features/school-dashboard/teacher/services/teacher.service';
+import { Teacher } from '@features/school-dashboard/teacher/models/teachers';
 
 @Component({
   selector: 'app-teacher-contact',
@@ -87,8 +87,10 @@ export class TeacherContactComponent {
 
   sendMessage() {
     if (!this.recipientId) return;
-    this.messageService.sendMessage(this.recipientId, this.messageContent)?.then(() => {
-      this.messageContent = '';
+    this.messageService.sendMessage(this.recipientId, this.messageContent)?.subscribe({
+      next: () => {
+        this.messageContent = '';
+      }
     })
   }
 

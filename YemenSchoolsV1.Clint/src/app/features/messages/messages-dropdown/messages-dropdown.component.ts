@@ -5,8 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink } from '@angular/router';
-import { MessageService } from '../../../core/services/message.service';
-import { Message } from '../../../shared/models/messages/message';
+import { MessageService } from '@features/messages/services/message.service';
+import { Message } from '@features/messages/models/messages';
 
 @Component({
   selector: 'app-messages-dropdown',

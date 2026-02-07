@@ -1,11 +1,12 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import html2pdf from 'html2pdf.js';
 import { MatButtonModule } from '@angular/material/button';
-import { SubjectReportDto } from '../../../shared/models/mark/mark';
-import { MarkService } from '../../../core/services/mark.service';
+import { SubjectReportDto } from '@features/school-dashboard/mark/models/mark';
+import { MarkService } from '@features/school-dashboard/mark/services/mark.service';
 import { ActivatedRoute } from '@angular/router';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 
@@ -22,7 +23,8 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
   templateUrl: './child-report.component.html',
   styleUrl: './child-report.component.scss'
 })
-export class ChildReportComponent {
+export class ChildReportComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   @ViewChild('reportContent', { static: false }) reportContent!: ElementRef;
   markService = inject(MarkService)
   private route = inject(ActivatedRoute);
@@ -43,24 +45,26 @@ export class ChildReportComponent {
       this.snackbar.error('لا يمكن ايجاد معرف الطالب');
       return;
     }
-    this.markService.getStudentSubjectsReport(this.studentId).subscribe({
-      next: (data: SubjectReportDto[]) => {
-        this.subjects = data.map(subj => {
-          const firstExam = subj.details.grades.find(g => g.type === 'الاختبار الأول')?.percentage || '-';
-          const secondExam = subj.details.grades.find(g => g.type === 'الاختبار الثاني')?.percentage || '-';
+    this.markService.getStudentSubjectsReport(this.studentId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (data: SubjectReportDto[]) => {
+          this.subjects = data.map(subj => {
+            const firstExam = subj.details.grades.find(g => g.type === 'الاختبار الأول')?.percentage || '-';
+            const secondExam = subj.details.grades.find(g => g.type === 'الاختبار الثاني')?.percentage || '-';
 
-          return {
-            subject: subj.name,
-            firstSemester: firstExam,
-            secondSemester: secondExam,
-            finalGrade: subj.grade // ممكن تخليها subj.score إذا تبغى رقم
-          };
-        });
-      },
-      error: err => {
-        console.error('Error loading report:', err);
-      }
-    });
+            return {
+              subject: subj.name,
+              firstSemester: firstExam,
+              secondSemester: secondExam,
+              finalGrade: subj.grade // ممكن تخليها subj.score إذا تبغى رقم
+            };
+          });
+        },
+        error: err => {
+          console.error('Error loading report:', err);
+        }
+      });
   }
 
   downloadPDF() {

@@ -1,15 +1,19 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Sections.Queries.GetSummaries
 {
-    public class GetSectionSummariesQueryHandler : IRequestHandler<GetSectionSummariesQuery, Response<List<SectionSummaryDto>>>
+    public class GetSectionSummariesQueryHandler : ResponseHandler, IRequestHandler<GetSectionSummariesQuery, Response<List<SectionSummaryDto>>>
     {
         private readonly ISectionRepository _repository;
 
-        public GetSectionSummariesQueryHandler(ISectionRepository repository)
+        public GetSectionSummariesQueryHandler(
+            ISectionRepository repository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
         }
@@ -17,10 +21,10 @@ namespace YemenSchoolsV1.Application.Features.Sections.Queries.GetSummaries
         public async Task<Response<List<SectionSummaryDto>>> Handle(GetSectionSummariesQuery request, CancellationToken cancellationToken)
         {
              if (request.AcademicYearId == Guid.Empty)
-                return new Response<List<SectionSummaryDto>>("Invalid academic year ID.", false) { StatusCode = System.Net.HttpStatusCode.BadRequest };
+                return BadRequest<List<SectionSummaryDto>>("Invalid academic year ID.");
 
             var summaries = await _repository.GetSectionSummariesByAcademicYearAsync(request.AcademicYearId);
-            return new Response<List<SectionSummaryDto>>(summaries);
+            return Success(summaries);
         }
     }
 }

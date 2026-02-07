@@ -16,7 +16,7 @@
     <!-- الرسائل -->
     <mat-card-content class="chat-messages">
       <div
-        *ngFor="let msg of messageService.messageThread()"
+        *ngFor="let msg of messages()"
         [ngClass]="{
           'msg-sent': msg.senderId === currentUserId,
           'msg-received': msg.senderId !== currentUserId

@@ -1,14 +1,15 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterLink } from '@angular/router';
 import { AccountService } from '../../../../core/services/account.service';
 import { DialogService } from '../../../../core/services/dialog.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { TeacherService } from '../../../../core/services/teacher.service';
+import { TeacherService } from '@features/school-dashboard/teacher/services/teacher.service';
 import { TableColumn, TableComponent } from '../../../../shared/components/table/table.component';
-import { Teacher } from '../../../../shared/models/teachers/teacher';
-import { Student, StudentListDto } from '../../../../shared/models/student/student';
-import { StudentService } from '../../../../core/services/student.service';
+import { Teacher } from '@features/school-dashboard/teacher/models/teachers';
+import { Student, StudentListDto } from '@features/school-dashboard/student/models/student';
+import { StudentService } from '@features/school-dashboard/student/services/student.service';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { MatButton } from '@angular/material/button';
 
@@ -20,13 +21,14 @@ import { MatButton } from '@angular/material/button';
   styleUrl: './studnet-list.component.scss'
 })
 export class StudnetListComponent {
+  private destroyRef = inject(DestroyRef);
   private dialogService = inject(DialogService);
   router = inject(Router);
-  accountService = inject(AccountService)
+  accountService = inject(AccountService);
   private dialog = inject(MatDialog);
-  studentService = inject(StudentService)
-  private snack = inject(SnackbarService)
-  students = signal<StudentListDto[]>([])
+  studentService = inject(StudentService);
+  private snack = inject(SnackbarService);
+  students = signal<StudentListDto[]>([]);
 
   Columns: TableColumn[] = [
     { key: 'name', header: 'الاسم' },
@@ -60,11 +62,13 @@ export class StudnetListComponent {
   }
 
   loadStudent() {
-    const schoolId = this.accountService.currentUser()?.schoolId
+    const schoolId = this.accountService.currentUser()?.schoolId;
     if (schoolId) {
-      this.studentService.getStudentsBySchoolId(schoolId).subscribe({
-        next: res => this.students.set(res)
-      })
+      this.studentService.getStudentsBySchoolId(schoolId)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (res: StudentListDto[]) => this.students.set(res)
+        });
     }
   }
 
@@ -73,7 +77,20 @@ export class StudnetListComponent {
       'تأكيد الحذف',
       `هل أنت متأكد أنك تريد حذف الطالب: ${name}؟`
     );
-
+    if (confirmed) {
+      this.studentService.deleteStudent(id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.snack.success('تم حذف الطالب بنجاح!');
+            this.loadStudent();
+          },
+          error: (err) => {
+            this.snack.error('فشل في حذف الطالب.');
+            console.error(err);
+          }
+        });
+    }
   }
 
 }

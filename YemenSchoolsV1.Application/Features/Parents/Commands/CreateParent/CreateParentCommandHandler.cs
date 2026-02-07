@@ -1,18 +1,23 @@
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto.Parents;
+using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 
 namespace YemenSchoolsV1.Application.Features.Parents.Commands.CreateParent
 {
-    public class CreateParentCommandHandler : IRequestHandler<CreateParentCommand, Response<object>>
+    public class CreateParentCommandHandler : ResponseHandler, IRequestHandler<CreateParentCommand, Response<object>>
     {
         private readonly IParentRepository _parentRepository;
         private readonly UserManager<AppUser> _userManager;
 
-        public CreateParentCommandHandler(IParentRepository parentRepository, UserManager<AppUser> userManager)
+        public CreateParentCommandHandler(
+            IParentRepository parentRepository,
+            UserManager<AppUser> userManager,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _parentRepository = parentRepository;
             _userManager = userManager;
@@ -25,10 +30,7 @@ namespace YemenSchoolsV1.Application.Features.Parents.Commands.CreateParent
 
             if (await _parentRepository.ParentExistsByNationalIdAsync(dto.NationalId))
             {
-                return new Response<object>("يوجد ولي أمر بنفس رقم الهوية.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
+                return BadRequest<object>("يوجد ولي أمر بنفس رقم الهوية.");
             }
 
             var user = new AppUser
@@ -43,10 +45,7 @@ namespace YemenSchoolsV1.Application.Features.Parents.Commands.CreateParent
             var userResult = await _userManager.CreateAsync(user, defaultPassword);
             if (!userResult.Succeeded)
             {
-                return new Response<object>(string.Join("; ", userResult.Errors.Select(e => e.Description)), false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
+                return BadRequest<object>(string.Join("; ", userResult.Errors.Select(e => e.Description)));
             }
 
             var parent = new Parent
@@ -71,28 +70,18 @@ namespace YemenSchoolsV1.Application.Features.Parents.Commands.CreateParent
             if (!updateUserResult.Succeeded)
             {
                 await _userManager.DeleteAsync(user);
-                return new Response<object>("فشل تحديث حساب المستخدم. تم إلغاء العملية.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
+                return BadRequest<object>("فشل تحديث حساب المستخدم. تم إلغاء العملية.");
             }
 
             try
             {
                 await _parentRepository.AddAsync(parent);
-                return new Response<object>(new { message = "تم إنشاء ولي الأمر والمستخدم بنجاح.", parentId = parent.Id }, "تم إنشاء ولي الأمر والمستخدم بنجاح.")
-                {
-                    StatusCode = System.Net.HttpStatusCode.OK,
-                    Succeeded = true
-                };
+                return Success((object)new { message = "تم إنشاء ولي الأمر والمستخدم بنجاح.", parentId = parent.Id }, "تم إنشاء ولي الأمر والمستخدم بنجاح.");
             }
             catch
             {
                 await _userManager.DeleteAsync(user);
-                return new Response<object>("فشل إنشاء ولي الأمر. تم إلغاء حساب المستخدم.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.InternalServerError
-                };
+                return UnprocessableEntity<object>("فشل إنشاء ولي الأمر. تم إلغاء حساب المستخدم.");
             }
         }
     }

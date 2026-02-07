@@ -8,8 +8,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { SectionSubject } from '../../../../shared/models/mark/mark';
-import { DailyLog } from '../../../../shared/models/daily-log/daily-log';
+import { SectionSubject } from '@features/school-dashboard/mark/models/mark';
+import { DailyLog } from '@features/school-dashboard/daily-log/models/daily-log';
 
 @Component({
   selector: 'app-daily-log-list-view',

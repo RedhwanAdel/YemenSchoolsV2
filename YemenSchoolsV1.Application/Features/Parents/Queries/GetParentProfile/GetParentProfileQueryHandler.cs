@@ -1,15 +1,19 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto.Parents;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Parents.Queries.GetParentProfile
 {
-    public class GetParentProfileQueryHandler : IRequestHandler<GetParentProfileQuery, Response<ParentWithStudentsDto>>
+    public class GetParentProfileQueryHandler : ResponseHandler, IRequestHandler<GetParentProfileQuery, Response<ParentWithStudentsDto>>
     {
         private readonly IParentRepository _parentRepository;
 
-        public GetParentProfileQueryHandler(IParentRepository parentRepository)
+        public GetParentProfileQueryHandler(
+            IParentRepository parentRepository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _parentRepository = parentRepository;
         }
@@ -19,10 +23,7 @@ namespace YemenSchoolsV1.Application.Features.Parents.Queries.GetParentProfile
             var parent = await _parentRepository.GetParentByUserIdAsync(request.UserId);
             if (parent == null)
             {
-                return new Response<ParentWithStudentsDto>("لم يتم العثور على ملف ولي الأمر.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.NotFound
-                };
+                return NotFound<ParentWithStudentsDto>("لم يتم العثور على ملف ولي الأمر.");
             }
 
             // Reuse the logic for getting students
@@ -51,11 +52,8 @@ namespace YemenSchoolsV1.Application.Features.Parents.Queries.GetParentProfile
                 Students = studentDtos
             };
 
-            return new Response<ParentWithStudentsDto>(result, "تم جلب بيانات ولي الأمر بنجاح")
-            {
-                StatusCode = System.Net.HttpStatusCode.OK,
-                Succeeded = true
-            };
+            return Success(result, "تم جلب بيانات ولي الأمر بنجاح");
         }
     }
 }
+

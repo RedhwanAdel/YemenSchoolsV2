@@ -1,17 +1,22 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.SectionSubjects.Commands.Update
 {
-    public class UpdateSectionSubjectCommandHandler : IRequestHandler<UpdateSectionSubjectCommand, Response<string>>
+    public class UpdateSectionSubjectCommandHandler : ResponseHandler, IRequestHandler<UpdateSectionSubjectCommand, Response<string>>
     {
         private readonly ISectionSubjectRepository _repository;
         private readonly IMapper _mapper;
 
-        public UpdateSectionSubjectCommandHandler(ISectionSubjectRepository repository, IMapper mapper)
+        public UpdateSectionSubjectCommandHandler(
+            ISectionSubjectRepository repository,
+            IMapper mapper,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
             _mapper = mapper;
@@ -24,9 +29,9 @@ namespace YemenSchoolsV1.Application.Features.SectionSubjects.Commands.Update
             
             var updated = await _repository.UpdateAsync(request.Id, entity);
             if (updated == null)
-                return new Response<string>("SectionSubject not found.") { Succeeded = false, StatusCode = System.Net.HttpStatusCode.NotFound };
+                return NotFound<string>("SectionSubject not found.");
 
-            return new Response<string>("SectionSubject updated successfully.");
+            return Success("SectionSubject updated successfully.");
         }
     }
 }

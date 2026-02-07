@@ -3,7 +3,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { SectionSubject } from '../../../../shared/models/mark/mark';
+import { SectionSubject } from '@features/school-dashboard/mark/models/mark';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDailyLogComponent } from '../add-daily-log/add-daily-log.component';
 import { DailyLogListViewComponent } from '../daily-log-list-view/daily-log-list-view.component';

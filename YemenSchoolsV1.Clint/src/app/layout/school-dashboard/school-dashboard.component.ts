@@ -1,5 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderDashboardComponent } from "../../shared/components/dashboard/header-dashboard/header-dashboard.component";
 import { MatButtonModule } from '@angular/material/button';
@@ -31,9 +32,12 @@ export class SchoolDashboardComponent {
 
   isSmallScreen = false;
 
+  private destroyRef = inject(DestroyRef);
+
   constructor(private breakpointObserver: BreakpointObserver) {
     this.breakpointObserver
       .observe(['(max-width: 768px)'])
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(result => {
         this.isSmallScreen = result.matches;
       });

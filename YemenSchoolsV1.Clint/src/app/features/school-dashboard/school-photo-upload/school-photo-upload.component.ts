@@ -1,7 +1,8 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { SchoolService } from '../../../core/services/school.service';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SchoolService } from '@features/schools/services/school.service';
 import { HttpEventType } from '@angular/common/http';
-import { SchoolPhoto } from '../../../shared/models/school/school';
+import { SchoolPhoto } from '@features/schools/models/school';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,6 +35,7 @@ export class SchoolPhotoUploadComponent implements OnInit {
   @Input() schoolId!: string;
   private route = inject(ActivatedRoute);
   private accountService = inject(AccountService);
+  private destroyRef = inject(DestroyRef);
 
   selectedFiles: UploadFile[] = [];
   uploadedPhotos: SchoolPhoto[] = [];
@@ -52,6 +54,7 @@ export class SchoolPhotoUploadComponent implements OnInit {
   uploadPhotos() {
     this.selectedFiles.forEach(uploadFile => {
       this.photoService.uploadSchoolPhoto(uploadFile.file, this.schoolId)
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: event => {
             if (event.type === HttpEventType.UploadProgress && event.total) {

@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AccountService } from '../../core/services/account.service';
 import { MatMenuModule } from '@angular/material/menu';
@@ -23,16 +24,19 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  private destroyRef = inject(DestroyRef);
   accountService = inject(AccountService)
   userTypes = UserType;
 
   logout() {
-    this.accountService.logout().subscribe({
-      next: () => {
-        this.accountService.currentUser.set(null)
-        window.location.reload()
+    this.accountService.logout()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.accountService.currentUser.set(null)
+          window.location.reload()
 
-      }
-    })
+        }
+      })
   }
 }

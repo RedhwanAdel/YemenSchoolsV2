@@ -9,8 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DailyLogService } from '../../../core/services/daily-log.service';
-import { DailyLogDto } from '../../../shared/models/daily-log/daily-log';
+import { DailyLogService } from '@features/school-dashboard/daily-log/services/daily-log.service';
+import { DailyLogDto } from '@features/school-dashboard/daily-log/models/daily-log';
 import { ActivatedRoute } from '@angular/router';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 
@@ -53,8 +53,8 @@ export class ChildDailyLogComponent {
     }
     this.dailyLogService.getStudentDailyLogsForDay(studentId, this.selectedDate)
       .subscribe({
-        next: logs => this.filteredLogs = logs,
-        error: err => {
+        next: (logs: any) => this.filteredLogs = logs,
+        error: (err: any) => {
           console.error('خطأ في تحميل السجلات:', err);
           this.filteredLogs = [];
         }

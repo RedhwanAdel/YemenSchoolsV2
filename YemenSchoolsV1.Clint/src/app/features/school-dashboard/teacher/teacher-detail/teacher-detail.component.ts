@@ -1,6 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { TeacherService } from '../../../../core/services/teacher.service';
+import { TeacherService } from '@features/school-dashboard/teacher/services/teacher.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,7 +9,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { PageWrapperComponent } from '../../../../shared/components/page-wrapper/page-wrapper.component';
-import { Teacher } from '../../../../shared/models/teachers/teacher';
+import { Teacher } from '../models/teachers';
 
 @Component({
   selector: 'app-teacher-detail',
@@ -26,6 +27,7 @@ import { Teacher } from '../../../../shared/models/teachers/teacher';
   styleUrl: './teacher-detail.component.scss'
 })
 export class TeacherDetailComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   teacher?: Teacher;
   private route = inject(ActivatedRoute);
   private teacherService = inject(TeacherService);
@@ -33,8 +35,10 @@ export class TeacherDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.teacherId = this.route.snapshot.paramMap.get('id')!;
-    this.teacherService.getTeacherById(this.teacherId).subscribe({
-      next: (teacher) => (this.teacher = teacher),
-    });
+    this.teacherService.getTeacherById(this.teacherId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => (this.teacher = response),
+      });
   }
 }

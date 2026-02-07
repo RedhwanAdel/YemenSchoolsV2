@@ -13,20 +13,20 @@ export class CitiesService {
   cities = signal<City[]>([]);
 
   getCites() {
-    return this.http.get<Pagination<City>>(this.baseUrl + 'cities').subscribe({
+    return this.http.get<Pagination<City>>(this.baseUrl + 'Cities').subscribe({
       next: res => this.cities.set(res.data)
     })
   }
   createCity(city: any) {
-    return this.http.post<string>(this.baseUrl + 'cities', city);
+    return this.http.post<string>(this.baseUrl + 'Cities', city);
   }
 
   updateCity(id: string, city: any) {
     city.id = id
-    return this.http.put(this.baseUrl + 'cities', city);
+    return this.http.put(this.baseUrl + 'Cities', city);
   }
 
   deleteCity(id: string) {
-    return this.http.delete(this.baseUrl + 'cities/' + id);
+    return this.http.delete(this.baseUrl + 'Cities/' + id);
   }
 }

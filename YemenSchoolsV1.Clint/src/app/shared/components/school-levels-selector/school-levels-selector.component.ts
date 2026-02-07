@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SelectInputComponent } from "../select-input/select-input.component";
-import { AcadmicYearService } from '../../../core/services/acadmic-year.service';
-import { GradeService } from '../../../core/services/grade.service';
-import { SectionService } from '../../../core/services/section.service';
-import { StageService } from '../../../core/services/stage.service';
-import { TermService } from '../../../core/services/term.service';
+import { AcadmicYearService } from '@features/school-dashboard/year/services/acadmic-year.service';
+import { GradeService } from '@features/school-dashboard/school-grade/services/grade.service';
+import { SectionService } from '@features/school-dashboard/section/services/section.service';
+import { StageService } from '@features/school-dashboard/stage/services/stage.service';
+import { TermService } from '@features/school-dashboard/term/services/term.service';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption } from '@angular/material/core';

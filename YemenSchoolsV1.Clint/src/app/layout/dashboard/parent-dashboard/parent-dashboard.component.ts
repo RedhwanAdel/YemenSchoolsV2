@@ -3,7 +3,7 @@ import { ParentSidebarDashboardComponent } from "./parent-sidebar-dashboard/pare
 import { ParentHeaderDashboardComponent } from "./parent-header-dashboard/parent-header-dashboard.component";
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
-import { Student } from '../../../shared/models/student/student';
+import { Student } from '@features/school-dashboard/student/models/student';
 import { CommonModule } from '@angular/common';
 import { ParentDashboardPageComponent } from "../../../features/parent-dashboard/parent-dashboard-page/parent-dashboard-page.component";
 

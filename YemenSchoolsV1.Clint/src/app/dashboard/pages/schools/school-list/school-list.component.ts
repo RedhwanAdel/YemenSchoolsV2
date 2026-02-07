@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
 import { MatTableDataSource } from '@angular/material/table';
 import { async } from 'rxjs';
@@ -6,9 +7,9 @@ import { DialogService } from '../../../../core/services/dialog.service';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
-import { SchoolService } from '../../../../core/services/school.service';
-import { SchoolParams } from '../../../../shared/models/school/schoolParams';
-import { SchoolListItem } from '../../../../shared/models/school/school';
+import { SchoolService } from '@features/schools/services/school.service';
+import { SchoolParams } from '@features/schools/models/schoolParams';
+import { SchoolListItem } from '@features/schools/models/school';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
@@ -31,7 +32,7 @@ export interface UserData {
   styleUrl: './school-list.component.scss'
 })
 export class SchoolListComponent implements OnInit {
-
+  private destroyRef = inject(DestroyRef);
   private snack = inject(SnackbarService)
 
   router = inject(Router);
@@ -55,14 +56,16 @@ export class SchoolListComponent implements OnInit {
     this.loadSchools()
   }
   loadSchools() {
-    this.schoolService.getSchools(this.schoolParams).subscribe({
-      next: response => {
-        if (response.data) {
-          this.schools = response.data;
-          this.totalItems = response.totalCount
+    this.schoolService.getSchools(this.schoolParams)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: response => {
+          if (response.data) {
+            this.schools = response.data;
+            this.totalItems = response.totalCount
+          }
         }
-      }
-    })
+      })
   }
   handleUserAction(event: { actionKey: string; rowData: any }): void {
     console.log(`Action: ${event.actionKey} on User:`, event.rowData);
@@ -87,16 +90,18 @@ export class SchoolListComponent implements OnInit {
     );
 
     if (confirmed) {
-      this.schoolService.deleteSchool(id).subscribe({
-        next: () => {
-          this.snack.success('تم حذف المدرسة بنجاح!');
-          this.loadSchools();
-        },
-        error: (err) => {
-          this.snack.error('فشل في حذف المدرسة.');
-          console.error(err);
-        }
-      });
+      this.schoolService.deleteSchool(id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.snack.success('تم حذف المدرسة بنجاح!');
+            this.loadSchools();
+          },
+          error: (err) => {
+            this.snack.error('فشل في حذف المدرسة.');
+            console.error(err);
+          }
+        });
     }
   }
 

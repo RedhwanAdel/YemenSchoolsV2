@@ -1,16 +1,21 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Reports.Queries.GetSchoolReport
 {
-    public class GetSchoolReportQueryHandler : IRequestHandler<GetSchoolReportQuery, Response<FileResponse>>
+    public class GetSchoolReportQueryHandler : ResponseHandler, IRequestHandler<GetSchoolReportQuery, Response<FileResponse>>
     {
         private readonly ISchoolRepository _schoolService; // Using existing Repo interface name
         private readonly ISchoolReportService _schoolReportService;
 
-        public GetSchoolReportQueryHandler(ISchoolRepository schoolService, ISchoolReportService schoolReportService)
+        public GetSchoolReportQueryHandler(
+            ISchoolRepository schoolService,
+            ISchoolReportService schoolReportService,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _schoolService = schoolService;
             _schoolReportService = schoolReportService;
@@ -22,14 +27,14 @@ namespace YemenSchoolsV1.Application.Features.Reports.Queries.GetSchoolReport
 
             if (schoolDto == null)
             {
-                return new Response<FileResponse>("المدرسة غير موجودة.") { StatusCode = System.Net.HttpStatusCode.NotFound, Succeeded = false };
+                return NotFound<FileResponse>("المدرسة غير موجودة.");
             }
 
             var pdfBytes = _schoolReportService.GenerateSchoolReport(schoolDto);
             var fileName = $"SchoolReport_{schoolDto.NameEn ?? "School"}.pdf";
             var fileResponse = new FileResponse(pdfBytes, "application/pdf", fileName);
             
-            return new Response<FileResponse>(fileResponse);
+            return Success(fileResponse);
         }
     }
 }

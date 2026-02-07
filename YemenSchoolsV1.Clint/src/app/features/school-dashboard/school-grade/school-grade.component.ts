@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { SchoolService } from '../../../core/services/school.service';
+import { SchoolService } from '@features/schools/services/school.service';
 import { AccountService } from '../../../core/services/account.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { StageGradeDto, CreateSchoolGradeDto } from '../../../shared/models/school/school';
+import { StageGradeDto, CreateSchoolGradeDto } from '@features/schools/models/school';
 import { MatIcon } from '@angular/material/icon';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { SnackbarService } from '../../../core/services/snackbar.service';
@@ -44,7 +44,7 @@ export class SchoolGradeComponent implements OnInit {
 
     this.schoolService.getStageGradesForSchool(schoolId).subscribe({
       next: (res) => {
-        this.stageGrades.data = res.data; // Set the data for the table
+        this.stageGrades.data = res; // Set the data for the table
 
         // Pre-select items based on isSelected property
         this.stageGrades.data.forEach((row) => {
@@ -106,7 +106,7 @@ export class SchoolGradeComponent implements OnInit {
 
     this.schoolService.syncStageGrades(createDto).subscribe({
       next: (res) => {
-        this.snackbarService.success(res.message)
+        this.snackbarService.success(res)
 
         console.log('Settings saved successfully!', res);
         // Optionally, show a success message to the user

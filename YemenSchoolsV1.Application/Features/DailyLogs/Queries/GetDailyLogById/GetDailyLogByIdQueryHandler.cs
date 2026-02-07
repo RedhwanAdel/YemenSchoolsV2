@@ -1,15 +1,19 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Features.DailyLogs.Dto;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.DailyLogs.Queries.GetDailyLogById
 {
-    public class GetDailyLogByIdQueryHandler : IRequestHandler<GetDailyLogByIdQuery, Response<DailyLogDto>>
+    public class GetDailyLogByIdQueryHandler : ResponseHandler, IRequestHandler<GetDailyLogByIdQuery, Response<DailyLogDto>>
     {
         private readonly IDailyLogRepository _repository;
 
-        public GetDailyLogByIdQueryHandler(IDailyLogRepository repository)
+        public GetDailyLogByIdQueryHandler(
+            IDailyLogRepository repository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
         }
@@ -19,7 +23,7 @@ namespace YemenSchoolsV1.Application.Features.DailyLogs.Queries.GetDailyLogById
             var dailyLog = await _repository.GetDailyLogByIdAsync(request.Id);
             if (dailyLog == null)
             {
-                return new Response<DailyLogDto>("Daily Log not found") { StatusCode = System.Net.HttpStatusCode.NotFound, Succeeded = false };
+                return NotFound<DailyLogDto>("Daily Log not found");
             }
 
             var dto = new DailyLogDto
@@ -34,7 +38,8 @@ namespace YemenSchoolsV1.Application.Features.DailyLogs.Queries.GetDailyLogById
                 TeacherId = dailyLog.TeacherId
             };
 
-            return new Response<DailyLogDto>(dto);
+            return Success(dto);
         }
     }
 }
+

@@ -1,15 +1,19 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Features.DailyLogs.Dto;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.DailyLogs.Queries.GetStudentDailyLogs
 {
-    public class GetStudentDailyLogsQueryHandler : IRequestHandler<GetStudentDailyLogsQuery, Response<List<DailyLogDto>>>
+    public class GetStudentDailyLogsQueryHandler : ResponseHandler, IRequestHandler<GetStudentDailyLogsQuery, Response<List<DailyLogDto>>>
     {
         private readonly IDailyLogRepository _repository;
 
-        public GetStudentDailyLogsQueryHandler(IDailyLogRepository repository)
+        public GetStudentDailyLogsQueryHandler(
+            IDailyLogRepository repository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
         }
@@ -30,7 +34,8 @@ namespace YemenSchoolsV1.Application.Features.DailyLogs.Queries.GetStudentDailyL
                 TeacherId = dailyLog.TeacherId
             }).ToList();
 
-            return new Response<List<DailyLogDto>>(dtos);
+            return Success(dtos);
         }
     }
 }
+

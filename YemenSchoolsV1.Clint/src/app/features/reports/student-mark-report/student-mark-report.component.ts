@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
-import { StudentReport } from '../../../shared/models/reports/studentReport';
-import { StudentWithSchoolInfoDto } from '../../../shared/models/parent';
-import { SubjectReportDto } from '../../../shared/models/mark/mark';
-import { ParentService } from '../../../core/services/parent.service';
-import { MarkService } from '../../../core/services/mark.service';
+import { StudentReport } from '@features/reports/models/reports';
+import { StudentWithSchoolInfoDto } from '@features/parent-dashboard/models/parent';
+import { SubjectReportDto } from '@features/school-dashboard/mark/models/mark';
+import { ParentService } from '@features/parent-dashboard/services/parent.service';
+import { MarkService } from '@features/school-dashboard/mark/services/mark.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -32,8 +33,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 })
 export class StudentMarkReportComponent implements OnInit {
 
-  parentService = inject(ParentService)
-  markService = inject(MarkService)
+  parentService = inject(ParentService);
+  markService = inject(MarkService);
+  private destroyRef = inject(DestroyRef);
   studentsWithSchoolInfo: StudentWithSchoolInfoDto[] = [];
   reports: StudentReport[] = [];
   displayedColumns: string[] = ['name', 'score', 'grade', 'details'];
@@ -42,43 +44,47 @@ export class StudentMarkReportComponent implements OnInit {
     this.loadReports()
   }
   loadReports() {
-    this.parentService.GetStudentsWithSchoolInfoForParent().subscribe(res => {
-      this.studentsWithSchoolInfo = res.data;
+    this.parentService.GetStudentsWithSchoolInfoForParent()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(res => {
+        this.studentsWithSchoolInfo = res.data;
 
-      this.studentsWithSchoolInfo.forEach(student => {
-        this.markService.getStudentSubjectsReport(student.studentId).subscribe(subjects => {
+        this.studentsWithSchoolInfo.forEach(student => {
+          this.markService.getStudentSubjectsReport(student.studentId)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(subjects => {
 
-          const totalScore = subjects.reduce((sum, sub) => sum + sub.score, 0);
+              const totalScore = subjects.reduce((sum, sub) => sum + sub.score, 0);
 
-          const maxTotal = subjects.reduce((sum, sub) => {
-            // مجموع درجات كل اختبار في المادة
-            const subMax = sub.details.grades.reduce((s, d) => s + d.total, 0);
-            return sum + subMax;
-          }, 0);
+              const maxTotal = subjects.reduce((sum, sub) => {
+                // مجموع درجات كل اختبار في المادة
+                const subMax = sub.details.grades.reduce((s: number, d: any) => s + d.total, 0);
+                return sum + subMax;
+              }, 0);
 
-          const percentage = ((totalScore / maxTotal) * 100).toFixed(0) + '%';
+              const percentage = ((totalScore / maxTotal) * 100).toFixed(0) + '%';
 
-          const report: StudentReport = {
-            student: {
-              studentId: student.studentId,
-              name: student.studentName,
-              school: student.schoolName!,
-              grade: student.className!,
-              section: student.sectionName!
-            },
-            subjects: subjects,
-            final: {
-              total: totalScore,
-              maxTotal: maxTotal,
-              percentage: percentage,
-              grade: this.getGradeFromPercentage(parseFloat(percentage))
-            }
-          };
+              const report: StudentReport = {
+                student: {
+                  studentId: student.studentId,
+                  name: student.studentName,
+                  school: student.schoolName!,
+                  grade: student.className!,
+                  section: student.sectionName!
+                },
+                subjects: subjects,
+                final: {
+                  total: totalScore,
+                  maxTotal: maxTotal,
+                  percentage: percentage,
+                  grade: this.getGradeFromPercentage(parseFloat(percentage))
+                }
+              };
 
-          this.reports.push(report);
+              this.reports.push(report);
+            });
         });
       });
-    });
   }
 
   getGradeFromPercentage(percentage: number): string {

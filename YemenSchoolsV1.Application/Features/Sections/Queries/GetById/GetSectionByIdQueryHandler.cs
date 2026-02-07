@@ -1,17 +1,22 @@
-using MediatR;
-using YemenSchoolsV1.Application.Bases;
 using AutoMapper;
+using MediatR;
+using Microsoft.Extensions.Localization;
+using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Sections.Queries.GetById
 {
-    public class GetSectionByIdQueryHandler : IRequestHandler<GetSectionByIdQuery, Response<SectionDto>>
+    public class GetSectionByIdQueryHandler : ResponseHandler, IRequestHandler<GetSectionByIdQuery, Response<SectionDto>>
     {
         private readonly ISectionRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetSectionByIdQueryHandler(ISectionRepository repository, IMapper mapper)
+        public GetSectionByIdQueryHandler(
+            ISectionRepository repository,
+            IMapper mapper,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
             _mapper = mapper;
@@ -20,14 +25,14 @@ namespace YemenSchoolsV1.Application.Features.Sections.Queries.GetById
         public async Task<Response<SectionDto>> Handle(GetSectionByIdQuery request, CancellationToken cancellationToken)
         {
             if (request.Id == Guid.Empty)
-                return new Response<SectionDto>("Invalid section ID.", false) { StatusCode = System.Net.HttpStatusCode.BadRequest };
+                return BadRequest<SectionDto>("Invalid section ID.");
 
             var section = await _repository.GetSectionByIdAsync(request.Id);
             if (section == null)
-                return new Response<SectionDto>("Section not found.", false) { StatusCode = System.Net.HttpStatusCode.NotFound };
+                return NotFound<SectionDto>("Section not found.");
 
             var sectionDto = _mapper.Map<SectionDto>(section);
-            return new Response<SectionDto>(sectionDto);
+            return Success(sectionDto);
         }
     }
 }

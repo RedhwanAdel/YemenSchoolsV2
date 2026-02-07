@@ -1,14 +1,15 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { Student, StudentList } from '../../../../shared/models/student/student';
-import { AttendanceService } from '../../../../core/services/attendance.service';
-import { StudentService } from '../../../../core/services/student.service';
-import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
+import { Student, StudentListDto } from '@features/school-dashboard/student/models/student';
+import { AttendanceService } from '@features/school-dashboard/attendance/services/attendance.service';
+import { StudentService } from '@features/school-dashboard/student/services/student.service';
+import { AcadmicYearService } from '@features/school-dashboard/year/services/acadmic-year.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MatCardActions, MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -16,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ActivatedRoute } from '@angular/router';
-import { SectionService } from '../../../../core/services/section.service';
+import { SectionService } from '@features/school-dashboard/section/services/section.service';
 
 @Component({
   selector: 'app-daily-attendance',
@@ -37,12 +38,13 @@ import { SectionService } from '../../../../core/services/section.service';
   styleUrl: './daily-attendance.component.scss'
 })
 export class DailyAttendanceComponent {
-  sectionId = '5740ce31-a0b8-4b6e-3b61-08ddccf64cb5'; // يجب أن يأتي هذا المعرف من مسار URL أو من قائمة الشعب
-  students: StudentList[] = [];
+  private destroyRef = inject(DestroyRef);
+  sectionId = '5740ce31-a0b8-4b6e-3b61-08ddccf64cb5'; // TODO: Remove hardcoded value
+  students: StudentListDto[] = [];
   studentStatuses: { [id: string]: number } = {};
   displayedColumns: string[] = ['name', 'status'];
-  studentService = inject(StudentService)
-  yearService = inject(AcadmicYearService)
+  studentService = inject(StudentService);
+  yearService = inject(AcadmicYearService);
   private snack = inject(SnackbarService);
   private sectionService = inject(SectionService);
   today = new Date();
@@ -65,30 +67,33 @@ export class DailyAttendanceComponent {
   }
 
   loadSectionStudents(): void {
-    const yearId = this.yearService.currentAcademicYearId()
+    const yearId = this.yearService.currentAcademicYearId();
     if (!yearId) {
-      this.snack.error('لم يتم التعرف على العام الحالي')
+      this.snack.error('لم يتم التعرف على العام الحالي');
       return;
     }
     const sectionId = this.route.snapshot.paramMap.get('teacherId');
     if (!sectionId) {
-      this.snack.error('لم يتم التعرف على معرف الشعبة ')
+      this.snack.error('لم يتم التعرف على معرف الشعبة');
       return;
     }
-    this.sectionService.getSectionById(sectionId).subscribe({
-      next: res => {
-        this.sectionName = res.data.name
-      }
-    })
-    this.studentService.GetStudentsByYearAndSection(yearId, sectionId).subscribe({
-      next: res => {
-        this.students = res.data;
-        this.initializeStudentStatuses();
-        this.isLoading = false
-      },
+    this.sectionService.getSectionById(sectionId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          this.sectionName = res.name;
+        }
+      });
 
-
-    });
+    this.studentService.getStudentsBySectionId(sectionId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: StudentListDto[]) => {
+          this.students = res;
+          this.initializeStudentStatuses();
+          this.isLoading = false;
+        }
+      });
   }
 
   initializeStudentStatuses(): void {
@@ -105,11 +110,13 @@ export class DailyAttendanceComponent {
       studentStatuses: this.studentStatuses
     };
 
-    this.attendanceService.createDailyAttendance(requestBody).subscribe({
-      next: res => {
-        this.snack.success('تم اخذ الحضور بنجاح')
-        this.isLoading = false
-      }
-    });
+    this.attendanceService.createAttendance(requestBody)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: any) => {
+          this.snack.success('تم اخذ الحضور بنجاح');
+          this.isLoading = false;
+        }
+      });
   }
 }

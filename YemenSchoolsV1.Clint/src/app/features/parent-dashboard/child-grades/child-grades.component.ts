@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { SubjectReportDto } from '../../../shared/models/mark/mark';
-import { MarkService } from '../../../core/services/mark.service';
+import { SubjectReportDto } from '@features/school-dashboard/mark/models/mark';
+import { MarkService } from '@features/school-dashboard/mark/services/mark.service';
 import { ActivatedRoute } from '@angular/router';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 
@@ -18,10 +19,11 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
   templateUrl: './child-grades.component.html',
   styleUrl: './child-grades.component.scss'
 })
-export class ChildGradesComponent {
-  markService = inject(MarkService)
+export class ChildGradesComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
+  markService = inject(MarkService);
   private route = inject(ActivatedRoute);
-  private snackbar = inject(SnackbarService)
+  private snackbar = inject(SnackbarService);
   // يمكنك استخدام هذه الخاصية لاستقبال بيانات الطالب من المكون الأب
   @Input() student: any;
 

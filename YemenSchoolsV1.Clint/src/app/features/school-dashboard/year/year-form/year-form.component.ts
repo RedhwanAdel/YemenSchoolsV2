@@ -1,7 +1,8 @@
-import { Component, EventEmitter, inject, Inject, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Inject, OnInit, Output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormInputComponent } from "../../../../shared/components/form-input/form-input.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
+import { AcadmicYearService } from '@features/school-dashboard/year/services/acadmic-year.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CityFormComponent } from '../../../../dashboard/pages/cities/city-form/city-form.component';
 import { AccountService } from '../../../../core/services/account.service';
@@ -23,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './year-form.component.scss'
 })
 export class YearFormComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   form!: FormGroup;
   isEdit = false;
   yearService = inject(AcadmicYearService)
@@ -62,20 +64,24 @@ export class YearFormComponent implements OnInit {
 
     if (this.isEdit) {
       const id = this.data.model.id;
-      this.yearService.updateAcademicYear(id, year).subscribe({
-        next: (res) => {
-          this.dialogRef.close(res)
-        },
-        error: (err) => console.error('Update failed', err)
-      });
+      this.yearService.updateAcademicYear(id, year)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (res) => {
+            this.dialogRef.close(res);
+          },
+          error: (err) => console.error('Update failed', err)
+        });
     } else {
       // إضافة
-      this.yearService.createAcademicYear(year).subscribe({
-        next: (res) => {
-          this.dialogRef.close(res)
-        },
-        error: (err) => console.error('Add failed', err)
-      });
+      this.yearService.createAcademicYear(year)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (res) => {
+            this.dialogRef.close(res);
+          },
+          error: (err) => console.error('Add failed', err)
+        });
     }
   }
 

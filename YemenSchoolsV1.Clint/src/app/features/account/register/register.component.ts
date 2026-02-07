@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -31,6 +32,7 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
+  private destroyRef = inject(DestroyRef);
   private fb = inject(FormBuilder)
   private accountService = inject(AccountService)
   private router = inject(Router)
@@ -45,12 +47,14 @@ export class RegisterComponent {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      this.accountService.register(this.registerForm.value).subscribe({
-        next: () => {
-          this.snack.success('Registration successful - you can now login');
-          this.router.navigateByUrl('/login')
-        }
-      })
+      this.accountService.register(this.registerForm.value)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.snack.success('Registration successful - you can now login');
+            this.router.navigateByUrl('/login')
+          }
+        })
     } else {
       this.snack.success('Error!');
       this.registerForm.markAllAsTouched();

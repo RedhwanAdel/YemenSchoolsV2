@@ -1,16 +1,20 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Features.DailyLogs.Dto;
+using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
 
 namespace YemenSchoolsV1.Application.Features.DailyLogs.Commands.CreateDailyLog
 {
-    public class CreateDailyLogCommandHandler : IRequestHandler<CreateDailyLogCommand, Response<DailyLogDto>>
+    public class CreateDailyLogCommandHandler : ResponseHandler, IRequestHandler<CreateDailyLogCommand, Response<DailyLogDto>>
     {
         private readonly IDailyLogRepository _repository;
 
-        public CreateDailyLogCommandHandler(IDailyLogRepository repository)
+        public CreateDailyLogCommandHandler(
+            IDailyLogRepository repository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _repository = repository;
         }
@@ -41,7 +45,7 @@ namespace YemenSchoolsV1.Application.Features.DailyLogs.Commands.CreateDailyLog
                 TeacherId = dailyLog.TeacherId
             };
 
-            return new Response<DailyLogDto>(logToReturn, "Created Successfully") { StatusCode = System.Net.HttpStatusCode.Created };
+            return Created(logToReturn, "Created Successfully");
         }
     }
 }

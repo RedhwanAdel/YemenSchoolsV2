@@ -1,7 +1,8 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -11,12 +12,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudentService } from '../../../../core/services/student.service';
+import { StudentService } from '@features/school-dashboard/student/services/student.service';
+import { StudentListDto } from '@features/school-dashboard/student/models/student';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { SectionService } from '../../../../core/services/section.service';
-import { SectionsOfYear } from '../../../../shared/models/section/section';
-import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
-import { YearDto } from '../../../../shared/models/AcademicYear/AcademicYear';
+import { SectionService } from '@features/school-dashboard/section/services/section.service';
+import { SectionsOfYear } from '@features/school-dashboard/section/models/section';
+import { AcadmicYearService } from '@features/school-dashboard/year/services/acadmic-year.service';
+import { YearDto } from '@features/school-dashboard/year/models/AcademicYear';
 
 @Component({
   selector: 'app-promote-students',
@@ -37,15 +39,16 @@ import { YearDto } from '../../../../shared/models/AcademicYear/AcademicYear';
   styleUrl: './promote-students.component.scss'
 })
 export class PromoteStudentsComponent {
-  dataSource = new MatTableDataSource<any>();
+  private destroyRef = inject(DestroyRef);
+  dataSource = new MatTableDataSource<StudentListDto>();
   displayedColumns: string[] = ['select', 'nameAr', 'registerNo'];
-  selection = new SelectionModel<any>(true, []);
-  studentService = inject(StudentService)
-  sectionService = inject(SectionService)
-  snack = inject(SnackbarService)
+  selection = new SelectionModel<StudentListDto>(true, []);
+  studentService = inject(StudentService);
+  sectionService = inject(SectionService);
+  snack = inject(SnackbarService);
   newSections: SectionsOfYear[] = [];
   newSectionCtrl = new FormControl();
-  academicYearService = inject(AcadmicYearService); // يجب أن يكون لديك خدمة للسنوات الأكاديمية
+  academicYearService = inject(AcadmicYearService);
   academicYears: YearDto[] = [];
   academicYearCtrl = new FormControl();
   currentSectionId?: string;
@@ -61,44 +64,47 @@ export class PromoteStudentsComponent {
   }
 
   getStudentsAndNewSections(): void {
-    // جلب الطلاب في الشعبة الحالية
     const sectionId = this.route.snapshot.paramMap.get('sectionId');
     if (!sectionId) {
-      this.snack.error('لم يتم التعرف على معرف الشعبة ')
+      this.snack.error('لم يتم التعرف على معرف الشعبة');
       return;
     }
-    this.studentService.getStudentsBySectionId(sectionId).subscribe({
-      next: res => {
-        this.dataSource.data = res
-      }
-    })
-
+    this.studentService.getStudentsBySectionId(sectionId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: StudentListDto[]) => {
+          this.dataSource.data = res;
+        }
+      });
   }
 
   getAcademicYears(): void {
-    this.academicYearService.getAcademicYears().subscribe({
-      next: res => {
-        this.academicYears = res.data;
-      },
-      error: err => {
-        this.snack.error('فشل في جلب السنوات الأكاديمية.');
-      }
-    });
+    this.academicYearService.getAcademicYears()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          this.academicYears = res.data;
+        },
+        error: err => {
+          this.snack.error('فشل في جلب السنوات الأكاديمية.');
+        }
+      });
   }
 
   onAcademicYearSelected(): void {
     const selectedYearId = this.academicYearCtrl.value;
     if (selectedYearId) {
-      // جلب الشعب المرتبطة بالسنة المختارة
-      this.sectionService.getSectionsForSpcificYear(selectedYearId).subscribe({
-        next: res => {
-          this.newSections = res.data;
-          this.newSectionCtrl.reset(); // إعادة تعيين الشعبة المختارة
-        },
-        error: err => {
-          this.snack.error('فشل في جلب الشعب.');
-        }
-      });
+      this.sectionService.getSectionsByAcademicYear(selectedYearId)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: res => {
+            this.newSections = res;
+            this.newSectionCtrl.reset();
+          },
+          error: err => {
+            this.snack.error('فشل في جلب الشعب.');
+          }
+        });
     } else {
       this.newSections = [];
       this.newSectionCtrl.reset();
@@ -122,13 +128,15 @@ export class PromoteStudentsComponent {
       studentIds: selectedStudentIds,
       newSectionId: newSectionId
     };
-    this.studentService.promoteStudent(promotionData).subscribe({
-      next: res => {
-        this.snack.success('تمت الترقية بنجاح!')
-      }, error: err => {
-        this.snack.error(err.error.message || 'فشلت عملية الترقية.')
-      }
-    })
-
+    this.studentService.promoteStudent(promotionData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          this.snack.success('تمت الترقية بنجاح!');
+        },
+        error: err => {
+          this.snack.error(err.error.message || 'فشلت عملية الترقية.');
+        }
+      });
   }
 }

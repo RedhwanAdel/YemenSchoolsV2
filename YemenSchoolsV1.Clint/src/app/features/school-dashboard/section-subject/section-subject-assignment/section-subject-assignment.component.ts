@@ -1,16 +1,17 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
-import { SectionSubjectService } from '../../../../core/services/section-subject.service';
+import { SectionSubjectService } from '@features/school-dashboard/section-subject/services/section-subject.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../core/services/dialog.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { Section, SectionSubjectInfoDto } from '../../../../shared/models/section/section';
+import { Section, SectionSubjectInfoDto } from '@features/school-dashboard/section/models/section';
 import { SectionFormComponent } from '../../section/section-form/section-form.component';
 import { MatButton } from '@angular/material/button';
 import { SectionSubjectAssignmentFormComponent } from '../section-subject-assignment-form/section-subject-assignment-form.component';
-import { SectionService } from '../../../../core/services/section.service';
+import { SectionService } from '@features/school-dashboard/section/services/section.service';
 
 @Component({
   selector: 'app-section-subject-assignment',
@@ -20,6 +21,7 @@ import { SectionService } from '../../../../core/services/section.service';
   styleUrl: './section-subject-assignment.component.scss'
 })
 export class SectionSubjectAssignmentComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   private dialogService = inject(DialogService);
   private dialog = inject(MatDialog);
   sectionService = inject(SectionService)
@@ -45,26 +47,27 @@ export class SectionSubjectAssignmentComponent implements OnInit {
     this.loadSections()
     const sectionId = this.route.snapshot.paramMap.get('sectionId');
     if (sectionId) {
-      this.sectionService.getSectionById(sectionId).subscribe({
-        next: res => {
-          this.currentSection = res.data;
-
-        }
-      })
+      this.sectionService.getSectionById(sectionId)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: res => {
+            this.currentSection = res;
+          }
+        });
     }
   }
 
   loadSections() {
     const sectionId = this.route.snapshot.paramMap.get('sectionId');
     if (!sectionId) return;
-    const yearId = 'cc0004c1-7c59-498d-e7df-08ddca96d0a8'
-    this.sectionSubjectService.getBySectionId(sectionId).subscribe({
-      next: res => {
-        this.sections.set(res.data)
-
-
-      }
-    })
+    const yearId = 'cc0004c1-7c59-498d-e7df-08ddca96d0a8';
+    this.sectionSubjectService.getSubjectsBySection(sectionId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          this.sections.set(res);
+        }
+      });
 
   }
 
@@ -90,16 +93,18 @@ export class SectionSubjectAssignmentComponent implements OnInit {
     );
 
     if (confirmed) {
-      this.sectionSubjectService.delete(id).subscribe({
-        next: () => {
-          this.snack.success('تم حذف الشعبة بنجاح!');
-          this.loadSections(); // إعادة تحميل قائمة الشعب لتحديث العرض
-        },
-        error: (err) => {
-          this.snack.error('فشل في حذف الشعبة.');
-          console.error(err);
-        }
-      });
+      this.sectionSubjectService.delete(id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.snack.success('تم حذف المادة بنجاح');
+            this.loadSections();
+          },
+          error: (err: any) => {
+            this.snack.error('فشل حذف المادة');
+            console.error(err);
+          }
+        });
     }
   }
 
@@ -115,10 +120,12 @@ export class SectionSubjectAssignmentComponent implements OnInit {
     });
 
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadSections()
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(result => {
+        if (result) {
+          this.loadSections();
+        }
+      });
   }
 }

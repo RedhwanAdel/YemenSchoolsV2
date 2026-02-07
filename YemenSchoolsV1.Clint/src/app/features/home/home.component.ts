@@ -11,10 +11,10 @@ import { TestimonialsSectionComponent } from "./testimonials-section/testimonial
 import { ContactSectionComponent } from "./contact-section/contact-section.component";
 import { SchoolItemComponent } from "../schools/school-item/school-item.component";
 import { TitelSectionComponent } from "../../shared/components/titel-section/titel-section.component";
-import { SchoolService } from '../../core/services/school.service';
+import { SchoolService } from '@features/schools/services/school.service';
 import { Pagination } from '../../shared/models/Pagination';
-import { SchoolListItem } from '../../shared/models/school/school';
-import { SchoolParams } from '../../shared/models/school/schoolParams';
+import { SchoolListItem } from '@features/schools/models/school';
+import { SchoolParams } from '@features/schools/models/schoolParams';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 

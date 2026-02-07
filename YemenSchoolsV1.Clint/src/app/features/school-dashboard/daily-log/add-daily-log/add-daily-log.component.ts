@@ -6,9 +6,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { SectionSubject } from '../../../../shared/models/mark/mark';
+import { SectionSubject } from '@features/school-dashboard/mark/models/mark';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { DailyLogService } from '../../../../core/services/daily-log.service';
+import { DailyLogService } from '@features/school-dashboard/daily-log/services/daily-log.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 
 @Component({
@@ -52,7 +52,7 @@ export class AddDailyLogComponent {
         sectionSubjectId: this.data.sectionSubject.id
       };
       this.dailyLogService.createDailyLog(payload).subscribe({
-        next: res => {
+        next: (res: any) => {
           this.snack.success('تم انشاء السجل بنجاح')
         }
       })

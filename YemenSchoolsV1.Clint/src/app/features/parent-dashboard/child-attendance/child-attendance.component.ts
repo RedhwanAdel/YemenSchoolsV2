@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
@@ -7,8 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { finalize } from 'rxjs';
-import { AttendanceService } from '../../../core/services/attendance.service';
-import { AttendanceDetailDto } from '../../../shared/models/attendance/attendance';
+import { AttendanceService } from '@features/school-dashboard/attendance/services/attendance.service';
+import { AttendanceDetailDto } from '@features/school-dashboard/attendance/models/attendance';
 import { ActivatedRoute } from '@angular/router';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { MatSpinner } from '@angular/material/progress-spinner';
@@ -27,9 +28,10 @@ import { MatSpinner } from '@angular/material/progress-spinner';
   templateUrl: './child-attendance.component.html',
   styleUrl: './child-attendance.component.scss'
 })
-export class ChildAttendanceComponent {
+export class ChildAttendanceComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   private route = inject(ActivatedRoute);
-  private snackbar = inject(SnackbarService)
+  private snackbar = inject(SnackbarService);
   studentName = 'أحمد محمد';
   selectedMonth = new Date().getMonth();
   selectedYear = new Date().getFullYear(); // إضافة متغير للسنة
@@ -84,11 +86,11 @@ export class ChildAttendanceComponent {
     // استدعاء الخدمة الحقيقية
     this.attendanceService.getStudentAttendanceReportByDate(
       studentId,
-      this.selectedYear,
-      this.selectedMonth
+      this.selectedYear.toString(),
+      this.selectedMonth.toString()
     )
       .pipe(
-        // استخدام finalize لإعادة ضبط حالة التحميل بعد انتهاء الطلب
+        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isLoading = false)
       )
       .subscribe({
@@ -97,7 +99,7 @@ export class ChildAttendanceComponent {
           if (this.selectedMonth)
             this.calendarDays = this.mapAttendanceDataToCalendar(response, this.selectedYear, this.selectedMonth);
         },
-        error: (err) => {
+        error: (err: any) => {
           // التعامل مع الأخطاء
           this.errorMessage = 'حدث خطأ أثناء تحميل البيانات. الرجاء المحاولة لاحقًا.';
           console.error(err);

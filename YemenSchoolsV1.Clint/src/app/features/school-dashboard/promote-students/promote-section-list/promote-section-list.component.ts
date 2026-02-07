@@ -3,9 +3,9 @@ import { PageWrapperComponent } from "../../../../shared/components/page-wrapper
 import { TableAction, TableColumn, TableComponent } from "../../../../shared/components/table/table.component";
 import { Router } from '@angular/router';
 import { AccountService } from '../../../../core/services/account.service';
-import { SectionService } from '../../../../core/services/section.service';
+import { SectionService } from '@features/school-dashboard/section/services/section.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { Section } from '../../../../shared/models/section/section';
+import { Section } from '@features/school-dashboard/section/models/section';
 
 @Component({
   selector: 'app-promote-section-list',
@@ -57,7 +57,7 @@ export class PromoteSectionListComponent {
       const teacherId = this.accountService.currentUser()?.entityId
       if (!teacherId) return;
       this.sectionService.getSectionsByTeacherId(teacherId).subscribe({
-        next: res => this.sections = res.data
+        next: (res: any) => this.sections = res.data
       })
     }
 

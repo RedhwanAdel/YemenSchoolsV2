@@ -1,18 +1,23 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
-using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Contracts;
+using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto;
+using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Enums;
 
 namespace YemenSchoolsV1.Application.Features.Reports.Queries.GetStudentReport
 {
-    public class GetStudentReportQueryHandler : IRequestHandler<GetStudentReportQuery, Response<FileResponse>>
+    public class GetStudentReportQueryHandler : ResponseHandler, IRequestHandler<GetStudentReportQuery, Response<FileResponse>>
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IStudentReportService _reportService;
 
-        public GetStudentReportQueryHandler(IStudentRepository studentRepository, IStudentReportService reportService)
+        public GetStudentReportQueryHandler(
+            IStudentRepository studentRepository,
+            IStudentReportService reportService,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _studentRepository = studentRepository;
             _reportService = reportService;
@@ -23,7 +28,7 @@ namespace YemenSchoolsV1.Application.Features.Reports.Queries.GetStudentReport
             // 1. Get Student Logic
             var student = await _studentRepository.GetStudentWithDetailsAsync(request.StudentId);
             if (student == null)
-                return new Response<FileResponse>("Student not found") { StatusCode = System.Net.HttpStatusCode.NotFound, Succeeded = false };
+                return NotFound<FileResponse>("Student not found");
 
             // 2. Aggregate Marks Logic
             var groupedMarks = student.Marks
@@ -67,7 +72,7 @@ namespace YemenSchoolsV1.Application.Features.Reports.Queries.GetStudentReport
 
             // 5. Return FileResponse
             var fileResponse = new FileResponse(pdfBytes, "application/pdf", $"StudentReport_{student.NameAr}.pdf");
-            return new Response<FileResponse>(fileResponse);
+            return Success(fileResponse);
         }
     }
 }

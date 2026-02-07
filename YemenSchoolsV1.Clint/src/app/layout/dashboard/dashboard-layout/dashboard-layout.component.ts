@@ -1,6 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -39,10 +40,12 @@ export class DashboardLayoutComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav; // Reference to the mat-sidenav
 
   isSmallScreen = false;
+  private destroyRef = inject(DestroyRef);
 
   constructor(private breakpointObserver: BreakpointObserver) {
     this.breakpointObserver
       .observe(['(max-width: 768px)'])
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(result => {
         this.isSmallScreen = result.matches;
       });

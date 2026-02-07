@@ -1,8 +1,8 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { SchoolService } from '../../../core/services/school.service';
+import { SchoolService } from '@features/schools/services/school.service';
 import { Pagination } from '../../../shared/models/Pagination';
-import { SchoolListItem } from '../../../shared/models/school/school';
-import { SchoolParams } from '../../../shared/models/school/schoolParams';
+import { SchoolListItem } from '@features/schools/models/school';
+import { SchoolParams } from '@features/schools/models/schoolParams';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';

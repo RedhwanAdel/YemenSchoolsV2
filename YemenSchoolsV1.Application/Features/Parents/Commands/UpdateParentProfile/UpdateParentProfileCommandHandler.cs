@@ -1,18 +1,23 @@
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
 using YemenSchoolsV1.Application.Dto.Parents;
+using YemenSchoolsV1.Application.Resources;
 using YemenSchoolsV1.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 
 namespace YemenSchoolsV1.Application.Features.Parents.Commands.UpdateParentProfile
 {
-    public class UpdateParentProfileCommandHandler : IRequestHandler<UpdateParentProfileCommand, Response<string>>
+    public class UpdateParentProfileCommandHandler : ResponseHandler, IRequestHandler<UpdateParentProfileCommand, Response<string>>
     {
         private readonly IParentRepository _parentRepository;
         private readonly UserManager<AppUser> _userManager;
 
-        public UpdateParentProfileCommandHandler(IParentRepository parentRepository, UserManager<AppUser> userManager)
+        public UpdateParentProfileCommandHandler(
+            IParentRepository parentRepository,
+            UserManager<AppUser> userManager,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _parentRepository = parentRepository;
             _userManager = userManager;
@@ -23,19 +28,13 @@ namespace YemenSchoolsV1.Application.Features.Parents.Commands.UpdateParentProfi
             var user = await _userManager.FindByIdAsync(request.UserId.ToString());
             if (user == null)
             {
-                return new Response<string>("لم يتم العثور على حساب المستخدم.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.NotFound
-                };
+                return NotFound<string>("لم يتم العثور على حساب المستخدم.");
             }
 
             var parent = await _parentRepository.GetParentByUserIdAsync(request.UserId);
             if (parent == null)
             {
-                return new Response<string>("لم يتم العثور على بيانات ولي الأمر.", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.NotFound
-                };
+                return NotFound<string>("لم يتم العثور على بيانات ولي الأمر.");
             }
 
             parent.NameAr = request.Dto.NameAr;
@@ -52,18 +51,12 @@ namespace YemenSchoolsV1.Application.Features.Parents.Commands.UpdateParentProfi
             if (!userUpdateResult.Succeeded)
             {
                 var errors = string.Join("; ", userUpdateResult.Errors.Select(e => e.Description));
-                return new Response<string>($"فشل تحديث حساب المستخدم: {errors}", false)
-                {
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
+                return BadRequest<string>($"فشل تحديث حساب المستخدم: {errors}");
             }
 
             await _parentRepository.UpdateAsync(parent.Id, parent);
 
-            return new Response<string>("تم تحديث الملف الشخصي بنجاح.", true)
-            {
-                StatusCode = System.Net.HttpStatusCode.OK
-            };
+            return Success("تم تحديث الملف الشخصي بنجاح.");
         }
     }
 }

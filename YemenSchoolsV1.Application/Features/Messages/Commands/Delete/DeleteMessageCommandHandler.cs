@@ -1,14 +1,18 @@
 using MediatR;
+using Microsoft.Extensions.Localization;
 using YemenSchoolsV1.Application.Bases;
 using YemenSchoolsV1.Application.Contracts.Persistence;
+using YemenSchoolsV1.Application.Resources;
 
 namespace YemenSchoolsV1.Application.Features.Messages.Commands.Delete
 {
-    public class DeleteMessageCommandHandler : IRequestHandler<DeleteMessageCommand, Response<string>>
+    public class DeleteMessageCommandHandler : ResponseHandler, IRequestHandler<DeleteMessageCommand, Response<string>>
     {
         private readonly IMessageRepository _messageRepository;
 
-        public DeleteMessageCommandHandler(IMessageRepository messageRepository)
+        public DeleteMessageCommandHandler(
+            IMessageRepository messageRepository,
+            IStringLocalizer<SharedResources> stringLocalizer) : base(stringLocalizer)
         {
             _messageRepository = messageRepository;
         }
@@ -18,10 +22,10 @@ namespace YemenSchoolsV1.Application.Features.Messages.Commands.Delete
             var message = await _messageRepository.GetMessage(request.MessageId);
 
             if (message == null) 
-                return new Response<string>("Cannot delete this message") { Succeeded = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
+                return BadRequest<string>("Cannot delete this message");
 
             if (message.SenderId != request.MemberId && message.RecipientId != request.MemberId)
-                return new Response<string>("You cannot delete this message") { Succeeded = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
+                return BadRequest<string>("You cannot delete this message");
 
             if (message.SenderId == request.MemberId) message.SenderDeleted = true;
             if (message.RecipientId == request.MemberId) message.RecipientDeleted = true;
@@ -32,9 +36,9 @@ namespace YemenSchoolsV1.Application.Features.Messages.Commands.Delete
             }
 
             if (await _messageRepository.Complete()) 
-                return new Response<string>("Message deleted");
+                return Success("Message deleted");
 
-            return new Response<string>("Problem deleting the message") { Succeeded = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
+            return BadRequest<string>("Problem deleting the message");
         }
     }
 }

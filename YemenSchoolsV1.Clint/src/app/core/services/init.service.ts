@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { AccountService } from './account.service';
 import { catchError, forkJoin, map, of, switchMap, tap, throwError } from 'rxjs';
-import { AcadmicYearService } from './acadmic-year.service';
+import { AcadmicYearService } from '../../features/school-dashboard/year/services/acadmic-year.service';
 
 @Injectable({
   providedIn: 'root'

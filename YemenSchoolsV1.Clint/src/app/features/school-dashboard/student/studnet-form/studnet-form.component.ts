@@ -1,4 +1,5 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageWrapperComponent } from "../../../../shared/components/page-wrapper/page-wrapper.component";
 import { FormInputComponent } from "../../../../shared/components/form-input/form-input.component";
 import { SelectInputComponent } from "../../../../shared/components/select-input/select-input.component";
@@ -10,25 +11,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
-import { StudentService } from '../../../../core/services/student.service';
-import { Student } from '../../../../shared/models/student/student';
-import { SchoolService } from '../../../../core/services/school.service';
-import { SchoolGradeWithDetailsDto } from '../../../../shared/models/school/school';
-import { SectionService } from '../../../../core/services/section.service';
-import { Section } from '../../../../shared/models/section/section';
+import { StudentService } from '@features/school-dashboard/student/services/student.service';
+import { Student, CreateStudentDto } from '@features/school-dashboard/student/models/student';
+import { SchoolService } from '@features/schools/services/school.service';
+import { SchoolGradeWithDetailsDto } from '@features/schools/models/school';
+import { SectionService } from '@features/school-dashboard/section/services/section.service';
+import { Section } from '@features/school-dashboard/section/models/section';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { ParentService } from '../../../../core/services/parent.service';
+import { ParentService } from '@features/parent-dashboard/services/parent.service';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ParentCheckDto } from '../../../../shared/models/parent';
+import { ParentCheckDto } from '@features/parent-dashboard/models/parent';
 import { AccountService } from '../../../../core/services/account.service';
-import { AcadmicYearService } from '../../../../core/services/acadmic-year.service';
-export interface ParentSearchDto {
-  id: string;
-  name: string;
-  phoneNumber: string;
-  // يمكنك إضافة خصائص أخرى حسب الحاجة
-}
+import { AcadmicYearService } from '@features/school-dashboard/year/services/acadmic-year.service';
+
 @Component({
   selector: 'app-studnet-form',
   standalone: true,
@@ -51,6 +47,7 @@ export interface ParentSearchDto {
   styleUrl: './studnet-form.component.scss'
 })
 export class StudnetFormComponent {
+  private destroyRef = inject(DestroyRef);
   private fb = inject(FormBuilder);
   private snack = inject(SnackbarService);
   private router = inject(Router);
@@ -101,15 +98,19 @@ export class StudnetFormComponent {
   }
 
   loadGrades() {
-    this.schoolService.getSchoolGrade().subscribe({
-      next: (res) => this.grades.set(res),
-    });
+    this.schoolService.getSchoolGrade()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => this.grades.set(res),
+      });
   }
 
   onGradeChange(gradeId: string) {
-    this.sectionService.getSectionsByYearAndGrade(gradeId).subscribe({
-      next: (res) => this.sections.set(res.data),
-    });
+    this.sectionService.getSectionsByGrade(gradeId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: Section[]) => this.sections.set(res),
+      });
   }
 
   searchParent() {
@@ -119,14 +120,16 @@ export class StudnetFormComponent {
       return;
     }
 
-    this.parentService.checkParentByNationalId(nid).subscribe(res => {
-      this.foundParent = res;
-      if (res.exists) {
-        this.studentForm.get('newParent')?.disable();
-      } else {
-        this.studentForm.get('newParent')?.enable();
-      }
-    });
+    this.parentService.checkParentByNationalId(nid)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((res) => {
+        this.foundParent = res.data;
+        if (res.data.exists) {
+          this.studentForm.get('newParent')?.disable();
+        } else {
+          this.studentForm.get('newParent')?.enable();
+        }
+      });
   }
 
   onSubmit() {
@@ -143,60 +146,55 @@ export class StudnetFormComponent {
     }
 
     const formValue = this.studentForm.value;
-    const studentData: any = {
-      registerNo: formValue.registerNo,
-      nameAr: formValue.nameAr,
-      nameEn: formValue.nameEn,
-      phoneNumber: formValue.phoneNumber,
-      address: formValue.address,
-      email: formValue.email,
-      nationality: formValue.nationality,
-      dateOfBirth: formValue.dateOfBirth,
-      gender: formValue.gender,
-      currentSectionId: formValue.currentSectionId,
+    const studentData: CreateStudentDto = {
+      registerNo: formValue.registerNo!,
+      nameAr: formValue.nameAr!,
+      nameEn: formValue.nameEn!,
+      phoneNumber: formValue.phoneNumber!,
+      address: formValue.address!,
+      email: formValue.email!,
+      nationality: formValue.nationality!,
+      dateOfBirth: formValue.dateOfBirth!,
+      gender: formValue.gender!,
+      currentSectionId: formValue.currentSectionId!,
       schoolId: schoolId,
       currentAcademicYearId: yearId,
       parents: []
     };
 
-    if (this.foundParent?.exists) {
+    if (this.foundParent?.exists && this.foundParent.id) {
       studentData.parents.push({
         parentId: this.foundParent.id,
-        relationType: formValue.relationType
+        relationType: formValue.relationType || ''
       });
-
-      this.createStudent(studentData)
+      this.createStudent(studentData);
     } else {
       const newParentData = this.studentForm.get('newParent')?.value;
-      this.parentService.createParent(newParentData).subscribe({
-        next: (parentRes) => {
-          studentData.parents.push({
-            parentId: parentRes.parentId,
-            relationType: newParentData?.relationType
-          });
-          this.createStudent(studentData);
-
-        }
-      })
-
-
+      this.parentService.createParent(newParentData)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (parentRes: any) => {
+            studentData.parents.push({
+              parentId: parentRes.parentId,
+              relationType: newParentData?.relationType || ''
+            });
+            this.createStudent(studentData);
+          }
+        });
     }
-
-
-
-
-
   }
-  createStudent(studentData: any) {
-    this.studentService.createStudent(studentData)!.subscribe({
-      next: res => {
-        this.snack.success('نجح إضافة طالب')
-        console.log(studentData)
-      },
-      error: err => {
-        this.snack.error('فشل إضافة طالب')
-      }
-    });
+  createStudent(studentData: CreateStudentDto) {
+    this.studentService.createStudent(studentData)!
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => {
+          this.snack.success('نجح إضافة طالب');
+          console.log(studentData);
+        },
+        error: err => {
+          this.snack.error('فشل إضافة طالب');
+        }
+      });
   }
 
   onCancel() {

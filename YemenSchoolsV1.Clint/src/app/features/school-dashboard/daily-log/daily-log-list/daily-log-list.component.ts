@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { SectionSubject } from '../../../../shared/models/mark/mark';
+import { SectionSubject } from '@features/school-dashboard/mark/models/mark';
 import { DailyLogCardComponent } from '../daily-log-card/daily-log-card.component';
-import { MarkService } from '../../../../core/services/mark.service';
+import { MarkService } from '@features/school-dashboard/mark/services/mark.service';
 
 @Component({
   selector: 'app-daily-log-list',
@@ -23,7 +23,7 @@ export class DailyLogListComponent implements OnInit {
   loadTeacherSectionSubjects(): void {
     this.markService.getTeacherSectionSubjects().subscribe({
       next: (data) => {
-        this.sectionSubjects = data;
+        this.sectionSubjects = (data as any).data;
       },
       error: (err) => console.error('Error loading section subjects', err)
     });
